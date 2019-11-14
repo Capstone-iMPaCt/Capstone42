@@ -1,0 +1,15 @@
+{
+  "name": "ilearncentral",
+  "version": "1.0.0",
+  "description": "Capstone 42 Project",
+  "main": "server.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Rhea Shane Chiong, Jephunneh Mabini & Cristian Paragoso",
+  "license": "ISC",
+  "dependencies": {
+    "firebase-admin": "^8.7.0",
+    "node": "^13.1.0"
+  }
+}
