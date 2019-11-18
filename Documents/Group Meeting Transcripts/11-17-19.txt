@@ -1,0 +1,29 @@
+Date: 11/17/19
+Time: 3:00 pm - 4:00pm
+Members:
+	Mabini, Japehunneh
+	Chiong, Rhea Shane
+
+Agenda:
+* Meeting Schedules
+* Coding Standard
+* Role based journal
+* other matters
+
+Transcript:
+* Daily Meetings 
+	~ live meet up after classes TTH & Sat
+	~ 8pm in facebook messenger MWF or if no live meeting
+* Sundays in Cristian's house for
+	~ 1st half - sprint/code review and progress report
+	~ 2nd half - sprint planning for next iteration
+* Coding Standards compiled by jephunneh with requests from other members
+	~ see separate file for coding standards
+* Journals to be established by each member
+	~ set up a journal folder for each member
+	~ a record for each journal entry in everyday of work
+* Trello set up as moving board for tasks to complete in each sprint
+* Excel file for program specification to see static lists and completion of task from trello
+	~ update excel file in every end of a sprint
+* Goal for the next few days - Learning and exploring technologies
+* next live group meeting set up Tuesday after class
