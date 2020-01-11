@@ -1,8 +1,5 @@
 const initState = {
     courses: [
-        {id: '1', CourseName: 'Course 1', CourseDescription: "hello1", CourseType: "Tutorial"},
-        {id: '2', CourseName: 'Course 2', CourseDescription: "hello2", CourseType: "Dance"},
-        {id: '3', CourseName: 'Course 3', CourseDescription: "hello3", CourseType: "Daycare"}
     ]
 }
 const courseReducer = (state = initState, action) => {

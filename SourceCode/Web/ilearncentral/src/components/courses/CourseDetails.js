@@ -2,9 +2,12 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {firestoreConnect} from 'react-redux-firebase'
 import {compose} from 'redux'
+import {Redirect} from 'react-router-dom'
 
 const CourseDetails = (props) => {
-  const {course} = props;
+  const {course, auth} = props;
+  if (!auth.uid) return <Redirect to='/signin' />
+
   if (course) {
    return (
       <div className = "container section course-details">
@@ -26,10 +29,11 @@ const CourseDetails = (props) => {
 
 const mapStateToProps = (state, aProps) => {
   const id = aProps.match.params.id;
-  const courses = state.firestore.ordered.Course;
+  const courses = state.firestore.data.Course;
   const course = courses ? courses[id] : null;
   return {
-      course: course
+      course: course,
+      auth:state.firebase.auth
   }
 }
 

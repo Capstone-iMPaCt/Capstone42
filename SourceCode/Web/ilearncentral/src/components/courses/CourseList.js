@@ -7,8 +7,8 @@ const CourseList = ({courses}) => {
         <div className="course-list section">
             {courses && courses.map(course => {
                 return (
-                    <Link to={'/course/' + course.id}>
-                        <CourseSummary course={course} key={course.id}/>
+                    <Link to={'/course/' + course.id} key={course.id}>
+                        <CourseSummary course={course} />
                     </Link>
                 )
             })}

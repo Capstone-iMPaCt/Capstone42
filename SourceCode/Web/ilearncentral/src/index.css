@@ -24,6 +24,10 @@ textarea.materialize-textarea:focus:not([readonly]) {
   border-color: #102B8C;
   box-shadow: none;
 }
+[type="radio"].with-gap:checked {
+  background-color: #102B8C !important;
+  border: 2px solid #102B8C !important;
+}
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

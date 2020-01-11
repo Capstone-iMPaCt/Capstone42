@@ -11,7 +11,8 @@ import { reduxFirestore, getFirestore, createFirestoreInstance } from 'redux-fir
 import { ReactReduxFirebaseProvider, getFirebase } from 'react-redux-firebase'
 import fbConfig from './config/fbConfig'
 import firebase from 'firebase/app'
-
+import { useSelector } from 'react-redux'
+import { isLoaded } from 'react-redux-firebase'
 
 const store = createStore(
   rootReducer,
@@ -20,22 +21,34 @@ const store = createStore(
     reduxFirestore(firebase, fbConfig)
   )
 );
-
+const rrfConfig = {
+  useFirestoreForProfile: true,
+  userProfile: 'User',
+  attachAuthIsReady: true
+};
 
 const rrfProps = {
-  firebase,
-  config: fbConfig,
+  firebase: fbConfig,
+  config: rrfConfig,
   dispatch: store.dispatch,
   createFirestoreInstance
 };
 
 
-ReactDOM.render(
-  <Provider store={store}>
-    <ReactReduxFirebaseProvider {...rrfProps}>
-      <App />
-    </ReactReduxFirebaseProvider>
-  </Provider>,
-  document.getElementById("root")
-);
+
+function AuthIsLoaded({ children }) {
+  const auth = useSelector(state => state.firebase.auth)
+  if (!isLoaded(auth)) return <p></p>;
+  return children
+}
+    ReactDOM.render(
+      <Provider store={store}>
+        <ReactReduxFirebaseProvider {...rrfProps}>
+          <AuthIsLoaded>
+            <App />
+          </AuthIsLoaded>
+        </ReactReduxFirebaseProvider>
+      </Provider>,
+      document.getElementById("root")
+    );
 serviceWorker.unregister();
