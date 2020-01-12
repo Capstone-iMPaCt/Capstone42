@@ -25,28 +25,28 @@ class SignUp extends Component {
         
         return (
             <div className = "container">
-                <form className="white" onSubmit={this.handleSubmit}>
+                <form className="forms" onSubmit={this.handleSubmit}>
                     <h5 className="grey-text text-darken-3">Sign Up</h5>
                     <div className = "input-field">
-                        <label htmlFor="username">Username</label>
+                        <label  className="input" htmlFor="username">Username</label>
                         <input type="text" id="username" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label htmlFor="password">Password</label>
+                        <label  className="input" htmlFor="password">Password</label>
                         <input type="password" id="password" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <label   className="input" htmlFor="confirmPassword">Confirm Password</label>
                         {/* <input type="password" id="confirmPassword" onChange={this.handleChange} required/> */}
                         <input id="confirmPassword" name="confirmPassword" type="password" pattern="^\S{6,}$" 
                         required/>
                     </div>
                     <div className = "input-field">
-                        <label htmlFor="email">Email</label>
+                        <label   className="input" htmlFor="email">Email</label>
                         <input type="email" id="email" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <button className="btn pink lighten-1 z-depth-0">SIGN UP</button>
+                        <button className="btn submits lighten-1 z-depth-0">Sign Up</button>
                     </div>
                     <div className="red-text center">
                         {authError ? <p>{authError}</p>: null}
