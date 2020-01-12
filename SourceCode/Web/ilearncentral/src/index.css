@@ -8,7 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color:#dbe9ff;
+  background-image: linear-gradient(to top right,rgba(12,14,38,0.7), rgba(63,81,181,0.5), rgba(23,170,219,0.15));
 }
 form {
   padding:20px;
@@ -28,7 +28,9 @@ textarea.materialize-textarea:focus:not([readonly]) {
   background-color: #102B8C !important;
   border: 2px solid #102B8C !important;
 }
-
+.header {
+  background-image: linear-gradient(to right, #0C0E26 , #3F51B5, #17AADB);
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;

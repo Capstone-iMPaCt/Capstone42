@@ -9,7 +9,7 @@ const Navbar = (props) => {
     //console.log(auth);
     const links = auth.uid ? <SignInLinks/> : <SignOutLinks/>;
     return (
-        <nav className = "nav-wrapper grey darken-3">
+        <nav className = "nav-wrapper header darken-3">
             <div className = "container">
                 <Link to ="/" className = "brand-logo">iLearnCentral</Link>
                 {links}
