@@ -3,12 +3,15 @@ package com.project.ilearncentral;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.internal.NavigationMenu;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -23,10 +26,23 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        backButton = (Button)findViewById(R.id.back_button);
-        userPageLink = (LinearLayout)findViewById(R.id.user_page_link);
-        backButton.setOnClickListener(this);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        toolbar.inflateMenu(R.menu.menu_activity_pages);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+//        backButton = (Button)findViewById(R.id.back_button);
+            userPageLink = (LinearLayout)findViewById(R.id.user_page_link);
+    //        backButton.setOnClickListener(this);
         userPageLink.setOnClickListener(this);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -41,13 +57,19 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.back_button:
-                onBackPressed();
-                break;
+//            case android.R.id.home:
+//                onBackPressed();
+//                break;
             case R.id.user_page_link:
                 startActivity(new Intent(getApplicationContext(), ActivityPages.class));
             default:
                 return;
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
+        return true;
     }
 }
