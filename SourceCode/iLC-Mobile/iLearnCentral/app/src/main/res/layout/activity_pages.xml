@@ -14,7 +14,8 @@
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:background="@drawable/bg_toolbar"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_behavior=".CustomAppBarLayoutBehavior">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"
@@ -80,7 +81,7 @@
                         android:layout_height="@dimen/nav_icon_lwh"
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
-                        android:background="@drawable/text_view_bg_rounded"
+                        android:background="@drawable/input_opacity80_bg_rounded"
                         android:hint="@string/search"
                         android:inputType="text"
                         android:paddingLeft="10dp"
@@ -99,7 +100,9 @@
                 android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_gravity="bottom|center"/>
+                android:layout_gravity="bottom|center"
+                app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 

@@ -36,6 +36,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     private CollapsingToolbarLayout toolbarLayout;
     private int appBar_minH, appBar_maxH;
     private InputMethodManager keyPad;
+    private CoordinatorLayout.LayoutParams clLayoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,19 +49,20 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         searchBar = (TextView) findViewById(R.id.search_bar);
         appBarLayout = (AppBarLayout)findViewById(R.id.app_bar);
         toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
 
         featuresButton.setOnClickListener(this);
         searchButton.setOnClickListener(this);
 
         viewPager = (ViewPager)findViewById(R.id.htab_viewpager);
         tabLayout = (TabLayout)findViewById(R.id.sliding_tabs);
-        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+//        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UserProfile(), "Profile");
         adapter.addFragment(new NewsFeed(), "News Feed");
         adapter.addFragment(new Management(), "Job Post");
-        adapter.addFragment(new Management(), "Recommendations");
+        adapter.addFragment(new Management(), "Recommendation");
         adapter.addFragment(new Management(), "Management");
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -73,20 +75,25 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
                 switch (position){
                     case 0:
                         appBarLayout.setExpanded(true);
+                        disableSearchFunction();
+                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
 //                        searchBar.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout));
 //                        searchButton.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout));
-                    case 4:
-                        searchButton.setVisibility(View.INVISIBLE);
-                        hideSearchBar();
                         break;
                     case 1:
                     case 2:
                     case 3:
 //                        searchBar.setVisibility(View.VISIBLE);
+                        appBarLayout.setExpanded(false);
                         searchButton.setVisibility(View.VISIBLE);
+                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(false);
 //                        searchBar.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein));
 //                        searchButton.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein));
+                        break;
+                    case 4:
                         appBarLayout.setExpanded(false);
+                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(false);
+                        disableSearchFunction();
                         break;
                     default:
                         break;
@@ -105,7 +112,8 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         });
     }
 
-    public void hideSearchBar(){
+    public void disableSearchFunction(){
+        searchButton.setVisibility(View.INVISIBLE);
         searchBar.setVisibility(View.INVISIBLE);
         searchBar.setText(null);
         searchBar.clearFocus();
@@ -120,7 +128,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
                 break;
             case R.id.search_button:
                 if(searchBar.getVisibility() == View.VISIBLE)
-                    hideSearchBar();
+                    disableSearchFunction();
                 else {
                     searchBar.setVisibility(View.VISIBLE);
                     keyPad.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
