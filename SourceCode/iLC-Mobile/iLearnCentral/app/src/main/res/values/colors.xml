@@ -21,4 +21,7 @@
     <color name="text_link_color">#FFFFFF</color>
     <color name="text_button_color">#FFFFFF</color>
     <color name="text_cursor_color">#3F51B5</color>
+    <color name="follower_count_color">#4CAF50</color>
+    <color name="following_count_color">#2196F3</color>
+
 </resources>

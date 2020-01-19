@@ -34,7 +34,6 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     private TextView searchBar;
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout toolbarLayout;
-    private int appBar_minH, appBar_maxH;
     private InputMethodManager keyPad;
     private CoordinatorLayout.LayoutParams clLayoutParams;
 
