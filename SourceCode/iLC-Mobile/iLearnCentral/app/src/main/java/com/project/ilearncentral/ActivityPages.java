@@ -50,6 +50,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         appBarLayout = (AppBarLayout)findViewById(R.id.app_bar);
         toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
+        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
 
         featuresButton.setOnClickListener(this);
         searchButton.setOnClickListener(this);

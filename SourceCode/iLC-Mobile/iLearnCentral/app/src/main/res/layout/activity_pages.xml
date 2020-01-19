@@ -29,16 +29,40 @@
             app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/profile_imageview"
-                android:layout_width="@dimen/dp_diameter"
-                android:layout_height="@dimen/dp_diameter"
-                android:src="@drawable/avatar_boy"
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:layout_gravity="bottom|center"
-                android:layout_marginBottom="45dp"
-                app:civ_border_color="@android:color/white"
-                app:civ_border_width="3dp"
-                app:layout_collapseMode="none" />
+                android:layout_marginBottom="45dp" >
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_imageview"
+                    android:layout_width="@dimen/dp_diameter"
+                    android:layout_height="@dimen/dp_diameter"
+                    android:src="@drawable/avatar_boy"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="3dp"
+                    app:layout_collapseMode="none" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="User Name"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="bold"
+                    android:textSize="20sp"
+                    android:layout_marginTop="3dp"
+                    android:layout_gravity="center" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Field of Expertise"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:layout_gravity="center" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -98,10 +122,11 @@
 
             <com.google.android.material.tabs.TabLayout
                 android:id="@+id/sliding_tabs"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom|center"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
+                app:tabGravity="center"
                 app:tabMode="scrollable" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>

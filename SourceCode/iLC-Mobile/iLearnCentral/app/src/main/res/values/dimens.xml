@@ -2,7 +2,7 @@
     <dimen name="app_bar_height">256dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="dp_diameter">120dp</dimen>
-    <dimen name="dp_radius">60dp</dimen>
+    <dimen name="dp_diameter">100dp</dimen>
+    <dimen name="dp_radius">50dp</dimen>
     <dimen name="nav_icon_lwh">30dp</dimen>
 </resources>
