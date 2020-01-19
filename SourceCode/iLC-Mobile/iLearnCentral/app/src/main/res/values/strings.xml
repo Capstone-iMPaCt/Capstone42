@@ -49,6 +49,7 @@
     <string name="course_offered">Course</string>
     <string name="subscription">Subscription</string>
     <string name="subscription_end_date">Subscription End</string>
+    <string name="search">Search</string>
 
     -- Labels --
     <string name="sign_up_in_with">Sign Up with</string>

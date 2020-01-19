@@ -13,7 +13,7 @@
             android:name=".Home"
             android:label="@string/title_activity_home" />
         <activity android:name=".NewsFeed" />
-        <activity android:name=".ActivityPages" />
+        <activity android:name=".ActivityPages"/>
         <activity android:name=".SignUpLearningCenter" />
         <activity android:name=".SignUpUsers" />
         <activity android:name=".AccountTypeSelection" />

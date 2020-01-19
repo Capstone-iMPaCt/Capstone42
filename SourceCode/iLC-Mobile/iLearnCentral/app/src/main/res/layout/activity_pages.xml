@@ -21,13 +21,23 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/bg_linear_transparent"
-            android:clickable="true"
             android:fitsSystemWindows="true"
-            android:focusable="auto"
+            app:scrimAnimationDuration="300"
             app:contentScrim="@drawable/bg_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             app:titleEnabled="false"
             app:toolbarId="@+id/toolbar">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/profile_imageview"
+                android:layout_width="@dimen/dp_diameter"
+                android:layout_height="@dimen/dp_diameter"
+                android:src="@drawable/avatar_boy"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="45dp"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="3dp"
+                app:layout_collapseMode="none" />
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -71,7 +81,7 @@
                         android:layout_marginStart="8dp"
                         android:layout_marginEnd="8dp"
                         android:background="@drawable/text_view_bg_rounded"
-                        android:hint="Search"
+                        android:hint="@string/search"
                         android:inputType="text"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -86,10 +96,10 @@
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
-                android:id="@+id/htab_tabs"
+                android:id="@+id/sliding_tabs"
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_gravity="bottom" />
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|center"/>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -102,19 +112,5 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
     </androidx.viewpager.widget.ViewPager>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_imageview"
-        android:layout_width="@dimen/dp_diameter"
-        android:layout_height="@dimen/dp_diameter"
-        android:src="@drawable/avatar_boy"
-        android:layout_gravity="center|center_vertical"
-        app:layout_anchor="@id/toolbar_layout"
-        app:layout_anchorGravity="center"
-        app:civ_border_color="@android:color/white"
-        app:civ_border_width="3dp"
-        app:layout_collapseMode="parallax"
-        app:layout_collapseParallaxMultiplier="0.3" />
-
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
 
-    Button backButton;
     LinearLayout userPageLink;
 
     @Override
@@ -29,20 +28,9 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu_activity_pages);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-//        backButton = (Button)findViewById(R.id.back_button);
-            userPageLink = (LinearLayout)findViewById(R.id.user_page_link);
-    //        backButton.setOnClickListener(this);
+        userPageLink = (LinearLayout)findViewById(R.id.user_page_link);
         userPageLink.setOnClickListener(this);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,11 +45,8 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-//            case android.R.id.home:
-//                onBackPressed();
-//                break;
             case R.id.user_page_link:
-                startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                onBackPressed();
             default:
                 return;
         }

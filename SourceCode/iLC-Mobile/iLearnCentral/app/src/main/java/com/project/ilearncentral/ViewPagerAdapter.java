@@ -25,6 +25,10 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return new NewsFeed();
             case 2:
                 return new Management();
+            case 3:
+                return new Management();
+            case 4:
+                return new Management();
             default:
                 return null;
         }
