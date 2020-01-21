@@ -62,6 +62,10 @@
     <string name="fri_text">Fri</string>
     <string name="sat_text">Sat</string>
     <string name="profile_page">USER PROFILE</string>
+    <string name="average_rating">AVERAGE RATING</string>
+    <string name="following">FOLLOWING</string>
+    <string name="followers">FOLLOWERS</string>
+
 
     -- Items --
     <string name="account_settings">Account Settings</string>

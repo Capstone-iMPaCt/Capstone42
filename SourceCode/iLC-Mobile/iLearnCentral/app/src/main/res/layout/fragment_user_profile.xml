@@ -24,7 +24,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                android:baselineAligned="false">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -35,16 +36,16 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="0"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="14sp"
+                        android:text="0"
                         android:textColor="@color/follower_count_color"
-                        android:layout_weight="1"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="FOLLOWERS"
+                        android:text="@string/followers"
                         android:gravity="top|center"
                         android:textSize="14sp"
                         android:layout_weight="1"/>
@@ -69,7 +70,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="FOLLOWING"
+                        android:text="@string/following"
                         android:gravity="top|center"
                         android:textSize="14sp"
                         android:layout_weight="1"/>
@@ -95,7 +96,8 @@
                             android:layout_height="match_parent"
                             android:text="4.5"
                             android:gravity="center"
-                            android:textSize="14sp"/>
+                            android:textSize="14sp"
+                            android:textColor="@color/rating_count_color"/>
 
                         <androidx.legacy.widget.Space
                             android:layout_width="2dp"
@@ -111,7 +113,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="AVERAGE RATINGS"
+                        android:text="@string/average_rating"
                         android:gravity="top|center"
                         android:textSize="14sp"
                         android:layout_weight="1" />
@@ -119,6 +121,17 @@
                 </LinearLayout>
 
             </LinearLayout>
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="5dp"
+            android:elevation="5dp"
+            android:background="@drawable/bg_linear">
+
+
 
         </androidx.cardview.widget.CardView>
 

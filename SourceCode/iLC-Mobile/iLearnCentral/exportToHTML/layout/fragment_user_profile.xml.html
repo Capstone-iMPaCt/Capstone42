@@ -1,0 +1,174 @@
+<html>
+<head>
+<title>fragment_user_profile.xml</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #e8bf6a;}
+.s1 { color: #bababa;}
+.s2 { color: #6a8759;}
+.s3 { color: #a9b7c6;}
+.s4 { color: #e8bf6a;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+fragment_user_profile.xml</font>
+</center></td></tr></table>
+<pre><span class="s0">&lt;?</span><span class="s1">xml version</span><span class="s2">=&quot;1.0&quot; </span><span class="s1">encoding</span><span class="s2">=&quot;utf-8&quot;</span><span class="s0">?&gt;</span>
+&lt;androidx.core.widget.NestedScrollView <span class="s1">xmlns:android</span><span class="s2">=&quot;http://schemas.android.com/apk/res/android&quot;</span>
+    <span class="s1">xmlns:app</span><span class="s2">=&quot;http://schemas.android.com/apk/res-auto&quot;</span>
+    <span class="s1">xmlns:tools</span><span class="s2">=&quot;http://schemas.android.com/tools&quot;</span>
+    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+    <span class="s1">app:layout_behavior</span><span class="s2">=&quot;@string/appbar_scrolling_view_behavior&quot;</span>
+    <span class="s1">tools:context</span><span class="s2">=&quot;.ActivityPages&quot;</span><span class="s0">&gt;</span>
+
+    &lt;LinearLayout
+        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+        <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+        <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+        <span class="s1">android:layout_marginTop</span><span class="s2">=&quot;5dp&quot;</span>
+        <span class="s1">android:layout_marginBottom</span><span class="s2">=&quot;5dp&quot;</span><span class="s0">&gt;</span>
+
+        &lt;androidx.cardview.widget.CardView
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:layout_marginBottom</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:elevation</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/bg_linear&quot;</span><span class="s0">&gt;</span>
+
+            &lt;LinearLayout
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:orientation</span><span class="s2">=&quot;horizontal&quot;</span>
+                <span class="s1">android:baselineAligned</span><span class="s2">=&quot;false&quot;</span><span class="s0">&gt;</span>
+
+                &lt;LinearLayout
+                    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+                    <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot; </span><span class="s0">&gt;</span>
+
+                    &lt;TextView
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                        <span class="s1">android:text</span><span class="s2">=&quot;0&quot;</span>
+                        <span class="s1">android:textColor</span><span class="s2">=&quot;@color/follower_count_color&quot;</span>
+                        <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot; </span><span class="s0">/&gt;</span>
+
+                    &lt;TextView
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:text</span><span class="s2">=&quot;@string/followers&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;top|center&quot;</span>
+                        <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span><span class="s0">/&gt;</span>
+
+                &lt;/LinearLayout&gt;
+
+                &lt;LinearLayout
+                    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+                    <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot; </span><span class="s0">&gt;</span>
+
+                    &lt;TextView
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:text</span><span class="s2">=&quot;0&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                        <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+                        <span class="s1">android:textColor</span><span class="s2">=&quot;@color/following_count_color&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span><span class="s0">/&gt;</span>
+
+                    &lt;TextView
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:text</span><span class="s2">=&quot;@string/following&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;top|center&quot;</span>
+                        <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot;</span><span class="s0">/&gt;</span>
+
+                &lt;/LinearLayout&gt;
+
+                &lt;LinearLayout
+                    <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                    <span class="s1">android:orientation</span><span class="s2">=&quot;vertical&quot;</span>
+                    <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                    <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot; </span><span class="s0">&gt;</span>
+
+                    &lt;LinearLayout
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:orientation</span><span class="s2">=&quot;horizontal&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot; </span><span class="s0">&gt;</span>
+
+                        &lt;TextView
+                            <span class="s1">android:layout_width</span><span class="s2">=&quot;wrap_content&quot;</span>
+                            <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                            <span class="s1">android:text</span><span class="s2">=&quot;4.5&quot;</span>
+                            <span class="s1">android:gravity</span><span class="s2">=&quot;center&quot;</span>
+                            <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+                            <span class="s1">android:textColor</span><span class="s2">=&quot;@color/rating_count_color&quot;</span><span class="s0">/&gt;</span>
+
+                        &lt;androidx.legacy.widget.Space
+                            <span class="s1">android:layout_width</span><span class="s2">=&quot;2dp&quot;</span>
+                            <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot; </span><span class="s0">/&gt;</span>
+
+                        &lt;ImageView
+                            <span class="s1">android:layout_width</span><span class="s2">=&quot;14dp&quot;</span>
+                            <span class="s1">android:layout_height</span><span class="s2">=&quot;14dp&quot;</span>
+                            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/rating_star&quot; </span><span class="s0">/&gt;</span>
+
+                    &lt;/LinearLayout&gt;
+
+                    &lt;TextView
+                        <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:layout_height</span><span class="s2">=&quot;match_parent&quot;</span>
+                        <span class="s1">android:text</span><span class="s2">=&quot;@string/average_rating&quot;</span>
+                        <span class="s1">android:gravity</span><span class="s2">=&quot;top|center&quot;</span>
+                        <span class="s1">android:textSize</span><span class="s2">=&quot;14sp&quot;</span>
+                        <span class="s1">android:layout_weight</span><span class="s2">=&quot;1&quot; </span><span class="s0">/&gt;</span>
+
+                &lt;/LinearLayout&gt;
+
+            &lt;/LinearLayout&gt;
+
+        &lt;/androidx.cardview.widget.CardView&gt;
+
+        &lt;androidx.cardview.widget.CardView
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;50dp&quot;</span>
+            <span class="s1">android:layout_marginBottom</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:elevation</span><span class="s2">=&quot;5dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/bg_linear&quot;</span><span class="s0">&gt;</span>
+
+
+
+        &lt;/androidx.cardview.widget.CardView&gt;
+
+        &lt;androidx.cardview.widget.CardView
+            <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+            <span class="s1">android:layout_height</span><span class="s2">=&quot;1000dp&quot;</span>
+            <span class="s1">android:background</span><span class="s2">=&quot;@drawable/bg_linear_transparent&quot;</span><span class="s0">&gt;</span>
+
+            &lt;TextView
+                <span class="s1">android:layout_width</span><span class="s2">=&quot;match_parent&quot;</span>
+                <span class="s1">android:layout_height</span><span class="s2">=&quot;wrap_content&quot;</span>
+                <span class="s1">android:text</span><span class="s2">=&quot;@string/profile_page&quot;</span>
+                <span class="s1">android:padding</span><span class="s2">=&quot;10dp&quot;</span>
+                <span class="s1">android:gravity</span><span class="s2">=&quot;top|center&quot;</span><span class="s0">/&gt;</span>
+
+        &lt;/androidx.cardview.widget.CardView&gt;
+
+    &lt;/LinearLayout&gt;
+
+&lt;/androidx.core.widget.NestedScrollView&gt;</pre>
+</body>
+</html>
