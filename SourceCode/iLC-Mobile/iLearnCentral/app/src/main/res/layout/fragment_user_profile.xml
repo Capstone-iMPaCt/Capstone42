@@ -131,8 +131,6 @@
             android:elevation="5dp"
             android:background="@drawable/bg_linear">
 
-
-
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView

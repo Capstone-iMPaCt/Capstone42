@@ -21,6 +21,7 @@
     <string name="confirm">Confirm</string>
 
     -- Hints --
+    <string name="email">Email</string>
     <string name="user_id">Username / Email</string>
     <string name="username">Username</string>
     <string name="email_address">Email Address</string>

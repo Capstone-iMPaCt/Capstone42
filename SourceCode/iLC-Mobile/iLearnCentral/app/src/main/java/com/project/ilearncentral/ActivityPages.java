@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,11 +14,14 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -28,6 +32,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ActivityPages extends AppCompatActivity implements View.OnClickListener {
 
+    private Toolbar toolbar;
+    private CircleImageView circleImageView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Button featuresButton, searchButton;
@@ -42,7 +48,9 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pages);
 
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         keyPad = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+        circleImageView = (CircleImageView)findViewById(R.id.profile_imageview);
         featuresButton = (Button)findViewById(R.id.features_button);
         searchButton = (Button)findViewById(R.id.search_button);
         searchBar = (TextView) findViewById(R.id.search_bar);
@@ -51,8 +59,11 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
 
+        setSupportActionBar(toolbar);
+
         featuresButton.setOnClickListener(this);
         searchButton.setOnClickListener(this);
+        circleImageView.setOnClickListener(this);
 
         viewPager = (ViewPager)findViewById(R.id.htab_viewpager);
         tabLayout = (TabLayout)findViewById(R.id.sliding_tabs);
@@ -120,6 +131,17 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         keyPad.hideSoftInputFromWindow(searchBar.getWindowToken(), 0);
     }
 
+    public void logout(){
+        if (Login.hasInternetAccess()){
+            FirebaseAuth.getInstance().signOut();
+            finish();
+            Intent intent = new Intent(getApplicationContext(), Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            startActivity(intent);
+            Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
+        }
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -136,6 +158,27 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
                 break;
             default:
                 return;
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
+        return super.onCreateOptionsMenu(menu);
+//        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.account_settings:
+                Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
+                return true;
+            case R.id.logout:
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
     }
 }
