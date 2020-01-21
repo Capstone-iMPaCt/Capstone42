@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "142649912088",
+    "firebase_url": "https://ilearncentral-90d51.firebaseio.com",
+    "project_id": "ilearncentral-90d51",
+    "storage_bucket": "ilearncentral-90d51.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142649912088:android:434dd35739af74d240cc6d",
+        "android_client_info": {
+          "package_name": "com.project.ilearncentral"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142649912088-r6feocauhe48aaep54buu6hv50hnq3c5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA8w92340BnKH7QSJxc25vQckDyFZca-WI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142649912088-r6feocauhe48aaep54buu6hv50hnq3c5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

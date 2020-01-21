@@ -36,7 +36,7 @@
                 app:hintEnabled="false">
 
                 <EditText
-                    android:id="@+id/usernameTextBox"
+                    android:id="@+id/usernameEditText"
                     android:layout_width="300dp"
                     android:layout_height="45dp"
                     android:layout_gravity="center"
@@ -51,7 +51,8 @@
                     android:textColor="@color/text_color"
                     android:textColorHighlight="@color/mint_blue"
                     android:textColorHint="@color/text_hint_color"
-                    android:textColorLink="@color/light_blue" />
+                    android:textColorLink="@color/light_blue"
+                    android:focusable="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
@@ -64,7 +65,7 @@
                 app:passwordToggleEnabled="true">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/passwordTextBox"
+                    android:id="@+id/passwordTextInput"
                     android:layout_width="300dp"
                     android:layout_height="45dp"
                     android:layout_marginTop="10dp"
@@ -78,7 +79,8 @@
                     android:textColor="@color/text_color"
                     android:textColorHighlight="@color/mint_blue"
                     android:textColorHint="@color/text_hint_color"
-                    android:textColorLink="@color/light_blue" />
+                    android:textColorLink="@color/light_blue"
+                    android:focusable="true" />
 
             </com.google.android.material.textfield.TextInputLayout>
 
