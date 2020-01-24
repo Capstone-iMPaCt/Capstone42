@@ -83,6 +83,7 @@
                 android:drawablePadding="20dp"
                 android:hint="@string/password"
                 android:inputType="textPassword"
+                android:imeOptions="actionDone"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/text_color"

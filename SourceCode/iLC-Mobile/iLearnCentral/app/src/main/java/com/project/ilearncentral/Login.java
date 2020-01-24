@@ -26,6 +26,9 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.IOException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Arrays;
 import java.util.List;
 
@@ -134,6 +137,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+//    private static Socket socket = new Socket();
     public static boolean hasInternetAccess(){
         /*ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
@@ -148,12 +152,22 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();*/
+
         try {
             String command = "ping -c 1 google.com";
             return (Runtime.getRuntime().exec(command).waitFor() == 0);
         } catch (Exception e) {
             return false;
         }
+
+        /*try {
+            socket.connect(new InetSocketAddress("www.google.com", 80), 2000);
+            return true;
+        } catch (IOException e) {
+            // Either we have a timeout or unreachable host or failed DNS lookup
+            System.out.println(e);
+            return false;
+        }*/
     }
 
     private void setErrorMessage(String errorMessage){

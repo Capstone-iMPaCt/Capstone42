@@ -3,17 +3,11 @@ package com.project.ilearncentral;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.appbar.AppBarLayout;
@@ -21,11 +15,9 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -36,8 +28,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     private CircleImageView circleImageView;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private Button featuresButton, searchButton;
-    private TextView searchBar;
+    private Button featuresButton, notificationButton, messageButton;
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout toolbarLayout;
     private InputMethodManager keyPad;
@@ -52,8 +43,8 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         keyPad = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         circleImageView = (CircleImageView)findViewById(R.id.profile_imageview);
         featuresButton = (Button)findViewById(R.id.features_button);
-        searchButton = (Button)findViewById(R.id.search_button);
-        searchBar = (TextView) findViewById(R.id.search_bar);
+        notificationButton = (Button)findViewById(R.id.notification_button);
+        messageButton = (Button)findViewById(R.id.message_button);
         appBarLayout = (AppBarLayout)findViewById(R.id.app_bar);
         toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
@@ -62,7 +53,8 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         setSupportActionBar(toolbar);
 
         featuresButton.setOnClickListener(this);
-        searchButton.setOnClickListener(this);
+        notificationButton.setOnClickListener(this);
+        messageButton.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
 
         viewPager = (ViewPager)findViewById(R.id.htab_viewpager);
@@ -86,25 +78,14 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
                 switch (position){
                     case 0:
                         appBarLayout.setExpanded(true);
-                        disableSearchFunction();
                         ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
-//                        searchBar.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout));
-//                        searchButton.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadeout));
                         break;
                     case 1:
                     case 2:
                     case 3:
-//                        searchBar.setVisibility(View.VISIBLE);
-                        appBarLayout.setExpanded(false);
-                        searchButton.setVisibility(View.VISIBLE);
-                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(false);
-//                        searchBar.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein));
-//                        searchButton.startAnimation(AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fadein));
-                        break;
                     case 4:
                         appBarLayout.setExpanded(false);
                         ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(false);
-                        disableSearchFunction();
                         break;
                     default:
                         break;
@@ -124,11 +105,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     }
 
     public void disableSearchFunction(){
-        searchButton.setVisibility(View.INVISIBLE);
-        searchBar.setVisibility(View.INVISIBLE);
-        searchBar.setText(null);
-        searchBar.clearFocus();
-        keyPad.hideSoftInputFromWindow(searchBar.getWindowToken(), 0);
+
     }
 
     public void logout(){
@@ -148,13 +125,9 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
             case R.id.features_button:
                 startActivity(new Intent(getApplicationContext(), Home.class));
                 break;
-            case R.id.search_button:
-                if(searchBar.getVisibility() == View.VISIBLE)
-                    disableSearchFunction();
-                else {
-                    searchBar.setVisibility(View.VISIBLE);
-                    keyPad.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
-                }
+            case R.id.notification_button:
+                break;
+            case R.id.message_button:
                 break;
             default:
                 return;
