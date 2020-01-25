@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".ActivityPages">
+    tools:context=".Activities.ActivityPages">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -129,21 +129,21 @@
             android:layout_height="50dp"
             android:layout_marginBottom="5dp"
             android:elevation="5dp"
-            android:background="@drawable/bg_linear">
+            android:background="@drawable/bg_linear" >
 
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="1000dp"
-            android:background="@drawable/bg_linear_transparent">
+            android:background="@drawable/bg_linear_transparent" >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/profile_page"
                 android:padding="10dp"
-                android:gravity="top|center"/>
+                android:gravity="top|center" />
 
         </androidx.cardview.widget.CardView>
 
