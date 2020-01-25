@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -20,14 +21,12 @@ import java.util.List;
 public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.newsViewHolder> {
 
     Context context;
-    List<News> mNews;
-    public NewsFeedAdapter(Context context, List<News> mNews) {
+    List<News> news;
+
+    public NewsFeedAdapter(Context context, List<News> news) {
         this.context = context;
-        this.mNews = mNews;
+        this.news = news;
     }
-
-
-
 
     @NonNull
     @Override
@@ -36,32 +35,45 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.newsVi
         return new newsViewHolder(view);
     }
 
+    // On bind/display animation
     @Override
     public void onBindViewHolder(@NonNull newsViewHolder holder, int position) {
-        holder.tv_date.setText(mNews.get(position).getDate());
-        holder.tv_title.setText(mNews.get(position).getTitle());
-        holder.tv_description.setText(mNews.get(position).getContent());
-        holder.img_user.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_transition_animation));
-        holder.container.setAnimation(AnimationUtils.loadAnimation(context,R.anim.fade_scale_animation));
-        holder.img_user.setImageResource(mNews.get(position).getUserPhoto());
+        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.timestampLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        
+        holder.newsUserImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.newsUserImageView.setImageResource(news.get(position).getNewsUserImageView());
+        holder.newsContentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.newsContentImageView.setImageResource(news.get(position).getNewsContentImageView());
+        
+        holder.titleTextView.setText(news.get(position).getTitleTextView());
+        holder.dateTextView.setText(news.get(position).getDateTextView());
+        holder.timeTextView.setText(news.get(position).getTimeTextView());
+        holder.contentTextView.setText(news.get(position).getContentTextView());
     }
 
     @Override
     public int getItemCount() {
-        return mNews.size();
+        return news.size();
     }
 
     public class newsViewHolder extends RecyclerView.ViewHolder {
-        TextView tv_date,tv_title,tv_description;
-        ImageView img_user;
-        RelativeLayout container;
+
+        RelativeLayout containerLayout;
+        LinearLayout timestampLayout;
+        ImageView newsUserImageView, newsContentImageView;
+        TextView titleTextView, dateTextView, timeTextView, contentTextView;
+
         newsViewHolder(View itemView) {
             super(itemView);
-            tv_date = (TextView) itemView.findViewById(R.id.tv_date);
-            tv_title = (TextView) itemView.findViewById(R.id.tv_title);
-            tv_description = (TextView) itemView.findViewById(R.id.tv_description);
-            img_user = (ImageView) itemView.findViewById(R.id.img_user);
-            container = itemView.findViewById(R.id.container);
+            containerLayout = (RelativeLayout)itemView.findViewById(R.id.container_layout);
+            newsUserImageView = (ImageView)itemView.findViewById(R.id.news_user_imageview);
+            titleTextView = (TextView)itemView.findViewById(R.id.news_title_textview);
+            timestampLayout = (LinearLayout)itemView.findViewById(R.id.timestamp_layout);            
+            dateTextView = (TextView)itemView.findViewById(R.id.news_date_textview);
+            timeTextView = (TextView)itemView.findViewById(R.id.news_time_textview);
+            newsContentImageView = (ImageView)itemView.findViewById(R.id.news_content_imageview);
+            contentTextView = (TextView)itemView.findViewById(R.id.content_textview);
         }
     }
 }

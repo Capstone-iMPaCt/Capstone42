@@ -5,9 +5,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.project.ilearncentral.Activities.Management;
-import com.project.ilearncentral.Activities.NewsFeed;
-import com.project.ilearncentral.Activities.UserProfile;
+import com.project.ilearncentral.Activity.Management;
+import com.project.ilearncentral.Activity.NewsFeed;
+import com.project.ilearncentral.Activity.UserProfile;
 
 import java.util.ArrayList;
 

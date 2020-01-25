@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <service
-            android:name=".Activities.Messaging"
+            android:name=".Activity.Messaging"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -30,25 +30,25 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-        <activity android:name=".Activities.Messaging" />
+        <activity android:name=".Activity.Messaging" />
         <activity
-            android:name=".Activities.Home"
+            android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
-        <activity android:name=".Activities.NewsFeed" >
+        <activity android:name=".Activity.NewsFeed" >
 
         </activity>
-        <activity android:name=".Activities.ActivityPages" >
+        <activity android:name=".Activity.ActivityPages" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.SignUpLearningCenter" />
-        <activity android:name=".Activities.SignUpUsers" />
-        <activity android:name=".Activities.AccountTypeSelection" />
+        <activity android:name=".Activity.SignUpLearningCenter" />
+        <activity android:name=".Activity.SignUpUsers" />
+        <activity android:name=".Activity.AccountTypeSelection" />
         <activity
-            android:name=".Activities.Login"
+            android:name=".Activity.Login"
             android:screenOrientation="portrait">
 
         </activity>

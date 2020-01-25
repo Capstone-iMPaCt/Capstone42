@@ -1,81 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="8dp">
-
+    android:layout_height="wrap_content" >
 
     <RelativeLayout
-        android:paddingBottom="16dp"
-        android:id="@+id/container"
-        android:layout_width="0dp"
+        android:id="@+id/container_layout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginLeft="24dp"
-        android:background="#ffffff"
+        android:paddingBottom="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@drawable/bg_news_item"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <TextView
+        <ImageView
+            android:id="@+id/news_user_imageview"
+            android:layout_width="@dimen/new_user_image_lw"
+            android:layout_height="@dimen/new_user_image_lw"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="5dp"
+            app:srcCompat="@mipmap/ic_launcher" />
 
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="40dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="20dp"
-            android:text="Simple Title Text "
-            android:textColor="#00BCD4"
+        <TextView
+            android:id="@+id/news_title_textview"
+            android:layout_width="@dimen/news_title_textview_width"
+            android:layout_height="@dimen/new_user_image_lw"
+            android:layout_toEndOf="@id/news_user_imageview"
+            android:layout_alignTop="@id/news_user_imageview"
+            android:layout_marginLeft="5dp"
+            android:gravity="start|center"
+            android:text="Title"
+            android:textSize="16sp"
+            android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
+        <LinearLayout
+            android:id="@+id/timestamp_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/new_user_image_lw"
+            android:orientation="vertical"
+            android:layout_alignTop="@id/news_title_textview"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp" >
+
+            <TextView
+                android:id="@+id/news_date_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/news_time_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/news_content_imageview"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/news_image_height"
+            android:layout_below="@id/news_user_imageview"
+            android:layout_alignStart="@id/news_user_imageview"
+            android:layout_alignEnd="@+id/timestamp_layout"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/no_image_available"
+            android:scaleType="centerCrop" />
+
         <TextView
-            android:id="@+id/tv_description"
+            android:id="@+id/content_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_title"
-            android:layout_alignStart="@+id/tv_title"
-            android:layout_alignLeft="@id/tv_title"
-            android:layout_marginStart="0dp"
-            android:layout_marginLeft="0dp"
-            android:layout_marginTop="6dp"
-            android:layout_marginRight="16dp"
-            android:lineSpacingExtra="8dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. "
-            android:textColor="#777777" />
+            android:layout_below="@id/news_content_imageview"
+            android:layout_alignStart="@+id/news_content_imageview"
+            android:layout_alignEnd="@+id/timestamp_layout"
+            android:layout_marginTop="5dp"
+            android:text="Text Content" />
 
-        <TextView
-            android:id="@+id/tv_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginRight="16dp"
-            android:text="TextView"
-            android:textColor="#BBBBBB"
-
-            />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/img_user"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/container"
-        app:layout_constraintStart_toStartOf="@+id/container"
-        app:layout_constraintTop_toTopOf="@+id/container"
-        app:srcCompat="@mipmap/ic_launcher" />
 </androidx.constraintlayout.widget.ConstraintLayout>
