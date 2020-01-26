@@ -33,7 +33,7 @@ export const signUp = (newUser) => {
         ).then ((resp) => {
             return firestore.collection('User').doc(resp.user.uid).set({
                 AccountStatus: "active",
-                AccountType: "student",
+                AccountType: newUser.accountType,
                 Username: newUser.username,
                 Email: newUser.email
             })
@@ -42,5 +42,33 @@ export const signUp = (newUser) => {
         }).catch(err=> {
             dispatch({type:'SIGNUP_ERROR', err});
         });
+    }
+}
+
+export const signUpStudent = (newUser) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        firebase.auth().createUserWithEmailAndPassword(
+            newUser.username+"@mailinator.com",
+            newUser.password
+        ).then ((resp) => {
+            return firestore.collection('User').doc(resp.user.uid).set({
+                AccountStatus: "active",
+                AccountType: newUser.accountType,
+                Username: newUser.username,
+                Email: newUser.email
+            })
+        }).then(()=> {
+            dispatch({type:'SIGNUP_SUCCESS'});
+        }).catch(err=> {
+            dispatch({type:'SIGNUP_ERROR', err});
+        });
+    }
+}
+
+export const resetAuthError = () =>{
+    return(dispatch, getState) => {
+        dispatch({type: 'AUTH_ERROR_RESET'});
     }
 }

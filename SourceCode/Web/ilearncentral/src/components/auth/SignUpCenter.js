@@ -3,11 +3,12 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import {signUp, resetAuthError} from '../../store/actions/authActions'
 
-class SignUp extends Component {
+class SignUpCenter extends Component {
     state = {
         email:'',
         password:'',
-        username: ''
+        username: '',
+        accountType: 'center'
     }
     handleChange = (e) => {
         this.setState({
@@ -33,21 +34,20 @@ class SignUp extends Component {
                         {authError ? <p>{authError}</p>: null}
                     </div>
                     <div className = "input-field">
-                        <label  className="input" htmlFor="username"><i className="material-icons left">person</i>Username</label>
+                        <label  className="input" htmlFor="username"><i class="material-icons left">person</i>Username</label>
                         <input type="text" id="username" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label  className="input" htmlFor="password"><i className="material-icons left">lock</i>Password</label>
+                        <label  className="input" htmlFor="password"><i class="material-icons left">lock</i>Password</label>
                         <input type="password" id="password" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label   className="input" htmlFor="confirmPassword"><i className="material-icons left">lock</i>Confirm Password</label>
-                        {/* <input type="password" id="confirmPassword" onChange={this.handleChange} required/> */}
+                        <label   className="input" htmlFor="confirmPassword"><i class="material-icons left">lock</i>Confirm Password</label>
                         <input id="confirmPassword" name="confirmPassword" type="password" pattern="^\S{6,}$" 
                         required/>
                     </div>
                     <div className = "input-field">
-                        <label   className="input" htmlFor="email"><i className="material-icons left">email</i>Email</label>
+                        <label   className="input" htmlFor="email"><i class="material-icons left">email</i>Email</label>
                         <input type="email" id="email" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpCenter);

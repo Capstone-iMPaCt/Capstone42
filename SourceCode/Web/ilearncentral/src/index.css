@@ -8,7 +8,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-image: linear-gradient(to top right,rgba(12,14,38,0.5), rgba(63,81,181,0.5), rgba(255,255,255,0.50));
+  background-image: linear-gradient(to top right,rgba(12,14,100,0.7), rgba(63,81,181,0.7), rgba(255,255,255,0.7));
 }
 form {
   padding:20px;
@@ -35,8 +35,7 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .forms {
   background-color: rgba(255,255,255,.5);
   width: 50%;
-  margin:auto auto;
-  margin-top: 2%;
+  margin:1% auto;
   color: #0C0E26;
   padding: 10%;
   padding-top: 5%;
@@ -68,4 +67,18 @@ code {
 }
 .submits:focus {
   background-color: #102B8C;
+}
+
+/* AccountSelection */
+.largeButton {
+  color: #0C0E26;
+  margin: 5px auto;
+  font-size: medium;
+  text-align: center;
+  padding: 0;
+}
+.buttonText {
+  height: max-content;
+  border-radius: 10px;
+  background-color: rgba(255,255,255,0.6);
 }

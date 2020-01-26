@@ -3,11 +3,12 @@ import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import {signUp, resetAuthError} from '../../store/actions/authActions'
 
-class SignUp extends Component {
+class SignUpEducator extends Component {
     state = {
         email:'',
         password:'',
-        username: ''
+        username: '',
+        accountType:'educator'
     }
     handleChange = (e) => {
         this.setState({
@@ -23,8 +24,7 @@ class SignUp extends Component {
     }
     render () {
         const {authError, auth} = this.props;
-        if (auth.uid) return <Redirect to='/' />
-        
+        if (auth.uid) return <Redirect to='/' />;
         return (
             <div className = "container">
                 <form className="forms" onSubmit={this.handleSubmit}>
@@ -62,7 +62,7 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return {
         authError:state.auth.authError,
-        auth:state.firebase.auth
+        auth:state.firebase.auth,
     }
 }
 
@@ -73,4 +73,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUp);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpEducator);
