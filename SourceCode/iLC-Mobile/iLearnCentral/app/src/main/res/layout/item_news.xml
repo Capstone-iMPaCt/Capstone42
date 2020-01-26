@@ -33,7 +33,7 @@
             android:layout_marginLeft="5dp"
             android:gravity="start|center"
             android:text="Title"
-            android:textSize="16sp"
+            android:textSize="14sp"
             android:textColor="@color/colorPrimaryDark"
             android:textStyle="bold" />
 
@@ -50,27 +50,28 @@
                 android:id="@+id/news_date_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Date"
-                android:layout_weight="1" />
+                android:textSize="10sp" />
 
             <TextView
                 android:id="@+id/news_time_textview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Time"
-                android:layout_weight="1" />
+                android:textSize="10sp" />
 
         </LinearLayout>
 
         <ImageView
             android:id="@+id/news_content_imageview"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/news_image_height"
+            android:layout_height="wrap_content"
             android:layout_below="@id/news_user_imageview"
             android:layout_alignStart="@id/news_user_imageview"
             android:layout_alignEnd="@+id/timestamp_layout"
             android:layout_marginTop="5dp"
-            android:background="@drawable/no_image_available"
             android:scaleType="centerCrop" />
 
         <TextView

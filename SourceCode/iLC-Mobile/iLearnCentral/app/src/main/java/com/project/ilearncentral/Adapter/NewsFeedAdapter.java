@@ -13,6 +13,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.project.ilearncentral.Model.News;
 import com.project.ilearncentral.R;
 
@@ -42,15 +44,19 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.newsVi
         holder.timestampLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         
         holder.newsUserImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
-        holder.newsUserImageView.setImageResource(news.get(position).getNewsUserImageView());
+
         holder.newsContentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
-        holder.newsContentImageView.setImageResource(news.get(position).getNewsContentImageView());
         
         holder.titleTextView.setText(news.get(position).getTitleTextView());
         holder.dateTextView.setText(news.get(position).getDateTextView());
         holder.timeTextView.setText(news.get(position).getTimeTextView());
         holder.contentTextView.setText(news.get(position).getContentTextView());
+
+        getImage(holder.newsContentImageView,news.get(position).getNewsContentImageView(),400);
+        getImage(holder.newsUserImageView,news.get(position).getNewsUserImageView(),600);
+
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,6 +81,14 @@ public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.newsVi
             newsContentImageView = (ImageView)itemView.findViewById(R.id.news_content_imageview);
             contentTextView = (TextView)itemView.findViewById(R.id.content_textview);
         }
+    }
+    private void getImage(ImageView newsUserImageView, int newsContentImageView, int height) {
+        Glide
+                .with(context)
+                .load(newsContentImageView)
+                .centerCrop()
+                .apply(new RequestOptions().override(height))
+                .into(newsUserImageView);
     }
 }
 

@@ -6,6 +6,6 @@
     <dimen name="dp_radius">50dp</dimen>
     <dimen name="nav_icon_lw">30dp</dimen>
     <dimen name="news_image_height">250dp</dimen>
-    <dimen name="new_user_image_lw">36dp</dimen>
+    <dimen name="new_user_image_lw">42dp</dimen>
     <dimen name="news_title_textview_width">250dp</dimen>
 </resources>

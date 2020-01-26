@@ -26,47 +26,23 @@ public class News {
         return newsUserImageView;
     }
 
-    public void setNewsUserImageView(int newsUserImageView) {
-        this.newsUserImageView = newsUserImageView;
-    }
-
     public int getNewsContentImageView() {
         return newsContentImageView;
-    }
-
-    public void setNewsContentImageView(int newsContentImageView) {
-        this.newsContentImageView = newsContentImageView;
     }
 
     public String getTitleTextView() {
         return titleTextView;
     }
 
-    public void setTitleTextView(String titleTextView) {
-        this.titleTextView = titleTextView;
-    }
-
     public String getDateTextView() {
         return dateTextView;
-    }
-
-    public void setDateTextView(String dateTextView) {
-        this.dateTextView = dateTextView;
     }
 
     public String getTimeTextView() {
         return timeTextView;
     }
 
-    public void setTimeTextView(String timeTextView) {
-        this.timeTextView = timeTextView;
-    }
-
     public String getContentTextView() {
         return contentTextView;
-    }
-
-    public void setContentTextView(String contentTextView) {
-        this.contentTextView = contentTextView;
     }
 }
