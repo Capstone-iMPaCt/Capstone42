@@ -8,4 +8,5 @@
     <dimen name="news_image_height">250dp</dimen>
     <dimen name="new_user_image_lw">42dp</dimen>
     <dimen name="news_title_textview_width">250dp</dimen>
+    <dimen name="news_title_width">230dp</dimen>
 </resources>
