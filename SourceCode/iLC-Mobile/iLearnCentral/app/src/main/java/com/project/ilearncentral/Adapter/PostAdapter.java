@@ -22,19 +22,26 @@ import java.util.List;
 
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder> {
 
-    Context context;
-    List<Post> posts;
+    private Context context;
+    private List<Post> posts;
+    private OnPostTitleListener onPostTitleListener;
 
     public PostAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
     }
 
+    public PostAdapter(Context context, List<Post> posts, OnPostTitleListener onPostTitleListener) {
+        this.context = context;
+        this.posts = posts;
+        this.onPostTitleListener = onPostTitleListener;
+    }
+
     @NonNull
     @Override
     public newsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
-        return new newsViewHolder(view);
+        return new newsViewHolder(view, onPostTitleListener);
     }
 
     // On bind/display animation
@@ -44,7 +51,6 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
         holder.timestampLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         
         holder.newsUserImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
-
         holder.newsContentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
         
         holder.titleTextView.setText(posts.get(position).getTitleTextView());
@@ -57,20 +63,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
 
     }
 
-
     @Override
     public int getItemCount() {
         return posts.size();
     }
 
-    public class newsViewHolder extends RecyclerView.ViewHolder {
+    public class newsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         RelativeLayout containerLayout;
         LinearLayout timestampLayout;
         ImageView newsUserImageView, newsContentImageView;
         TextView titleTextView, dateTextView, timeTextView, contentTextView;
+        OnPostTitleListener onPostTitleListener;
 
-        newsViewHolder(View itemView) {
+        public newsViewHolder(View itemView, OnPostTitleListener onPostTitleListener) {
             super(itemView);
             containerLayout = (RelativeLayout)itemView.findViewById(R.id.container_layout);
             newsUserImageView = (ImageView)itemView.findViewById(R.id.post_user_image);
@@ -80,6 +86,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
             timeTextView = (TextView)itemView.findViewById(R.id.post_time);
             newsContentImageView = (ImageView)itemView.findViewById(R.id.post_content_image);
             contentTextView = (TextView)itemView.findViewById(R.id.post_description);
+
+            titleTextView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onPostTitleListener.onTitleClick(getAdapterPosition());
         }
     }
 
@@ -99,6 +112,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
                 .fitCenter()
                 .apply(new RequestOptions().override(height))
                 .into(newsUserImageView);
+    }
+
+    public interface OnPostTitleListener{
+        void onTitleClick(int position);
     }
 }
 

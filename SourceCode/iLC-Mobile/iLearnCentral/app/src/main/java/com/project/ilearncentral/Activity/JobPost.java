@@ -1,9 +1,12 @@
 package com.project.ilearncentral.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,11 +18,12 @@ import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 
-public class JobPost extends Fragment {
+public class JobPost extends Fragment implements View.OnClickListener, PostAdapter.OnPostTitleListener {
 
     private PostAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<Post> posts;
+    private TextView title;
 
     public JobPost() {
         // Required empty public constructor
@@ -28,6 +32,9 @@ public class JobPost extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+//        title = (TextView)recyclerView.findViewById(R.id.post_title);
+//        title.setOnClickListener(this);
     }
 
     @Override
@@ -58,9 +65,28 @@ public class JobPost extends Fragment {
         posts.add(new Post(R.drawable.user, "Android R Design Concept 4K", "8 July 1994", "11:54 AM", "lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit "));
 
         recyclerView = view.findViewById(R.id.news_container_layout);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new PostAdapter(getContext(), posts);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new PostAdapter(getContext(), posts, this);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.notification_button:
+                break;
+            case R.id.message_button:
+                startActivity(new Intent(getActivity(), Chat.class));
+                break;
+            default:
+                return;
+        }
+    }
+
+    @Override
+    public void onTitleClick(int position) {
+//        Log.d(TAG, "onTitleClick: clicked.");
+        startActivity(new Intent(this.getActivity(), Home.class));
     }
 }
