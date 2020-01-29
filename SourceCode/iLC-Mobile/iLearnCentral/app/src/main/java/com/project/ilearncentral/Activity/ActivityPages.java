@@ -1,7 +1,6 @@
 package com.project.ilearncentral.Activity;
 
 
-import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -68,7 +67,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UserProfile(), "Profile");
-        adapter.addFragment(new NewsFeed(), "News Feed");
+        adapter.addFragment(new NewsFeed(), "Post Feed");
         adapter.addFragment(new Management(), "Job Post");
         adapter.addFragment(new Management(), "Recommendation");
         adapter.addFragment(new Management(), "Management");
@@ -125,15 +124,15 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     }
 
     @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
+    public void onClick(View v) {
+        switch (v.getId()) {
             case R.id.features_button:
                 startActivity(new Intent(getApplicationContext(), Home.class));
                 break;
             case R.id.notification_button:
                 break;
             case R.id.message_button:
-                startActivity(new Intent(getApplicationContext(), Messaging.class));
+                startActivity(new Intent(getApplicationContext(), Chat.class));
                 break;
             default:
                 return;
