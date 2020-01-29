@@ -1,11 +1,11 @@
 package com.project.ilearncentral.Model;
 
-public class Post {
+public class News {
 
     private int newsUserImageView, newsContentImageView;
     private String titleTextView, dateTextView, timeTextView, contentTextView;
 
-    public Post(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, int newsContentImageView, String contentTextView) {
+    public News(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, int newsContentImageView, String contentTextView) {
         this.newsUserImageView = newsUserImageView;
         this.newsContentImageView = newsContentImageView;
         this.titleTextView = titleTextView;
@@ -14,7 +14,7 @@ public class Post {
         this.contentTextView = contentTextView;
     }
 
-    public Post(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, String contentTextView) {
+    public News(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, String contentTextView) {
         this.newsUserImageView = newsUserImageView;
         this.titleTextView = titleTextView;
         this.dateTextView = dateTextView;

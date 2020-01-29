@@ -15,20 +15,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.News;
 import com.project.ilearncentral.R;
 
 import java.util.List;
 
-public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder> {
+public class NewsFeedAdapter extends RecyclerView.Adapter<NewsFeedAdapter.newsViewHolder> {
 
+<<<<<<< HEAD:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/PostAdapter.java
     private Context context;
     private List<Post> posts;
     private OnPostTitleListener onPostTitleListener;
+=======
+    Context context;
+    List<News> news;
+>>>>>>> b698c1d5c5e5273ea2d047a9046c9baf9dc765ca:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/NewsFeedAdapter.java
 
-    public PostAdapter(Context context, List<Post> posts) {
+    public NewsFeedAdapter(Context context, List<News> news) {
         this.context = context;
-        this.posts = posts;
+        this.news = news;
     }
 
     public PostAdapter(Context context, List<Post> posts, OnPostTitleListener onPostTitleListener) {
@@ -40,8 +45,13 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
     @NonNull
     @Override
     public newsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+<<<<<<< HEAD:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/PostAdapter.java
         View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
         return new newsViewHolder(view, onPostTitleListener);
+=======
+        View view = LayoutInflater.from(context).inflate(R.layout.item_news, parent, false);
+        return new newsViewHolder(view);
+>>>>>>> b698c1d5c5e5273ea2d047a9046c9baf9dc765ca:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/NewsFeedAdapter.java
     }
 
     // On bind/display animation
@@ -53,19 +63,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
         holder.newsUserImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
         holder.newsContentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
         
-        holder.titleTextView.setText(posts.get(position).getTitleTextView());
-        holder.dateTextView.setText(posts.get(position).getDateTextView());
-        holder.timeTextView.setText(posts.get(position).getTimeTextView());
-        holder.contentTextView.setText(posts.get(position).getContentTextView());
+        holder.titleTextView.setText(news.get(position).getTitleTextView());
+        holder.dateTextView.setText(news.get(position).getDateTextView());
+        holder.timeTextView.setText(news.get(position).getTimeTextView());
+        holder.contentTextView.setText(news.get(position).getContentTextView());
 
-        getImage(holder.newsContentImageView, posts.get(position).getNewsContentImageView());
-        getImage(holder.newsUserImageView, posts.get(position).getNewsUserImageView());
+        getImage(holder.newsContentImageView,news.get(position).getNewsContentImageView(),400);
+        getImage(holder.newsUserImageView,news.get(position).getNewsUserImageView(),600);
 
     }
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return news.size();
     }
 
     public class newsViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
@@ -79,9 +89,10 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
         public newsViewHolder(View itemView, OnPostTitleListener onPostTitleListener) {
             super(itemView);
             containerLayout = (RelativeLayout)itemView.findViewById(R.id.container_layout);
-            newsUserImageView = (ImageView)itemView.findViewById(R.id.post_user_image);
-            titleTextView = (TextView)itemView.findViewById(R.id.post_title);
+            newsUserImageView = (ImageView)itemView.findViewById(R.id.news_user_imageview);
+            titleTextView = (TextView)itemView.findViewById(R.id.news_title_textview);
             timestampLayout = (LinearLayout)itemView.findViewById(R.id.timestamp_layout);            
+<<<<<<< HEAD:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/PostAdapter.java
             dateTextView = (TextView)itemView.findViewById(R.id.post_date);
             timeTextView = (TextView)itemView.findViewById(R.id.post_time);
             newsContentImageView = (ImageView)itemView.findViewById(R.id.post_content_image);
@@ -93,23 +104,19 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.newsViewHolder
         @Override
         public void onClick(View v) {
             onPostTitleListener.onTitleClick(getAdapterPosition());
+=======
+            dateTextView = (TextView)itemView.findViewById(R.id.news_date_textview);
+            timeTextView = (TextView)itemView.findViewById(R.id.news_time_textview);
+            newsContentImageView = (ImageView)itemView.findViewById(R.id.news_content_imageview);
+            contentTextView = (TextView)itemView.findViewById(R.id.content_textview);
+>>>>>>> b698c1d5c5e5273ea2d047a9046c9baf9dc765ca:SourceCode/iLC-Mobile/iLearnCentral/app/src/main/java/com/project/ilearncentral/Adapter/NewsFeedAdapter.java
         }
     }
-
-    private void getImage(ImageView newsUserImageView, int newsContentImageView) {
-        Glide
-                .with(context)
-                .load(newsContentImageView)
-                .fitCenter()
-                .apply(new RequestOptions())
-                .into(newsUserImageView);
-    }
-
     private void getImage(ImageView newsUserImageView, int newsContentImageView, int height) {
         Glide
                 .with(context)
                 .load(newsContentImageView)
-                .fitCenter()
+                .centerCrop()
                 .apply(new RequestOptions().override(height))
                 .into(newsUserImageView);
     }
