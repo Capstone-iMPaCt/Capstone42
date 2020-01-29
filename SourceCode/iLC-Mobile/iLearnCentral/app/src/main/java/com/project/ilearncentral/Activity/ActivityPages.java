@@ -67,7 +67,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UserProfile(), "Profile");
-        adapter.addFragment(new NewsFeed(), "News Feed");
+        adapter.addFragment(new NewsFeed(), "Post Feed");
         adapter.addFragment(new Management(), "Job Post");
         adapter.addFragment(new Management(), "Recommendation");
         adapter.addFragment(new Management(), "Management");
