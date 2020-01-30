@@ -3,7 +3,7 @@ import React from 'react'
 const Input = (props) => {
     return (  
   <div 
-    id={(props.divId ? props.divId:'')} 
+    id={props.divId} 
     hidden={props.divHidden} 
     className={(props.divClassName ? props.divClassName: '') + " input-field"}>
   <label htmlFor={props.name} className={"input " + (props.activeLabel ? props.activeLabel: '')}>

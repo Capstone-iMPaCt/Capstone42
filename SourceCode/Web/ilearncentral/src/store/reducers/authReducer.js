@@ -48,6 +48,14 @@ const authReducer = (state = initState, action) => {
                 ...state,
                 authError: null
             }
+        case "SAVE_BUSINESS_DETAILS":
+            console.log('save business details')
+            return {
+                ...state,
+                businessDetails: {
+                    ...action.business
+                }
+            }
         default:
             return state;
     }

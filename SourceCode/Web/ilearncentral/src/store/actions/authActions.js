@@ -119,33 +119,48 @@ export const signUp = (newUser) => {
                     dispatch({type:'PROFILE_SIGNUP_ERROR', err});
                 }); 
                 break;
+            case "center":
+                firestore.collection('LearningCenter').add({
+                    Accounts: [
+                        {
+                            Username: newUser.username,
+                            Status: 'active',
+                            AccesLevel:'administrator'
+                        }
+                    ],
+                    BusinessAddress: {
+                        No: newUser.no,
+                        Street: newUser.street,
+                        Brangay: newUser.barangay,
+                        City: newUser.city,
+                        Province: newUser.province,
+                        Country: newUser.country,
+                        ZipCode: newUser.zipCode
+                    },
+                    BusinessName:newUser.businessName,
+                    CompanyWebsite:newUser.companyWebsite,
+                    ContactNo:newUser.contactNo,
+                    ContactEmail:newUser.contactEmail,
+                    ServiceType:newUser.serviceType,
+                    
+                }).then(()=> {
+                    dispatch({type:'PROFILE_SIGNUP_SUCCESS'});
+                }).catch(err=> {
+                    dispatch({type:'PROFILE_SIGNUP_ERROR', err});
+                }); 
+                break;
             default:
                 break;
         }
     }
 }
 
-// export const signUp = (newUser) => {
-//     return (dispatch, getState, {getFirebase, getFirestore}) => {
-//         const firebase = getFirebase();
-//         const firestore = getFirestore();
-//         firebase.auth().createUserWithEmailAndPassword(
-//             newUser.username+"@mailinator.com",
-//             newUser.password
-//         ).then ((resp) => {
-//             return firestore.collection('User').doc(resp.user.uid).set({
-//                 AccountStatus: "active",
-//                 AccountType: newUser.accountType,
-//                 Username: newUser.username,
-//                 Email: newUser.email
-//             })
-//         }).then(()=> {
-//             dispatch({type:'SIGNUP_SUCCESS'});
-//         }).catch(err=> {
-//             dispatch({type:'SIGNUP_ERROR', err});
-//         });
-//     }
-// }
+export const signUpCenter = (business) => {
+    return(dispatch, getState) => {
+        dispatch({type: 'SAVE_BUSINESS_DETAILS', business});
+    }
+
+}
 
 export const resetAuthError = () =>{
     return(dispatch, getState) => {

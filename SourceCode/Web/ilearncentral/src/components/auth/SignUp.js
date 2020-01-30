@@ -58,7 +58,7 @@ class SignUp extends Component {
         return str.charAt(0).toUpperCase() + str.slice(1);
     }
     render () {
-        const {authError, auth} = this.props;
+        const {authError, auth, businessDetails} = this.props;
         if (auth.uid) return <Redirect to='/' />
         console.log(this.state);
         const title = this.capitalize(this.state.accountType);
@@ -67,7 +67,8 @@ class SignUp extends Component {
                 <form onSubmit={this.handleSubmit}>
 
                 <div className="forms2 row">
-                    <h4 className="grey-text text-darken-3">{title} Sign Up</h4>
+                    <h4 className="grey-text text-darken-3"> 
+                            {businessDetails ? "Learning Center Administrator ": title} Sign Up</h4>
                     <div className=" col s12 m5">
                         <h5 className="grey-text text-darken-3">Account Details</h5>
                         <div className="red-text center" id="error">
@@ -269,9 +270,11 @@ class SignUp extends Component {
 
 }
 const mapStateToProps = (state) => {
+    console.log(state);
     return {
         authError:state.auth.authError,
-        auth:state.firebase.auth
+        auth:state.firebase.auth,
+        businessDetails:state.auth.businessDetails
     }
 }
 
