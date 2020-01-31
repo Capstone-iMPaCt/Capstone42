@@ -52,6 +52,11 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        this.setState({
+            businessDetails: {
+                ...this.props.businessDetails
+            }
+        })
         this.props.signUp(this.state);
     }
     capitalize = (str) => {
@@ -60,6 +65,9 @@ class SignUp extends Component {
     render () {
         const {authError, auth, businessDetails} = this.props;
         if (auth.uid) return <Redirect to='/' />
+        if (!businessDetails && this.state.accountType==='center') {
+            return <Redirect to='/signupcenter' />
+        }
         console.log(this.state);
         const title = this.capitalize(this.state.accountType);
         return (
@@ -260,7 +268,7 @@ class SignUp extends Component {
                     </div>
                     
                     <div className = "input-field col s12 m12">
-                            <button className="btn submits lighten-1 z-depth-0">Sign Up</button>
+                            <button className="waves-effect btn submits lighten-1 z-depth-0">Sign Up</button>
                         </div>
                     </div>
                 </form>

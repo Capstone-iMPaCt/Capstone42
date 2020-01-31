@@ -120,29 +120,58 @@ export const signUp = (newUser) => {
                 }); 
                 break;
             case "center":
+                var serviceType = (newUser.business.serviceType === "Others") ? newUser.business.otherServiceType : newUser.business.serviceType;
                 firestore.collection('LearningCenter').add({
-                    Accounts: [
-                        {
-                            Username: newUser.username,
-                            Status: 'active',
-                            AccesLevel:'administrator'
-                        }
-                    ],
-                    BusinessAddress: {
-                        No: newUser.no,
-                        Street: newUser.street,
-                        Brangay: newUser.barangay,
-                        City: newUser.city,
-                        Province: newUser.province,
-                        Country: newUser.country,
-                        ZipCode: newUser.zipCode
+                    Accounts: {
+                            Username:newUser.username,
+                        Name: {
+                            FirstName:newUser.firstName,
+                            MiddleName:newUser.middleName,
+                            LastName:newUser.lastName,
+                            Extension:newUser.extension
+                        },
+                        Birthday: new Date(Date.parse(newUser.birthday)),
+                        Citizenship:newUser.citizenship,
+                        EmailAddress:newUser.email,
+                        Status:'active',
+                        AccessLevel:'administrator',
+                        Gender:newUser.gender,
+                        MaritalStatus:newUser.maritalStatus,
+                        Religion:newUser.religion,
+                        Address: [
+                            {
+                                HouseNo: newUser.houseNo,
+                                Street: newUser.street,
+                                Brangay: newUser.barangay,
+                                City: newUser.city,
+                                Province: newUser.province,
+                                Country: newUser.country,
+                                ZipCode: newUser.zipCode,
+                                CurrentAddress: true
+                            }
+                        ],
+                        ContactNo:[
+                            newUser.contactNo
+                        ]
                     },
-                    BusinessName:newUser.businessName,
-                    CompanyWebsite:newUser.companyWebsite,
-                    ContactNo:newUser.contactNo,
-                    ContactEmail:newUser.contactEmail,
-                    ServiceType:newUser.serviceType,
-                    
+                    BusinessAddress: {
+                        No: newUser.business.no,
+                        Street: newUser.business.street,
+                        Brangay: newUser.business.barangay,
+                        City: newUser.business.city,
+                        Province: newUser.business.province,
+                        Country: newUser.business.country,
+                        ZipCode: newUser.business.zipCode
+                    },
+                    BusinessName:newUser.business.businessName,
+                    CompanyWebsite:newUser.business.companyWebsite,
+                    ContactNo:newUser.business.contactNo,
+                    ContactEmail:newUser.business.contactEmail,
+                    ServiceType:serviceType,
+                    ClosingTime:newUser.business.ClosingTime,
+                    OpeningTime:newUser.business.OpeningTime,
+                    OperatingDays:[...newUser.business.OperatingDays],
+                    SubscriptionType:'Free',
                 }).then(()=> {
                     dispatch({type:'PROFILE_SIGNUP_SUCCESS'});
                 }).catch(err=> {

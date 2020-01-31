@@ -241,7 +241,7 @@ class SignUpBusiness extends Component {
                     </div>
                     
                     <div className = "input-field col s12 m12">
-                        <button className="btn submits lighten-1 z-depth-0">Next</button>
+                        <button className="btn submits lighten-1 z-depth-0 waves-effect">Next</button>
                     </div>
                     </div>
                 </form>
