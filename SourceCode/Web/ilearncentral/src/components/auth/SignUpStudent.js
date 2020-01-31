@@ -1,14 +1,14 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {signUp, resetAuthError} from '../../store/actions/authActions'
+import {signUpStudent, resetAuthError} from '../../store/actions/authActions'
 
-class SignUpCenter extends Component {
+class SignUpStudent extends Component {
     state = {
         email:'',
         password:'',
         username: '',
-        accountType: 'center'
+        accountType:'student'
     }
     handleChange = (e) => {
         this.setState({
@@ -29,25 +29,25 @@ class SignUpCenter extends Component {
         return (
             <div className = "container">
                 <form className="forms" onSubmit={this.handleSubmit}>
-                    <h5 className="grey-text text-darken-3">Sign Up</h5>
+                    <h5 className="grey-text text-darken-3">Student Sign Up</h5>
                     <div className="red-text center" id="error">
                         {authError ? <p>{authError}</p>: null}
                     </div>
                     <div className = "input-field">
-                        <label  className="input" htmlFor="username"><i class="material-icons left">person</i>Username</label>
+                        <label  className="input" htmlFor="username"><i className="material-icons left">person</i>Username</label>
                         <input type="text" id="username" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label  className="input" htmlFor="password"><i class="material-icons left">lock</i>Password</label>
+                        <label  className="input" htmlFor="password"><i className="material-icons left">lock</i>Password</label>
                         <input type="password" id="password" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
-                        <label   className="input" htmlFor="confirmPassword"><i class="material-icons left">lock</i>Confirm Password</label>
+                        <label   className="input" htmlFor="confirmPassword"><i className="material-icons left">lock</i>Confirm Password</label>
                         <input id="confirmPassword" name="confirmPassword" type="password" pattern="^\S{6,}$" 
                         required/>
                     </div>
                     <div className = "input-field">
-                        <label   className="input" htmlFor="email"><i class="material-icons left">email</i>Email</label>
+                        <label   className="input" htmlFor="email"><i className="material-icons left">email</i>Email</label>
                         <input type="email" id="email" onChange={this.handleChange} required/>
                     </div>
                     <div className = "input-field">
@@ -68,9 +68,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUp: (newUser) => dispatch(signUp(newUser)),
+        signUpStudent: (newUser) => dispatch(signUpStudent(newUser)),
         resetAuthError: () => dispatch(resetAuthError())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpCenter);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpStudent);
