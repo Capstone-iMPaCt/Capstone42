@@ -8,9 +8,7 @@ import SignIn from './components/auth/SignIn'
 import SignUp from './components/auth/SignUp'
 import AccountSelection from './components/auth/AccountSelection'
 import CreateCourse from './components/courses/CreateCourse'
-import SignUpEducator from './components/auth/SignUpEducator';
-import SignUpStudent from './components/auth/SignUpStudent';
-import SignUpCenter from './components/auth/SignUpCenter';
+import SignUpBusiness from './components/auth/SignUpBusiness'
 
 class App extends Component {
   render() {
@@ -22,11 +20,9 @@ class App extends Component {
         <Route exact path='/' component={Dashboard}/>
         <Route path = '/course/:id' component={ProjectDetails} />
         <Route path = '/signin' component={SignIn} />
-        <Route path = '/signup' component={AccountSelection} />
-        <Route path = '/signupcenter' component={SignUpCenter} />
-        <Route path = '/signupeducator' component={SignUpEducator} />
-        <Route path = '/signupstudent' component={SignUpStudent} />
-        <Route path = '/signupcenterstaff' component={SignUp} />
+        <Route exact path = '/signup' component={AccountSelection} />
+        <Route path = '/signupcenter' component={SignUpBusiness} />
+        <Route path = '/signup/:type' component={SignUp}  />
         <Route path = '/newcourse' component={CreateCourse} />
       </Switch>
     </div>

@@ -24,7 +24,7 @@ class SignIn extends Component {
         if (auth.uid) return <Redirect to='/' />
         return (
             <div className = "container">
-                <form className="forms" onSubmit={this.handleSubmit}>
+                <form className="authForms" onSubmit={this.handleSubmit}>
                     <div className="logo"></div>
                     <div className="red-text center" id="error">
                             {authError ? <p>{authError}</p>: null}
