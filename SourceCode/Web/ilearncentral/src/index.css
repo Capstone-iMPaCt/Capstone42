@@ -10,15 +10,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-image: linear-gradient(to top right,rgba(12,14,100,0.7), rgba(63,81,181,0.7), rgba(255,255,255,0.7));
 }
-.container {
-  width:90%!important;
-}
-.input-field {
-  margin:0px!important;
-  margin-top:5px !important;
-}
-.input-field label {
-  color: #0C0E26!important;
+form {
+  padding:20px;
+  margin-top:60px;
 }
 form button, form h5 {
   margin:20px 0;
@@ -26,20 +20,9 @@ form button, form h5 {
 input[type=text]:not(.browser-default):focus:not([readonly]),
 input[type=email]:not(.browser-default):focus:not([readonly]),
 input[type=password]:not(.browser-default):focus:not([readonly]),
-input[type=tel]:not(.browser-default):focus:not([readonly]),
-input[type=date]:not(.browser-default):focus:not([readonly]),
-input[type=url]:not(.browser-default):focus:not([readonly]),
-input[type=time]:not(.browser-default):focus:not([readonly]),
 textarea.materialize-textarea:focus:not([readonly]) {
   border-color: #102B8C;
   box-shadow: none;
-
-}
-
-[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
-  position: relative;
-  opacity: 0.5;
-  pointer-events: all;
 }
 [type="radio"].with-gap:checked {
   background-color: #3F51B5 !important;
@@ -49,14 +32,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
 .header {
   background-image: linear-gradient(to right, #0C0E26 , #3F51B5, #17AADB);
 }
-.authForms {
-  background-color: rgba(255,255,255,.5);
-  width: 50%;
-  margin:1% auto;
-  color: #0C0E26;
-  padding: 10%;
-  padding-top: 5%;
-}
 .forms {
   background-color: rgba(255,255,255,.5);
   width: 50%;
@@ -64,13 +39,6 @@ textarea.materialize-textarea:focus:not([readonly]) {
   color: #0C0E26;
   padding: 10%;
   padding-top: 5%;
-}
-.forms2 {
-  background-color: rgba(255,255,255,.5);
-  width: 100%;
-  margin:1% auto;
-  color: #0C0E26;
-  padding: 5%;
 }
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -113,18 +81,4 @@ code {
   height: max-content;
   border-radius: 10px;
   background-color: rgba(255,255,255,0.6);
-}
-select {
-  display: block!important;
-  background-color: rgba(204, 233, 255, 0.2)!important;
-  border-color: rgba(204, 233, 255, 0.2);
-}
-select.input-field {
-  margin-bottom: 10px!important;
-}
-.checkbox {
-  margin: 5px;
-  margin-right:20px;
-  display: block;
-  float: left;
 }
