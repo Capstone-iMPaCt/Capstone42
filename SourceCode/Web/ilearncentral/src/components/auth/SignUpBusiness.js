@@ -1,20 +1,16 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
-import {signUp, resetAuthError} from '../../store/actions/authActions'
+import {signUpCenter, resetAuthError} from '../../store/actions/authActions'
 
 import Input from '../forms/Input';  
 import Select from '../forms/Select';
 import CheckBox from '../forms/CheckBox';
 
-class SignUpCenter extends Component {
+class SignUpBusiness extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            email:'',
-            password:'',
-            username: '',
-            accountType:'center',
             contactNo:'',
             businessName:'',
             closingTime:'',
@@ -25,7 +21,6 @@ class SignUpCenter extends Component {
             otherServiceType:'',
             operatingDays:['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
             subscriptionType:'',
-            subscriptionEndDate:'',
             no: '',
             street: '',
             barangay: '',
@@ -46,20 +41,26 @@ class SignUpCenter extends Component {
         this.setState({
             [e.target.id]: e.target.value
         })
-        if (e.target.id === 'password')
-            document.getElementById("confirmPassword").pattern = document.getElementById("password").value;
         if (e.target.id === 'serviceType') {
-            if (e.target.value === "Others") 
+            if (e.target.value === "Others") { 
                 document.getElementById("otherServiceTypeDiv").hidden = false;
-            else
+                document.getElementById("otherServiceType").setAttribute('required', 'required');
+                document.getElementById("serviceTypeDiv").className = "col s12 m6";
+
+            }   
+            else {
                 document.getElementById("otherServiceTypeDiv").hidden = true;
+                document.getElementById("otherServiceType").removeAttribute('required');  
+                document.getElementById("serviceTypeDiv").className = "col s12 m12";
+            }
         }
         if (document.getElementById('error').childNodes.length !== 0)
             this.props.resetAuthError()
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.signUp(this.state);
+        this.props.signUpCenter(this.state)
+        this.props.history.push('/signup/center')
     }
     handleCheckBox = (e) => {
         var checkbox = document.getElementById(e.target.id);
@@ -82,76 +83,17 @@ class SignUpCenter extends Component {
         const {authError, auth} = this.props;
         if (auth.uid) return <Redirect to='/' />
         console.log(this.state);
-        const title = this.capitalize(this.state.accountType);
         return (
             <div className = "container">
                 <form onSubmit={this.handleSubmit}>
 
                 <div className="forms2 row">
-                    <h4 className="grey-text text-darken-3">{title} Sign Up</h4>
-                    <div className=" col s12 m5">
-                        <h5 className="grey-text text-darken-3">Admin Account Details</h5>
+                    <h4 className="grey-text text-darken-3">Center Sign Up</h4>
+                    <div className=" col s12 m12">
+                        <h5 className="grey-text text-darken-3">Business Details</h5>
                         <div className="red-text center" id="error">
                             {authError ? <p>{authError}</p>: null}
                         </div>
-                        <Input type={'text'}
-                            title= {'Admin Username'} 
-                            name= {'username'}
-                            value={this.state.username} 
-                            handleChange = {this.handleChange}
-                            icon={'person'}
-                            required={'required'}
-                            pattern={"^\\S{3,}$"}
-                            divClassName={'col s12 m12'}
-                            />
-                        <Input type={'password'}
-                            title= {'Password'} 
-                            name= {'password'}
-                            value={this.state.password} 
-                            handleChange = {this.handleChange}
-                            icon={'lock'}
-                            required={'required'}
-                            pattern={"^\\S{6,}$"}
-                            divClassName={'col s12 m12'}
-                            />
-                        <Input type={'password'}
-                            title= {'Confirm Password'} 
-                            name= {'confirmPassword'}
-                            handleChange = {this.handleChange}
-                            icon={'lock'}
-                            required={'required'}
-                            pattern={"^\\S{6,}$"}
-                            divClassName={'col s12 m12'}
-                            />
-                        <Input type={'email'}
-                            title= {'Admin Email'} 
-                            name= {'email'}
-                            value={this.state.email} 
-                            handleChange = {this.handleChange}
-                            icon={'email'}
-                            required={'required'}
-                            divClassName={'col s12 m12'}
-                            />
-                        <Input type={'email'}
-                            title= {'Business Email'} 
-                            name= {'email'}
-                            value={this.state.email} 
-                            handleChange = {this.handleChange}
-                            icon={'email'}
-                            required={'required'}
-                            divClassName={'col s12 m12'}
-                            />
-                        <Input type={'tel'}
-                            title= {'Business Contact No.'} 
-                            name= {'contactNo'}
-                            value={this.state.contactNo} 
-                            handleChange = {this.handleChange}
-                            icon={'phone'}
-                            divClassName={'col s12 m12'}
-                            /> 
-                    </div>
-                    <div className="col s12 m7">
-                        <h5 className="grey-text text-darken-3">Basic Details</h5>
                         <Input type={'text'}
                             title= {'Business Name'} 
                             name= {'businessName'}
@@ -161,30 +103,51 @@ class SignUpCenter extends Component {
                             required={'required'}
                             /> 
                         <Input type={'url'}
-                            title= {'Company Website'} 
+                            title= {'Company Website (http://example.com)'} 
                             name= {'companyWebsite'}
                             value={this.state.companyWebsite} 
                             handleChange = {this.handleChange}
+                            placeholder = {'http://'}
                             divClassName={'col s12 m12'}
                             /> 
                         <Select title={'Service Types'}
                             name={'serviceType'}
+                            required= {'required'}
                             options = {this.otherData.serviceTypes} 
                             value = {this.state.serviceType}
                             placeholder = {'Service Type'}
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m12'}
+                            divId={'serviceTypeDiv'}
                             />
                         <Input type={'text'}
                             title= {'Other Service Type'} 
                             name= {'otherServiceType'}
                             value={this.state.otherServiceType} 
                             handleChange = {this.handleChange}
-                            divClassName={'col s12 m12'}
+                            divClassName={'col s12 m6'}
                             divHidden={true}
                             activeLabel={'active'}
                             divId={'otherServiceTypeDiv'}
+                            /> 
+                    </div>
+                    <div className=" col s12 m12">
+                        <Input type={'email'}
+                            title= {'Business Email'} 
+                            name= {'contactEmail'}
+                            value={this.state.contactEmail} 
+                            handleChange = {this.handleChange}
+                            icon={'email'}
                             required={'required'}
+                            divClassName={'col s12 m6'}
+                            />
+                        <Input type={'tel'}
+                            title= {'Business Contact No.'} 
+                            name= {'contactNo'}
+                            value={this.state.contactNo} 
+                            handleChange = {this.handleChange}
+                            icon={'phone'}
+                            divClassName={'col s12 m6'}
                             /> 
                         <CheckBox title={'Operating Days'}
                             name={'operatingDays'}
@@ -202,6 +165,7 @@ class SignUpCenter extends Component {
                             value={this.state.openingTime} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m6'}
+                            required={'required'}
                             /> 
                         <Input type={'time'}
                             title= {'Closing Time'} 
@@ -210,10 +174,11 @@ class SignUpCenter extends Component {
                             value={this.state.closingTime} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m6'}
+                            required={'required'}
                             /> 
                         </div>
                     
-                        <div className=" col s12 m12">
+                    <div className=" col s12 m12">
                         <h6 className="grey-text text-darken-3">Business Address</h6>
                         <Input type={'text'}
                             title= {'No.'} 
@@ -245,6 +210,7 @@ class SignUpCenter extends Component {
                             value={this.state.city} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m3'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
@@ -261,6 +227,7 @@ class SignUpCenter extends Component {
                             value={this.state.country} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m5'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
@@ -269,12 +236,13 @@ class SignUpCenter extends Component {
                             value={this.state.zipCode} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m3'}
+                            required={'required'}
                             />
                     </div>
                     
                     <div className = "input-field col s12 m12">
-                            <button className="btn submits lighten-1 z-depth-0">Sign Up</button>
-                        </div>
+                        <button className="btn submits lighten-1 z-depth-0">Next</button>
+                    </div>
                     </div>
                 </form>
             </div>
@@ -291,9 +259,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        signUp: (newUser) => dispatch(signUp(newUser)),
+        signUpCenter: (business) => dispatch(signUpCenter(business)),
         resetAuthError: () => dispatch(resetAuthError())
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SignUpCenter);
+export default connect(mapStateToProps, mapDispatchToProps)(SignUpBusiness);

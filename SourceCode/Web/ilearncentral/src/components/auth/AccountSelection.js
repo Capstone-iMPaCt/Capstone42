@@ -15,7 +15,7 @@ class AccountSelection extends Component {
                         </div>
                     </Link>
                     <div className="col s12 m1"></div>
-                    <Link to ="/signupeducator" className = "largeButton">
+                    <Link to ="/signup/educator" className = "largeButton">
                         <div className="card buttonText col s12 m3 small">
                             <div className="card-content">
                                 <span className="card-title">Create an <b><u>Educator</u></b> account</span>
@@ -24,7 +24,7 @@ class AccountSelection extends Component {
                         </div>
                     </Link>
                     <div className="col s12 m1"></div>
-                    <Link to ="/signupstudent"className = "largeButton">
+                    <Link to ="/signup/student"className = "largeButton">
                         <div className="card buttonText col s12 m3 small">
                             <div className="card-content">
                                 <span className="card-title">Create a <b><u>Student</u></b> account</span>

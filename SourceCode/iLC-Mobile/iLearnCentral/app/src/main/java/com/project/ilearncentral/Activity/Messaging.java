@@ -12,12 +12,12 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.project.ilearncentral.R;
 
-public class Chat extends AppCompatActivity {
+public class Messaging extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat);
+        setContentView(R.layout.activity_messaging);
 
 //        FirebaseInstanceId.getInstance().getInstanceId()
 //            .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
