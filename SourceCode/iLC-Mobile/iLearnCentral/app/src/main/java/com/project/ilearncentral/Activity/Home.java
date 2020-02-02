@@ -1,9 +1,11 @@
 package com.project.ilearncentral.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -14,12 +16,16 @@ import com.project.ilearncentral.R;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
 
-    LinearLayout userPageLink;
+    private LinearLayout userPageLink;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        intent = getIntent();
+        Toast.makeText(this, intent.getCharSequenceExtra("title").toString(), Toast.LENGTH_SHORT).show();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
