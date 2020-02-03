@@ -41,7 +41,7 @@
         <activity
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
-        <activity android:name=".Activity.NewsFeed"></activity>
+        <activity android:name=".Activity.ActivityFeed"></activity>
         <activity android:name=".Activity.ActivityPages">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

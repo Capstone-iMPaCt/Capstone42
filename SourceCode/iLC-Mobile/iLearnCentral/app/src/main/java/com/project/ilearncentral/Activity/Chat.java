@@ -33,7 +33,7 @@ public class Chat extends AppCompatActivity {
 //                Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_SHORT).show();
 //            }
 //        });
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
         toolbar.inflateMenu(R.menu.menu_activity_pages);

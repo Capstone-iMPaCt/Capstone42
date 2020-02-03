@@ -5,17 +5,23 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import com.project.ilearncentral.Adapter.AddonAdapter;
+import com.project.ilearncentral.Model.Addon;
 import com.project.ilearncentral.R;
+
+import java.util.ArrayList;
 
 public class Home extends AppCompatActivity implements View.OnClickListener {
 
+    private AddonAdapter adapter;
+    private RecyclerView recyclerView;
+    private ArrayList<Addon> addon;
     private LinearLayout userPageLink;
     private Intent intent;
 
@@ -24,31 +30,37 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        intent = getIntent();
-        Toast.makeText(this, intent.getCharSequenceExtra("title").toString(), Toast.LENGTH_SHORT).show();
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
         toolbar.inflateMenu(R.menu.menu_activity_pages);
 
         userPageLink = (LinearLayout)findViewById(R.id.user_page_link);
         userPageLink.setOnClickListener(this);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        addon = new ArrayList<>();
+        addon.add(new Addon("Enrollment System", "Course offer creation, enrollment, management, etc.", "000 days"));
+        addon.add(new Addon("Scheduling System", "Scheduling of activities, classes, etc..", "000 days"));
+        recyclerView = findViewById(R.id.addon_container_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new AddonAdapter(this, addon);
+        recyclerView.setAdapter(adapter);
+//        FloatingActionButton fab = findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_page_link:
-                onBackPressed();
+//                onBackPressed();
+                startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                finish();
             default:
                 return;
         }

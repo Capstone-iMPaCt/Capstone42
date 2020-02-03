@@ -43,13 +43,13 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pages);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar)findViewById(R.id.home_toolbar);
         keyPad = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
         circleImageView = (CircleImageView)findViewById(R.id.profile_imageview);
         featuresButton = (Button)findViewById(R.id.features_button);
         notificationButton = (Button)findViewById(R.id.notification_button);
         messageButton = (Button)findViewById(R.id.message_button);
-        appBarLayout = (AppBarLayout)findViewById(R.id.app_bar);
+        appBarLayout = (AppBarLayout)findViewById(R.id.home_app_bar);
         toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
@@ -67,7 +67,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UserProfile(), "Profile");
-        adapter.addFragment(new NewsFeed(), "Post Feed");
+        adapter.addFragment(new ActivityFeed(), "Activity Feed");
         adapter.addFragment(new Management(), "Job Post");
         adapter.addFragment(new Management(), "Recommendation");
         adapter.addFragment(new Management(), "Management");
@@ -128,6 +128,7 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.features_button:
                 startActivity(new Intent(getApplicationContext(), Home.class));
+                finish();
                 break;
             case R.id.notification_button:
                 break;

@@ -9,13 +9,13 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.project.ilearncentral.Activity.Home;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.R;
 
@@ -35,7 +35,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_news, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_post, parent, false);
         return new PostViewHolder(view);
     }
 
@@ -64,9 +64,10 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         holder.titleTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                intent = new Intent(context, Home.class);
+                /*intent = new Intent(context, Chat.class);
                 intent.putExtra("title", posts.get(position).getTitleTextView());
-                context.startActivity(intent);
+                context.startActivity(intent);*/
+                Toast.makeText(context, posts.get(position).getTitleTextView(), Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -121,7 +122,8 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 
         PostViewHolder(View itemView) {
             super(itemView);
-            containerLayout = (RelativeLayout) itemView.findViewById(R.id.container_layout);
+
+            containerLayout = (RelativeLayout) itemView.findViewById(R.id.addon_container_relativelayout);
             userImageView = (ImageView) itemView.findViewById(R.id.user_imageview);
             titleTextView = (TextView) itemView.findViewById(R.id.post_title_textview);
             headerLayout = (RelativeLayout) itemView.findViewById(R.id.timestamp_layout);

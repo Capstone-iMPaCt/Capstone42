@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 
 import com.project.ilearncentral.Activity.JobPost;
 import com.project.ilearncentral.Activity.Management;
-import com.project.ilearncentral.Activity.NewsFeed;
+import com.project.ilearncentral.Activity.ActivityFeed;
 import com.project.ilearncentral.Activity.UserProfile;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
             case 0:
                 return new UserProfile();
             case 1:
-                return new NewsFeed();
+                return new ActivityFeed();
             case 2:
                 return new JobPost();
             case 3:

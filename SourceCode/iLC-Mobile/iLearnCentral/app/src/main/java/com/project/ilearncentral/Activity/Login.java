@@ -53,7 +53,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null) {
                     Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                    startActivity(new Intent(getApplicationContext(), Home.class));
                 }
                 else {
 //                    Toast.makeText(getApplicationContext(), "Logging in unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
