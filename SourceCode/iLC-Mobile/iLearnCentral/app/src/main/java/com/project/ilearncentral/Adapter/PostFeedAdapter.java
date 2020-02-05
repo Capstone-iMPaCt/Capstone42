@@ -42,12 +42,12 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     // On bind/display animation
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, final int position) {
-        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
-        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
+        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
 
-        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         getImage(holder.userImageView, posts.get(position).getNewsUserImageView());
-        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_transition_animation));
+        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         getImage(holder.contentImageView, posts.get(position).getNewsContentImageView());
 
         holder.titleTextView.setText(posts.get(position).getTitleTextView());
@@ -68,6 +68,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
                 intent.putExtra("title", posts.get(position).getTitleTextView());
                 context.startActivity(intent);*/
                 Toast.makeText(context, posts.get(position).getTitleTextView(), Toast.LENGTH_SHORT).show();
+//                System.out.print(posts.get(position).getTitleTextView());
             }
         });
 

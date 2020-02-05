@@ -15,7 +15,7 @@
         android:fitsSystemWindows="true"
         android:background="@drawable/bg_toolbar"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        app:layout_behavior=".Custom.CustomAppBarLayoutBehavior">
+        app:layout_behavior=".CustomBehavior.CustomAppBarLayoutBehavior">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:id="@+id/toolbar_layout"

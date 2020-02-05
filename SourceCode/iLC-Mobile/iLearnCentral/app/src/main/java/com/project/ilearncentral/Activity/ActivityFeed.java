@@ -33,7 +33,7 @@ public class ActivityFeed extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_post, container, false);
+        View view = inflater.inflate(R.layout.fragment_feed, container, false);
         // set up the RecyclerView
         post = new ArrayList<>();
         post.add(new Post(R.drawable.user, "OnePlus 6T Camera Review:", "6 July 1994", "11:50 A.M.", R.drawable.news_image, "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat."));

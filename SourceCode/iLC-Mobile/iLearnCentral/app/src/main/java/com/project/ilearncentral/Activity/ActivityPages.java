@@ -10,18 +10,18 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
-import androidx.appcompat.widget.Toolbar;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Adapter.ViewPagerAdapter;
-import com.project.ilearncentral.Custom.CustomAppBarLayoutBehavior;
+import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
+import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -42,6 +42,11 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pages);
+
+        if (Connection.currentUser == null){
+            startActivity(new Intent(this, Login.class));
+            finish();
+        }
 
         toolbar = (Toolbar)findViewById(R.id.home_toolbar);
         keyPad = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -67,8 +72,8 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
 
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new UserProfile(), "Profile");
-        adapter.addFragment(new ActivityFeed(), "Activity Feed");
-        adapter.addFragment(new Management(), "Job Post");
+        adapter.addFragment(new Management(), "Feeds");
+        adapter.addFragment(new Management(), "Job Posts");
         adapter.addFragment(new Management(), "Recommendation");
         adapter.addFragment(new Management(), "Management");
         viewPager.setAdapter(adapter);
@@ -112,15 +117,13 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
 
     }
 
-    public void logout(){
-        if (Login.hasInternetAccess()){
-            FirebaseAuth.getInstance().signOut();
-            finish();
-            Intent intent = new Intent(getApplicationContext(), Login.class);
-            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            startActivity(intent);
-            Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-        }
+    public void logOut(){
+        Connection.logOut();
+        finish();
+        Intent intent = new Intent(getApplicationContext(), Login.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -154,7 +157,9 @@ public class ActivityPages extends AppCompatActivity implements View.OnClickList
                 Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.logout:
-                logout();
+                logOut();
+//                Connection.logOut();
+//                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

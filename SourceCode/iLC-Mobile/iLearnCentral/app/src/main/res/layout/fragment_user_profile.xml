@@ -138,12 +138,27 @@
             android:layout_height="1000dp"
             android:background="@drawable/bg_linear_transparent" >
 
-            <TextView
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/profile_page"
-                android:padding="10dp"
-                android:gravity="top|center" />
+                android:orientation="vertical" >
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/profile_page"
+                    android:padding="10dp"
+                    android:gravity="top|center" />
+
+                <TextView
+                    android:id="@+id/username_textview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Username/Email"
+                    android:padding="10dp"
+                    android:gravity="top|center" />
+
+            </LinearLayout>
 
         </androidx.cardview.widget.CardView>
 

@@ -2,6 +2,7 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,23 +19,40 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "EmailPassword";
+
     private TextView errorTextMessage;
     private EditText username;
     private TextInputEditText password;
-    private FirebaseAuth firebaseAuth;
-    private FirebaseAuth.AuthStateListener authStateListener;
     private TextView signUpLink, forgotPasswordLink;
     private Button logInButton;
     private ImageView facebookIcon, twitterIcon, googleIcon;
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Connection.firebaseAuth.addAuthStateListener(Connection.authStateListener);
+        Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
+        checkCurrentUser();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        checkCurrentUser();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+//        Toast.makeText(this, Connection.currentUser.getEmail(), Toast.LENGTH_SHORT).show();
 
         errorTextMessage = (TextView)findViewById(R.id.textinput_error) ;
         username = (EditText)findViewById(R.id.usernameEditText);
@@ -46,8 +64,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         twitterIcon = (ImageView)findViewById(R.id.twitterIconLink);
         googleIcon = (ImageView)findViewById(R.id.googleIconLink);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        authStateListener = new FirebaseAuth.AuthStateListener() {
+        Connection.firebaseAuth = FirebaseAuth.getInstance();
+        Connection.authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
@@ -93,80 +111,59 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
+    private void checkCurrentUser(){
+        if (Connection.currentUser != null){
+            startActivity(new Intent(this, ActivityPages.class));
+        }
+    }
+
     private void setLogInButton(){
-        final String uname = username.getText().toString();
-        final String pwd = password.getText().toString();
-        if (!hasInternetAccess()){
+        if (!Connection.hasInternetAccess()){
             Toast.makeText(Login.this, "No internet access", Toast.LENGTH_SHORT).show();
         }
-        else if (uname.isEmpty()){
+        else if (username.getText().toString().isEmpty()){
             username.setError("Enter username");
             username.requestFocus();
         }
-        else if (pwd.isEmpty()){
+        else if (password.getText().toString().isEmpty()){
             password.setError("Enter password");
             password.requestFocus();
         }
-        else if (!(uname.isEmpty() && pwd.isEmpty())){
-            firebaseAuth.signInWithEmailAndPassword(uname, pwd).addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (!task.isSuccessful()) {
-                        Toast.makeText(Login.this, "Email or Password is incorrect. Try again.", Toast.LENGTH_SHORT).show();
-                    }
-                    else {
-                        startActivity(new Intent(getApplicationContext(), ActivityPages.class));
-                    }
-                }
-            });
+        else if (!(username.getText().toString().isEmpty() && password.getText().toString().isEmpty())){
+            logIn();
         }
         else {
             Toast.makeText(getApplicationContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
         }
     }
 
-//    private static Socket socket = new Socket();
-    public static boolean hasInternetAccess(){
-        /*ConnectivityManager connectivityManager = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
-            //we are connected to a network
-            return true;
-        }
-        else {
-            return false;
-        }*/
-        /*ConnectivityManager connectivityManager
-                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();*/
+    private void logIn(){
+        Connection.setUsername(username.getText().toString() + "@mailinator.com");
+        Connection.setPassword(password.getText().toString());
+        // [START sign_in_with_email]
+        Connection.firebaseAuth.signInWithEmailAndPassword(Connection.getUsername(), Connection.getPassword())
+                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                                Log.d(TAG, "signInWithEmail:success");
+                            Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
+                            startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                        } else {
+                            // If sign in fails, display a message to the user.
+                                Log.w(TAG, "signInWithEmail:failure", task.getException());
+                            Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                            Connection.logOut();
+                        }
 
-        try {
-            String command = "ping -c 1 google.com";
-            return (Runtime.getRuntime().exec(command).waitFor() == 0);
-        } catch (Exception e) {
-            return false;
-        }
-
-        /*try {
-            socket.connect(new InetSocketAddress("www.google.com", 80), 2000);
-            return true;
-        } catch (IOException e) {
-            // Either we have a timeout or unreachable host or failed DNS lookup
-            System.out.println(e);
-            return false;
-        }*/
-    }
-
-    private void setErrorMessage(String errorMessage){
-        errorTextMessage.setText(errorMessage);
-        errorTextMessage.setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        firebaseAuth.addAuthStateListener(authStateListener);
-        FirebaseUser currenUser = firebaseAuth.getCurrentUser();
+                        // [START_EXCLUDE]
+                        if (!task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(), "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                        // [END_EXCLUDE]
+                    }
+                });
+        // [END sign_in_with_email]
     }
 }

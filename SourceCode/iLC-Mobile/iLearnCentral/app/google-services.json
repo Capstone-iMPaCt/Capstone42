@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "142649912088-ulgnrkq4pvd6slbqvdn16tq8aa4i5tpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.project.ilearncentral",
+            "certificate_hash": "371b1a2dcda36e23e8fcf489fe147cc196025df6"
+          }
+        },
+        {
           "client_id": "142649912088-r6feocauhe48aaep54buu6hv50hnq3c5.apps.googleusercontent.com",
           "client_type": 3
         }

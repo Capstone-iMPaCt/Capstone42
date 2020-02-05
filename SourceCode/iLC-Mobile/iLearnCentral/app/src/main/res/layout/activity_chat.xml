@@ -18,8 +18,20 @@
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bg_toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Chat"/>
+            app:title="Chat" />
 
     </com.google.android.material.appbar.AppBarLayout>
+<!--    -->
+<!--    <ListView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content" />-->
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/sym_action_chat" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

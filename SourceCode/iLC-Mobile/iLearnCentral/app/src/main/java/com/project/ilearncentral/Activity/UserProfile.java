@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
 public class UserProfile extends Fragment {
 
-    Button logOutButton;
+    TextView uname, pwd;
 
     public UserProfile(){
         // Required empty public constructor
@@ -28,6 +29,9 @@ public class UserProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_profile, container, false);
         // Codes here
+        uname = (TextView)view.findViewById(R.id.username_textview);
+
+        uname.setText(Connection.currentUser.getEmail());
         return view;
     }
 }
