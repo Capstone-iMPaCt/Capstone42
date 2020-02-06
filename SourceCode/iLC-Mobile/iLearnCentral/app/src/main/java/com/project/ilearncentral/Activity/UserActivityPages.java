@@ -30,7 +30,7 @@ import com.project.ilearncentral.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserPages extends AppCompatActivity implements View.OnClickListener {
+public class UserActivityPages extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private CircleImageView circleImageView;

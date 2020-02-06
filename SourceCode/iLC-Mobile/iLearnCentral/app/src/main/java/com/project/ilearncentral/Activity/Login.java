@@ -69,14 +69,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.signUpLink:
-//                startActivity(new Intent(Login.this, UserPages.class));
+//                startActivity(new Intent(Login.this, UserActivityPages.class));
                 startActivity(new Intent(Login.this, AccountTypeSelection.class));
                 break;
             case R.id.forgotPasswordLink:
                 break;
             case R.id.logInButton:
                 setLogInButton();
-//                startActivity(new Intent(Login.this, UserPages.class));
+//                startActivity(new Intent(Login.this, UserActivityPages.class));
                 break;
             case R.id.facebookIconLink:
                 break;
@@ -91,7 +91,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void checkCurrentUser(){
 //        if (Connection.currentUser != null){
-//            startActivity(new Intent(this, UserPages.class));
+//            startActivity(new Intent(this, UserActivityPages.class));
 //        }
         Connection.firebaseAuth = FirebaseAuth.getInstance();
         Connection.authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -141,7 +141,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                             Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
-                            startActivity(new Intent(getApplicationContext(), UserPages.class));
+                            startActivity(new Intent(getApplicationContext(), UserActivityPages.class));
                         } else {
                             // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());
