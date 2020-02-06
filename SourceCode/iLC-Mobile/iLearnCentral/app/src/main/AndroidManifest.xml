@@ -42,7 +42,7 @@
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
         <activity android:name=".Fragment.Feed"></activity>
-        <activity android:name=".Activity.UserActivityPages">
+        <activity android:name=".Activity.UserPages">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

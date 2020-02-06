@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Adapter.UserPagesAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.Fragment.Feed;
@@ -30,7 +31,7 @@ import com.project.ilearncentral.R;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserActivityPages extends AppCompatActivity implements View.OnClickListener {
+public class UserPages extends AppCompatActivity implements View.OnClickListener {
 
     private Toolbar toolbar;
     private CircleImageView circleImageView;
@@ -45,23 +46,22 @@ public class UserActivityPages extends AppCompatActivity implements View.OnClick
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pages);
+        setContentView(R.layout.activity_main);
 
-        if (Connection.currentUser == null){
+        if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, Login.class));
-            finish();
         }
 
-        toolbar = (Toolbar)findViewById(R.id.home_toolbar);
-        keyPad = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-        circleImageView = (CircleImageView)findViewById(R.id.profile_imageview);
-        featuresButton = (Button)findViewById(R.id.features_button);
-        notificationButton = (Button)findViewById(R.id.notification_button);
-        messageButton = (Button)findViewById(R.id.message_button);
-        appBarLayout = (AppBarLayout)findViewById(R.id.home_app_bar);
-        toolbarLayout = (CollapsingToolbarLayout)findViewById(R.id.toolbar_layout);
+        toolbar = (Toolbar) findViewById(R.id.home_toolbar);
+        keyPad = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        circleImageView = (CircleImageView) findViewById(R.id.profile_imageview);
+        featuresButton = (Button) findViewById(R.id.features_button);
+        notificationButton = (Button) findViewById(R.id.notification_button);
+        messageButton = (Button) findViewById(R.id.message_button);
+        appBarLayout = (AppBarLayout) findViewById(R.id.home_app_bar);
+        toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
-        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
+        ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
 
         setSupportActionBar(toolbar);
 
@@ -70,8 +70,8 @@ public class UserActivityPages extends AppCompatActivity implements View.OnClick
         messageButton.setOnClickListener(this);
         circleImageView.setOnClickListener(this);
 
-        viewPager = (ViewPager)findViewById(R.id.htab_viewpager);
-        tabLayout = (TabLayout)findViewById(R.id.sliding_tabs);
+        viewPager = (ViewPager) findViewById(R.id.htab_viewpager);
+        tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
@@ -84,21 +84,21 @@ public class UserActivityPages extends AppCompatActivity implements View.OnClick
         tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL|TabLayout.GRAVITY_CENTER);
 
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener(){
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
-            public void onTabSelected(TabLayout.Tab tab){
+            public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                switch (position){
+                switch (position) {
                     case 0:
                         appBarLayout.setExpanded(true);
-                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(true);
+                        ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                         break;
                     case 1:
                     case 2:
                     case 3:
                     case 4:
                         appBarLayout.setExpanded(false);
-                        ((CustomAppBarLayoutBehavior)clLayoutParams.getBehavior()).setScrollBehavior(false);
+                        ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(false);
                         break;
                     default:
                         break;
@@ -117,11 +117,11 @@ public class UserActivityPages extends AppCompatActivity implements View.OnClick
         });
     }
 
-    public void disableSearchFunction(){
+    public void disableSearchFunction() {
 
     }
 
-    public void logOut(){
+    public void logOut() {
         Connection.logOut();
         finish();
         Intent intent = new Intent(getApplicationContext(), Login.class);
@@ -156,7 +156,7 @@ public class UserActivityPages extends AppCompatActivity implements View.OnClick
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.account_settings:
                 Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
                 return true;

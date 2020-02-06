@@ -67,6 +67,6 @@
         android:layout_height="match_parent"
         android:backgroundTint="@color/bg_recyclerview" />
 
-<!--    <include layout="@layout/item_home" />-->
+<!--    <include layout="@layout/recyclerview_item_home" />-->
 
 </LinearLayout>

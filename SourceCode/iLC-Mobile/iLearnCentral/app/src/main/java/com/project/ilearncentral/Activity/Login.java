@@ -2,7 +2,6 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,8 +22,6 @@ import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
-
-    private static final String TAG = "EmailPassword";
 
     private TextView errorTextMessage;
     private EditText username;
@@ -55,7 +52,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         twitterIcon = (ImageView)findViewById(R.id.twitterIconLink);
         googleIcon = (ImageView)findViewById(R.id.googleIconLink);
 
-        checkCurrentUser();
+//        checkCurrentUser();
 
         signUpLink.setOnClickListener(this);
         forgotPasswordLink.setOnClickListener(this);
@@ -69,14 +66,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view){
         switch (view.getId()){
             case R.id.signUpLink:
-//                startActivity(new Intent(Login.this, UserActivityPages.class));
+//                startActivity(new Intent(Login.this, UserPages.class));
                 startActivity(new Intent(Login.this, AccountTypeSelection.class));
                 break;
             case R.id.forgotPasswordLink:
                 break;
             case R.id.logInButton:
                 setLogInButton();
-//                startActivity(new Intent(Login.this, UserActivityPages.class));
+//                startActivity(new Intent(Login.this, UserPages.class));
                 break;
             case R.id.facebookIconLink:
                 break;
@@ -91,7 +88,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void checkCurrentUser(){
 //        if (Connection.currentUser != null){
-//            startActivity(new Intent(this, UserActivityPages.class));
+//            startActivity(new Intent(this, UserPages.class));
 //        }
         Connection.firebaseAuth = FirebaseAuth.getInstance();
         Connection.authStateListener = new FirebaseAuth.AuthStateListener() {
@@ -100,7 +97,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
                 if(firebaseUser != null) {
                     Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
-                    startActivity(new Intent(getApplicationContext(), Home.class));
+                    startActivity(new Intent(getApplicationContext(), UserPages.class));
                 }
                 else {
 //                    Toast.makeText(getApplicationContext(), "Logging in unsuccessful. Try again.", Toast.LENGTH_SHORT).show();
@@ -139,12 +136,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                                Log.d(TAG, "signInWithEmail:success");
                             Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
-                            startActivity(new Intent(getApplicationContext(), UserActivityPages.class));
+                            startActivity(new Intent(getApplicationContext(), UserPages.class));
+                            finish();
                         } else {
                             // If sign in fails, display a message to the user.
-                                Log.w(TAG, "signInWithEmail:failure", task.getException());
                             Toast.makeText(Login.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                             Connection.logOut();
                         }

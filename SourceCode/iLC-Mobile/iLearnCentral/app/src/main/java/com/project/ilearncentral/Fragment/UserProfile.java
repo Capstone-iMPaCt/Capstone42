@@ -8,7 +8,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
-import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
 public class UserProfile extends Fragment {
@@ -31,7 +30,7 @@ public class UserProfile extends Fragment {
         // Codes here
         uname = (TextView)view.findViewById(R.id.username_textview);
 
-        uname.setText(Connection.currentUser.getDisplayName());
+//        uname.setText(Connection.currentUser.getEmail());
         return view;
     }
 }

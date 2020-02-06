@@ -32,7 +32,7 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
     @NonNull
     @Override
     public AddonViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_home, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_item_home, parent, false);
         return new AddonViewHolder(view);
     }
 
