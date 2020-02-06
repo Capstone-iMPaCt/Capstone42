@@ -56,6 +56,14 @@ const authReducer = (state = initState, action) => {
                     ...action.business
                 }
             }
+        case "RETRIEVED_PROFILE":
+            console.log('retrieve full profile')
+            return {
+                ...state,
+                profile: {
+                    ...action.profile
+                }
+            }
         default:
             return state;
     }

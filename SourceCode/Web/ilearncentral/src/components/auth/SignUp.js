@@ -31,7 +31,8 @@ class SignUp extends Component {
             city: '',
             province: '',
             country: '',
-            zipCode: ''
+            zipCode: '',
+            businessDetails:{}
         }
         this.otherData = {
             genderOptions: ['Male', 'Female', 'Others'],
@@ -52,12 +53,16 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
+        this.setState(
+        {
             businessDetails: {
                 ...this.props.businessDetails
             }
-        })
-        this.props.signUp(this.state);
+        },
+        function() { 
+            this.props.signUp(this.state);
+        }
+        )
     }
     capitalize = (str) => {
         return str.charAt(0).toUpperCase() + str.slice(1);
@@ -68,7 +73,6 @@ class SignUp extends Component {
         if (!businessDetails && this.state.accountType==='center') {
             return <Redirect to='/signupcenter' />
         }
-        console.log(this.state);
         const title = this.capitalize(this.state.accountType);
         return (
             <div className = "container">
@@ -232,14 +236,16 @@ class SignUp extends Component {
                             value={this.state.barangay} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m3'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
-                            title= {'City'} 
+                            title= {'City / Municipality'} 
                             name= {'city'}
                             value={this.state.city} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m3'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
@@ -248,6 +254,7 @@ class SignUp extends Component {
                             value={this.state.province} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m4'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
@@ -256,6 +263,7 @@ class SignUp extends Component {
                             value={this.state.country} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m5'}
+                            required={'required'}
                             />
                             
                         <Input type={'text'}
@@ -264,6 +272,7 @@ class SignUp extends Component {
                             value={this.state.zipCode} 
                             handleChange = {this.handleChange}
                             divClassName={'col s12 m3'}
+                            required={'required'}
                             />
                     </div>
                     

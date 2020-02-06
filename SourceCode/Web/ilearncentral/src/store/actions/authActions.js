@@ -4,8 +4,7 @@ export const signIn = (credentials) => {
         firebase.auth().signInWithEmailAndPassword(
             credentials.username+"@mailinator.com",
             credentials.password
-        ).then(() => {  
-            
+        ).then(() => {
             dispatch({type: 'LOGIN_SUCCESS'});
         }).catch((err) => {
             dispatch({type: 'LOGIN_ERROR', err});
@@ -120,9 +119,13 @@ export const signUp = (newUser) => {
                 }); 
                 break;
             case "center":
-                var serviceType = (newUser.business.serviceType === "Others") ? newUser.business.otherServiceType : newUser.business.serviceType;
+                console.log("test");
+                console.log(newUser);
+                var service = newUser.businessDetails.serviceType;
+                if (service === "Others")
+                    service = newUser.businessDetails.otherServiceType;
                 firestore.collection('LearningCenter').add({
-                    Accounts: {
+                    Accounts: [{
                             Username:newUser.username,
                         Name: {
                             FirstName:newUser.firstName,
@@ -153,24 +156,24 @@ export const signUp = (newUser) => {
                         ContactNo:[
                             newUser.contactNo
                         ]
-                    },
+                    }],
                     BusinessAddress: {
-                        No: newUser.business.no,
-                        Street: newUser.business.street,
-                        Brangay: newUser.business.barangay,
-                        City: newUser.business.city,
-                        Province: newUser.business.province,
-                        Country: newUser.business.country,
-                        ZipCode: newUser.business.zipCode
+                        No: newUser.businessDetails.no,
+                        Street: newUser.businessDetails.street,
+                        Brangay: newUser.businessDetails.barangay,
+                        City: newUser.businessDetails.city,
+                        Province: newUser.businessDetails.province,
+                        Country: newUser.businessDetails.country,
+                        ZipCode: newUser.businessDetails.zipCode
                     },
-                    BusinessName:newUser.business.businessName,
-                    CompanyWebsite:newUser.business.companyWebsite,
-                    ContactNo:newUser.business.contactNo,
-                    ContactEmail:newUser.business.contactEmail,
-                    ServiceType:serviceType,
-                    ClosingTime:newUser.business.ClosingTime,
-                    OpeningTime:newUser.business.OpeningTime,
-                    OperatingDays:[...newUser.business.OperatingDays],
+                    BusinessName:newUser.businessDetails.businessName,
+                    CompanyWebsite:newUser.businessDetails.companyWebsite,
+                    ContactNo:newUser.businessDetails.contactNo,
+                    ContactEmail:newUser.businessDetails.contactEmail,
+                    ServiceType:service,
+                    ClosingTime:newUser.businessDetails.closingTime,
+                    OpeningTime:newUser.businessDetails.openingTime,
+                    OperatingDays:newUser.businessDetails.operatingDays,
                     SubscriptionType:'Free',
                 }).then(()=> {
                     dispatch({type:'PROFILE_SIGNUP_SUCCESS'});
