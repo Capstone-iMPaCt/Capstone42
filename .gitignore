@@ -59,3 +59,24 @@ typings/
 
 # next.js build output
 .next
+SourceCode/iLC-Mobile/iLearnCentral/local.properties
+SourceCode/iLC-Mobile/iLearnCentral/iLearnCentral.iml
+SourceCode/iLC-Mobile/iLearnCentral/app/app.iml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/workspace.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/misc.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_google_firebase_firebase_messaging_20_1_0_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_google_firebase_firebase_firestore_17_1_2_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_google_firebase_firebase_components_16_0_0_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_google_firebase_firebase_common_19_3_0_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_google_android_gms_play_services_basement_17_0_0_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_github_arimorty_floatingsearchview_2_1_1_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_bartoszlipinski_viewpropertyobjectanimator_1_2_0_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/libraries/Gradle__com_alespero_expandable_cardview_0_6_aar.xml
+SourceCode/iLC-Mobile/iLearnCentral/.idea/caches/gradle_models.ser
+SourceCode/iLC-Mobile/iLearnCentral/.idea/caches/build_file_checksums.ser
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/buildOutputCleanup/outputFiles.bin
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/buildOutputCleanup/buildOutputCleanup.lock
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/5.4.1/fileHashes/fileHashes.lock
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/5.4.1/fileHashes/fileHashes.bin
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/5.4.1/executionHistory/executionHistory.lock
+SourceCode/iLC-Mobile/iLearnCentral/.gradle/5.4.1/executionHistory/executionHistory.bin
