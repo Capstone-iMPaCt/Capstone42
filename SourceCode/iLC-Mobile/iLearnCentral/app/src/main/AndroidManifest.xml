@@ -13,7 +13,7 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.JobPost"></activity>
+        <activity android:name=".Fragment.JobPost"></activity>
 
         <service
             android:name=".Activity.Chat"
@@ -41,8 +41,8 @@
         <activity
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
-        <activity android:name=".Activity.ActivityFeed"></activity>
-        <activity android:name=".Activity.ActivityPages">
+        <activity android:name=".Fragment.Feed"></activity>
+        <activity android:name=".Activity.UserPages">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

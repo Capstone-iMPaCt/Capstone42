@@ -38,21 +38,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onStart();
         Connection.firebaseAuth.addAuthStateListener(Connection.authStateListener);
         Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
-        checkCurrentUser();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        checkCurrentUser();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-//        Toast.makeText(this, Connection.currentUser.getEmail(), Toast.LENGTH_SHORT).show();
 
         errorTextMessage = (TextView)findViewById(R.id.textinput_error) ;
         username = (EditText)findViewById(R.id.usernameEditText);
@@ -64,6 +55,44 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         twitterIcon = (ImageView)findViewById(R.id.twitterIconLink);
         googleIcon = (ImageView)findViewById(R.id.googleIconLink);
 
+        checkCurrentUser();
+
+        signUpLink.setOnClickListener(this);
+        forgotPasswordLink.setOnClickListener(this);
+        logInButton.setOnClickListener(this);
+        facebookIcon.setOnClickListener(this);
+        twitterIcon.setOnClickListener(this);
+        googleIcon.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view){
+        switch (view.getId()){
+            case R.id.signUpLink:
+//                startActivity(new Intent(Login.this, UserPages.class));
+                startActivity(new Intent(Login.this, AccountTypeSelection.class));
+                break;
+            case R.id.forgotPasswordLink:
+                break;
+            case R.id.logInButton:
+                setLogInButton();
+//                startActivity(new Intent(Login.this, UserPages.class));
+                break;
+            case R.id.facebookIconLink:
+                break;
+            case R.id.twitterIconLink:
+                break;
+            case R.id.googleIconLink:
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void checkCurrentUser(){
+//        if (Connection.currentUser != null){
+//            startActivity(new Intent(this, UserPages.class));
+//        }
         Connection.firebaseAuth = FirebaseAuth.getInstance();
         Connection.authStateListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -78,43 +107,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         };
-
-        signUpLink.setOnClickListener(this);
-        forgotPasswordLink.setOnClickListener(this);
-        logInButton.setOnClickListener(this);
-        facebookIcon.setOnClickListener(this);
-        twitterIcon.setOnClickListener(this);
-        googleIcon.setOnClickListener(this);
-    }
-
-    @Override
-    public void onClick(View view){
-        switch (view.getId()){
-            case R.id.signUpLink:
-//                startActivity(new Intent(Login.this, ActivityPages.class));
-                startActivity(new Intent(Login.this, AccountTypeSelection.class));
-                break;
-            case R.id.forgotPasswordLink:
-                break;
-            case R.id.logInButton:
-                setLogInButton();
-//                startActivity(new Intent(Login.this, ActivityPages.class));
-                break;
-            case R.id.facebookIconLink:
-                break;
-            case R.id.twitterIconLink:
-                break;
-            case R.id.googleIconLink:
-                break;
-            default:
-                break;
-        }
-    }
-
-    private void checkCurrentUser(){
-        if (Connection.currentUser != null){
-            startActivity(new Intent(this, ActivityPages.class));
-        }
     }
 
     private void setLogInButton(){
@@ -149,7 +141,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                             // Sign in success, update UI with the signed-in user's information
                                 Log.d(TAG, "signInWithEmail:success");
                             Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
-                            startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                            startActivity(new Intent(getApplicationContext(), UserPages.class));
                         } else {
                             // If sign in fails, display a message to the user.
                                 Log.w(TAG, "signInWithEmail:failure", task.getException());

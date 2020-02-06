@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/root_layout"
-    tools:context=".Activity.ActivityFeed" >
+    tools:context=".Fragment.Feed" >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/news_container_layout"

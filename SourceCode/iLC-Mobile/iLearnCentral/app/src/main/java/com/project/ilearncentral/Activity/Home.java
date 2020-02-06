@@ -59,7 +59,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
         switch (view.getId()) {
             case R.id.user_page_link:
 //                onBackPressed();
-                startActivity(new Intent(getApplicationContext(), ActivityPages.class));
+                startActivity(new Intent(getApplicationContext(), UserPages.class));
                 finish();
             default:
                 return;

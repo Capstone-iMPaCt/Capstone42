@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/bg_recyclerview"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.ActivityPages" >
+    tools:context=".Activity.UserPages" >
 
     <LinearLayout
         android:layout_width="match_parent"
