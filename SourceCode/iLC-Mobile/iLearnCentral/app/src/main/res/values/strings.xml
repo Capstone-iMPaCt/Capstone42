@@ -6,6 +6,8 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
 
+    -- Prefixes and Suffixes --
+    <string name="emailSuffix">\@mailinator.com</string>
     -- Descriptions --
     <string name="iLC_logo_description">iLearnCentral Logo</string>
     <string name="facebookIcon">Facebook Icon Link</string>
@@ -51,6 +53,7 @@
     <string name="subscription">Subscription</string>
     <string name="subscription_end_date">Subscription End</string>
     <string name="search">Search</string>
+    <string name="type_message">Type a Message</string>
 
     -- Labels --
     <string name="sign_up_in_with">Sign Up with</string>

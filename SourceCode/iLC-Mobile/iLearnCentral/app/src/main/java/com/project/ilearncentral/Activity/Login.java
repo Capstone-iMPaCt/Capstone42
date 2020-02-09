@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -20,6 +17,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -33,8 +33,8 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onStart() {
         super.onStart();
-        Connection.firebaseAuth.addAuthStateListener(Connection.authStateListener);
-        Connection.currentUser = Connection.firebaseAuth.getCurrentUser();
+        //Connection.firebaseAuth.addAuthStateListener(Connection.authStateListener);
+        Connection.currentUser = FirebaseAuth.getInstance().getCurrentUser();
     }
 
     @Override
@@ -127,10 +127,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void logIn(){
-        Connection.setUsername(username.getText().toString() + "@mailinator.com");
-        Connection.setPassword(password.getText().toString());
+//        Connection.setUsername(username.getText().toString() + "@mailinator.com");
+//        Connection.setPassword(password.getText().toString());
+        String usernameValue = username.getText().toString() + getResources().getString(R.string.emailSuffix);
+        String passwordValue = password.getText().toString();
         // [START sign_in_with_email]
-        Connection.firebaseAuth.signInWithEmailAndPassword(Connection.getUsername(), Connection.getPassword())
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(usernameValue, passwordValue)
                 .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/chat_item_parent">
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:id="@+id/chat_item_image"
+        android:layout_marginRight="10dp"
+        />
+
+    <TextView
+        android:id="@+id/chat_item_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/chat_item_image"
+        android:text="Username"
+        android:textSize="20sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/chat_item_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/chat_item_image"
+        android:layout_below="@+id/chat_item_username"
+        android:text="Last Message"
+        android:textSize="15sp"
+        android:textStyle="" />
+
+    <TextView
+        android:id="@+id/chat_item_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/chat_item_username"
+        android:layout_marginRight="10dp"
+        android:text="4:00 pm"
+        android:textSize="12sp"
+        android:textStyle="" />
+</RelativeLayout>
