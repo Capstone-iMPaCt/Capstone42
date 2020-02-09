@@ -46,7 +46,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_user_pages);
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, Login.class));
@@ -81,6 +81,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         adapter.addFragment(new Management(), "Fo");
         adapter.addFragment(new Management(), "Management");
         viewPager.setAdapter(adapter);
+//        tabLayout.setBackground();
         tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL|TabLayout.GRAVITY_CENTER);
 

@@ -41,7 +41,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="22a1c027" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_2_API_21" />
   <component name="ExportToHTMLSettings">
     <option name="printScope" value="1" />
     <option name="OPEN_IN_BROWSER" value="true" />
@@ -85,7 +85,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/ChatListAdapter.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="77">
-              <caret line="52" column="59" lean-forward="true" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
+              <caret line="52" column="59" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#2197#2516#0" expanded="true" />
@@ -120,16 +120,6 @@
                 <element signature="e#2215#2440#0" expanded="true" />
                 <element signature="e#2439#2440#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
-          <provider editor-type-id="android-designer2" />
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="103" column="56" lean-forward="true" selection-start-line="103" selection-start-column="56" selection-end-line="103" selection-end-column="56" />
             </state>
           </provider>
         </entry>
@@ -507,7 +497,7 @@
       <window_info anchor="bottom" id="Android Profiler" order="6" weight="0.3283582" />
       <window_info anchor="bottom" id="Debug" order="7" />
       <window_info anchor="bottom" id="Find" order="8" weight="0.3283582" />
-      <window_info active="true" anchor="bottom" id="Run" order="9" sideWeight="0.49617738" visible="true" weight="0.3277311" />
+      <window_info anchor="bottom" id="Run" order="9" sideWeight="0.49617738" weight="0.3277311" />
       <window_info anchor="right" id="Device File Explorer" order="0" sideWeight="0.5012346" side_tool="true" weight="0.3290469" />
       <window_info anchor="right" id="Capture Analysis" order="1" />
       <window_info anchor="right" id="Theme Preview" order="2" />
@@ -870,7 +860,7 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/ChatListAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="77">
-          <caret line="52" column="59" lean-forward="true" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
+          <caret line="52" column="59" selection-start-line="52" selection-start-column="59" selection-end-line="52" selection-end-column="59" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#2197#2516#0" expanded="true" />
