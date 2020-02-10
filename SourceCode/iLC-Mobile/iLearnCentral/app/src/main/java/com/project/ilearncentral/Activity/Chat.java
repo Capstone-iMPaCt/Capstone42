@@ -16,13 +16,11 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Adapter.ChatListAdapter;
+import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -36,7 +34,7 @@ public class Chat extends AppCompatActivity {
     private FirebaseUser user;
     private TextView noConversations;
     private ChatListAdapter adapter;
-    private List<Map<String, Object>> chatList;
+    private List<Message> chatList;
     private List<String> addedChat;
     private String username;
 
@@ -80,16 +78,33 @@ public class Chat extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> chat = new HashMap<>();
-                                if (!addedChat.contains(document.get("To").toString())) {
-                                    chat.putAll(document.getData());
-                                    Date storedDate = document.getDate("DateSent");
-                                    Date nowDate = new Date();
-                                    chat.put("elapseTime", (nowDate.getTime() - storedDate.getTime()));
+                                Message chat = new Message();
+                                if (addedChat.contains(document.get("To").toString())) {
+                                    for (int i=0; i<chatList.size(); i++) {
+                                        if(chatList.get(i).getFrom().equals(document.get("To").toString())) {
+                                            chat.setId(document.getId());
+                                            chat.setTo(document.get("To").toString());
+                                            chat.setFrom(document.get("From").toString());
+                                            chat.setMessage(document.get("Message").toString());
+                                            chat.setDateSent(document.getTimestamp("DateSent"));
+                                            chat.setType("from");
+                                            chatList.set(i, chat);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                                else if (!addedChat.contains(document.get("To").toString())) {
+                                    chat.setId(document.getId());
+                                    chat.setTo(document.get("To").toString());
+                                    chat.setFrom(document.get("From").toString());
+                                    chat.setMessage(document.get("Message").toString());
+                                    chat.setDateSent(document.getTimestamp("DateSent"));
+                                    chat.setType("from");
                                     addedChat.add(document.get("To").toString());
                                     chatList.add(chat);
                                     adapter.notifyDataSetChanged();
                                 }
+                                System.out.println("~~~~~From " + addedChat);
                                 if (chatList.isEmpty()) noConversations.setVisibility(View.VISIBLE);
                                 else noConversations.setVisibility(View.INVISIBLE);
                                 Log.d(TAG, document.getId() + " From=> " + document.getData());
@@ -109,16 +124,33 @@ public class Chat extends AppCompatActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> chat = new HashMap<>();
-                                if (!addedChat.contains(document.get("From").toString())) {
-                                    chat.putAll(document.getData());
-                                    Date storedDate =document.getDate("DateSent");
-                                    Date nowDate = new Date();
-                                    chat.put("elapseTime", (nowDate.getTime() - storedDate.getTime()));
+                                Message chat = new Message();
+                                if (addedChat.contains(document.get("From").toString())) {
+                                    for (int i=0; i<chatList.size(); i++) {
+                                        if(chatList.get(i).getTo().equals(document.get("From").toString())) {
+                                            chat.setId(document.getId());
+                                            chat.setTo(document.get("To").toString());
+                                            chat.setFrom(document.get("From").toString());
+                                            chat.setMessage(document.get("Message").toString());
+                                            chat.setDateSent(document.getTimestamp("DateSent"));
+                                            chat.setType("to");
+                                            chatList.set(i, chat);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                    }
+                                }
+                                else if (!addedChat.contains(document.get("From").toString())) {
+                                    chat.setId(document.getId());
+                                    chat.setTo(document.get("To").toString());
+                                    chat.setFrom(document.get("From").toString());
+                                    chat.setMessage(document.get("Message").toString());
+                                    chat.setDateSent(document.getTimestamp("DateSent"));
+                                    chat.setType("to");
                                     addedChat.add(document.get("From").toString());
                                     chatList.add(chat);
                                     adapter.notifyDataSetChanged();
                                 }
+                                System.out.println("~~~~~To " + addedChat);
                                 if (chatList.isEmpty()) noConversations.setVisibility(View.VISIBLE);
                                 else noConversations.setVisibility(View.INVISIBLE);
                                 Log.d(TAG, document.getId() + " To=> " + document.getData());

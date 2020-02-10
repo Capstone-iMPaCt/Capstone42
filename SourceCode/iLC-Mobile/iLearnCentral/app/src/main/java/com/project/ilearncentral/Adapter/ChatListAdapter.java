@@ -2,7 +2,6 @@ package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +10,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.MessagesActivity;
+import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,9 +24,9 @@ import androidx.recyclerview.widget.RecyclerView;
 public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatListHolder> {
 
     private Context context;
-    private List<Map<String, Object>> chatList;
+    private List<Message> chatList;
 
-    public ChatListAdapter(Context context, List<Map<String, Object>> chatList) {
+    public ChatListAdapter(Context context, List<Message> chatList) {
         this.context = context;
         this.chatList = chatList;
     }
@@ -46,29 +43,34 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull final ChatListHolder holder, int position) {
         holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        final StorageReference storageRef = storage.getReference();
+//        FirebaseStorage storage = FirebaseStorage.getInstance();
+//        final StorageReference storageRef = storage.getReference();
 
-        final Map<String, Object> chat = chatList.get(position);
-        holder.username.setText(chat.get("To").toString());
-        holder.lastMessage.setText(chat.get("Message").toString());
-        holder.time.setText(chat.get("elapseTime").toString());
+        final Message chat = chatList.get(position);
+        final boolean to = (chat.getType().equals("to"));
+        if (to)
+            holder.username.setText(chat.getFrom());
+        else
+            holder.username.setText(chat.getTo());
+        holder.lastMessage.setText(chat.getMessage());
+        DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        holder.time.setText(dateFormat.getInstance().format(chat.getDateSent().toDate()));
 
-        new Thread(new Runnable() {
-            public void run() {
-                try
-                {
-                    storageRef.child("images").child(chat.get("image").toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-                    {
-                        @Override
-                        public void onSuccess(Uri uri)
-                        {
-                            Picasso.get().load(uri.toString()).error(R.drawable.user).into(holder.image);
-                        }
-                    });
-                } catch (Exception e) {}
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            public void run() {
+//            try
+//            {
+//                storageRef.child("images").child(chat.get("image").toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+//                {
+//                    @Override
+//                    public void onSuccess(Uri uri)
+//                    {
+//                        Picasso.get().load(uri.toString()).error(R.drawable.user).into(holder.image);
+//                    }
+//                });
+//            } catch (Exception e) {}
+//            }
+//        }).start();
         holder.parent.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -76,7 +78,14 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             {
                 Intent intent = new Intent(context, MessagesActivity.class);
                 intent.putExtra("TYPE", "both");
-                intent.putExtra("USER_NAME", chat.get("To").toString());
+                if (to) {
+                    intent.putExtra("USER_NAME", chat.getFrom());
+                    intent.putExtra("TYPE", "From");
+                }
+                else {
+                    intent.putExtra("USER_NAME", chat.getTo());
+                    intent.putExtra("TYPE", "To");
+                }
                 context.startActivity(intent);
             }
         });
