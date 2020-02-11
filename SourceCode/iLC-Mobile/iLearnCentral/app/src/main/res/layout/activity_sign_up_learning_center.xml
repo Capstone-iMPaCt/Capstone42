@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_linear" >
+    android:background="@drawable/bg_linear"
+    tools:context=".Activity.SignUp.SignUpLearningCenter">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -13,7 +14,7 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
-        android:padding="30dp" >
+        android:padding="30dp">
 
         <ImageView
             android:layout_width="150dp"
@@ -24,15 +25,24 @@
             android:contentDescription="@string/iLC_logo_description" />
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/learning_center_sign_up_form"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/tvAccount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="8dp"
             android:text="@string/business_information"
-            android:textColor="@color/text_color"
-            android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/usernameTextInput"
@@ -94,9 +104,9 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"
+            android:background="@drawable/spinner_bg_rounded"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@drawable/spinner_bg_rounded" />
+            android:paddingRight="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/barangayTextInput"
@@ -187,6 +197,97 @@
             android:textColor="@color/text_color"
             android:textStyle="italic" />
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/operatingDaysLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/operating_days"
+                android:textAlignment="center"
+                android:textColor="@color/light_blue"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/mondayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/mon_text"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            <CheckBox
+                android:id="@+id/tuesdayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/tue_text"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/wednesdayCheckbox"
+                app:layout_constraintStart_toEndOf="@id/mondayCheckbox"
+                app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            <CheckBox
+                android:id="@+id/wednesdayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/wed_text"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/thursdayCheckbox"
+                app:layout_constraintStart_toEndOf="@id/tuesdayCheckbox"
+                app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            <CheckBox
+                android:id="@+id/thursdayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/thu_text"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/fridayCheckbox"
+                app:layout_constraintStart_toEndOf="@id/wednesdayCheckbox"
+                app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            <CheckBox
+                android:id="@+id/fridayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/fri_text"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            <CheckBox
+                android:id="@+id/saturdayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/sat_text"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/mondayCheckbox"
+                app:layout_constraintTop_toBottomOf="@id/mondayCheckbox" />
+
+            <CheckBox
+                android:id="@+id/sundayCheckbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/sun_text"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/tuesdayCheckbox"
+                app:layout_constraintTop_toBottomOf="@id/tuesdayCheckbox" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/serviceTypeTextInput"
             android:layout_width="match_parent"
@@ -202,96 +303,6 @@
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_gravity="center">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="5dp"
-                android:text="@string/operating_days"
-                android:textColor="@color/light_blue"
-                android:textSize="14sp"
-                android:textAlignment="center"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center" >
-
-                <CheckBox
-                    android:id="@+id/mondayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/mon_text"/>
-
-                <CheckBox
-                    android:id="@+id/tuesdayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/tue_text" />
-
-                <CheckBox
-                    android:id="@+id/wednesdayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/wed_text" />
-
-                <CheckBox
-                    android:id="@+id/thursdayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/thu_text" />
-
-                <CheckBox
-                    android:id="@+id/fridayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/fri_text" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center">
-
-                <CheckBox
-                    android:id="@+id/saturdayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/sat_text" />
-
-                <CheckBox
-                    android:id="@+id/sundayCheckbox"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="12sp"
-                    android:padding="5dp"
-                    android:text="@string/sun_text" />
-
-            </LinearLayout>
-
-        </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/timeOpenTextInput"
@@ -333,8 +344,8 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_dark_blue"
-            android:textColor="@color/text_view_background"
-            android:text="@string/confirm"/>
+            android:text="@string/confirm"
+            android:textColor="@color/text_view_background" />
 
     </LinearLayout>
 

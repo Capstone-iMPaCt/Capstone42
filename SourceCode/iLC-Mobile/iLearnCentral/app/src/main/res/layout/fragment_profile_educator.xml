@@ -4,34 +4,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:backgroundTint="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.UserPages">
+    tools:context=".Fragment.UserProfile">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp">
+        android:layout_marginBottom="5dp"
+        android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
-            android:elevation="5dp"
+            android:layout_marginBottom="1dp"
             android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal"
-                android:baselineAligned="false">
+                android:baselineAligned="false"
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -45,59 +45,59 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="top|center"
                         android:text="@string/followers"
-                        android:gravity="top|center"
-                        android:textSize="14sp"
-                        android:layout_weight="1"/>
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:layout_weight="1" >
+                    android:layout_weight="1"
+                    android:orientation="vertical">
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="0"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="14sp"
+                        android:text="0"
                         android:textColor="@color/following_count_color"
-                        android:layout_weight="1"/>
+                        android:textSize="14sp" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/following"
+                        android:layout_weight="1"
                         android:gravity="top|center"
-                        android:textSize="14sp"
-                        android:layout_weight="1"/>
+                        android:text="@string/following"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
+                    android:layout_weight="1"
                     android:gravity="center"
-                    android:layout_weight="1" >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:orientation="horizontal"
+                        android:layout_weight="1"
                         android:gravity="center"
-                        android:layout_weight="1" >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="4.5"
                             android:gravity="center"
-                            android:textSize="14sp"
-                            android:textColor="@color/rating_count_color"/>
+                            android:text="4.5"
+                            android:textColor="@color/rating_count_color"
+                            android:textSize="14sp" />
 
                         <androidx.legacy.widget.Space
                             android:layout_width="2dp"
@@ -113,10 +113,10 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="@string/user_rating"
+                        android:layout_weight="1"
                         android:gravity="top|center"
-                        android:textSize="14sp"
-                        android:layout_weight="1" />
+                        android:text="@string/user_rating"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -127,14 +127,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:elevation="5dp"
-            android:background="@drawable/bg_linear" >
+            android:layout_marginBottom="1dp"
+            android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical" >
+                android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -144,19 +143,19 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/email_icon"
                         android:layout_gravity="start|center"
-                        android:layout_marginLeft="20dp" />
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/email_icon" />
 
                     <TextView
                         android:id="@+id/email_textview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Email"
                         android:layout_marginLeft="5dp"
                         android:layout_marginRight="20dp"
-                        android:textSize="14sp"
-                        android:gravity="start|center" />
+                        android:gravity="start|center"
+                        android:text="Email"
+                        android:textSize="14sp" />
 
                 </LinearLayout>
 
@@ -168,29 +167,32 @@
                     <ImageView
                         android:layout_width="25dp"
                         android:layout_height="25dp"
-                        android:src="@drawable/phone_icon"
                         android:layout_gravity="start|center"
-                        android:layout_marginLeft="20dp" />
+                        android:layout_marginLeft="20dp"
+                        android:src="@drawable/phone_icon" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:text="+639 "
                         android:layout_marginLeft="5dp"
-                        android:textSize="14sp"
-                        android:gravity="start|center" />
+                        android:gravity="start|center"
+                        android:text="+639 "
+                        android:textSize="14sp" />
 
                     <TextView
                         android:id="@+id/phone_textview"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginRight="20dp"
-                        android:textSize="14sp"
                         android:gravity="start|center"
-                        android:text="XXX XXXX" />
+                        android:text="XXX XXXX"
+                        android:textSize="14sp" />
 
-            </LinearLayout>
-
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        />
+                </LinearLayout>
             </LinearLayout>
 
         </androidx.cardview.widget.CardView>
@@ -198,13 +200,13 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="1000dp"
-            android:background="@drawable/bg_linear_transparent" >
+            android:background="@drawable/bg_linear_transparent">
 
-<!--            <fragment-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" >-->
+            <!--            <fragment-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content" >-->
 
-<!--            </fragment>-->
+            <!--            </fragment>-->
 
         </androidx.cardview.widget.CardView>
 

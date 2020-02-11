@@ -13,7 +13,9 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Fragment.JobPost"></activity>
+        <activity android:name=".Activity.SignUp.SIgnUpStudent"></activity>
+        <activity android:name=".Activity.SignUp.SignUpEducator" />
+        <activity android:name=".Fragment.JobPost" />
 
         <service
             android:name=".Activity.Chat"
@@ -41,7 +43,7 @@
         <activity
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
-        <activity android:name=".Fragment.Feed"></activity>
+        <activity android:name=".Fragment.Feed" />
         <activity android:name=".Activity.UserPages">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -49,12 +51,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUpLearningCenter" />
-        <activity android:name=".Activity.SignUpUsers" />
+        <activity android:name=".Activity.SignUp.SignUpLearningCenter" />
+        <activity android:name=".Activity.SignUp.SignUpUsers" />
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity
             android:name=".Activity.Login"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

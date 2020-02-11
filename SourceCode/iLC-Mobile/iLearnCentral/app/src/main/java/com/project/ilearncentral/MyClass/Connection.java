@@ -1,15 +1,14 @@
 package com.project.ilearncentral.MyClass;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.project.ilearncentral.Activity.Login;
 
 public class Connection {
 
-    public static FirebaseAuth.AuthStateListener authStateListener;
-    public static FirebaseAuth firebaseAuth;
-    public static FirebaseUser currentUser;
-
-    private static boolean isRegisteredUser;
     private static String username;
     private static String password;
 
@@ -49,10 +48,17 @@ public class Connection {
     }
 */
 
-    public static void logOut() {
+    public static void logOut(Activity activity) {
         if (hasInternetAccess()){
-            firebaseAuth.signOut();
+            FirebaseAuth.getInstance().signOut();
+            activity.finish();
+            Intent intent = new Intent(activity, Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            activity.startActivity(intent);
+            Toast.makeText(activity, "Logged Out", Toast.LENGTH_SHORT).show();
         }
+        else
+            Toast.makeText(activity, "No Internet Access", Toast.LENGTH_SHORT).show();
     }
 
     public static boolean hasInternetAccess(){
@@ -138,15 +144,6 @@ public class Connection {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 //        }
 //    }
-
-    public static boolean hasUserLoggedIn(){
-//        if (getCurrentUser())
-        return false;
-    }
-
-    public static boolean isRegisteredUser() {
-        return isRegisteredUser;
-    }
 
     public static String getUsername() {
         return username;

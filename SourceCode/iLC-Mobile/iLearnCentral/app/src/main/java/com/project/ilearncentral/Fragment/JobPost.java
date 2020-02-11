@@ -57,7 +57,7 @@ public class JobPost extends Fragment {
         post.add(new Post(R.drawable.avatar_boy, "Isometric Design Grid Concept", "8 July 1994", "11:53 A.M.", "lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit"));
         post.add(new Post(R.drawable.user, "Android R Design Concept 4K", "8 July 1994", "11:54 A.M.", "lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit lorem ipsum dolor sit "));
 
-        recyclerView = view.findViewById(R.id.news_container_layout);
+        recyclerView = view.findViewById(R.id.feed_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new PostFeedAdapter(getContext(), post);
         recyclerView.setAdapter(adapter);

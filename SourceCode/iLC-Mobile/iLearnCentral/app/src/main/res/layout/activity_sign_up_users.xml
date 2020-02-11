@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_linear">
+    android:background="@drawable/bg_linear"
+    tools:context=".Activity.SignUp.SignUpUsers">
 
 
     <LinearLayout
@@ -79,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" >
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -102,16 +103,16 @@
             android:layout_height="40dp"
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/spinner_bg_rounded"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:background="@drawable/spinner_bg_rounded" />
+            android:paddingRight="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tbAnswer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" >
+            app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -144,7 +145,7 @@
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_dark_blue"
-            android:textColor="@color/text_view_background"
-            android:text="@string/_continue" />
+            android:text="@string/_continue"
+            android:textColor="@color/text_view_background" />
     </LinearLayout>
 </ScrollView>
