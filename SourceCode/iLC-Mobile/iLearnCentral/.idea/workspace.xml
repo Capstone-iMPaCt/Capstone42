@@ -43,7 +43,7 @@
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="7d4ee47" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="22a1c027" />
   <component name="ExportToHTMLSettings">
     <option name="printScope" value="1" />
     <option name="OPEN_IN_BROWSER" value="true" />
@@ -58,17 +58,7 @@
         <task path="$PROJECT_DIR$/app">
           <activation />
         </task>
-        <projects_view>
-          <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="iLearnCentral" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
-            <select />
-          </tree_state>
-        </projects_view>
+        <projects_view />
       </state>
     </system>
   </component>
@@ -101,6 +91,7 @@
         </entry>
       </file>
     </leaf>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -117,8 +108,6 @@
       <find>height</find>
       <find>position</find>
       <find>post_title_textview</find>
-      <find>Connection.firebaseAuth</find>
-      <find>Connection.currentUser</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -127,29 +116,26 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/PostDetails.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/PostAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_job_post.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/NewsFeed.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Post.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/ViewPagerAdapter.java" />
-        <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_news.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/CustomInterface/itemOnClick.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/CustomInterface/CustomOnClickListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/ActivityFeed.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Addon.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/JobPost.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/AddonAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_post.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/item_home.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Chat.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Home.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_post.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_home.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/move_left.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/anim/move_up.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/PostFeedAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/menu_activity_pages.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/MyClass/Authentication.java" />
@@ -178,14 +164,34 @@
         <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up_educator.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_educator.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/UserPages.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Fragment/UserProfile.java" />
+        <option value="$PROJECT_DIR$/app/build.gradle" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_messages.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/MyClass/Connection.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Login.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_incoming_bubble.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_outgoing_bubble.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_outgoing_message.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_incoming_message.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Chat.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Message.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/MessagesActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_message.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/MessageAdapter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_chat.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/ChatListAdapter.java" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" extendedState="6">
-    <option name="x" value="-9" />
-    <option name="y" value="-9" />
-    <option name="width" value="1119" />
-    <option name="height" value="671" />
+    <option name="x" value="10" />
+    <option name="y" value="20" />
+    <option name="width" value="1346" />
+    <option name="height" value="698" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -267,6 +273,7 @@
               <item name="ilearncentral" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="Activity" type="462c0819:PsiDirectoryNode" />
               <item name="SignUp" type="462c0819:PsiDirectoryNode" />
+              <item name="Adapter" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="iLearnCentral" type="1abcf292:AndroidViewProjectNode" />
@@ -274,6 +281,12 @@
               <item name="java" type="edd41e36:AndroidSourceTypeNode" />
               <item name="ilearncentral" type="cbb59c9e:AndroidPsiDirectoryNode" />
               <item name="Fragment" type="462c0819:PsiDirectoryNode" />
+              <item name="Model" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="iLearnCentral" type="1abcf292:AndroidViewProjectNode" />
+              <item name="app" type="feadf853:AndroidModuleNode" />
+              <item name="res" type="d4f16f75:AndroidResFolderNode" />
             </path>
             <path>
               <item name="iLearnCentral" type="1abcf292:AndroidViewProjectNode" />
@@ -300,6 +313,36 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope">
+        <subPane subId="Scope 'Project Non-Source Files'; set:Project Non-Source Files; class com.jetbrains.cidr.lang.search.scopes.ProjectSourcesScopeProvider$NonSourceFilesScope">
+          <expand>
+            <path>
+              <item name="iLearnCentral" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="F:\User Files\Documents\GitHub\Capstone42\SourceCode\iLC-Mobile\iLearnCentral" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="iLearnCentral" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="F:\User Files\Documents\GitHub\Capstone42\SourceCode\iLC-Mobile\iLearnCentral" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+        <subPane subId="Scope 'Project Files'; set:Project Files; class com.intellij.psi.search.scope.ProjectFilesScope">
+          <expand>
+            <path>
+              <item name="iLearnCentral" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="F:\User Files\Documents\GitHub\Capstone42\SourceCode\iLC-Mobile\iLearnCentral" type="442cc68d:ScopeViewTreeModel$RootNode" />
+            </path>
+            <path>
+              <item name="iLearnCentral" type="3d21c010:ScopeViewTreeModel$ProjectNode" />
+              <item name="F:\User Files\Documents\GitHub\Capstone42\SourceCode\iLC-Mobile\iLearnCentral" type="442cc68d:ScopeViewTreeModel$RootNode" />
+              <item name="app" type="9f88c78c:ScopeViewTreeModel$FileNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -320,6 +363,9 @@
     </key>
     <key name="android.template.parentActivityClass">
       <recent name="" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.project.ilearncentral.Adapter" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="F:\User Files\Documents\GitHub\Capstone42\SourceCode\iLC-Mobile\iLearnCentral\app\src\main\res\drawable" />
@@ -417,6 +463,10 @@
       <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Android App.app" />
+      <item itemvalue="Gradle.F:/User Files/Documents/GitHub/Capstone42/SourceCode/iLC-Mobile/iLearnCentral/app [signingReport]" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Gradle.F:/User Files/Documents/GitHub/Capstone42/SourceCode/iLC-Mobile/iLearnCentral/app [signingReport]" />
@@ -485,6 +535,16 @@
     </ignored-roots>
   </component>
   <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/PostAdapter.java" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_job_post.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/CustomInterface/CustomOnClickListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="102">
+          <caret line="6" column="1" lean-forward="true" selection-start-line="6" selection-start-column="1" selection-end-line="6" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/android/view/View.java" />
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Addon.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="85">
@@ -524,19 +584,19 @@
           </folding>
         </state>
       </provider>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_post.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="12" column="41" lean-forward="true" selection-start-line="12" selection-start-column="41" selection-end-line="13" selection-end-column="59" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_home.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="476">
           <caret line="72" column="45" selection-start-line="72" selection-start-column="45" selection-end-line="72" selection-end-column="45" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Home.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="31" selection-start-line="31" selection-end-line="31" />
         </state>
       </provider>
     </entry>
@@ -564,17 +624,6 @@
       </provider>
     </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/Sdk/sources/android-29/java/util/ArrayList.java" />
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/PostFeedAdapter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="408">
-          <caret line="70" column="75" selection-start-line="70" selection-start-column="75" selection-end-line="70" selection-end-column="75" />
-          <folding>
-            <element signature="method#getImage#0;class#PostFeedAdapter#0" />
-            <element signature="method#getImage#1;class#PostFeedAdapter#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/menu_activity_pages.xml">
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor">
@@ -597,10 +646,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/UserPagesAdapter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/AccountTypeSelection.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="34" column="19" lean-forward="true" selection-start-line="34" selection-start-column="19" selection-end-line="34" selection-end-column="19" />
+        <state relative-caret-position="68">
+          <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -624,6 +673,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="160">
           <caret line="40" column="59" lean-forward="true" selection-start-line="40" selection-start-column="59" selection-end-line="40" selection-end-column="59" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Fragment/Feed.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
         </state>
       </provider>
     </entry>
@@ -652,13 +705,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
           <caret line="21" column="33" selection-start-line="21" selection-start-column="33" selection-end-line="21" selection-end-column="33" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_user_profile.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="799">
+          <caret line="47" lean-forward="true" selection-start-line="47" selection-end-line="47" />
         </state>
       </provider>
+      <provider editor-type-id="android-manifest" />
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Fragment/JobPost.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="68">
-          <caret line="17" column="13" selection-start-line="17" selection-start-column="13" selection-end-line="17" selection-end-column="13" />
+        <state relative-caret-position="221">
+          <caret line="37" selection-start-line="37" selection-end-line="37" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/PostFeedAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="833">
+          <caret line="70" column="75" selection-start-line="70" selection-start-column="75" selection-end-line="70" selection-end-column="75" />
+          <folding>
+            <element signature="method#getImage#0;class#PostFeedAdapter#0" />
+            <element signature="method#getImage#1;class#PostFeedAdapter#0" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -666,6 +736,17 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
           <caret line="11" column="13" selection-start-line="11" selection-start-column="13" selection-end-line="11" selection-end-column="13" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Fragment/UserProfile.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="307">
+          <caret line="33" column="20" lean-forward="true" selection-start-line="33" selection-start-column="20" selection-end-line="33" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/AddonAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="68">
+          <caret line="19" lean-forward="true" selection-start-line="19" selection-end-line="19" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -755,6 +836,84 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_profile_learning_center.xml">
+        <state relative-caret-position="261">
+          <caret line="40" column="57" selection-start-line="40" selection-start-column="57" selection-end-line="40" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/UserPagesAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="476">
+          <caret line="40" lean-forward="true" selection-start-line="40" selection-end-line="40" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/strings.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="323">
+          <caret line="55" column="46" selection-start-line="55" selection-start-column="46" selection-end-line="55" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_up_learning_center.xml">
+      <provider selected="true" editor-type-id="text-editor" />
+      <provider editor-type-id="android-designer2" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Home.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-442">
+          <caret line="31" selection-start-line="31" selection-end-line="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/MyClass/Connection.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="123">
+          <caret line="18" column="22" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="22" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5628#5629#0" expanded="true" />
+            <element signature="e#5667#5668#0" expanded="true" />
+            <element signature="e#5709#5710#0" expanded="true" />
+            <element signature="e#5740#5741#0" expanded="true" />
+            <element signature="e#5795#5796#0" expanded="true" />
+            <element signature="e#5841#5842#0" expanded="true" />
+            <element signature="e#5883#5884#0" expanded="true" />
+            <element signature="e#5914#5915#0" expanded="true" />
+            <element signature="e#5969#5970#0" expanded="true" />
+            <element signature="e#6015#6016#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Login.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="140" column="70" selection-start-line="140" selection-start-column="70" selection-end-line="140" selection-end-column="70" />
+          <folding>
+            <element signature="e#5157#5203#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.recyclerview/recyclerview/1.1.0/f2bdf79e1977939817f54a9d3e2f6bc52b63bdd0/recyclerview-1.1.0-sources.jar!/androidx/recyclerview/widget/RecyclerView.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="10339" selection-start-line="10339" selection-end-line="10339" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_chat.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="273">
+          <caret line="53" selection-start-line="53" selection-end-line="53" />
+        </state>
+      </provider>
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -778,6 +937,98 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="242">
           <caret line="50" column="9" selection-start-line="50" selection-start-column="9" selection-end-line="50" selection-end-column="9" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/colors.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="30" selection-start-line="10" selection-start-column="17" selection-end-line="10" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/values/dimens.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="11" lean-forward="true" selection-start-column="11" selection-end-column="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_incoming_message.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="8" column="26" selection-start-line="8" selection-start-column="21" selection-end-line="8" selection-end-column="26" />
+          <folding>
+            <element signature="e#195#235#0" expanded="true" />
+            <element signature="e#258#288#0" expanded="true" />
+            <element signature="e#312#342#0" expanded="true" />
+            <element signature="e#565#595#0" expanded="true" />
+            <element signature="e#619#659#0" expanded="true" />
+            <element signature="e#681#711#0" expanded="true" />
+            <element signature="e#765#795#0" expanded="true" />
+            <element signature="e#963#993#0" expanded="true" />
+            <element signature="e#1017#1057#0" expanded="true" />
+            <element signature="e#1112#1142#0" expanded="true" />
+            <element signature="e#1312#1342#0" expanded="true" />
+            <element signature="e#1366#1396#0" expanded="true" />
+            <element signature="e#1420#1450#0" expanded="true" />
+            <element signature="e#1592#1622#0" expanded="true" />
+            <element signature="e#1650#1680#0" expanded="true" />
+            <element signature="e#1977#2007#0" expanded="true" />
+            <element signature="e#2031#2061#0" expanded="true" />
+            <element signature="e#2200#2230#0" expanded="true" />
+            <element signature="e#2258#2288#0" expanded="true" />
+            <element signature="e#2586#2616#0" expanded="true" />
+            <element signature="e#2640#2670#0" expanded="true" />
+            <element signature="e#2692#2722#0" expanded="true" />
+            <element signature="e#2860#2890#0" expanded="true" />
+            <element signature="e#2918#2948#0" expanded="true" />
+            <element signature="e#3247#3287#0" expanded="true" />
+            <element signature="e#3311#3351#0" expanded="true" />
+            <element signature="e#3492#3532#0" expanded="true" />
+            <element signature="e#3560#3600#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/drawable/shape_bg_outgoing_message.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="136">
+          <caret line="8" column="24" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
+          <folding>
+            <element signature="e#195#225#0" expanded="true" />
+            <element signature="e#248#288#0" expanded="true" />
+            <element signature="e#312#342#0" expanded="true" />
+            <element signature="e#548#578#0" expanded="true" />
+            <element signature="e#602#642#0" expanded="true" />
+            <element signature="e#696#726#0" expanded="true" />
+            <element signature="e#893#923#0" expanded="true" />
+            <element signature="e#947#987#0" expanded="true" />
+            <element signature="e#1010#1040#0" expanded="true" />
+            <element signature="e#1095#1125#0" expanded="true" />
+            <element signature="e#1294#1324#0" expanded="true" />
+            <element signature="e#1348#1378#0" expanded="true" />
+            <element signature="e#1402#1432#0" expanded="true" />
+            <element signature="e#1573#1603#0" expanded="true" />
+            <element signature="e#1631#1661#0" expanded="true" />
+            <element signature="e#1958#1988#0" expanded="true" />
+            <element signature="e#2012#2042#0" expanded="true" />
+            <element signature="e#2065#2095#0" expanded="true" />
+            <element signature="e#2234#2264#0" expanded="true" />
+            <element signature="e#2292#2322#0" expanded="true" />
+            <element signature="e#2619#2649#0" expanded="true" />
+            <element signature="e#2673#2703#0" expanded="true" />
+            <element signature="e#2841#2871#0" expanded="true" />
+            <element signature="e#2899#2929#0" expanded="true" />
+            <element signature="e#3227#3267#0" expanded="true" />
+            <element signature="e#3291#3331#0" expanded="true" />
+            <element signature="e#3473#3513#0" expanded="true" />
+            <element signature="e#3541#3581#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Post.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="578">
+          <caret line="46" column="5" selection-start-line="46" selection-start-column="5" selection-end-line="46" selection-end-column="5" />
         </state>
       </provider>
     </entry>
@@ -808,11 +1059,42 @@
           <caret line="118" column="116" selection-start-line="118" selection-start-column="116" selection-end-line="118" selection-end-column="116" />
           <folding>
             <element signature="imports" expanded="true" />
+        <state relative-caret-position="241">
+          <caret line="64" lean-forward="true" selection-start-line="64" selection-end-line="64" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/ChatListAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="683">
+          <caret line="44" lean-forward="true" selection-start-line="44" selection-end-line="44" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#3028#3578#0" expanded="true" />
+            <element signature="e#3577#3578#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_login.xml">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/Chat.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="213">
+          <caret line="89" column="65" lean-forward="true" selection-start-line="88" selection-start-column="96" selection-end-line="89" selection-end-column="65" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#5915#8455#0" expanded="true" />
+            <element signature="e#8454#8455#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_messages.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="221">
+          <caret line="28" column="42" lean-forward="true" selection-start-line="28" selection-start-column="42" selection-end-line="28" selection-end-column="42" />
+        </state>
+      </provider>
       <provider editor-type-id="android-designer2" />
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -828,6 +1110,32 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="588">
           <caret line="170" column="16" selection-start-line="170" selection-start-column="16" selection-end-line="170" selection-end-column="16" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Activity/MessagesActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="326">
+          <caret line="111" column="39" selection-start-line="111" selection-start-column="39" selection-end-line="111" selection-end-column="39" />
+          <folding>
+            <element signature="e#4382#4671#0" expanded="true" />
+            <element signature="e#4670#4671#0" expanded="true" />
+            <element signature="e#6420#6709#0" expanded="true" />
+            <element signature="e#6708#6709#0" expanded="true" />
+            <element signature="e#7347#7689#0" expanded="true" />
+            <element signature="e#7688#7689#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Adapter/MessageAdapter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="78" column="38" selection-start-line="78" selection-start-column="38" selection-end-line="78" selection-end-column="52" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_chat.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="306">
+          <caret line="30" lean-forward="true" selection-start-line="30" selection-end-line="30" />
         </state>
       </provider>
     </entry>
@@ -858,8 +1166,37 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="639">
           <caret line="193" column="24" selection-start-line="193" selection-start-column="24" selection-end-line="193" selection-end-column="24" />
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/project/ilearncentral/Model/Message.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="196">
+          <caret line="18" column="23" lean-forward="true" selection-start-line="18" selection-start-column="23" selection-end-line="18" selection-end-column="23" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#516#517#0" expanded="true" />
+            <element signature="e#541#542#0" expanded="true" />
+            <element signature="e#577#578#0" expanded="true" />
+            <element signature="e#605#606#0" expanded="true" />
+            <element signature="e#682#683#0" expanded="true" />
+            <element signature="e#746#747#0" expanded="true" />
+            <element signature="e#804#805#0" expanded="true" />
+            <element signature="e#876#877#0" expanded="true" />
+            <element signature="e#940#941#0" expanded="true" />
+            <element signature="e#1024#1025#0" expanded="true" />
+            <element signature="e#1093#1094#0" expanded="true" />
+            <element signature="e#1184#1185#0" expanded="true" />
+            <element signature="e#1242#1243#0" expanded="true" />
+            <element signature="e#1314#1315#0" expanded="true" />
+          </folding>
         </state>
       </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/recyclerview_item_message.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="395">
+          <caret line="32" column="41" lean-forward="true" selection-start-line="32" selection-start-column="41" selection-end-line="32" selection-end-column="41" />
+        </state>
+      </provider>
+      <provider editor-type-id="android-designer2" />
     </entry>
   </component>
 </project>

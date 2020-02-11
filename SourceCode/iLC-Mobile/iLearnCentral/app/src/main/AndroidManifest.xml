@@ -13,8 +13,9 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.SignUp.SIgnUpStudent"></activity>
+        <activity android:name=".Activity.SignUp.SIgnUpStudent" />
         <activity android:name=".Activity.SignUp.SignUpEducator" />
+        <activity android:name=".Activity.MessagesActivity"></activity>
         <activity android:name=".Fragment.JobPost" />
 
         <service

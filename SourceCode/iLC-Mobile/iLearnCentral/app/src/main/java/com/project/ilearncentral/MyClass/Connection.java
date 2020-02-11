@@ -12,6 +12,13 @@ public class Connection {
     private static String username;
     private static String password;
 
+    public Connection() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        currentUser = firebaseAuth.getCurrentUser();
+        username = "";
+        password = "";
+    }
+
 /*
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);

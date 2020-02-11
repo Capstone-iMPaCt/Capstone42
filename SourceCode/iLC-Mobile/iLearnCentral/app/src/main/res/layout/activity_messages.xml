@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activity.MessagesActivity">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/chat_app_bar_messages"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/chat_toolbar_messages"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:title="Chat" />
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/message_recycler"
+        android:layout_above="@+id/message_typer"
+        android:layout_below="@+id/chat_app_bar_messages"
+        >
+
+    </androidx.recyclerview.widget.RecyclerView>
+<RelativeLayout
+    android:id="@+id/message_typer"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="5dp"
+    android:background="#fff"
+    android:layout_alignParentBottom="true"
+    >
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/message_text"
+        android:background="@android:color/transparent"
+        android:hint="@string/type_message"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/message_send"
+        />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_send_black_40dp"
+        android:background="@android:color/transparent"
+        android:id="@+id/message_send"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        />
+</RelativeLayout>
+</RelativeLayout>

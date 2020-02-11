@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,6 +16,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -108,8 +108,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private void logIn() {
-        firebaseAuth.signInWithEmailAndPassword(username.getText().toString() + "@mailinator.com", password.getText().toString())
+    private void logIn(){
+        String usernameValue = username.getText().toString() + getResources().getString(R.string.emailSuffix);
+        String passwordValue = password.getText().toString();
+        // [START sign_in_with_email]
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(usernameValue, passwordValue)
                 .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
