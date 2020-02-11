@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorPrimary"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Fragment.UserProfile">
+    tools:context=".Fragment.Profile.EducatorProfile">
 
     <LinearLayout
         android:layout_width="match_parent"

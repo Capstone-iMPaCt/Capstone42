@@ -23,7 +23,7 @@ import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.Management;
-import com.project.ilearncentral.Fragment.UserProfile;
+import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
@@ -72,10 +72,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UserProfile(), "Profile");
+        adapter.addFragment(new EducatorProfile(), "Profile");
         adapter.addFragment(new Feed(), "Feeds");
         adapter.addFragment(new JobPost(), "Job Posts");
-        adapter.addFragment(new Management(), "Fo");
+        adapter.addFragment(new Management(), "My Activies");
         adapter.addFragment(new Management(), "Management");
 
         viewPager.setAdapter(adapter);
@@ -140,7 +140,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.account_settings:
-                Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), AccountSettings.class));
                 return true;
             case R.id.logout:
                 Connection.logOut(this);
