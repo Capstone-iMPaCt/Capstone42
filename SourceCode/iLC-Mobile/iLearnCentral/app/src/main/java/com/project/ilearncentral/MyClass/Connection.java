@@ -9,16 +9,6 @@ import com.project.ilearncentral.Activity.Login;
 
 public class Connection {
 
-    private static String username;
-    private static String password;
-
-    public Connection() {
-        firebaseAuth = FirebaseAuth.getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
-        username = "";
-        password = "";
-    }
-
 /*
     private void createAccount(String email, String password) {
         Log.d(TAG, "createAccount:" + email);
@@ -151,20 +141,4 @@ public class Connection {
 //            findViewById(R.id.signedInButtons).setVisibility(View.GONE);
 //        }
 //    }
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        Connection.username = username;
-    }
-
-    public static String getPassword() {
-        return password;
-    }
-
-    public static void setPassword(String password) {
-        Connection.password = password;
-    }
 }

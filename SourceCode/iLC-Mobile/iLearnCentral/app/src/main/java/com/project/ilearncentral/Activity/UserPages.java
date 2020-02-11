@@ -114,15 +114,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         });
     }
 
-    public void logOut() {
-        FirebaseAuth.getInstance().signOut();
-        finish();
-        Intent intent = new Intent(getApplicationContext(), Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -135,8 +126,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
                 break;
-            default:
-                return;
         }
     }
 
