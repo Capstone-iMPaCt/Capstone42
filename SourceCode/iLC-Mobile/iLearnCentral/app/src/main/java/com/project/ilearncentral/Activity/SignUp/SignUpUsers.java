@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Activity;
+package com.project.ilearncentral.Activity.SignUp;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,11 +9,13 @@ import android.widget.Spinner;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 public class SignUpUsers extends AppCompatActivity {
 
-    Button btnContinue;
+    private Button btnContinue;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,17 @@ public class SignUpUsers extends AppCompatActivity {
         btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(SignUpUsers.this, SignUpLearningCenter.class);
+                switch (Account.getType()){
+                    case LearningCenter:
+                        intent = new Intent(getApplicationContext(), SignUpLearningCenter.class);
+                        break;
+                    case Educator:
+                        intent = new Intent(getApplicationContext(), SignUpEducator.class);
+                        break;
+                    case Student:
+                        intent = new Intent(getApplicationContext(), SIgnUpStudent.class);
+                        break;
+                }
                 startActivity(intent);
             }
         });

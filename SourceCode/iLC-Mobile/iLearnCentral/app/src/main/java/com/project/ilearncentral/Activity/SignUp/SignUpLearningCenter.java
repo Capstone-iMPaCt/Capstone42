@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Activity;
+package com.project.ilearncentral.Activity.SignUp;
 
 import android.os.Bundle;
 import android.widget.ArrayAdapter;

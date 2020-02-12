@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Fragment;
+package com.project.ilearncentral.Fragment.Profile;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,18 +8,20 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.R;
 
-public class UserProfile extends Fragment {
+public class EducatorProfile extends Fragment {
 
-    TextView uname, pwd;
+    private TextView email, pwd;
+    private FirebaseAuth firebaseAuth;
 
-    public UserProfile(){
+    public EducatorProfile() {
         // Required empty public constructor
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
@@ -28,9 +30,8 @@ public class UserProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_educator, container, false);
         // Codes here
-        uname = (TextView)view.findViewById(R.id.email_textview);
-
-//        uname.setText(Connection.currentUser.getEmail());
+        email = (TextView) view.findViewById(R.id.email_textview);
+        email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         return view;
     }
 }

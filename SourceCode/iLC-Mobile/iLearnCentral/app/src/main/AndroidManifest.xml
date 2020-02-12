@@ -13,7 +13,12 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.MessagesActivity"></activity>
+        <activity
+            android:name=".Activity.AccountSettings"
+            android:label="@string/title_activity_account_settings"></activity>
+        <activity android:name=".Activity.SignUp.SIgnUpStudent" />
+        <activity android:name=".Activity.SignUp.SignUpEducator" />
+        <activity android:name=".Activity.MessagesActivity" />
         <activity android:name=".Fragment.JobPost" />
 
         <service
@@ -50,8 +55,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUpLearningCenter" />
-        <activity android:name=".Activity.SignUpUsers" />
+        <activity android:name=".Activity.SignUp.SignUpLearningCenter" />
+        <activity android:name=".Activity.SignUp.SignUpUsers" />
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity
             android:name=".Activity.Login"

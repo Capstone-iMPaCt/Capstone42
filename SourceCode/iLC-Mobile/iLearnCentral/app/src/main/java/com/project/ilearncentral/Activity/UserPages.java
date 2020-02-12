@@ -1,13 +1,11 @@
 package com.project.ilearncentral.Activity;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -25,7 +23,7 @@ import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.Management;
-import com.project.ilearncentral.Fragment.UserProfile;
+import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
@@ -40,7 +38,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private Button featuresButton, notificationButton, messageButton;
     private AppBarLayout appBarLayout;
     private CollapsingToolbarLayout toolbarLayout;
-    private InputMethodManager keyPad;
     private CoordinatorLayout.LayoutParams clLayoutParams;
 
     @Override
@@ -50,10 +47,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
         if (FirebaseAuth.getInstance().getCurrentUser() == null) {
             startActivity(new Intent(this, Login.class));
+            finish();
         }
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        keyPad = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         circleImageView = (CircleImageView) findViewById(R.id.profile_imageview);
         featuresButton = (Button) findViewById(R.id.features_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
@@ -75,11 +72,12 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
         UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
-        adapter.addFragment(new UserProfile(), "Profile");
+        adapter.addFragment(new EducatorProfile(), "Profile");
         adapter.addFragment(new Feed(), "Feeds");
         adapter.addFragment(new JobPost(), "Job Posts");
-        adapter.addFragment(new Management(), "Fo");
+        adapter.addFragment(new Management(), "My Activies");
         adapter.addFragment(new Management(), "Management");
+
         viewPager.setAdapter(adapter);
 //        tabLayout.setBackground();
         tabLayout.setupWithViewPager(viewPager);
@@ -108,27 +106,12 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-
             }
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
-    }
-
-    public void disableSearchFunction() {
-
-    }
-
-    public void logOut() {
-        Connection.logOut();
-        finish();
-        Intent intent = new Intent(getApplicationContext(), Login.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
-        Toast.makeText(getApplicationContext(), "Logged Out", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -143,8 +126,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
                 break;
-            default:
-                return;
         }
     }
 
@@ -159,12 +140,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.account_settings:
-                Toast.makeText(this, "Account Settings", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(getApplicationContext(), AccountSettings.class));
                 return true;
             case R.id.logout:
-                logOut();
-//                Connection.logOut();
-//                finish();
+                Connection.logOut(this);
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

@@ -8,7 +8,7 @@ import androidx.fragment.app.FragmentPagerAdapter;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.Management;
 import com.project.ilearncentral.Fragment.Feed;
-import com.project.ilearncentral.Fragment.UserProfile;
+import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 
 import java.util.ArrayList;
 
@@ -25,7 +25,7 @@ public class UserPagesAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i){
         switch (i){
             case 0:
-                return new UserProfile();
+                return new EducatorProfile();
             case 1:
                 return new Feed();
             case 2:
