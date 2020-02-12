@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -48,9 +49,10 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpEducator extends AppCompatActivity {
+public class SignUpOthers extends AppCompatActivity {
 
     private String TAG = "SIGNUP_EDUCATOR";
+    private TextView formTitle;
     private CircleImageView image;
     private CircleImageView changeimage;
     private TextInputEditText fNameInput, mNameInput, lNameInput,
@@ -77,7 +79,9 @@ public class SignUpEducator extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_educator);
 
         res();
-
+        if (Account.getType() == Account.Type.Student) {
+            formTitle.setText(getString(R.string.student_sign_up_form));
+        }
         changeimage.setOnClickListener(selectphoto);
         Log.d(TAG, Account.getStringData("username"));
         birthDateInput.setOnClickListener(new View.OnClickListener() {
@@ -88,7 +92,7 @@ public class SignUpEducator extends AppCompatActivity {
                 int month = calendarldr.get(Calendar.MONTH);
                 int year = calendarldr.get(Calendar.YEAR);
                 // date picker dialog
-                picker = new DatePickerDialog(SignUpEducator.this, new DatePickerDialog.OnDateSetListener() {
+                picker = new DatePickerDialog(SignUpOthers.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);
@@ -110,7 +114,7 @@ public class SignUpEducator extends AppCompatActivity {
                         signUpButton.setEnabled(false);
                         mAuth.createUserWithEmailAndPassword(Account.getStringData("username") + getString(R.string.emailSuffix),
                                 Account.getStringData("password"))
-                            .addOnCompleteListener(SignUpEducator.this, new OnCompleteListener<AuthResult>() {
+                            .addOnCompleteListener(SignUpOthers.this, new OnCompleteListener<AuthResult>() {
                                 @Override
                                 public void onComplete(@NonNull Task<AuthResult> task) {
                                     if (task.isSuccessful()) {
@@ -118,7 +122,10 @@ public class SignUpEducator extends AppCompatActivity {
                                         Log.d(TAG, "createUserWithEmail:success");
                                         FirebaseUser user = mAuth.getCurrentUser();
                                         db.collection("User").document(user.getUid()).set(Account.getUserData());
-                                        db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
+                                        if (Account.getType() == Account.Type.Student)
+                                            db.collection("Student").document(user.getUid()).set(Account.getProfileData());
+                                        else
+                                            db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
 
                                         uploadImage(Account.getStringData("username"));
                                         UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
@@ -139,7 +146,7 @@ public class SignUpEducator extends AppCompatActivity {
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(SignUpEducator.this, "Authentication failed.",
+                                        Toast.makeText(SignUpOthers.this, "Authentication failed.",
                                                 Toast.LENGTH_SHORT).show();
                                         signUpButton.setEnabled(true);
                                     }
@@ -265,7 +272,8 @@ public class SignUpEducator extends AppCompatActivity {
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
                 && data != null && data.getData() != null )
         {
-            filePath = data.getData();;
+            filePath = data.getData();
+            Account.addData("image", filePath.toString());
             try {
                 String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
@@ -279,7 +287,6 @@ public class SignUpEducator extends AppCompatActivity {
 
                 Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
                 image.setImageBitmap(bitmap);
-                Account.addData("image", filePath);
                 withImage = true;
             }
             catch (Exception e)
@@ -349,6 +356,7 @@ public class SignUpEducator extends AppCompatActivity {
     }
 
     private void res() {
+        formTitle = findViewById(R.id.sign_up_form_title);
         image = findViewById(R.id.sign_up_image_educator);
         changeimage = findViewById(R.id.sign_up_image_change_educator);
         fNameInput = findViewById(R.id.sign_up_first_name_educator);
@@ -375,5 +383,11 @@ public class SignUpEducator extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         withImage = false;
+    }
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        Log.d(TAG, "onBackPressed Called");
+        super.onBackPressed();
     }
 }

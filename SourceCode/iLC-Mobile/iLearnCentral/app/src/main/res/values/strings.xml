@@ -83,6 +83,7 @@
     <string name="followers">Followers</string>
     <string name="learning_center_sign_up_form">LEARNING CENTER SIGN UP FORM</string>
     <string name="educator_sign_up_form">EDUCATOR SIGN UP FORM</string>
+    <string name="student_sign_up_form">STUDENT SIGN UP FORM</string>
     <string name="personal_information">Personal Information</string>
     <string name="home_address">Home Address</string>
     <string name="gender">Gender</string>

@@ -54,11 +54,11 @@ public class SignUpUsers extends AppCompatActivity {
                     startActivityForResult(intent,1);
                     break;
                 case Educator:
-                    intent = new Intent(getApplicationContext(), SignUpEducator.class);
+                    intent = new Intent(getApplicationContext(), SignUpOthers.class);
                     startActivityForResult(intent,2);
                     break;
                 case Student:
-                    intent = new Intent(getApplicationContext(), SIgnUpStudent.class);
+                    intent = new Intent(getApplicationContext(), SignUpOthers.class);
                     startActivityForResult(intent,3);
                     break;
             }
@@ -146,5 +146,11 @@ public class SignUpUsers extends AppCompatActivity {
         } else if(requestCode == 3 && resultCode == RESULT_OK) {
             finish();
         }
+    }
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        Log.d(TAG, "onBackPressed Called");
+        super.onBackPressed();
     }
 }

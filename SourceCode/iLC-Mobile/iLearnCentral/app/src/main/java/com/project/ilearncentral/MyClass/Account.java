@@ -31,6 +31,12 @@ public class Account {
             userData.put("Email", getStringData("email"));
             userData.put("Username", getStringData("username"));
             userData.put("Image", data.get("image"));
+            List<Map<String, String>> security = new ArrayList<>();
+                Map<String, String> questions = new HashMap<>();
+                    questions.put("Question", getStringData("question"));
+                    questions.put("Answer", getStringData("answer"));
+                security.add(questions);
+            userData.put("SecurityQuestion", security);
         } catch(Exception e) {
             return null;
         }
@@ -39,22 +45,20 @@ public class Account {
 
     public static Map<String, Object> getProfileData() {
         Map<String, Object> profileData = new HashMap<>();
+        profileData.put("Username", getStringData("username"));
             Map<String, String> name = new HashMap<>();
                 name.put("FirstName", getStringData("firstName"));
                 name.put("MiddleName", getStringData("middleName"));
                 name.put("LastName", getStringData("lastName"));
                 name.put("Extension", getStringData("extension"));
-        profileData.put("Name", name);
-        profileData.put("Position", "none");
+            profileData.put("Name", name);
         profileData.put("Religion", getStringData("religion"));
         profileData.put("Citizenship", getStringData("citizenship"));
-        profileData.put("Username", getStringData("username"));
         profileData.put("EmailAddress", getStringData("email"));
-        profileData.put("EmploymentStatus", "none");
         profileData.put("Gender", getStringData("gender"));
         profileData.put("MaritalStatus", getStringData("maritalStatus"));
-        profileData.put("CenterID", "");
         profileData.put("Birthday", getTimeStampData("birthday"));
+        profileData.put("CenterID", "");
         List<Map<String, Object>> add = new ArrayList<>();
             Map<String, Object> address = new HashMap<>();
                 address.put("HouseNo", getStringData("houseNo"));
@@ -66,8 +70,14 @@ public class Account {
                 address.put("ZipCode", getStringData("zipCode"));
                 address.put("Country", getStringData("country"));
                 address.put("CurrentAddress", true);
-        add.add(address);
-        profileData.put("Address", add);
+            add.add(address);
+            profileData.put("Address", add);
+        if (type == Type.Educator) {
+            profileData.put("Position", "none");
+            profileData.put("EmploymentStatus", "none");
+        } else if (type == Type.Student) {
+            profileData.put("EnrolmentStatus", "none");
+        }
 
         return profileData;
     }
@@ -110,7 +120,7 @@ public class Account {
 
     public static Uri getUriData(String key) {
         if(data.containsKey(key)) {
-            return (Uri) data.get(key);
+            return Uri.parse(data.get(key).toString());
         }
         return null;
     }

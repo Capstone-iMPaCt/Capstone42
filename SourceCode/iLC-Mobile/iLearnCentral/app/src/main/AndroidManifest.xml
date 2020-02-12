@@ -18,8 +18,8 @@
         <activity
             android:name=".Activity.AccountSettings"
             android:label="@string/title_activity_account_settings"></activity>
-        <activity android:name=".Activity.SignUp.SIgnUpStudent" />
-        <activity android:name=".Activity.SignUp.SignUpEducator" />
+        <activity android:name=".Activity.SignUp.SignUpOthers"
+            android:configChanges="orientation|screenSize"/>
         <activity android:name=".Activity.Messages" />
         <activity android:name=".Fragment.JobPost" />
 
