@@ -2,6 +2,7 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -48,5 +49,12 @@ public class AccountTypeSelection extends AppCompatActivity implements View.OnCl
         if(requestCode == 1 && resultCode == RESULT_OK) {
             finish();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        Log.d("ACCOUNT_TYPE", "onBackPressed Called");
+        super.onBackPressed();
     }
 }
