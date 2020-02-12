@@ -39,7 +39,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
 
     @Override
     public void onBindViewHolder(@NonNull final MessageHolder holder, int position) {
-        holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        //holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
         final Message message = messageList.get(position);
         final boolean to = (message.getType().equals("to"));
@@ -59,6 +59,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
             constraintSet.clear(holder.message.getId(),ConstraintSet.START);
             constraintSet.clear(holder.message.getId(),ConstraintSet.TOP);
             constraintSet.applyTo(holder.parent);
+            holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation_right));
         }
         else {
             holder.message.setBackground(context.getDrawable(R.drawable.shape_bg_incoming_message));
@@ -74,6 +75,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
             constraintSet.clear(holder.message.getId(),ConstraintSet.END);
             constraintSet.clear(holder.message.getId(),ConstraintSet.TOP);
             constraintSet.applyTo(holder.parent);
+            holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
         }
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         holder.time.setText(dateFormat.getInstance().format(message.getDateSent().toDate()));

@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.project.ilearncentral.Activity.MessagesActivity;
+import com.project.ilearncentral.Activity.Messages;
 import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.R;
 
@@ -76,7 +76,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
             @Override
             public void onClick(View v)
             {
-                Intent intent = new Intent(context, MessagesActivity.class);
+                Intent intent = new Intent(context, Messages.class);
                 intent.putExtra("TYPE", "both");
                 if (to) {
                     intent.putExtra("USER_NAME", chat.getFrom());

@@ -35,7 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MessagesActivity extends AppCompatActivity {
+public class Messages extends AppCompatActivity {
 
     private String TAG = "Message";
     private FirebaseFirestore db;

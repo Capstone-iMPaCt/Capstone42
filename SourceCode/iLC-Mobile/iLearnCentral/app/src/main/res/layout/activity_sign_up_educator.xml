@@ -15,15 +15,28 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:padding="30dp">
-
-        <ImageView
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/sign_up_image_educator"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_gravity="center"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/logo_icon"
+            android:src="@drawable/user"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:contentDescription="@string/iLC_logo_description" />
-
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/sign_up_image_change_educator"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            app:layout_constraintBottom_toBottomOf="@+id/sign_up_image_educator"
+            app:layout_constraintEnd_toEndOf="@+id/sign_up_image_educator"
+            android:src="@drawable/ic_camera_alt_black_24dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -45,42 +58,45 @@
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/firstnameTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_first_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/firstname"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/middlenameTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_middle_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/middle_name"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/lastnameTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_last_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/last_name"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
@@ -93,22 +109,23 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/extentionTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_extension_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/name_extention"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-
             <Spinner
+                android:id="@+id/sign_up_marital_status_educator"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_gravity="center|center_vertical"
@@ -144,11 +161,14 @@
                     android:orientation="horizontal">
 
                     <RadioButton
+                        android:id="@+id/sign_up_gender_male_educator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:text="@string/male" />
 
                     <RadioButton
+                        android:id="@+id/sign_up_gender_female_educator"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/female" />
@@ -169,7 +189,7 @@
                     android:textStyle="italic" />
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/birthdateTextInput"
+                    android:id="@+id/sign_up_birthday_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="00/00/0000"
@@ -185,30 +205,32 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/citizenshipTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_citizenship_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/citizenship"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/religionTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_religion_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/religion"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
@@ -216,59 +238,18 @@
 
         </LinearLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/positionTextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/position"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyWebsiteTextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/company_website"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contactNumberTextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/contact_number"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
             android:text="@string/home_address"
+            android:inputType="textCapWords"
             android:textColor="@color/text_color"
             android:textStyle="italic" />
 
         <Spinner
-            android:id="@+id/countrySpinner"
+            android:id="@+id/sign_up_country_educator"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"
@@ -284,30 +265,32 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/housenumberTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_house_no_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/house_number"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/streetTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_street_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/street"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
@@ -316,42 +299,45 @@
         </LinearLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/barangayTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_barangay_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/barangay"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cityTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_city_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/city"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/provinceTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_province_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/province"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
@@ -363,30 +349,32 @@
             android:orientation="horizontal">
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/zipCodeTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_zip_code_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/zip_cocde"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/districtTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_district_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/district"
+                    android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
@@ -394,7 +382,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/buttonContinue"
+            android:id="@+id/sign_up_button_educator"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

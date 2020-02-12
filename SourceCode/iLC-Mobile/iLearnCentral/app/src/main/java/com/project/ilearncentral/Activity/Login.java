@@ -9,9 +9,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -19,6 +16,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
@@ -66,7 +67,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signUpLink:
-                startActivity(new Intent(Login.this, AccountTypeSelection.class));
+                startActivityForResult(new Intent(Login.this, AccountTypeSelection.class),1);
                 break;
             case R.id.forgotPasswordLink:
                 break;
@@ -130,5 +131,12 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         }
                     }
                 });
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            finish();
+        }
     }
 }

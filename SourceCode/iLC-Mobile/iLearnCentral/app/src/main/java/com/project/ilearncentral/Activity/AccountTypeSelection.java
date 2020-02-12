@@ -5,11 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import com.project.ilearncentral.Activity.SignUp.SignUpUsers;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class AccountTypeSelection extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,6 +38,15 @@ public class AccountTypeSelection extends AppCompatActivity implements View.OnCl
             Account.setType(Account.Type.Educator);
         else if (v.getId() == studentAccount.getId())
             Account.setType(Account.Type.Student);
-        startActivity(new Intent(this, SignUpUsers.class));
+        startActivityForResult(new Intent(this, SignUpUsers.class), 1);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setResult(RESULT_OK);
+        if(requestCode == 1 && resultCode == RESULT_OK) {
+            finish();
+        }
     }
 }
