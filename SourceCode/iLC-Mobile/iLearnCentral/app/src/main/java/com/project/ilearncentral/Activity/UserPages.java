@@ -7,7 +7,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -51,8 +50,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         }
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        circleImageView = (CircleImageView) findViewById(R.id.profile_imageview);
-        featuresButton = (Button) findViewById(R.id.features_button);
+        circleImageView = (CircleImageView) findViewById(R.id.user_image);
+        featuresButton = (Button) findViewById(R.id.main_features_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
         messageButton = (Button) findViewById(R.id.message_button);
         appBarLayout = (AppBarLayout) findViewById(R.id.home_app_bar);
@@ -75,8 +74,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         adapter.addFragment(new EducatorProfile(), "Profile");
         adapter.addFragment(new Feed(), "Feeds");
         adapter.addFragment(new JobPost(), "Job Posts");
+        adapter.addFragment(new Management(), "Recommendations");
         adapter.addFragment(new Management(), "My Activies");
-        adapter.addFragment(new Management(), "Management");
 
         viewPager.setAdapter(adapter);
 //        tabLayout.setBackground();
@@ -117,7 +116,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.features_button:
+            case R.id.main_features_button:
                 startActivity(new Intent(getApplicationContext(), Home.class));
                 finish();
                 break;

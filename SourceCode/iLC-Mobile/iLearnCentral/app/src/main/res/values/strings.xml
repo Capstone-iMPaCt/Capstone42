@@ -78,9 +78,9 @@
     <string name="fri_text">Fri</string>
     <string name="sat_text">Sat</string>
     <string name="profile_page">USER PROFILE</string>
-    <string name="user_rating">USER RATING</string>
-    <string name="following">FOLLOWING</string>
-    <string name="followers">FOLLOWERS</string>
+    <string name="user_rating">User Rating</string>
+    <string name="following">Following</string>
+    <string name="followers">Followers</string>
     <string name="learning_center_sign_up_form">LEARNING CENTER SIGN UP FORM</string>
     <string name="educator_sign_up_form">EDUCATOR SIGN UP FORM</string>
     <string name="personal_information">Personal Information</string>

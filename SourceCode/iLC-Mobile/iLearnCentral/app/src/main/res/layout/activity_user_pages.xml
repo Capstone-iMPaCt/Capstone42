@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -12,8 +11,8 @@
         android:id="@+id/home_app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
-        android:fitsSystemWindows="true"
         android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_behavior=".CustomBehavior.CustomAppBarLayoutBehavior">
 
@@ -23,21 +22,21 @@
             android:layout_height="match_parent"
             android:background="@drawable/bg_linear_transparent"
             android:fitsSystemWindows="true"
-            app:scrimAnimationDuration="300"
             app:contentScrim="@drawable/bg_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:scrimAnimationDuration="300"
             app:titleEnabled="false"
             app:toolbarId="@+id/home_toolbar">
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_gravity="bottom|center"
-                android:layout_marginBottom="45dp" >
+                android:layout_marginBottom="45dp"
+                android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/profile_imageview"
+                    android:id="@+id/user_image"
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
                     android:clickable="true"
@@ -47,22 +46,24 @@
                     app:layout_collapseMode="none" />
 
                 <TextView
+                    android:id="@+id/user_full_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
                     android:text="User Name"
                     android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
                     android:textSize="20sp"
-                    android:layout_marginTop="3dp"
-                    android:layout_gravity="center" />
+                    android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/user_expertise"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:text="Field of Expertise"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    android:layout_gravity="center" />
+                    android:textSize="12sp" />
             </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -80,12 +81,22 @@
                     android:layout_height="match_parent">
 
                     <Button
-                        android:id="@+id/features_button"
+                        android:id="@+id/main_features_button"
                         android:layout_width="@dimen/nav_icon_lw"
                         android:layout_height="@dimen/nav_icon_lw"
                         android:background="@drawable/logo_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/main_find_user_button"
+                        android:layout_width="@dimen/nav_icon_lw"
+                        android:layout_height="@dimen/nav_icon_lw"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/find_user_icon"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/main_features_button"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
@@ -97,7 +108,7 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/message_button"
                         app:layout_constraintHorizontal_bias="1.0"
-                        app:layout_constraintStart_toEndOf="@+id/features_button"
+                        app:layout_constraintStart_toEndOf="@+id/main_features_button"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button
@@ -106,9 +117,9 @@
                         android:layout_height="@dimen/nav_icon_lw"
                         android:layout_marginEnd="16dp"
                         android:background="@drawable/chat_icon"
-                        app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -120,9 +131,9 @@
                 android:layout_height="40dp"
                 android:layout_gravity="bottom|center"
                 android:background="@drawable/bg_white_transparent_10"
-                app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1"
                 app:tabGravity="center"
-                app:tabMode="scrollable" />
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
@@ -132,7 +143,7 @@
         android:id="@+id/htab_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.viewpager.widget.ViewPager>
 
