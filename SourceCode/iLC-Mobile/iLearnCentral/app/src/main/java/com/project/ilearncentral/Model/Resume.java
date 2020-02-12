@@ -1,6 +1,7 @@
 package com.project.ilearncentral.Model;
 
 public class Resume {
+
     private String interest;
 
     public Resume(String interest) {
