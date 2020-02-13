@@ -2,6 +2,8 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -14,6 +16,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.R;
 
@@ -23,14 +28,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
+    private String TAG ="LOGIN";
     private TextView errorTextMessage;
     private EditText username;
     private TextInputEditText password;
     private TextView signUpLink, forgotPasswordLink;
     private Button logInButton;
     private ImageView facebookIcon, twitterIcon, googleIcon;
+    private String email;
 
     private FirebaseAuth firebaseAuth;
+    private FirebaseFirestore db;
 
     @Override
     protected void onStart() {
@@ -43,6 +51,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        db = FirebaseFirestore.getInstance();
         checkCurrentUser();
 
         errorTextMessage = (TextView) findViewById(R.id.textinput_error);
@@ -70,11 +79,13 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 startActivityForResult(new Intent(Login.this, AccountTypeSelection.class),1);
                 break;
             case R.id.forgotPasswordLink:
+                startActivityForResult(new Intent(Login.this, ForgotPassword.class),2);
                 break;
             case R.id.logInButton:
                 setLogInButton();
                 break;
             case R.id.facebookIconLink:
+                startActivityForResult(new Intent(Login.this, AccountTypeSelection.class),1);
                 break;
             case R.id.twitterIconLink:
                 break;
@@ -110,10 +121,32 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void logIn(){
-        String usernameValue = username.getText().toString() + getResources().getString(R.string.emailSuffix);
+        String usernameValue = username.getText().toString();
+        if (!Patterns.EMAIL_ADDRESS.matcher(usernameValue).matches()) {
+            db.collection("User").whereEqualTo("Username", usernameValue).get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    email = document.getString("Email");
+                                    loginEmail();
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        } else {
+            email = usernameValue;
+            loginEmail();
+        }
+    }
+
+    private void loginEmail() {
         String passwordValue = password.getText().toString();
-        // [START sign_in_with_email]
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(usernameValue, passwordValue)
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, passwordValue)
                 .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -132,11 +165,14 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     }
                 });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1 && resultCode == RESULT_OK) {
             finish();
+        } else if(requestCode == 2 && resultCode == RESULT_OK) {
+            username.setText(data.getStringExtra("username"));
         }
     }
 }

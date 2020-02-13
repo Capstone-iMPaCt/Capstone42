@@ -15,14 +15,15 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.ForgotPassword"></activity>
         <activity
             android:name=".Activity.AccountSettings"
-            android:label="@string/title_activity_account_settings"></activity>
-        <activity android:name=".Activity.SignUp.SignUpOthers"
-            android:configChanges="orientation|screenSize"/>
+            android:label="@string/title_activity_account_settings" />
+        <activity
+            android:name=".Activity.SignUp.SignUpOthers"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.Messages" />
         <activity android:name=".Fragment.JobPost" />
-
         <activity android:name=".Activity.Chat" />
         <!--
  Set custom default icon. This is used when no icon is set for incoming notification messages.

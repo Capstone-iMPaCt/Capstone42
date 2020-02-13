@@ -37,7 +37,7 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Activity.UserPages;
-import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.R;
 
 import java.text.ParseException;
@@ -112,7 +112,7 @@ public class SignUpOthers extends AppCompatActivity {
                 public void run() {
                     if (checkErrors()) {
                         signUpButton.setEnabled(false);
-                        mAuth.createUserWithEmailAndPassword(Account.getStringData("username") + getString(R.string.emailSuffix),
+                        mAuth.createUserWithEmailAndPassword(Account.getStringData("email"),
                                 Account.getStringData("password"))
                             .addOnCompleteListener(SignUpOthers.this, new OnCompleteListener<AuthResult>() {
                                 @Override
@@ -132,7 +132,6 @@ public class SignUpOthers extends AppCompatActivity {
                                                 .setDisplayName(Account.getName())
                                                 .setPhotoUri(Account.getUriData("image"))
                                                 .build();
-
                                         user.updateProfile(profileUpdates)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
