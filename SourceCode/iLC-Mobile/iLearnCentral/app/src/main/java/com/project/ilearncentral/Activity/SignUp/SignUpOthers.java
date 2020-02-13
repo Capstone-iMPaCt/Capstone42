@@ -76,7 +76,7 @@ public class SignUpOthers extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up_educator);
+        setContentView(R.layout.activity_sign_up_others);
 
         res();
         if (Account.getType() == Account.Type.Student) {

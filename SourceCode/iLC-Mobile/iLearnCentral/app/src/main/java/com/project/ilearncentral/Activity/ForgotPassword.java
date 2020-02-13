@@ -20,6 +20,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import androidx.annotation.NonNull;
@@ -35,6 +36,8 @@ public class ForgotPassword extends AppCompatActivity {
     private Button button;
     private String email, answerValue;
     private boolean hasSecurity;
+    private String buttonSendLinkText;
+    private String buttonContinueText;
 
 
     FirebaseFirestore db;
@@ -46,6 +49,8 @@ public class ForgotPassword extends AppCompatActivity {
         hasSecurity = false;
         email = "";
         answerValue = "";
+        buttonSendLinkText = "Send Reset Link";
+        buttonContinueText = "Continue";
         question = findViewById(R.id.forgot_security_question);
         username = findViewById(R.id.forgot_username);
         answer = findViewById(R.id.forgot_security_answer);
@@ -57,35 +62,38 @@ public class ForgotPassword extends AppCompatActivity {
         button = (Button)v;
         String cur = button.getText().toString();
         if (!username.getText().toString().isEmpty()) {
-            if (cur.equals("Continue")) {
-                button.setEnabled(false);
-                button.setText("Please wait...");
+            if (cur.equals(buttonContinueText)) {
+                Utility.buttonWait(button, true, "");
                 db.collection("User").whereEqualTo("Username", username.getText().toString()).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override
                             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                                 if (task.isSuccessful()) {
-                                    for (QueryDocumentSnapshot document : task.getResult()) {
-                                        String[] questions = getResources()
-                                                .getStringArray(R.array.my_security_questions);
-                                        hasSecurity = false;
-                                        for (int i = 0; i < questions.length; i++) {
-                                            if (questions[i]
-                                                    .equals(document.getString("Question"))) {
-                                                question.setSelection(i);
-                                                question.setEnabled(false);
-                                                hasSecurity = true;
-                                                answerValue = document.getString("Answer");
-                                                break;
+                                    if (!task.getResult().isEmpty()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            String[] questions = getResources()
+                                                    .getStringArray(R.array.my_security_questions);
+                                            hasSecurity = false;
+                                            for (int i = 0; i < questions.length; i++) {
+                                                if (questions[i]
+                                                        .equals(document.getString("Question"))) {
+                                                    question.setSelection(i);
+                                                    question.setEnabled(false);
+                                                    hasSecurity = true;
+                                                    answerValue = document.getString("Answer");
+                                                    break;
+                                                }
+                                            }
+                                            if (hasSecurity)
+                                                showSecurityQuestion(document.getString("Email"));
+                                            else {
+                                                Utility.buttonWait(button, false, buttonSendLinkText);
+                                                email = document.getString("Email");
                                             }
                                         }
-                                        if (hasSecurity)
-                                            showSecurityQuestion(document.getString("Email"));
-                                        else {
-                                            button.setText("Send Reset Link");
-                                            button.setEnabled(true);
-                                            email = document.getString("Email");
-                                        }
+                                    } else {
+                                        Utility.buttonWait(button, false, buttonContinueText);
+                                        username.setError("Username does not exist");
                                     }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Username does not exist!", Toast.LENGTH_SHORT)
@@ -94,7 +102,7 @@ public class ForgotPassword extends AppCompatActivity {
                                 }
                             }
                         });
-            } else if (cur.equals("Send Reset Link")) {
+            } else if (cur.equals(buttonSendLinkText)) {
                 if (hasSecurity) {
                     if (answer.getText().toString().toLowerCase().trim()
                             .equals(answerValue.toLowerCase().trim())) {
@@ -115,8 +123,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     private void sendLink() {
-        button.setEnabled(false);
-        button.setText("Sending link...");
+        Utility.buttonWait(button, true, "Sending link...");
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.sendPasswordResetEmail(email)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -156,8 +163,7 @@ public class ForgotPassword extends AppCompatActivity {
         title.setVisibility(View.VISIBLE);
         question.setVisibility(View.VISIBLE);
         answer.setVisibility(View.VISIBLE);
-        button.setText("Send Reset Link");
-        button.setEnabled(true);
+        Utility.buttonWait(button, false, buttonSendLinkText);
         RelativeLayout.LayoutParams layout = new RelativeLayout.LayoutParams(
                 (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 200, getResources().getDisplayMetrics()),
                 RelativeLayout.LayoutParams.WRAP_CONTENT
@@ -172,8 +178,7 @@ public class ForgotPassword extends AppCompatActivity {
         title.setVisibility(View.GONE);
         question.setVisibility(View.GONE);
         answer.setVisibility(View.GONE);
-        button.setText("Continue");
-        button.setEnabled(true);
+        Utility.buttonWait(button, false, buttonContinueText);
         this.email = "";
     }
 

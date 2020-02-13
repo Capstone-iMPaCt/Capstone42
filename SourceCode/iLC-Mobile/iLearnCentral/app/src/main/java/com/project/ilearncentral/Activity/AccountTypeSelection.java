@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import com.project.ilearncentral.Activity.SignUp.SignUpLearningCenter;
 import com.project.ilearncentral.Activity.SignUp.SignUpUsers;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.R;
@@ -33,13 +34,17 @@ public class AccountTypeSelection extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == learningCenterAccount.getId())
+        if (v.getId() == learningCenterAccount.getId()) {
             Account.setType(Account.Type.LearningCenter);
-        else if (v.getId() == educatorAccount.getId())
-            Account.setType(Account.Type.Educator);
-        else if (v.getId() == studentAccount.getId())
-            Account.setType(Account.Type.Student);
-        startActivityForResult(new Intent(this, SignUpUsers.class), 1);
+            startActivityForResult(new Intent(this, SignUpLearningCenter.class), 2);
+        }
+        else {
+            if (v.getId() == educatorAccount.getId())
+                Account.setType(Account.Type.Educator);
+            else if (v.getId() == studentAccount.getId())
+                Account.setType(Account.Type.Student);
+            startActivityForResult(new Intent(this, SignUpUsers.class), 1);
+        }
     }
 
     @Override

@@ -45,11 +45,11 @@
             android:textSize="18sp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/usernameTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_business_name_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/business_name"
@@ -59,13 +59,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/companyWebsiteTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_website_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/company_website"
@@ -75,13 +75,13 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/contactNumberTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_contact_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/contact_number"
@@ -104,89 +104,132 @@
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"
+            android:entries="@array/countries2"
             android:background="@drawable/spinner_bg_rounded"
             android:paddingLeft="10dp"
             android:paddingRight="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/barangayTextInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_house_no_lc"
+                android:hint="@string/house_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/barangay"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/cityTextInput"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:orientation="horizontal">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_street_lc"
+                    android:hint="@string/street"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_barangay_lc"
+                    android:hint="@string/barangay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_city_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/city"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/districtTextInput"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_height="wrap_content">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/district"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/provinceTextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_province_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/province"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/zipCodeTextInput"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/zip_cocde"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_zip_code_lc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/zip_cocde"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/sign_up_district_lc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/district"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -214,137 +257,171 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <CheckBox
-                android:id="@+id/mondayCheckbox"
+                android:id="@+id/sign_up_monday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/mon_text"
+                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
 
             <CheckBox
-                android:id="@+id/tuesdayCheckbox"
+                android:id="@+id/sign_up_tuesday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/tue_text"
+                android:checked="true"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@id/wednesdayCheckbox"
-                app:layout_constraintStart_toEndOf="@id/mondayCheckbox"
+                app:layout_constraintEnd_toStartOf="@id/sign_up_wednesday_lc"
+                app:layout_constraintStart_toEndOf="@id/sign_up_monday_lc"
                 app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
 
             <CheckBox
-                android:id="@+id/wednesdayCheckbox"
+                android:id="@+id/sign_up_wednesday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/wed_text"
+                android:checked="true"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@id/thursdayCheckbox"
-                app:layout_constraintStart_toEndOf="@id/tuesdayCheckbox"
+                app:layout_constraintEnd_toStartOf="@id/sign_up_thursday_lc"
+                app:layout_constraintStart_toEndOf="@id/sign_up_tuesday_lc"
                 app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
 
             <CheckBox
-                android:id="@+id/thursdayCheckbox"
+                android:id="@+id/sign_up_thursday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/thu_text"
+                android:checked="true"
                 android:textSize="12sp"
-                app:layout_constraintEnd_toStartOf="@id/fridayCheckbox"
-                app:layout_constraintStart_toEndOf="@id/wednesdayCheckbox"
+                app:layout_constraintEnd_toStartOf="@id/sign_up_friday_lc"
+                app:layout_constraintStart_toEndOf="@id/sign_up_wednesday_lc"
                 app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
 
             <CheckBox
-                android:id="@+id/fridayCheckbox"
+                android:id="@+id/sign_up_friday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/fri_text"
+                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
 
             <CheckBox
-                android:id="@+id/saturdayCheckbox"
+                android:id="@+id/sign_up_saturday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/sat_text"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@id/mondayCheckbox"
-                app:layout_constraintTop_toBottomOf="@id/mondayCheckbox" />
+                app:layout_constraintStart_toStartOf="@id/sign_up_tuesday_lc"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_tuesday_lc" />
 
             <CheckBox
-                android:id="@+id/sundayCheckbox"
+                android:id="@+id/sign_up_sunday_lc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="5dp"
                 android:text="@string/sun_text"
                 android:textSize="12sp"
-                app:layout_constraintStart_toStartOf="@id/tuesdayCheckbox"
-                app:layout_constraintTop_toBottomOf="@id/tuesdayCheckbox" />
+                app:layout_constraintStart_toStartOf="@id/sign_up_thursday_lc"
+                app:layout_constraintTop_toBottomOf="@id/sign_up_thursday_lc" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <Spinner
+            android:id="@+id/sign_up_service_type_lc"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:entries="@array/service_types"
+            android:background="@drawable/spinner_bg_rounded"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" />
+
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/serviceTypeTextInput"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_weight="1">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_other_service_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/service_type"
+                android:hint="Other Service Type"
+                android:visibility="gone"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/timeOpenTextInput"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Open"
+                android:textColor="@color/text_color"
+                android:textStyle="italic" />
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_time_open_lc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/opening_time"
+                android:hint="hh:mm am/pm"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:focusable="false"
+                android:onClick="inputTime"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Time Close"
+                android:textColor="@color/text_color"
+                android:textStyle="italic" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_time_close_lc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="hh:mm am/pm"
+                android:focusable="false"
+                android:onClick="inputTime"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/timeCloseTextInput"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/closing_time"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
 
         <Button
-            android:id="@+id/buttonContinue"
+            android:id="@+id/sign_up_button_lc"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_dark_blue"
-            android:text="@string/confirm"
+            android:text="@string/_continue"
             android:textColor="@color/text_view_background" />
 
     </LinearLayout>

@@ -7,7 +7,6 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +19,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.MyClass.Connection;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import androidx.annotation.NonNull;
@@ -34,7 +34,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private TextInputEditText password;
     private TextView signUpLink, forgotPasswordLink;
     private Button logInButton;
-    private ImageView facebookIcon, twitterIcon, googleIcon;
     private String email;
 
     private FirebaseAuth firebaseAuth;
@@ -60,16 +59,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         signUpLink = (TextView) findViewById(R.id.signUpLink);
         forgotPasswordLink = (TextView) findViewById(R.id.forgotPasswordLink);
         logInButton = (Button) findViewById(R.id.logInButton);
-        facebookIcon = (ImageView) findViewById(R.id.facebookIconLink);
-        twitterIcon = (ImageView) findViewById(R.id.twitterIconLink);
-        googleIcon = (ImageView) findViewById(R.id.googleIconLink);
 
         signUpLink.setOnClickListener(this);
         forgotPasswordLink.setOnClickListener(this);
         logInButton.setOnClickListener(this);
-        facebookIcon.setOnClickListener(this);
-        twitterIcon.setOnClickListener(this);
-        googleIcon.setOnClickListener(this);
     }
 
     @Override
@@ -83,13 +76,6 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.logInButton:
                 setLogInButton();
-                break;
-            case R.id.facebookIconLink:
-                startActivityForResult(new Intent(Login.this, AccountTypeSelection.class),1);
-                break;
-            case R.id.twitterIconLink:
-                break;
-            case R.id.googleIconLink:
                 break;
             default:
                 break;
@@ -121,6 +107,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void logIn(){
+        Utility.buttonWait(logInButton, true, null);
         String usernameValue = username.getText().toString();
         if (!Patterns.EMAIL_ADDRESS.matcher(usernameValue).matches()) {
             db.collection("User").whereEqualTo("Username", usernameValue).get()
@@ -128,10 +115,15 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    email = document.getString("Email");
-                                    loginEmail();
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                if (!task.getResult().isEmpty()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        email = document.getString("Email");
+                                        loginEmail();
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
+                                    }
+                                } else {
+                                    Utility.buttonWait(logInButton, false, "Log In");
+                                    Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT).show();
                                 }
                             } else {
                                 Log.d(TAG, "Error getting documents: ", task.getException());
@@ -147,23 +139,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void loginEmail() {
         String passwordValue = password.getText().toString();
         FirebaseAuth.getInstance().signInWithEmailAndPassword(email, passwordValue)
-                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Sign in success, update UI with the signed-in user's information
-                            startActivity(new Intent(getApplicationContext(), UserPages.class));
-                            Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
-                            finish();
-                        } else if (!task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT).show();
-                        } else {
-                            // If sign in fails, display a message to the user.
-                            Toast.makeText(Login.this, "Error logging in. Try again.", Toast.LENGTH_SHORT).show();
-                            Connection.logOut(Login.this);
-                        }
+            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()) {
+                        // Sign in success, update UI with the signed-in user's information
+                        startActivity(new Intent(getApplicationContext(), UserPages.class));
+                        Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Logged in.");
+                        finish();
+                    } else {
+                        // If sign in fails, display a message to the user.
+                        Utility.buttonWait(logInButton, false, "Log In");
+                        Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "Error logging in.");
                     }
-                });
+                }
+            });
     }
 
     @Override

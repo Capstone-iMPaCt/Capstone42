@@ -39,7 +39,7 @@
     <string name="business_address">Business Address</string>
     <string name="barangay">Barangay</string>
     <string name="district">District</string>
-    <string name="city">City</string>
+    <string name="city">City/Municipality</string>
     <string name="province">Province</string>
     <string name="country">Country</string>
     <string name="zip_cocde">Zip Code</string>
@@ -62,7 +62,7 @@
     <string name="citizenship">Citizenship</string>
     <string name="male">Male</string>
     <string name="female">Female</string>
-    <string name="house_number">House #</string>
+    <string name="house_number">Unit# + House/Building/Street#</string>
     <string name="street">Street</string>
     <string name="employment_status">Employment Status</string>
     <string name="type_message">Type a Message</string>
@@ -97,32 +97,9 @@
     <string name="create_educator_account_title">Create an <u><b>Educator</b></u> account</string>
     <string name="create_student_account_title">Create a <u><b>Student</b></u> account</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="forgot_password_text">It\'s okay, it happens to the best of us.\n \nGive your username and answer the security question. \n\nWe will send you a link in the associated email to reset your password.</string>
 
     -- Spinner items --
-    <string-array name="my_security_questions">
-        <item>What is your favorite color?</item>
-        <item>What Is your favorite book?</item>
-        <item>What is the name of the road you grew up on?</item>
-        <item>What is your mother\'s maiden name?</item>
-        <item>What is your father\'s middle name?</item>
-        <item>What was the name of your first/current/favorite pet?</item>
-        <item>What was the first company that you worked for?</item>
-        <item>Where did you meet your spouse?</item>
-        <item>Where did you go to high school/college?</item>
-        <item>Who is your favorite actor\, musician\, or artist?</item>
-        <item>What was your favorite place to visit as a child?</item>
-    </string-array>
-    <string-array name="marital_status">
-        <item>-- Marital Status --</item>
-        <item>Single</item>
-        <item>Married</item>
-        <item>Widowed</item>
-        <item>Divorced</item>
-        <item>Separated</item>
-    </string-array>
-    <string-array name="countries">
-        <item>Philippines</item>
-    </string-array>
     <string name="title_activity_account_settings">Account Settings</string>
 
     <!-- Preference Titles -->

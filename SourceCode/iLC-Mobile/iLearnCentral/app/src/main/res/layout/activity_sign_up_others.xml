@@ -193,7 +193,7 @@
                     android:id="@+id/sign_up_birthday_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="00/00/0000"
+                    android:hint="mm/dd/yyyy"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
                     android:textSize="16sp" />
@@ -260,6 +260,21 @@
             android:paddingRight="10dp"
             android:entries="@array/countries"/>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_house_no_educator"
+                android:hint="@string/house_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -271,10 +286,10 @@
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/sign_up_house_no_educator"
+                    android:id="@+id/sign_up_street_educator"
+                    android:hint="@string/street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/house_number"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
@@ -287,10 +302,10 @@
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/sign_up_street_educator"
+                    android:id="@+id/sign_up_barangay_educator"
+                    android:hint="@string/barangay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/street"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
@@ -298,21 +313,6 @@
             </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/sign_up_barangay_educator"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/barangay"
-                android:inputType="textCapWords"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:textSize="16sp" />
-        </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
