@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/educator_bg_item_bullet"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="3dp"
+        android:background="@drawable/list_bullet0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/educator_bg_item_line"
+        android:layout_width="1dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="3dp"
+        android:background="@color/dark_gray"
+        app:layout_constraintEnd_toEndOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintStart_toStartOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintTop_toBottomOf="@+id/educator_bg_item_bullet" />
+
+    <TextView
+        android:id="@+id/educator_bg_item_company_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="Company Name"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintStart_toEndOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintTop_toTopOf="@+id/educator_bg_item_bullet" />
+
+    <TextView
+        android:id="@+id/educator_bg_item_company_address"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="Company Address"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintTop_toBottomOf="@+id/educator_bg_item_company_name" />
+
+    <TextView
+        android:id="@+id/educator_bg_item_duration_period"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="18dp"
+        android:text="Duration Period"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="12sp"
+        app:layout_constraintStart_toEndOf="@+id/educator_bg_item_bullet"
+        app:layout_constraintTop_toBottomOf="@+id/educator_bg_item_company_address" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
