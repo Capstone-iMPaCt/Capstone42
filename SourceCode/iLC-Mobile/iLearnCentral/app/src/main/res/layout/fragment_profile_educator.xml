@@ -291,8 +291,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/educator_educational_background_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -319,8 +318,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/educator_employment_history_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -347,8 +345,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/educator_skillS_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_height="wrap_content" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -375,8 +372,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/educator_awards_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_height="wrap_content" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -407,7 +403,8 @@
                     android:id="@+id/educator_interests_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -434,11 +431,12 @@
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
-                <ListView
+                <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/educator_qualities_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -469,7 +467,8 @@
                     android:id="@+id/educator_references_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp" />
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="5dp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>
