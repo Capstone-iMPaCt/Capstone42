@@ -54,10 +54,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -242,14 +240,14 @@ public class SignUpOthers extends AppCompatActivity {
             lNameInput.setError("Last Name is empty");
             valid = false;
         }
-        if (citizenship.isEmpty()) {
+/*        if (citizenship.isEmpty()) {
             citizenshipInput.setError("Citizenship is empty");
             valid = false;
         }
         if (religion.isEmpty()) {
             religionInput.setError("Religion is empty");
             valid = false;
-        }
+        }*/
         if (barangay.isEmpty()) {
             barangayInput.setError("Barangay is empty");
             valid = false;
@@ -474,6 +472,7 @@ public class SignUpOthers extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     if (withImage) {
+                                        Account.addData("image", uri.toString());
                                         DocumentReference userRef = db.collection("User").document(user.getUid());
                                         userRef
                                                 .update("Image", uri.toString())
@@ -543,8 +542,7 @@ public class SignUpOthers extends AppCompatActivity {
                                         @Override
                                         public void onSuccess(Uri uri) {
                                             progressDialog.dismiss();
-                                            Map<String, Object> data = new HashMap<>();
-                                            data.put("Logo", uri.toString());
+                                            Account.addData("bLogo", uri.toString());
                                             DocumentReference lcRef = db.collection("LearningCenter").document(centerId);
                                             lcRef
                                                 .update("Logo", uri.toString())
@@ -598,21 +596,20 @@ public class SignUpOthers extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             if (continueSignIn) {
-                                Map<String, Object> data = new HashMap<>();
-                                data.put("Image", uri.toString());
-                                db.collection("User").document(user.getUid())
-                                        .set(data)
+                                DocumentReference lcRef = db.collection("User").document(user.getUid());
+                                lcRef
+                                        .update("Image", uri.toString())
                                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                                             @Override
                                             public void onSuccess(Void aVoid) {
                                                 updateUI();
-                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error writing document", e);
+                                                Log.w(TAG, "Error updating document", e);
                                             }
                                         });
                             }

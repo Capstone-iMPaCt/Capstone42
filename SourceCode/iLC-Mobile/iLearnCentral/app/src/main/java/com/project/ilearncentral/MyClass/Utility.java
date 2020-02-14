@@ -18,4 +18,21 @@ public class Utility {
             button.setText(continueText);
         }
     }
+    public static String caps(String text) {
+        if (text.isEmpty()) {
+            return "";
+        } else if (text.length() == 1) {
+            return text.toUpperCase();
+        }
+        return text.substring(0,1).toUpperCase() + text.substring(1);
+    }
+
+    public static String capsEachWord(String text) {
+        String[] words = text.split("\\s");
+        String capText = "";
+        for (String word:words) {
+            capText += caps(word) + " ";
+        }
+        return capText.trim();
+    }
 }

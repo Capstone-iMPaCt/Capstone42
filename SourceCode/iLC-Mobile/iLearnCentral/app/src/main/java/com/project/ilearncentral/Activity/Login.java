@@ -107,7 +107,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void logIn(){
-        Utility.buttonWait(logInButton, true, null);
+        Utility.buttonWait(logInButton, true);
         String usernameValue = username.getText().toString();
         if (!Patterns.EMAIL_ADDRESS.matcher(usernameValue).matches()) {
             db.collection("User").whereEqualTo("Username", usernameValue).get()

@@ -44,7 +44,8 @@
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
         <activity android:name=".Fragment.Feed" />
-        <activity android:name=".Activity.UserPages">
+        <activity android:name=".Activity.UserPages"
+            android:configChanges="orientation|screenSize" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
