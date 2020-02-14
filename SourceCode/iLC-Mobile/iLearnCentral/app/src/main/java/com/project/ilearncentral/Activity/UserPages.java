@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -38,6 +39,7 @@ import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.MyClass.VariableListeners.ObservableBoolean;
 import com.project.ilearncentral.MyClass.VariableListeners.OnBooleanChangeListener;
 import com.project.ilearncentral.R;
+import com.project.ilearncentral.UpdateProfile;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -64,6 +66,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private CollapsingToolbarLayout toolbarLayout;
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
+    private LinearLayout profileView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +95,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
         usernameDisplay = findViewById(R.id.user_full_name);
         fieldDisplay = findViewById(R.id.user_expertise);
+        profileView = findViewById(R.id.user_pages_profile_view);
 
         setSupportActionBar(toolbar);
 
@@ -146,12 +150,11 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-
+        profileView.setVisibility(View.INVISIBLE);
         accountSet = new ObservableBoolean();
         accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean newValue) {
-                System.out.println("~~~~~" + newValue);
                 if (newValue) {
                     changeProfileImage();
                     usernameDisplay
@@ -251,10 +254,16 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.account_settings:
+            case R.id.menu_account_settings:
                 startActivity(new Intent(getApplicationContext(), AccountSettings.class));
                 return true;
-            case R.id.logout:
+            case R.id.menu_update_account:
+                startActivity(new Intent(getApplicationContext(), UpdateAccount.class));
+                return true;
+            case R.id.menu_update_profile:
+                startActivity(new Intent(getApplicationContext(), UpdateProfile.class));
+                return true;
+            case R.id.menu_logout:
                 Connection.logOut(this);
                 return true;
             default:
@@ -272,8 +281,11 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri.toString()).error(R.drawable.user)
                                     .into(userImage);
+                            profileView.setVisibility(View.VISIBLE);
                         }
                     });
+            } else {
+                profileView.setVisibility(View.VISIBLE);
             }
             }
         }).start();

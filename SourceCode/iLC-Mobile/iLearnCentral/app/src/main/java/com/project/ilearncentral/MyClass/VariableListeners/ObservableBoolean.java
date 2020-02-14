@@ -1,8 +1,7 @@
 package com.project.ilearncentral.MyClass.VariableListeners;
 
 
-public class ObservableBoolean
-{
+public class ObservableBoolean {
     private OnBooleanChangeListener listener;
 
     private boolean value;

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +33,7 @@ public class SignUpUsers extends AppCompatActivity {
     private Spinner questions;
     private Intent intent;
     private TextView title;
+    private Button continueBtn;
     boolean valid;
 
     private FirebaseFirestore db;
@@ -48,22 +50,29 @@ public class SignUpUsers extends AppCompatActivity {
         answerInput = findViewById(R.id.sign_up_security_answer);
         questions = findViewById(R.id.sign_up_security_question);
         title = findViewById(R.id.sign_up_user_title);
+        continueBtn = findViewById(R.id.sign_up_users_continue_button);
 
         setValues();
 
         if (Account.getType() == Account.Type.LearningCenter)
             title.setText("Center's Administrator Sign Up");
         db = FirebaseFirestore.getInstance();
+
+        continueBtn.setOnClickListener(continueSignUp);
     }
 
-    public void continueSignUp(View v) {
-        if (checkErrors()) {
-            intent = new Intent(getApplicationContext(), SignUpOthers.class);
-            startActivityForResult(intent,1);
-        } else {
-            Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT).show();
+    private View.OnClickListener continueSignUp = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if (checkErrors()) {
+                intent = new Intent(getApplicationContext(), SignUpOthers.class);
+                startActivityForResult(intent, 1);
+            } else {
+                Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT)
+                        .show();
+            }
         }
-    }
+    };
 
     private boolean checkErrors() {
         valid = true;

@@ -48,7 +48,23 @@
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/sign_up_old_password_layout"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            app:passwordToggleEnabled="true">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_old_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/cur_password"
+                android:inputType="textPassword"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -138,7 +154,6 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:onClick="continueSignUp"
             android:background="@drawable/button_dark_blue"
             android:text="@string/_continue"
             android:textColor="@color/text_view_background" />

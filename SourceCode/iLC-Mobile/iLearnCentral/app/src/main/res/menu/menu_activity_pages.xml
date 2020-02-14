@@ -2,15 +2,26 @@
     xmlns:app="http://schemas.android.com/apk/res-auto" >
 
     <item
-        android:id="@+id/account_settings"
-        android:orderInCategory="100"
+        android:id="@+id/menu_account_settings"
         android:title="@string/account_settings"
-        android:visible="true"
+        android:icon="@drawable/ic_settings_black_24dp"
         app:showAsAction="never" />
 
     <item
-        android:id="@+id/logout"
-        android:orderInCategory="100"
+        android:id="@+id/menu_update_account"
+        android:title="@string/update_account"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_update_profile"
+        android:title="@string/update_profile"
+        android:icon="@drawable/ic_account_circle_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_logout"
         android:title="@string/logout"
+        android:icon="@drawable/logout_24dp"
         app:showAsAction="never" />
 </menu>

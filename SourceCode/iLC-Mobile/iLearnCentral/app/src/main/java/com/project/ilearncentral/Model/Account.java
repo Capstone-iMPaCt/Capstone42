@@ -112,8 +112,8 @@ public class Account {
         } else if (type == Type.LearningCenter) {
             setValidatedData("AccessLevel",profileData,"accessLevel");
         }
-        String[] oldKeys = {"Username", "Religion", "Citizenship", "EmailAddress", "Gender", "MaritalStatus", "Birthday", "CenterID"};
-        String[] newKeys = {"username", "religion", "citizenship", "email", "gender", "maritalStatus", "birthday",  "centerId"};
+        String[] oldKeys = {"Username", "Religion", "Citizenship", "Gender", "MaritalStatus", "Birthday", "CenterID"};
+        String[] newKeys = {"username", "religion", "citizenship", "gender", "maritalStatus", "birthday",  "centerId"};
         for (int i=0; i<oldKeys.length;i++) {
             setValidatedData(oldKeys[i],profileData,newKeys[i]);
         }
@@ -149,7 +149,6 @@ public class Account {
             profileData.put("Name", name);
         profileData.put("Religion", getStringData("religion"));
         profileData.put("Citizenship", getStringData("citizenship"));
-        profileData.put("EmailAddress", getStringData("email"));
         profileData.put("Gender", getStringData("gender"));
         profileData.put("MaritalStatus", getStringData("maritalStatus"));
         profileData.put("Birthday", getTimeStampData("birthday"));

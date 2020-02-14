@@ -29,6 +29,7 @@
             app:toolbarId="@+id/home_toolbar">
 
             <LinearLayout
+                android:id="@+id/user_pages_profile_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
