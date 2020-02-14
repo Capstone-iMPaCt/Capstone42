@@ -34,6 +34,7 @@ public class AccountTypeSelection extends AppCompatActivity implements View.OnCl
 
     @Override
     public void onClick(View v) {
+        Account.clearData();
         if (v.getId() == learningCenterAccount.getId()) {
             Account.setType(Account.Type.LearningCenter);
             startActivityForResult(new Intent(this, SignUpLearningCenter.class), 2);

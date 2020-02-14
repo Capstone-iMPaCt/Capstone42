@@ -44,7 +44,7 @@
                 android:drawableStart="@drawable/person"
                 android:drawablePadding="20dp"
                 android:hint="Username / Email"
-                android:inputType="text"
+                android:inputType="textEmailAddress"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:textColor="@color/text_color"

@@ -63,7 +63,7 @@ public class ForgotPassword extends AppCompatActivity {
         String cur = button.getText().toString();
         if (!username.getText().toString().isEmpty()) {
             if (cur.equals(buttonContinueText)) {
-                Utility.buttonWait(button, true, "");
+                Utility.buttonWait(button, true);
                 db.collection("User").whereEqualTo("Username", username.getText().toString()).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                             @Override

@@ -1,13 +1,22 @@
 package com.project.ilearncentral.Activity.SignUp;
 
+import android.Manifest;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -18,42 +27,63 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpLearningCenter extends AppCompatActivity {
 
     private String TAG = "SIGNUP_CENTER";
-    TextInputEditText nameInput, websiteInput, contactInput,
+    TextInputEditText nameInput, websiteInput, emailInput, contactInput,
             timeStartInput, timeEndInput, otherServiceTypeInput,
             houseNoInput, streetInput, barangayInput, cityInput,
             provinceInput, districtInput, zipCodeInput;
     CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     Spinner countryInput, serviceTypeInput;
-    Button signUpButton;
+    ImageView logo;
+    CircleImageView changeImage;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageRef;
     private StorageReference ref;
 
-    private final int PICK_IMAGE_REQUEST = 71;
-    private Uri filePath;
+    private Bitmap bitmap;
+    private File destination = null;
+    private String imgPath = null;
     private boolean withImage;
+    private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_learning_center);
 
         res();
-
+        setValues();
+        changeImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
         serviceTypeInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -68,12 +98,22 @@ public class SignUpLearningCenter extends AppCompatActivity {
         });
     }
 
+    public void centerSignUpContinue(View v) {
+        Utility.buttonWait((Button)v, true);
+        if (checkErrors()) {
+            Intent intent = new Intent(getApplicationContext(), SignUpUsers.class);
+            startActivityForResult(intent,1);
+        }
+        Utility.buttonWait((Button)v, false, "Continue");
+    }
+
     private boolean checkErrors() {
         boolean valid = true;
 
         String name = nameInput.getText().toString();
         String website = websiteInput.getText().toString();
         String contact = contactInput.getText().toString();
+        String email = emailInput.getText().toString();
         String timeStart = timeStartInput.getText().toString();
         String timeEnd = timeEndInput.getText().toString();
         String otherServiceType = otherServiceTypeInput.getText().toString();
@@ -134,27 +174,20 @@ public class SignUpLearningCenter extends AppCompatActivity {
         }
 
         Timestamp s, e;
-        SimpleDateFormat format = new SimpleDateFormat("hh:mm am/pm");
+        //@@@@@@@@@@check if time and date is good in firebase@@@@@@@@@
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
         try {
             s = new Timestamp(format.parse(timeStart));
         } catch (ParseException ex) {
             s = null;
         }
-        if (s==null) {
-            timeStartInput.setError("Time Start has incorrect format");
-            valid = false;
-        }
         try {
-            e = new Timestamp(format.parse(timeStart));
+            e = new Timestamp(format.parse(timeEnd));
         } catch (ParseException ex) {
             e = null;
         }
-        if (e==null) {
-            timeEndInput.setError("Time End has incorrect format");
-            valid = false;
-        }
-        if(s.compareTo(e) >= 0) {
-            timeEndInput.setError("Time End should be after start");
+        if(s!=null && s.compareTo(e) >= 0) {
+            Toast.makeText(getApplicationContext(), "Time End should be after start", Toast.LENGTH_SHORT).show();
             valid = false;
         }
 
@@ -168,12 +201,71 @@ public class SignUpLearningCenter extends AppCompatActivity {
             valid = false;
         }
 
+        if (valid) {
+            Account.addData("bName", name);
+            Account.addData("bWebsite", website);
+            Account.addData("bEmail", email);
+            Account.addData("bContactNumber", contact);
+            Account.addData("bOpeningTime", s);
+            Account.addData("bClosingTime", e);
+            Account.addData("bOperatingDays", operatingDays);
+            if (serviceType.equals("Others"))
+                Account.addData("bServiceType", otherServiceType);
+            else
+                Account.addData("bServiceType", serviceType);
+            Account.addData("bHouseNo", houseNo);
+            Account.addData("bStreet", street);
+            Account.addData("bBarangay", barangay);
+            Account.addData("bCity", city);
+            Account.addData("bProvince", province);
+            Account.addData("bDistrict", district);
+            Account.addData("bZipCode", zipCode);
+            Account.addData("bCountry", country);
+            Account.addData("accessLevel", "administrator");
+        }
+
         return valid;
     }
+
+    private void setValues() {
+        SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
+        nameInput.setText(Account.getStringData("bName"));
+        websiteInput.setText(Account.getStringData("bWebsite"));
+        emailInput.setText(Account.getStringData("bEmail"));
+        contactInput.setText(Account.getStringData("bContactNumber"));
+        if (Account.hasKey("bOpeningTime"))
+            timeStartInput.setText(format.format(Account.getTimeStampData("bOpeningTime").toDate()));
+        if (Account.hasKey("bClosingTime"))
+            timeEndInput.setText(format.format(Account.getTimeStampData("bClosingTime").toDate()));
+        if (Account.getStringData("bServiceType").equals("Others")) {
+            otherServiceTypeInput.setText(Account.getStringData("bServiceType"));
+            otherServiceTypeInput.setVisibility(View.VISIBLE);
+        } else {
+            List <String> list = new ArrayList<>();
+            for(String s:getResources().getStringArray(R.array.service_types)) {
+                list.add(s);
+            }
+            serviceTypeInput.setSelection(list.indexOf(Account.getStringData("bServiceType")));
+        }
+        houseNoInput.setText(Account.getStringData("bHouseNo"));
+        streetInput.setText(Account.getStringData("bStreet"));
+        barangayInput.setText(Account.getStringData("bBarangay"));
+        cityInput.setText(Account.getStringData("bCity"));
+        provinceInput.setText(Account.getStringData("bProvince"));
+        districtInput.setText(Account.getStringData("bDistrict"));
+        zipCodeInput.setText(Account.getStringData("bZipCode"));
+        List <String> list = new ArrayList<>();
+        for(String s:getResources().getStringArray(R.array.countries2)) {
+            list.add(s);
+        }
+        countryInput.setSelection(list.indexOf(Account.getStringData("bCountry")));
+    }
+
 
     private void res() {
         nameInput = findViewById(R.id.sign_up_business_name_lc);
         websiteInput = findViewById(R.id.sign_up_website_lc);
+        emailInput = findViewById(R.id.sign_up_email_lc);
         contactInput = findViewById(R.id.sign_up_contact_lc);
         timeStartInput = findViewById(R.id.sign_up_time_open_lc);
         timeEndInput = findViewById(R.id.sign_up_time_close_lc);
@@ -192,9 +284,10 @@ public class SignUpLearningCenter extends AppCompatActivity {
         friday = findViewById(R.id.sign_up_friday_lc);
         saturday = findViewById(R.id.sign_up_saturday_lc);
         sunday = findViewById(R.id.sign_up_sunday_lc);
-        countryInput = findViewById(R.id.sign_up_country_educator);
+        countryInput = findViewById(R.id.sign_up_country_lc);
         serviceTypeInput = findViewById(R.id.sign_up_service_type_lc);
-        signUpButton = findViewById(R.id.sign_up_button_educator);
+        logo = findViewById(R.id.sign_up_image_lc);
+        changeImage = findViewById(R.id.sign_up_image_change_lc);
         storageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -230,6 +323,103 @@ public class SignUpLearningCenter extends AppCompatActivity {
                     }
                 }, mHour, mMinute, false);
         dialog.show();
+    }
+
+    private void selectImage() {
+        try {
+            PackageManager pm = getPackageManager();
+            int hasPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
+            if (hasPerm == PackageManager.PERMISSION_GRANTED) {
+                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Select Option");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Take Photo")) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(intent, PICK_IMAGE_CAMERA);
+                        } else if (options[item].equals("Choose From Gallery")) {
+                            dialog.dismiss();
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
+                        } else if (options[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
+            } else
+                Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
+            try {
+                Uri selectedImage = data.getData();
+                bitmap = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+
+                Log.e("Activity", "Pick from Camera::>>> ");
+
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                destination = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" +
+                        getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                imgPath = destination.getAbsolutePath();
+                logo.setImageBitmap(bitmap);
+                withImage = true;
+                Account.addData("bLogo", selectedImage);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
+            Uri selectedImage = data.getData();
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+                Log.e("Activity", "Pick from Gallery::>>> ");
+
+                imgPath = getRealPathFromURI(selectedImage);
+                destination = new File(imgPath.toString());
+                logo.setImageBitmap(bitmap);
+                withImage = true;
+                Account.addData("bLogo", selectedImage);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public String getRealPathFromURI(Uri contentUri) {
+        String[] filePathColumn = { MediaStore.Images.Media.DATA };
+        Cursor cursor = getContentResolver().query(contentUri,
+                filePathColumn, null, null, null);
+        cursor.moveToFirst();
+        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+        return cursor.getString(columnIndex);
     }
 
     @Override

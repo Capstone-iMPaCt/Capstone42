@@ -6,6 +6,7 @@ import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -17,6 +18,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +29,9 @@ public class SignUpUsers extends AppCompatActivity {
 
     private String TAG = "SIGNUP";
     private TextInputEditText usernameInput, passwordInput, confirmInput, emailInput, answerInput;
-    private Spinner spinner;
+    private Spinner questions;
     private Intent intent;
+    private TextView title;
     boolean valid;
 
     private FirebaseFirestore db;
@@ -41,27 +46,20 @@ public class SignUpUsers extends AppCompatActivity {
         confirmInput = findViewById(R.id.sign_up_confirm_password);
         emailInput = findViewById(R.id.sign_up_email);
         answerInput = findViewById(R.id.sign_up_security_answer);
-        spinner = findViewById(R.id.sign_up_security_question);
+        questions = findViewById(R.id.sign_up_security_question);
+        title = findViewById(R.id.sign_up_user_title);
 
+        setValues();
+
+        if (Account.getType() == Account.Type.LearningCenter)
+            title.setText("Center's Administrator Sign Up");
         db = FirebaseFirestore.getInstance();
     }
 
     public void continueSignUp(View v) {
         if (checkErrors()) {
-            switch (Account.getType()) {
-                case LearningCenter:
-                    intent = new Intent(getApplicationContext(), SignUpLearningCenter.class);
-                    startActivityForResult(intent,1);
-                    break;
-                case Educator:
-                    intent = new Intent(getApplicationContext(), SignUpOthers.class);
-                    startActivityForResult(intent,2);
-                    break;
-                case Student:
-                    intent = new Intent(getApplicationContext(), SignUpOthers.class);
-                    startActivityForResult(intent,3);
-                    break;
-            }
+            intent = new Intent(getApplicationContext(), SignUpOthers.class);
+            startActivityForResult(intent,1);
         } else {
             Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT).show();
         }
@@ -75,7 +73,7 @@ public class SignUpUsers extends AppCompatActivity {
         String confirm = confirmInput.getText().toString();
         String email = emailInput.getText().toString();
         String answer = answerInput.getText().toString().toLowerCase();
-        String question = spinner.getSelectedItem().toString();
+        String question = questions.getSelectedItem().toString();
 
         if (username.isEmpty()) {
             usernameInput.setError("Username is empty.");
@@ -125,14 +123,29 @@ public class SignUpUsers extends AppCompatActivity {
         }
 
         if (valid) {
-            Account.clearData();
-            Account.addData("username", username);
-            Account.addData("password", password);
-            Account.addData("email", email);
-            Account.addData("question", question);
-            Account.addData("answer", answer);
+            retrieveData();
         }
         return valid;
+    }
+
+    private void retrieveData() {
+        Account.addData("username", usernameInput.getText().toString().toLowerCase());
+        Account.addData("password", passwordInput.getText().toString());
+        Account.addData("email", emailInput.getText().toString());
+        Account.addData("answer", answerInput.getText().toString().toLowerCase());
+        Account.addData("question", questions.getSelectedItem().toString());
+    }
+
+    private void setValues() {
+        usernameInput.setText(Account.getStringData("username"));
+        passwordInput.setText(Account.getStringData("password"));
+        emailInput.setText(Account.getStringData("email"));
+        List<String> list = new ArrayList<>();
+        for(String s:getResources().getStringArray(R.array.my_security_questions)) {
+            list.add(s);
+        }
+        questions.setSelection(list.indexOf(Account.getStringData("question")));
+        answerInput.setText(Account.getStringData("answer"));
     }
 
     @Override
@@ -141,15 +154,12 @@ public class SignUpUsers extends AppCompatActivity {
         setResult(RESULT_OK);
         if(requestCode == 1 && resultCode == RESULT_OK) {
             finish();
-        } else if(requestCode == 2 && resultCode == RESULT_OK) {
-            finish();
-        } else if(requestCode == 3 && resultCode == RESULT_OK) {
-            finish();
         }
     }
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
+        retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
     }

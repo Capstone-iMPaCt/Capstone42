@@ -5,6 +5,7 @@ import android.net.Uri;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,12 +16,18 @@ public class Account {
     private static Type type;
     private static Map<String, Object> data = new HashMap<>();
 
+    public enum Type { LearningCenter, Educator, Student }
+
     public static String getName() {
         String name = getStringData("firstName") + " ";
         if (!getStringData("middleName").isEmpty())
             name += getStringData("middleName").toUpperCase().charAt(0) + " ";
         name += getStringData("lastName");
         return name;
+    }
+
+    public static String getBusinessName() {
+        return data.get("bName").toString();
     }
 
     public static Map<String, Object> getUserData() {
@@ -73,12 +80,45 @@ public class Account {
             profileData.put("EmploymentStatus", "none");
         } else if (type == Type.Student) {
             profileData.put("EnrolmentStatus", "none");
+        } else if (type == Type.LearningCenter) {
+            profileData.put("AccessLevel", getStringData("accessLevel"));
+            profileData.put("CenterID", getStringData("centerId"));
         }
 
         return profileData;
     }
 
-    public enum Type { LearningCenter, Educator, Student }
+    public static Map<String, Object> getBusinessData() {
+        Map<String, Object> businessData = new HashMap<>();
+        businessData.put("BusinessName", getStringData("bName"));
+        businessData.put("CompanyWebsite", getStringData("bWebsite"));
+        businessData.put("ContactEmail", getStringData("bEmail"));
+        businessData.put("ContactNumber", getStringData("bContactNumber"));
+        businessData.put("ServiceType", getStringData("bServiceType"));
+        List<Map<String, Object>> add = new ArrayList<>();
+            Map<String, Object> address = new HashMap<>();
+                address.put("HouseNo", getStringData("bHouseNo"));
+                address.put("Street", getStringData("bStreet"));
+                address.put("Barangay", getStringData("bBarangay"));
+                address.put("City", getStringData("bCity"));
+                address.put("Province", getStringData("bProvince"));
+                address.put("District", getStringData("bDistrict"));
+                address.put("ZipCode", getStringData("bZipCode"));
+                address.put("Country", getStringData("bCountry"));
+            add.add(address);
+        businessData.put("BusinessAddress", add);
+        businessData.put("ClosingTime", getTimeStampData("bClosingTime"));
+        businessData.put("OpeningTime", getTimeStampData("bOpeningTime"));
+
+        List<Map<String, Object>> accounts = new ArrayList<>();
+            Map<String, Object> account = new HashMap<>();
+                account.put("AccessLevel", "administrator");
+                account.put("Status", "active");
+                account.put("Username", getStringData("username"));
+            accounts.add(account);
+        businessData.put("Accounts", accounts);
+        return businessData;
+    }
 
     public static void addData(String key, Object value) {
         data.put(key, value);
@@ -110,6 +150,13 @@ public class Account {
     public static Timestamp getTimeStampData(String key) {
         if(data.containsKey(key)) {
             return (Timestamp) data.get(key);
+        }
+        return null;
+    }
+
+    public static Date getDateData(String key) {
+        if(data.containsKey(key)) {
+            return ((Timestamp) data.get(key)).toDate();
         }
         return null;
     }

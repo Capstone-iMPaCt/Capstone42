@@ -1,15 +1,18 @@
 package com.project.ilearncentral.Activity.SignUp;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
@@ -31,6 +34,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
@@ -40,9 +44,20 @@ import com.project.ilearncentral.Activity.UserPages;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.R;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -65,13 +80,18 @@ public class SignUpOthers extends AppCompatActivity {
     private Button signUpButton;
 
     private FirebaseAuth mAuth;
+    private FirebaseUser user;
     private FirebaseFirestore db;
     private StorageReference storageRef;
     private StorageReference ref;
 
-    private final int PICK_IMAGE_REQUEST = 71;
     private Uri filePath;
+    private String imgPath = null;
     private boolean withImage;
+    private Bitmap bitmap;
+    private File destination = null;
+    private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
+    private Uri otherPath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,10 +99,18 @@ public class SignUpOthers extends AppCompatActivity {
         setContentView(R.layout.activity_sign_up_others);
 
         res();
+        setValues();
         if (Account.getType() == Account.Type.Student) {
             formTitle.setText(getString(R.string.student_sign_up_form));
+        } else if (Account.getType() == Account.Type.LearningCenter) {
+            formTitle.setText("CENTER'S ADMINISTRATOR PROFILE");
         }
-        changeimage.setOnClickListener(selectphoto);
+        changeimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
         Log.d(TAG, Account.getStringData("username"));
         birthDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,32 +148,55 @@ public class SignUpOthers extends AppCompatActivity {
                                     if (task.isSuccessful()) {
                                         // Sign in success, update UI with the signed-in user's information
                                         Log.d(TAG, "createUserWithEmail:success");
-                                        FirebaseUser user = mAuth.getCurrentUser();
+                                        user = mAuth.getCurrentUser();
                                         db.collection("User").document(user.getUid()).set(Account.getUserData());
                                         if (Account.getType() == Account.Type.Student)
                                             db.collection("Student").document(user.getUid()).set(Account.getProfileData());
-                                        else
+                                        else if(Account.getType() == Account.Type.Educator)
                                             db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
+                                        else {
+                                            db.collection("LearningCenter").add(Account.getBusinessData())
+                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                @Override
+                                                public void onSuccess(DocumentReference documentReference) {
+                                                        Account.addData("centerId", documentReference.getId());
+                                                        db.collection("LearningCenterStaff").document(user.getUid()).set(Account.getProfileData());
+                                                        uploadImage(Account.getStringData("username"), documentReference.getId());
+                                                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                                                    }
+                                                })
+                                                    .addOnFailureListener(new OnFailureListener() {
+                                                        @Override
+                                                        public void onFailure(@NonNull Exception e) {
+                                                            Log.w(TAG, "Error adding document", e);
+                                                        }
+                                                    });
 
-                                        uploadImage(Account.getStringData("username"));
-                                        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(Account.getName())
-                                                .setPhotoUri(Account.getUriData("image"))
-                                                .build();
-                                        user.updateProfile(profileUpdates)
+                                        }
+
+
+                                        if (Account.getType() != Account.Type.LearningCenter) {
+                                            uploadImage(Account.getStringData("username"), "");
+                                        }
+                                        if (!withImage) {
+                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                    .setDisplayName(Account.getName())
+                                                    .build();
+                                            user.updateProfile(profileUpdates)
                                                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
-                                                            if (!withImage) updateUI();
+                                                            updateUI();
                                                             Log.d(TAG, "User profile updated.");
                                                         }
                                                     }
                                                 });
+                                        }
                                     } else {
                                         // If sign in fails, display a message to the user.
                                         Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(SignUpOthers.this, "Authentication failed.",
+                                        Toast.makeText(SignUpOthers.this, "User's email is invalid.",
                                                 Toast.LENGTH_SHORT).show();
                                         signUpButton.setEnabled(true);
                                     }
@@ -228,74 +279,186 @@ public class SignUpOthers extends AppCompatActivity {
         }
 
         if (valid) {
-            Account.addData("firstName", fName);
-            Account.addData("middleName", mName);
-            Account.addData("lastName", lName);
-            Account.addData("extension", extension);
-            Account.addData("citizenship", citizenship);
-            Account.addData("birthday", t);
-            Account.addData("religion", religion);
-            Account.addData("houseNo", houseNo);
-            Account.addData("street", street);
-            Account.addData("barangay", barangay);
-            Account.addData("city", city);
-            Account.addData("province", province);
-            Account.addData("district", district);
-            Account.addData("zipCode", zipCode);
-            Account.addData("country", country);
-            Account.addData("maritalStatus", maritalStatus);
-            if (maleInput.isChecked())
-                Account.addData("gender", "Male");
-            else
-                Account.addData("gender", "Female");
+            retrieveData();
         }
         return valid;
     }
 
-    private View.OnClickListener selectphoto = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            new Thread(new Runnable() {
-                public void run() {
-                    Intent i = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    startActivityForResult(i, PICK_IMAGE_REQUEST);
-                }
-            }).start();
+    private void retrieveData() {
+        Timestamp t;
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        try {
+            t = new Timestamp(format.parse(birthDateInput.getText().toString()));
+        } catch (ParseException e) {
+            t = null;
         }
-    };
+        Account.addData("firstName", fNameInput.getText().toString());
+        Account.addData("middleName", mNameInput.getText().toString());
+        Account.addData("lastName", lNameInput.getText().toString());
+        Account.addData("extension", extensionInput.getText().toString());
+        Account.addData("citizenship", citizenshipInput.getText().toString());
+        if (t!=null) Account.addData("birthday", t);
+        Account.addData("religion", religionInput.getText().toString());
+        Account.addData("houseNo", houseNoInput.getText().toString());
+        Account.addData("street", streetInput.getText().toString());
+        Account.addData("barangay", barangayInput.getText().toString());
+        Account.addData("city", cityInput.getText().toString());
+        Account.addData("province", provinceInput.getText().toString());
+        Account.addData("district", districtInput.getText().toString());
+        Account.addData("zipCode", zipCodeInput.getText().toString());
+        Account.addData("country", countryInput.getSelectedItem().toString());
+        Account.addData("maritalStatus", maritalStatusInput.getSelectedItem().toString());
+        if (maleInput.isChecked()) {
+            Account.addData("gender", "Male");
+        }
+        else {
+            Account.addData("gender", "Female");
+        }
+        if (withImage) {
+            Account.addData("image", filePath.toString());
+        }
+    }
+
+    private void setValues() {
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
+        fNameInput.setText(Account.getStringData("firstName"));
+        mNameInput.setText(Account.getStringData("middleName"));
+        lNameInput.setText(Account.getStringData("lastName"));
+        extensionInput.setText(Account.getStringData("extension"));
+        citizenshipInput.setText(Account.getStringData("citizenship"));
+        if (Account.hasKey("birthday"))
+            birthDateInput.setText(format.format(Account.getDateData("birthday")));
+        religionInput.setText(Account.getStringData("religion"));
+        houseNoInput.setText(Account.getStringData("houseNo"));
+        streetInput.setText(Account.getStringData("street"));
+        barangayInput.setText(Account.getStringData("barangay"));
+        cityInput.setText(Account.getStringData("city"));
+        provinceInput.setText(Account.getStringData("province"));
+        districtInput.setText(Account.getStringData("district"));
+        zipCodeInput.setText(Account.getStringData("zipCode"));
+        List<String> list = new ArrayList<>();
+        for (String s : getResources().getStringArray(R.array.countries)) {
+            list.add(s);
+        }
+        countryInput.setSelection(list.indexOf(Account.getStringData("country")));
+
+        list.clear();
+        for (String s : getResources().getStringArray(R.array.marital_status)) {
+            list.add(s);
+        }
+        maritalStatusInput.setSelection(list.indexOf(Account.getStringData("maritalStatus")));
+        if (Account.hasKey("image")) {
+            filePath = Account.getUriData("image");
+            setImage();
+        }
+    }
+
+    private void selectImage() {
+        try {
+            PackageManager pm = getPackageManager();
+            int hasPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
+            if (hasPerm == PackageManager.PERMISSION_GRANTED) {
+                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Select Option");
+                builder.setItems(options, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (options[item].equals("Take Photo")) {
+                            dialog.dismiss();
+                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                            startActivityForResult(intent, PICK_IMAGE_CAMERA);
+                        } else if (options[item].equals("Choose From Gallery")) {
+                            dialog.dismiss();
+                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
+                        } else if (options[item].equals("Cancel")) {
+                            dialog.dismiss();
+                        }
+                    }
+                });
+                builder.show();
+            } else
+                Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK
+
+        if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
+            try {
+                Uri selectedImage = data.getData();
+                bitmap = (Bitmap) data.getExtras().get("data");
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+
+                Log.e("Activity", "Pick from Camera::>>> ");
+
+                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                destination = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" +
+                        getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
+                FileOutputStream fo;
+                try {
+                    destination.createNewFile();
+                    fo = new FileOutputStream(destination);
+                    fo.write(bytes.toByteArray());
+                    fo.close();
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                imgPath = destination.getAbsolutePath();
+                image.setImageBitmap(bitmap);
+                filePath = selectedImage;
+                withImage = true;
+                Account.addData("image", selectedImage);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if(requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            Account.addData("image", filePath.toString());
-            try {
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                Cursor cursor = getContentResolver().query(filePath,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
-                image.setImageBitmap(bitmap);
-                withImage = true;
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
+            setImage();
         }
     }
 
-    public void uploadImage(String txtid){
+    private void setImage() {
+        try {
+            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+
+            Cursor cursor = getContentResolver().query(filePath,
+                    filePathColumn, null, null, null);
+            cursor.moveToFirst();
+
+            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+            String picturePath = cursor.getString(columnIndex);
+            cursor.close();
+
+            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+            image.setImageBitmap(bitmap);
+            withImage = true;
+            Account.addData("image", filePath.toString());
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void uploadImage(String txtid, final String centerId){
+        otherPath = null;
+        if (!centerId.isEmpty())
+                otherPath = Account.getUriData("bLogo");
+        final boolean twoUploads = !centerId.isEmpty() && otherPath!=null;
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -310,10 +473,33 @@ public class SignUpOthers extends AppCompatActivity {
                             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    progressDialog.dismiss();
-                                    //showAlert("Successfully Added","Success");
                                     if (withImage) {
-                                        updateUI();
+                                        DocumentReference userRef = db.collection("User").document(user.getUid());
+                                        userRef
+                                                .update("Image", uri.toString())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
+                                    }
+                                    if (!twoUploads) {
+                                        progressDialog.dismiss();
+                                        if (withImage) {
+                                            updateProfileWithImage(uri, true);
+                                        }
+                                    } else {
+                                        if (withImage) {
+                                            updateProfileWithImage(uri, false);
+                                        }
+                                        upload2ndImage(centerId, otherPath, twoUploads, progressDialog);
                                     }
                                 }
                             });
@@ -329,12 +515,112 @@ public class SignUpOthers extends AppCompatActivity {
                     .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = (100.0*taskSnapshot.getBytesTransferred()/taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploading data "+(int)progress+"%");
+                            double progress = 0.0;
+                            if (!twoUploads) {
+                                progress = (100.0 * taskSnapshot
+                                        .getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount());
+                            } else {
+                                progress = (100.0 * taskSnapshot
+                                        .getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount())/2;
+                            }
+                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
                         }
                     });
         }
+    }
+
+    private void upload2ndImage(final String centerId, Uri otherPath, boolean twoUploads, final ProgressDialog progressDialog) {
+        if (twoUploads) {
+            ref = storageRef.child("images/" + centerId);
+            ref.putFile(otherPath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl()
+                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                        @Override
+                                        public void onSuccess(Uri uri) {
+                                            progressDialog.dismiss();
+                                            Map<String, Object> data = new HashMap<>();
+                                            data.put("Logo", uri.toString());
+                                            DocumentReference lcRef = db.collection("LearningCenter").document(centerId);
+                                            lcRef
+                                                .update("Logo", uri.toString())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        updateUI();
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
+
+                                            //db to add logo uri
+                                        }
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            showAlert("An Error Occured", "ERROR");
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = 0.0;
+                                progress = ((100.0 * taskSnapshot
+                                        .getBytesTransferred() / taskSnapshot
+                                        .getTotalByteCount()) / 2)+50;
+                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
+                        }
+                    });
+        }
+    }
+
+    public void updateProfileWithImage(final Uri uri, final boolean continueSignIn) {
+        UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                .setDisplayName(Account.getName())
+                .setPhotoUri(uri)
+                .build();
+        user.updateProfile(profileUpdates)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            if (continueSignIn) {
+                                Map<String, Object> data = new HashMap<>();
+                                data.put("Image", uri.toString());
+                                db.collection("User").document(user.getUid())
+                                        .set(data)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                updateUI();
+                                                Log.d(TAG, "DocumentSnapshot successfully written!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error writing document", e);
+                                            }
+                                        });
+                            }
+                            //update image urk in db
+                            Log.d(TAG, "User profile updated.");
+                        }
+                    }
+                });
     }
 
     public void showAlert(String Message,String label)
@@ -380,12 +666,14 @@ public class SignUpOthers extends AppCompatActivity {
         signUpButton = findViewById(R.id.sign_up_button_educator);
         storageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         withImage = false;
     }
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
+        retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
     }

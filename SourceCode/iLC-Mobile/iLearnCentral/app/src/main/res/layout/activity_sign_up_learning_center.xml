@@ -16,14 +16,28 @@
         android:orientation="vertical"
         android:padding="30dp">
 
-        <ImageView
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/logo_icon"
-            android:contentDescription="@string/iLC_logo_description" />
-
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/sign_up_image_lc"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/logo_icon"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:contentDescription="@string/iLC_logo_description" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/sign_up_image_change_lc"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                app:layout_constraintBottom_toBottomOf="@+id/sign_up_image_lc"
+                app:layout_constraintEnd_toEndOf="@+id/sign_up_image_lc"
+                android:src="@drawable/ic_camera_alt_black_24dp" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -53,6 +67,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/business_name"
+                android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
@@ -69,6 +84,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/company_website"
+                android:inputType="textUri"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:textSize="16sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_email_lc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/email_address"
+                android:inputType="textEmailAddress"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
@@ -85,6 +116,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/contact_number"
+                android:inputType="phone"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:textSize="16sp" />
@@ -100,7 +132,7 @@
             android:textStyle="italic" />
 
         <Spinner
-            android:id="@+id/countrySpinner"
+            android:id="@+id/sign_up_country_lc"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginBottom="5dp"
@@ -422,6 +454,7 @@
             android:layout_marginBottom="30dp"
             android:background="@drawable/button_dark_blue"
             android:text="@string/_continue"
+            android:onClick="centerSignUpContinue"
             android:textColor="@color/text_view_background" />
 
     </LinearLayout>

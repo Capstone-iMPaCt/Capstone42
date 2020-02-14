@@ -51,7 +51,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUp.SignUpLearningCenter" />
+        <activity android:name=".Activity.SignUp.SignUpLearningCenter"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.SignUp.SignUpUsers" />
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity

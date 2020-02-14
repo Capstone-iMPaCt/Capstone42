@@ -27,8 +27,7 @@
             android:src="@drawable/user"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:contentDescription="@string/iLC_logo_description" />
+            app:layout_constraintEnd_toEndOf="parent" />
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/sign_up_image_change_educator"
             android:layout_width="25dp"
