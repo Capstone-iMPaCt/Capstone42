@@ -27,6 +27,13 @@
         android:visible="false"/>
 
     <item
+        android:id="@+id/menu_create_user"
+        android:title="@string/create_user"
+        android:icon="@drawable/ic_person_add_black_24dp"
+        app:showAsAction="never"
+        android:visible="false"/>
+
+    <item
         android:id="@+id/menu_logout"
         android:title="@string/logout"
         android:icon="@drawable/logout_24dp"

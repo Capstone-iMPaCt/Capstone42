@@ -81,7 +81,7 @@ public class Messages extends AppCompatActivity {
 
 
     }
-
+    
     private void getMessages() {
         db.collection("Messages")
                 .whereEqualTo("From", username)

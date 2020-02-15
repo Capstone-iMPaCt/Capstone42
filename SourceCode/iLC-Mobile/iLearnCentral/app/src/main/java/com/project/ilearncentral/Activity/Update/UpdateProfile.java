@@ -121,7 +121,7 @@ public class UpdateProfile extends AppCompatActivity {
                 int month = calendarldr.get(Calendar.MONTH);
                 int year = calendarldr.get(Calendar.YEAR);
                 // date picker dialog
-                picker = new DatePickerDialog(getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
+                picker = new DatePickerDialog(UpdateProfile.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);

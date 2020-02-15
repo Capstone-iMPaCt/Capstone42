@@ -271,11 +271,16 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     public boolean onPrepareOptionsMenu(Menu menu)
     {
         System.out.println(Account.getType());
-        MenuItem item = menu.findItem(R.id.menu_update_business);
+        MenuItem updateBusiness = menu.findItem(R.id.menu_update_business);
         if (Account.getType() == Account.Type.LearningCenter) {
-            item.setVisible(true);
+            updateBusiness.setVisible(true);
+            MenuItem createUser = menu.findItem(R.id.menu_create_user);
+            if (Account.getStringData("accessLevel").equals("administrator"))
+                createUser.setVisible(true);
+            else
+                createUser.setVisible(false);
         } else {
-            item.setVisible(false);
+            updateBusiness.setVisible(false);
         }
         return true;
     }
@@ -294,6 +299,9 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                 return true;
             case R.id.menu_update_business:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
+                return true;
+            case R.id.menu_create_user:
+                //startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
                 return true;
             case R.id.menu_logout:
                 Connection.logOut(this);

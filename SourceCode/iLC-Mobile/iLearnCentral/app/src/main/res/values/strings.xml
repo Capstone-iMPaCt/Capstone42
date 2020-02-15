@@ -94,6 +94,7 @@
     <string name="update_account">Update Account</string>
     <string name="update_profile">Update Profile</string>
     <string name="update_learning_center">Update Center</string>
+    <string name="create_user">Create User</string>
     <string name="logout">Log Out</string>
 
     -- Sentences and Phrases --
