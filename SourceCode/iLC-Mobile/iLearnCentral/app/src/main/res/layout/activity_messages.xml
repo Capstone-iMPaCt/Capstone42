@@ -4,34 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_linear"
     tools:context=".Activity.Messages">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/chat_app_bar_messages"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/chat_toolbar_messages"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/bg_toolbar"
-            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-            app:title="Chat" />
-
-    </com.google.android.material.appbar.AppBarLayout>
-
+        android:layout_height="match_parent"
+        android:layout_below="@+id/chat_search"
+        android:background="@drawable/bg_transparent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="10dp">
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/message_recycler"
         android:layout_above="@+id/message_typer"
-        android:layout_below="@+id/chat_app_bar_messages"
         >
 
     </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
 <RelativeLayout
     android:id="@+id/message_typer"
     android:layout_width="match_parent"

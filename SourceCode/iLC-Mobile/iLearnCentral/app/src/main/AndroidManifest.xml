@@ -15,12 +15,16 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Update.UpdateLearningCenter"
+        <activity android:name=".Activity.SignUp.CreateUser"></activity>
+        <activity
+            android:name=".Activity.Update.UpdateLearningCenter"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activity.Update.UpdateAccount"
-            android:configChanges="orientation|screenSize"/>
-        <activity android:name=".Activity.Update.UpdateProfile"
-            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".Activity.Update.UpdateAccount"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Activity.Update.UpdateProfile"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.ForgotPassword" />
         <activity
             android:name=".Activity.AccountSettings"
@@ -62,8 +66,9 @@
         <activity
             android:name=".Activity.SignUp.SignUpOthers"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activity.SignUp.SignUpUsers"
-            android:configChanges="orientation|screenSize"/>
+        <activity
+            android:name=".Activity.SignUp.SignUpUsers"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity
             android:name=".Activity.Login"

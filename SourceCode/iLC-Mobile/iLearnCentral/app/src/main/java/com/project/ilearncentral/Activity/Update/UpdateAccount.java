@@ -40,7 +40,7 @@ public class UpdateAccount extends AppCompatActivity {
     private Spinner questions;
     private TextView title;
     private Button UpdateBtn;
-    boolean valid;
+    boolean valid, updated;
     private FirebaseFirestore db;
     FirebaseUser user;
     private boolean emailChangeFlag, passChangeFlag, securityChangeFlag;
@@ -63,6 +63,7 @@ public class UpdateAccount extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         user = FirebaseAuth.getInstance().getCurrentUser();
         emailChangeFlag = passChangeFlag = securityChangeFlag = false;
+        updated = false;
 
         setValues();
 
@@ -98,6 +99,13 @@ public class UpdateAccount extends AppCompatActivity {
         }
     }
 
+    private void updateDone() {
+        updated = true;
+        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
+                .show();
+        Utility.buttonWait(UpdateBtn, false, "Update");
+    }
+
     private void changeEmail() {
         AuthCredential credential = EmailAuthProvider.getCredential(Account.getStringData("email"), oldPassword);
         user.reauthenticate(credential)
@@ -116,9 +124,7 @@ public class UpdateAccount extends AppCompatActivity {
                                                 } else if (securityChangeFlag || emailChangeFlag) {
                                                     updateUser();
                                                 } else {
-                                                    Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
-                                                            .show();
-                                                    Utility.buttonWait(UpdateBtn, false, "Update");
+                                                    updateDone();
                                                 }
                                                 Log.d(TAG, "User email address updated.");
                                             } else {
@@ -161,9 +167,7 @@ public class UpdateAccount extends AppCompatActivity {
                                             if (securityChangeFlag) {
                                                 updateUser();
                                             } else {
-                                                Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
-                                                        .show();
-                                                Utility.buttonWait(UpdateBtn,false, "Update");
+                                                updateDone();
                                             }
                                             Log.d(TAG, "User password updated.");
                                         } else {
@@ -193,9 +197,7 @@ public class UpdateAccount extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
-                                .show();
-                        Utility.buttonWait(UpdateBtn, false, "Update");
+                        updateDone();
                         Log.d(TAG, "DocumentSnapshot successfully updated!");
                     }
                 })
@@ -269,7 +271,11 @@ public class UpdateAccount extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
+        if (updated)
+            setResult(RESULT_OK);
+        else
+            setResult(RESULT_CANCELED);
+        //retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
     }

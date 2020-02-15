@@ -27,6 +27,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.SignUp.CreateUser;
 import com.project.ilearncentral.Activity.Update.UpdateAccount;
 import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
@@ -58,7 +59,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private FirebaseUser user;
     private FirebaseFirestore db;
     private StorageReference storageRef;
-    private ObservableBoolean accountSet;
+    private ObservableBoolean accountSet, authProfileSet;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -70,7 +71,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
     private LinearLayout profileView;
-    private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 12;
+    private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +155,24 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        authProfileSet = new ObservableBoolean();
+        authProfileSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    changeProfileImage();
+                    usernameDisplay
+                            .setText(Account.getName() + " | " + Account.getStringData("username"));
+                    if (Account.getType() == Account.Type.LearningCenter) {
+                        fieldDisplay.setText(Account.getType().toString() + " | " + Utility
+                                .caps(Account.getStringData("accessLevel")));
+                    } else
+                        fieldDisplay.setText(Account.getType().toString());
+                } else {
+
+                }
+            }
+        });
         setProfileBanner();
     }
 
@@ -164,14 +183,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onBooleanChanged(boolean newValue) {
                 if (newValue) {
-                    changeProfileImage();
-                    usernameDisplay
-                            .setText(Account.getName() + " | " + Account.getStringData("username"));
-                    if (Account.getType() == Account.Type.LearningCenter) {
-                        fieldDisplay.setText(Account.getType().toString() + " | " + Utility
-                                .caps(Account.getStringData("accessLevel")));
-                    } else
-                        fieldDisplay.setText(Account.getType().toString());
+                    Utility.updateProfileWithImage(TAG, authProfileSet);
                 }
             }
         });
@@ -301,7 +313,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                 startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
                 return true;
             case R.id.menu_create_user:
-                //startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
+                startActivity(new Intent(getApplicationContext(), CreateUser.class));
                 return true;
             case R.id.menu_logout:
                 Connection.logOut(this);

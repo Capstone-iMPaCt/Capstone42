@@ -79,6 +79,8 @@ public class UpdateProfile extends AppCompatActivity {
     private Spinner maritalStatusInput, countryInput;
     private RadioButton maleInput, femaleInput;
     private Button updateButton;
+    private Timestamp t;
+    private SimpleDateFormat format;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -117,6 +119,9 @@ public class UpdateProfile extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Calendar calendarldr = Calendar.getInstance();
+                if (t!=null) {
+                    calendarldr.setTime(t.toDate());
+                }
                 int day = calendarldr.get(Calendar.DAY_OF_MONTH);
                 int month = calendarldr.get(Calendar.MONTH);
                 int year = calendarldr.get(Calendar.YEAR);
@@ -125,6 +130,7 @@ public class UpdateProfile extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);
+                        birthDateInput.setError(null);
                     }
                 }, year, month, day);
                 picker.show();
@@ -219,8 +225,6 @@ public class UpdateProfile extends AppCompatActivity {
             provinceInput.setError("Province is empty");
             valid = false;
         }
-        Timestamp t;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         try {
             t = new Timestamp(format.parse(birthday));
         } catch (ParseException e) {
@@ -242,13 +246,6 @@ public class UpdateProfile extends AppCompatActivity {
     }
 
     private void retrieveData() {
-        Timestamp t;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-        try {
-            t = new Timestamp(format.parse(birthday));
-        } catch (ParseException e) {
-            t = null;
-        }
         Account.addData("firstName", fName);
         Account.addData("middleName", mName);
         Account.addData("lastName", lName);
@@ -514,20 +511,20 @@ public class UpdateProfile extends AppCompatActivity {
                             if (continueSignIn) {
                                 DocumentReference lcRef = db.collection("User").document(user.getUid());
                                 lcRef
-                                        .update("Image", uri.toString())
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                updateUI();
-                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Log.w(TAG, "Error updating document", e);
-                                            }
-                                        });
+                                    .update("Image", uri.toString())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            updateUI();
+                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.w(TAG, "Error updating document", e);
+                                        }
+                                    });
                             }
                             //update image urk in db
                             Log.d(TAG, "User profile updated.");
@@ -581,6 +578,7 @@ public class UpdateProfile extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        format = new SimpleDateFormat("MM/dd/yyyy");
         withImage = false;
         updated = false;
         fName = mName = lName = extension = birthday = citizenship = religion = houseNo

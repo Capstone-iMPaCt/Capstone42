@@ -157,5 +157,8 @@
             android:background="@drawable/button_dark_blue"
             android:text="@string/_continue"
             android:textColor="@color/text_view_background" />
+
     </LinearLayout>
+
+
 </ScrollView>

@@ -88,7 +88,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
     private Bitmap bitmap;
     private File destination = null;
     private String imgPath = null;
-    private boolean withImage;
+    private boolean withImage, updated;
     private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12, FINISH = 1;
 
     @Override
@@ -131,6 +131,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
                             if(withImage) {
                                 uploadImage(Account.getStringData("centerId"));
                             } else {
+                                updated = true;
                                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
                                         .show();
                                 Utility.buttonWait((Button) v, false, buttonText);
@@ -173,6 +174,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
+                                                        updated = true;
                                                         Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
                                                                 .show();
                                                         Utility.buttonWait(updateButton, false, buttonText);
@@ -445,7 +447,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
         buttonText = "Update";
-        withImage = false;
+        withImage = updated = false;
         name = website = contact = email = timeStart = timeEnd = otherServiceType =
             houseNo = street = barangay = city = province = district = zipCode =
             mon = tue = wed = thu = fri = sat = sun = country = serviceType = "";
@@ -585,7 +587,11 @@ public class UpdateLearningCenter extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
+        if (updated)
+            setResult(RESULT_OK);
+        else
+            setResult(RESULT_CANCELED);
+        //retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
     }

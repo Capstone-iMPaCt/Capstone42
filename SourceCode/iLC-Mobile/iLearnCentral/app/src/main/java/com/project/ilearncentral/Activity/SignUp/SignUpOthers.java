@@ -65,7 +65,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SignUpOthers extends AppCompatActivity {
 
-    private String TAG = "SIGNUP_EDUCATOR";
+    private String TAG = "SIGNUP_OTHER";
     private TextView formTitle;
     private CircleImageView image;
     private CircleImageView changeimage;
@@ -77,6 +77,8 @@ public class SignUpOthers extends AppCompatActivity {
     private Spinner maritalStatusInput, countryInput;
     private RadioButton maleInput, femaleInput;
     private Button signUpButton;
+    private Timestamp t;
+    private SimpleDateFormat format;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -116,6 +118,9 @@ public class SignUpOthers extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 final Calendar calendarldr = Calendar.getInstance();
+                if (t!=null) {
+                    calendarldr.setTime(t.toDate());
+                }
                 int day = calendarldr.get(Calendar.DAY_OF_MONTH);
                 int month = calendarldr.get(Calendar.MONTH);
                 int year = calendarldr.get(Calendar.YEAR);
@@ -124,6 +129,7 @@ public class SignUpOthers extends AppCompatActivity {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);
+                        birthDateInput.setError(null);
                     }
                 }, year, month, day);
                 picker.show();
@@ -140,7 +146,6 @@ public class SignUpOthers extends AppCompatActivity {
                 public void run() {
                     if (checkErrors()) {
                         Utility.buttonWait(signUpButton, true);
-                        signUpButton.setEnabled(false);
                         mAuth.createUserWithEmailAndPassword(Account.getStringData("email"),
                                 Account.getStringData("password"))
                             .addOnCompleteListener(SignUpOthers.this, new OnCompleteListener<AuthResult>() {
@@ -256,8 +261,6 @@ public class SignUpOthers extends AppCompatActivity {
             provinceInput.setError("Province is empty");
             valid = false;
         }
-        Timestamp t;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         try {
             t = new Timestamp(format.parse(birthday));
         } catch (ParseException e) {
@@ -662,6 +665,7 @@ public class SignUpOthers extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         withImage = false;
+        format = new SimpleDateFormat("MM/dd/yyyy");
     }
     @Override
     public void onBackPressed() {

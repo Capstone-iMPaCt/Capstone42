@@ -40,6 +40,10 @@
         <item>Divorced</item>
         <item>Separated</item>
     </string-array>
+    <string-array name="access_level">
+        <item>administrator</item>
+        <item>staff</item>
+    </string-array>
     <string-array name="countries">
         <item>Philippines</item>
     </string-array>
