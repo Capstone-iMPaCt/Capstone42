@@ -16,8 +16,15 @@
     <item
         android:id="@+id/menu_update_profile"
         android:title="@string/update_profile"
-        android:icon="@drawable/ic_account_circle_black_24dp"
+        android:icon="@drawable/ic_face_black_24dp"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_update_business"
+        android:title="@string/update_learning_center"
+        android:icon="@drawable/ic_supervisor_account_black_24dp"
+        app:showAsAction="never"
+        android:visible="false"/>
 
     <item
         android:id="@+id/menu_logout"

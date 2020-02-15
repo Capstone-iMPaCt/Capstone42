@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Activity.SignUp;
+package com.project.ilearncentral.Activity.Update;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -24,13 +24,13 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -39,11 +39,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
-import com.project.ilearncentral.Activity.UserPages;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,9 +65,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpOthers extends AppCompatActivity {
+public class UpdateProfile extends AppCompatActivity {
 
-    private String TAG = "SIGNUP_EDUCATOR";
+    private String TAG = "Update_Profile";
     private TextView formTitle;
     private CircleImageView image;
     private CircleImageView changeimage;
@@ -76,7 +78,7 @@ public class SignUpOthers extends AppCompatActivity {
     private DatePickerDialog picker;
     private Spinner maritalStatusInput, countryInput;
     private RadioButton maleInput, femaleInput;
-    private Button signUpButton;
+    private Button updateButton;
 
     private FirebaseAuth mAuth;
     private FirebaseUser user;
@@ -87,10 +89,13 @@ public class SignUpOthers extends AppCompatActivity {
     private Uri filePath;
     private String imgPath = null;
     private boolean withImage;
+    private boolean updated;
     private Bitmap bitmap;
     private File destination = null;
     private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
-    private Uri otherPath;
+
+    private String fName, mName, lName, extension, birthday, citizenship, religion,
+        houseNo, street, barangay, city, province, district, zipCode, country, maritalStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,18 +105,14 @@ public class SignUpOthers extends AppCompatActivity {
         res();
         setValues();
 
-        if (Account.getType() == Account.Type.Student) {
-            formTitle.setText(getString(R.string.student_sign_up_form));
-        } else if (Account.getType() == Account.Type.LearningCenter) {
-            formTitle.setText("CENTER'S ADMINISTRATOR PROFILE");
-        }
+        Log.d(TAG, Account.getStringData("username"));
+
         changeimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
             }
         });
-        Log.d(TAG, Account.getStringData("username"));
         birthDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -120,7 +121,7 @@ public class SignUpOthers extends AppCompatActivity {
                 int month = calendarldr.get(Calendar.MONTH);
                 int year = calendarldr.get(Calendar.YEAR);
                 // date picker dialog
-                picker = new DatePickerDialog(SignUpOthers.this, new DatePickerDialog.OnDateSetListener() {
+                picker = new DatePickerDialog(getApplicationContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);
@@ -130,79 +131,43 @@ public class SignUpOthers extends AppCompatActivity {
             }
         });
 
-        signUpButton.setOnClickListener(signUp);
+        formTitle.setText("Update Profile");
+        updateButton.setText("Update");
+        updateButton.setOnClickListener(updateProfile);
     }
 
-    private View.OnClickListener signUp = new View.OnClickListener() {
+    private View.OnClickListener updateProfile = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             runOnUiThread(new Runnable() {
                 public void run() {
                     if (checkErrors()) {
-                        Utility.buttonWait(signUpButton, true);
-                        signUpButton.setEnabled(false);
-                        mAuth.createUserWithEmailAndPassword(Account.getStringData("email"),
-                                Account.getStringData("password"))
-                            .addOnCompleteListener(SignUpOthers.this, new OnCompleteListener<AuthResult>() {
-                                @Override
-                                public void onComplete(@NonNull Task<AuthResult> task) {
-                                    if (task.isSuccessful()) {
-                                        // Sign in success, update UI with the signed-in user's information
-                                        Log.d(TAG, "createUserWithEmail:success");
-                                        user = mAuth.getCurrentUser();
-                                        db.collection("User").document(user.getUid()).set(Account.getUserData());
-                                        if (Account.getType() == Account.Type.Student)
-                                            db.collection("Student").document(user.getUid()).set(Account.getProfileData());
-                                        else if(Account.getType() == Account.Type.Educator)
-                                            db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
-                                        else {
-                                            db.collection("LearningCenter").add(Account.getBusinessData())
-                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                        Account.addData("centerId", documentReference.getId());
-                                                        db.collection("LearningCenterStaff").document(user.getUid()).set(Account.getProfileData());
-                                                        uploadImage(Account.getStringData("username"), documentReference.getId());
-                                                        Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
-                                                    }
-                                                })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Log.w(TAG, "Error adding document", e);
-                                                        }
-                                                    });
+                        Utility.buttonWait(updateButton, true);
+                        user = mAuth.getCurrentUser();
+                        if (Account.getType() == Account.Type.Student)
+                            db.collection("Student").document(user.getUid()).set(Account.getProfileData());
+                        else if(Account.getType() == Account.Type.Educator)
+                            db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
+                        else
+                            db.collection("LearningCenterStaff").document(user.getUid()).set(Account.getProfileData());
 
+                        if (!withImage) {
+                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                .setDisplayName(Account.getName())
+                                .build();
+                            user.updateProfile(profileUpdates)
+                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            updateUI();
+                                            Log.d(TAG, "User profile updated.");
                                         }
-
-
-                                        if (Account.getType() != Account.Type.LearningCenter) {
-                                            uploadImage(Account.getStringData("username"), "");
-                                        }
-                                        if (!withImage) {
-                                            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                    .setDisplayName(Account.getName())
-                                                    .build();
-                                            user.updateProfile(profileUpdates)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            updateUI();
-                                                            Log.d(TAG, "User profile updated.");
-                                                        }
-                                                    }
-                                                });
-                                        }
-                                    } else {
-                                        // If sign in fails, display a message to the user.
-                                        Log.w(TAG, "createUserWithEmail:failure", task.getException());
-                                        Toast.makeText(SignUpOthers.this, "User's email is invalid.",
-                                                Toast.LENGTH_SHORT).show();
-                                        Utility.buttonWait(signUpButton, false, "Confirm");
                                     }
-                                }
-                            });
+                                });
+                        } else {
+                            uploadImage(Account.getStringData("username"));
+                        }
                     }
                 }
             });
@@ -210,31 +175,29 @@ public class SignUpOthers extends AppCompatActivity {
     };
 
     public void updateUI() {
-        startActivity(new Intent(getApplicationContext(), UserPages.class));
-        Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
-        Utility.buttonWait(signUpButton, false, "Confirm");
-        setResult(RESULT_OK);
-        finish();
+        updated = true;
+        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
+        Utility.buttonWait(updateButton, false, "Update");
     }
 
     private boolean checkErrors() {
         boolean valid = true;
-        String fName = fNameInput.getText().toString();
-        String mName = mNameInput.getText().toString();
-        String lName = lNameInput.getText().toString();
-        String extension = extensionInput.getText().toString();
-        String birthday = birthDateInput.getText().toString();
-        String citizenship = citizenshipInput.getText().toString();
-        String religion = religionInput.getText().toString();
-        String houseNo = houseNoInput.getText().toString();
-        String street = streetInput.getText().toString();
-        String barangay = barangayInput.getText().toString();
-        String city = cityInput.getText().toString();
-        String province = provinceInput.getText().toString();
-        String district = districtInput.getText().toString();
-        String zipCode = zipCodeInput.getText().toString();
-        String country = countryInput.getSelectedItem().toString();
-        String maritalStatus = maritalStatusInput.getSelectedItem().toString();
+        fName = fNameInput.getText().toString();
+        mName = mNameInput.getText().toString();
+        lName = lNameInput.getText().toString();
+        extension = extensionInput.getText().toString();
+        birthday = birthDateInput.getText().toString();
+        citizenship = citizenshipInput.getText().toString();
+        religion = religionInput.getText().toString();
+        houseNo = houseNoInput.getText().toString();
+        street = streetInput.getText().toString();
+        barangay = barangayInput.getText().toString();
+        city = cityInput.getText().toString();
+        province = provinceInput.getText().toString();
+        district = districtInput.getText().toString();
+        zipCode = zipCodeInput.getText().toString();
+        country = countryInput.getSelectedItem().toString();
+        maritalStatus = maritalStatusInput.getSelectedItem().toString();
 
         if (fName.isEmpty()) {
             fNameInput.setError("First Name is empty");
@@ -282,26 +245,26 @@ public class SignUpOthers extends AppCompatActivity {
         Timestamp t;
         SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         try {
-            t = new Timestamp(format.parse(birthDateInput.getText().toString()));
+            t = new Timestamp(format.parse(birthday));
         } catch (ParseException e) {
             t = null;
         }
-        Account.addData("firstName", fNameInput.getText().toString());
-        Account.addData("middleName", mNameInput.getText().toString());
-        Account.addData("lastName", lNameInput.getText().toString());
-        Account.addData("extension", extensionInput.getText().toString());
-        Account.addData("citizenship", citizenshipInput.getText().toString());
+        Account.addData("firstName", fName);
+        Account.addData("middleName", mName);
+        Account.addData("lastName", lName);
+        Account.addData("extension", extension);
+        Account.addData("citizenship", citizenship);
         if (t!=null) Account.addData("birthday", t);
-        Account.addData("religion", religionInput.getText().toString());
-        Account.addData("houseNo", houseNoInput.getText().toString());
-        Account.addData("street", streetInput.getText().toString());
-        Account.addData("barangay", barangayInput.getText().toString());
-        Account.addData("city", cityInput.getText().toString());
-        Account.addData("province", provinceInput.getText().toString());
-        Account.addData("district", districtInput.getText().toString());
-        Account.addData("zipCode", zipCodeInput.getText().toString());
-        Account.addData("country", countryInput.getSelectedItem().toString());
-        Account.addData("maritalStatus", maritalStatusInput.getSelectedItem().toString());
+        Account.addData("religion", religion);
+        Account.addData("houseNo", houseNo);
+        Account.addData("street", street);
+        Account.addData("barangay", barangay);
+        Account.addData("city", city);
+        Account.addData("province", province);
+        Account.addData("district", district);
+        Account.addData("zipCode", zipCode);
+        Account.addData("country", country);
+        Account.addData("maritalStatus", maritalStatus);
         if (maleInput.isChecked()) {
             Account.addData("gender", "Male");
         }
@@ -343,8 +306,25 @@ public class SignUpOthers extends AppCompatActivity {
         maritalStatusInput.setSelection(list.indexOf(Account.getStringData("maritalStatus")));
         if (Account.hasKey("image")) {
             filePath = Account.getUriData("image");
-            setImage();
+            changeProfileImage();
         }
+    }
+
+    public void changeProfileImage() {
+        new Thread(new Runnable() {
+            public void run() {
+                if (user.getPhotoUrl() != null) {
+                    storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
+                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    Picasso.get().load(uri.toString()).error(R.drawable.user)
+                                            .into(image);
+                                }
+                            });
+                }
+            }
+        }).start();
     }
 
     private void selectImage() {
@@ -391,6 +371,10 @@ public class SignUpOthers extends AppCompatActivity {
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
 
+                bitmap = ImagePicker.getImageResized(this, selectedImage);
+                int rotation = ImagePicker.getRotation(this, selectedImage, true);
+                bitmap = ImagePicker.rotate(bitmap, rotation);
+
                 Log.e("Activity", "Pick from Camera::>>> ");
 
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
@@ -421,6 +405,7 @@ public class SignUpOthers extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
+            System.out.println(filePath);
             setImage();
         }
     }
@@ -438,6 +423,7 @@ public class SignUpOthers extends AppCompatActivity {
             cursor.close();
 
             Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+
             image.setImageBitmap(bitmap);
             withImage = true;
             Account.addData("image", filePath.toString());
@@ -448,28 +434,27 @@ public class SignUpOthers extends AppCompatActivity {
         }
     }
 
-    public void uploadImage(String txtid, final String centerId){
-        otherPath = null;
-        if (!centerId.isEmpty())
-                otherPath = Account.getUriData("bLogo");
-        final boolean twoUploads = !centerId.isEmpty() && otherPath!=null;
+    public void uploadImage(String txtid){
+        System.out.println("final" + filePath);
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Signing Up...");
+            progressDialog.setTitle("Updating...");
             progressDialog.show();
 
             ref = storageRef.child("images/"+ txtid);
-            ref.putFile(filePath)
+            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
+                                    progressDialog.dismiss();
                                     if (withImage) {
                                         Account.addData("image", uri.toString());
-                                        DocumentReference userRef = db.collection("User").document(user.getUid());
+                                        DocumentReference userRef = db.collection("User")
+                                                .document(user.getUid());
                                         userRef
                                                 .update("Image", uri.toString())
                                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -484,87 +469,17 @@ public class SignUpOthers extends AppCompatActivity {
                                                         Log.w(TAG, "Error updating document", e);
                                                     }
                                                 });
-                                    }
-                                    if (!twoUploads) {
-                                        progressDialog.dismiss();
-                                        if (withImage) {
-                                            updateProfileWithImage(uri, true);
-                                        }
-                                    } else {
-                                        if (withImage) {
-                                            updateProfileWithImage(uri, false);
-                                        }
-                                        upload2ndImage(centerId, otherPath, twoUploads, progressDialog);
+                                        updateProfileWithImage(uri, true);
                                     }
                                 }
                             });
-                        }
-                    })
-                    .   addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            showAlert("An Error Occured","ERROR");
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = 0.0;
-                            if (!twoUploads) {
-                                progress = (100.0 * taskSnapshot
-                                        .getBytesTransferred() / taskSnapshot
-                                        .getTotalByteCount());
-                            } else {
-                                progress = (100.0 * taskSnapshot
-                                        .getBytesTransferred() / taskSnapshot
-                                        .getTotalByteCount())/2;
-                            }
-                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
-                        }
-                    });
-        }
-    }
-
-    private void upload2ndImage(final String centerId, Uri otherPath, boolean twoUploads, final ProgressDialog progressDialog) {
-        if (twoUploads) {
-            ref = storageRef.child("images/" + centerId);
-            ref.putFile(otherPath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl()
-                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                        @Override
-                                        public void onSuccess(Uri uri) {
-                                            progressDialog.dismiss();
-                                            Account.addData("bLogo", uri.toString());
-                                            DocumentReference lcRef = db.collection("LearningCenter").document(centerId);
-                                            lcRef
-                                                .update("Logo", uri.toString())
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        updateUI();
-                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error updating document", e);
-                                                    }
-                                                });
-
-                                            //db to add logo uri
-                                        }
-                                    });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
                             progressDialog.dismiss();
+                            Utility.buttonWait(updateButton, false, "Update");
                             showAlert("An Error Occured", "ERROR");
                         }
                     })
@@ -572,10 +487,15 @@ public class SignUpOthers extends AppCompatActivity {
                         @Override
                         public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
                             double progress = 0.0;
-                                progress = ((100.0 * taskSnapshot
-                                        .getBytesTransferred() / taskSnapshot
-                                        .getTotalByteCount()) / 2)+50;
+                            progress = (100.0 * taskSnapshot
+                                    .getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
                             progressDialog.setMessage("Uploading data " + (int) progress + "%");
+                        }
+                    }).addOnCanceledListener(new OnCanceledListener() {
+                        @Override
+                        public void onCanceled() {
+                            Utility.buttonWait(updateButton, false, "Update");
                         }
                     });
         }
@@ -656,17 +576,23 @@ public class SignUpOthers extends AppCompatActivity {
         countryInput = findViewById(R.id.sign_up_country_educator);
         maleInput = findViewById(R.id.sign_up_gender_male_educator);
         femaleInput = findViewById(R.id.sign_up_gender_female_educator);
-        signUpButton = findViewById(R.id.sign_up_button_educator);
+        updateButton = findViewById(R.id.sign_up_button_educator);
         storageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         withImage = false;
+        updated = false;
+        fName = mName = lName = extension = birthday = citizenship = religion = houseNo
+             = street = barangay = city = province = district = zipCode = country = maritalStatus = "";
     }
     @Override
     public void onBackPressed() {
-        setResult(RESULT_CANCELED);
-        retrieveData();
+        if (updated)
+            setResult(RESULT_OK);
+        else
+            setResult(RESULT_CANCELED);
+        //retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
     }

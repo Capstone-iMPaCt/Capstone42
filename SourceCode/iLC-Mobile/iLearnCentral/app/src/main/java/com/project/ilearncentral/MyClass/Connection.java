@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Activity.Login;
+import com.project.ilearncentral.Model.Account;
 
 public class Connection {
 
@@ -53,6 +54,7 @@ public class Connection {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             activity.startActivity(intent);
             Toast.makeText(activity, "Logged Out", Toast.LENGTH_SHORT).show();
+            Account.clear();
         }
         else
             Toast.makeText(activity, "No Internet Access", Toast.LENGTH_SHORT).show();

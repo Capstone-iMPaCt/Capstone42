@@ -1,6 +1,8 @@
-package com.project.ilearncentral.Activity.SignUp;
+package com.project.ilearncentral.Activity.Update;
 
 import android.Manifest;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,15 +23,23 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCanceledListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -44,11 +54,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class SignUpLearningCenter extends AppCompatActivity {
+public class UpdateLearningCenter extends AppCompatActivity {
 
     private String TAG = "SIGNUP_CENTER";
     TextInputEditText nameInput, websiteInput, emailInput, contactInput,
@@ -59,12 +70,21 @@ public class SignUpLearningCenter extends AppCompatActivity {
     Spinner countryInput, serviceTypeInput;
     ImageView logo;
     CircleImageView changeImage;
+    private Button updateButton;
+
+    String name, website, contact, email, timeStart, timeEnd, otherServiceType,
+        houseNo, street, barangay, city, province, district, zipCode,
+        mon, tue, wed, thu, fri, sat, sun, country, serviceType;
+    List<String> operatingDays;
+    Timestamp start, end;
+    private String buttonText;
 
     private FirebaseAuth mAuth;
     private FirebaseFirestore db;
     private StorageReference storageRef;
     private StorageReference ref;
 
+    private Uri filePath;
     private Bitmap bitmap;
     private File destination = null;
     private String imgPath = null;
@@ -78,6 +98,9 @@ public class SignUpLearningCenter extends AppCompatActivity {
 
         res();
         setValues();
+
+        updateButton.setText(buttonText);
+
         changeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,43 +121,130 @@ public class SignUpLearningCenter extends AppCompatActivity {
         });
     }
 
-    public void centerSignUpContinue(View v) {
+    public void centerSignUpContinue(final View v) {
         Utility.buttonWait((Button)v, true);
         if (checkErrors()) {
-            Intent intent = new Intent(getApplicationContext(), SignUpUsers.class);
-            startActivityForResult(intent,FINISH);
+            db.collection("LearningCenter").document(Account.getStringData("centerId")).set(Account.getBusinessData())
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            if(withImage) {
+                                uploadImage(Account.getStringData("centerId"));
+                            } else {
+                                Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
+                                        .show();
+                                Utility.buttonWait((Button) v, false, buttonText);
+                            }
+                            Log.d(TAG, "DocumentSnapshot successfully written!");
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(getApplicationContext(), "Not Updated", Toast.LENGTH_SHORT).show();
+                            Utility.buttonWait((Button)v, false, buttonText);
+                            Log.w(TAG, "Error writing document", e);
+                        }
+                    });
         }
-        Utility.buttonWait((Button)v, false, "Continue");
     }
 
+    public void uploadImage(String txtid){
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Updating...");
+            progressDialog.show();
+
+            ref = storageRef.child("images/"+ txtid);
+            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putFile(filePath)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    progressDialog.dismiss();
+                                    if (withImage) {
+                                        Account.addData("bLogo", uri.toString());
+                                        DocumentReference lcRef = db.collection("LearningCenter").document(Account.getStringData("centerId"));
+                                        lcRef
+                                                .update("Logo", uri.toString())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        Utility.buttonWait(updateButton, false, buttonText);
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getApplicationContext(), "Error Updating Logo!", Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        Utility.buttonWait(updateButton, false, buttonText);
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Utility.buttonWait(updateButton, false, "Update");
+                            showAlert("An Error Occured", "ERROR");
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = 0.0;
+                            progress = (100.0 * taskSnapshot
+                                    .getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
+                        }
+                    }).addOnCanceledListener(new OnCanceledListener() {
+                        @Override
+                        public void onCanceled() {
+                            Utility.buttonWait(updateButton, false, "Update");
+                        }
+                    });
+        }
+    }
     private boolean checkErrors() {
         boolean valid = true;
 
-        String name = nameInput.getText().toString();
-        String website = websiteInput.getText().toString();
-        String contact = contactInput.getText().toString();
-        String email = emailInput.getText().toString();
-        String timeStart = timeStartInput.getText().toString();
-        String timeEnd = timeEndInput.getText().toString();
-        String otherServiceType = otherServiceTypeInput.getText().toString();
-        String houseNo = houseNoInput.getText().toString();
-        String street = streetInput.getText().toString();
-        String barangay = barangayInput.getText().toString();
-        String city = cityInput.getText().toString();
-        String province = provinceInput.getText().toString();
-        String district = districtInput.getText().toString();
-        String zipCode = zipCodeInput.getText().toString();
-        String mon = monday.getText().toString();
-        String tue = tuesday.getText().toString();
-        String wed = wednesday.getText().toString();
-        String thu = thursday.getText().toString();
-        String fri = friday.getText().toString();
-        String sat = saturday.getText().toString();
-        String sun = sunday.getText().toString();
-        String country = countryInput.getSelectedItem().toString();
-        String serviceType = serviceTypeInput.getSelectedItem().toString();
-
-        List<String> operatingDays = new ArrayList<>();
+        name = nameInput.getText().toString();
+        website = websiteInput.getText().toString();
+        contact = contactInput.getText().toString();
+        email = emailInput.getText().toString();
+        timeStart = timeStartInput.getText().toString();
+        timeEnd = timeEndInput.getText().toString();
+        otherServiceType = otherServiceTypeInput.getText().toString();
+        houseNo = houseNoInput.getText().toString();
+        street = streetInput.getText().toString();
+        barangay = barangayInput.getText().toString();
+        city = cityInput.getText().toString();
+        province = provinceInput.getText().toString();
+        district = districtInput.getText().toString();
+        zipCode = zipCodeInput.getText().toString();
+        mon = monday.getText().toString();
+        tue = tuesday.getText().toString();
+        wed = wednesday.getText().toString();
+        thu = thursday.getText().toString();
+        fri = friday.getText().toString();
+        sat = saturday.getText().toString();
+        sun = sunday.getText().toString();
+        country = countryInput.getSelectedItem().toString();
+        serviceType = serviceTypeInput.getSelectedItem().toString();
+        operatingDays.clear();
 
         if(monday.isChecked())
             operatingDays.add(mon);
@@ -172,20 +282,23 @@ public class SignUpLearningCenter extends AppCompatActivity {
             cityInput.setError("City is empty");
             valid = false;
         }
+        if (province.isEmpty()) {
+            provinceInput.setError("Province is empty");
+            valid = false;
+        }
 
-        Timestamp s, e;
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
         try {
-            s = new Timestamp(format.parse(timeStart));
+            start = new Timestamp(format.parse(timeStart));
         } catch (ParseException ex) {
-            s = null;
+            start = null;
         }
         try {
-            e = new Timestamp(format.parse(timeEnd));
+            end = new Timestamp(format.parse(timeEnd));
         } catch (ParseException ex) {
-            e = null;
+            end = null;
         }
-        if(s!=null && s.compareTo(e) >= 0) {
+        if(start!=null && start.compareTo(end) >= 0) {
             Toast.makeText(getApplicationContext(), "Time End should be after start", Toast.LENGTH_SHORT).show();
             valid = false;
         }
@@ -200,30 +313,33 @@ public class SignUpLearningCenter extends AppCompatActivity {
             valid = false;
         }
 
-        if (valid) {
-            Account.addData("bName", name);
-            Account.addData("bWebsite", website);
-            Account.addData("bEmail", email);
-            Account.addData("bContactNumber", contact);
-            Account.addData("bOpeningTime", s);
-            Account.addData("bClosingTime", e);
-            Account.addData("bOperatingDays", operatingDays);
-            if (serviceType.equals("Others"))
-                Account.addData("bServiceType", otherServiceType);
-            else
-                Account.addData("bServiceType", serviceType);
-            Account.addData("bHouseNo", houseNo);
-            Account.addData("bStreet", street);
-            Account.addData("bBarangay", barangay);
-            Account.addData("bCity", city);
-            Account.addData("bProvince", province);
-            Account.addData("bDistrict", district);
-            Account.addData("bZipCode", zipCode);
-            Account.addData("bCountry", country);
-            Account.addData("accessLevel", "administrator");
+        if(valid) {
+            retrieveValues();
         }
-
         return valid;
+    }
+
+    private void retrieveValues() {
+        Account.addData("bName", name);
+        Account.addData("bWebsite", website);
+        Account.addData("bEmail", email);
+        Account.addData("bContactNumber", contact);
+        Account.addData("bOpeningTime", start);
+        Account.addData("bClosingTime", end);
+        Account.addData("bOperatingDays", operatingDays);
+        if (serviceType.equals("Others"))
+            Account.addData("bServiceType", otherServiceType);
+        else
+            Account.addData("bServiceType", serviceType);
+        Account.addData("bHouseNo", houseNo);
+        Account.addData("bStreet", street);
+        Account.addData("bBarangay", barangay);
+        Account.addData("bCity", city);
+        Account.addData("bProvince", province);
+        Account.addData("bDistrict", district);
+        Account.addData("bZipCode", zipCode);
+        Account.addData("bCountry", country);
+        Account.addData("accessLevel", Account.getStringData("accessLevel"));
     }
 
     private void setValues() {
@@ -260,8 +376,43 @@ public class SignUpLearningCenter extends AppCompatActivity {
             list.add(s);
         }
         countryInput.setSelection(list.indexOf(Account.getStringData("bCountry")));
+        if (Account.hasKey("bLogo")) {
+            filePath = Account.getUriData("bLogo");
+            changeProfileImage();
+        }
     }
 
+    public void changeProfileImage() {
+        new Thread(new Runnable() {
+            public void run() {
+                storageRef.child("images").child(Account.getStringData("centerId")).getDownloadUrl()
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri.toString()).error(R.drawable.user)
+                                .into(logo);
+                        }
+                        });
+            }
+        }).start();
+    }
+
+    public void showAlert(String Message,String label)
+    {
+        //set alert for executing the task
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(""+label);
+        alert.setMessage(""+Message);
+
+        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            public void onClick (DialogInterface dialog, int id){
+                dialog.cancel();
+            }
+        });
+
+        Dialog dialog = alert.create();
+        dialog.show();
+    }
 
     private void res() {
         nameInput = findViewById(R.id.sign_up_business_name_lc);
@@ -289,10 +440,16 @@ public class SignUpLearningCenter extends AppCompatActivity {
         serviceTypeInput = findViewById(R.id.sign_up_service_type_lc);
         logo = findViewById(R.id.sign_up_image_lc);
         changeImage = findViewById(R.id.sign_up_image_change_lc);
+        updateButton = findViewById(R.id.sign_up_button_lc);
         storageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+        buttonText = "Update";
         withImage = false;
+        name = website = contact = email = timeStart = timeEnd = otherServiceType =
+            houseNo = street = barangay = city = province = district = zipCode =
+            mon = tue = wed = thu = fri = sat = sun = country = serviceType = "";
+        operatingDays = new ArrayList<>();
     }
 
     public void inputTime(final View v) {
@@ -306,7 +463,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String time = "";
                         if (hourOfDay == 0) {
-                                time += 12;
+                            time += 12;
                         } else if (hourOfDay <= 12){
                             time += hourOfDay;
                         }else {
@@ -388,25 +545,25 @@ public class SignUpLearningCenter extends AppCompatActivity {
 
                 imgPath = destination.getAbsolutePath();
                 logo.setImageBitmap(bitmap);
+                filePath = selectedImage;
                 withImage = true;
-                Account.addData("bLogo", selectedImage);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
         } else if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
             Uri selectedImage = data.getData();
+            filePath = data.getData();
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-                Log.e("Activity", "Pick from Gallery::>>> ");
+                Log.e(TAG, "Pick from Gallery::>>> ");
 
                 imgPath = getRealPathFromURI(selectedImage);
                 destination = new File(imgPath.toString());
                 logo.setImageBitmap(bitmap);
                 withImage = true;
-                Account.addData("bLogo", selectedImage);
 
             } catch (Exception e) {
                 e.printStackTrace();

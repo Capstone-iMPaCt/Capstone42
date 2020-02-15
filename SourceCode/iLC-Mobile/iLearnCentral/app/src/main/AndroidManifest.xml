@@ -15,8 +15,9 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.UpdateAccount"></activity>
-        <activity android:name=".UpdateProfile" />
+        <activity android:name=".Activity.Update.UpdateLearningCenter"></activity>
+        <activity android:name=".Activity.Update.UpdateAccount" />
+        <activity android:name=".Activity.Update.UpdateProfile" />
         <activity android:name=".Activity.ForgotPassword" />
         <activity
             android:name=".Activity.AccountSettings"

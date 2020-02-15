@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Activity;
+package com.project.ilearncentral.Activity.Update;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -70,10 +70,10 @@ public class UpdateAccount extends AppCompatActivity {
         oldPasswordLayout.setVisibility(View.VISIBLE);
         title.setText("Update User Account");
         UpdateBtn.setText("Update");
-        UpdateBtn.setOnClickListener(continueSignUp);
+        UpdateBtn.setOnClickListener(updateAccount);
     }
 
-    private View.OnClickListener continueSignUp = new View.OnClickListener() {
+    private View.OnClickListener updateAccount = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if (checkErrors()) {
@@ -256,14 +256,6 @@ public class UpdateAccount extends AppCompatActivity {
         return valid;
     }
 
-    private void retrieveData() {
-        Account.addData("username", usernameInput.getText().toString().toLowerCase());
-        Account.addData("password", passwordInput.getText().toString());
-        Account.addData("email", emailInput.getText().toString());
-        Account.addData("answer", answerInput.getText().toString().toLowerCase());
-        Account.addData("question", questions.getSelectedItem().toString());
-    }
-
     private void setValues() {
         usernameInput.setText(Account.getStringData("username"));
         emailInput.setText(Account.getStringData("email"));
@@ -275,5 +267,10 @@ public class UpdateAccount extends AppCompatActivity {
         answerInput.setText(Account.getStringData("answer"));
     }
 
-
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCELED);
+        Log.d(TAG, "onBackPressed Called");
+        super.onBackPressed();
+    }
 }

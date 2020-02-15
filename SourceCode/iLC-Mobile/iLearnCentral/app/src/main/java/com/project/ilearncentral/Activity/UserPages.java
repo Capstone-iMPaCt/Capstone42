@@ -27,6 +27,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.Update.UpdateAccount;
+import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
+import com.project.ilearncentral.Activity.Update.UpdateProfile;
 import com.project.ilearncentral.Adapter.UserPagesAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.Fragment.Feed;
@@ -39,10 +42,10 @@ import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.MyClass.VariableListeners.ObservableBoolean;
 import com.project.ilearncentral.MyClass.VariableListeners.OnBooleanChangeListener;
 import com.project.ilearncentral.R;
-import com.project.ilearncentral.UpdateProfile;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
@@ -67,6 +70,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
     private LinearLayout profileView;
+    private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 12;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,6 +154,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        setProfileBanner();
+    }
+
+    private void setProfileBanner() {
         profileView.setVisibility(View.INVISIBLE);
         accountSet = new ObservableBoolean();
         accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
@@ -197,14 +205,12 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         Log.d(TAG, "User - DocumentSnapshot data: " + document.getData());
 
                         String collection = "";
-                        switch (Account.getType().toString()) {
-                            case "LearningCenter": collection = "LearningCenterStaff";
-                                break;
-                            case "Educator":collection = "Educator";
-                                break;
-                            case "Student":collection = "Student";
-                                break;
-                        }
+                        if (Account.getType() == Account.Type.LearningCenter)
+                            collection = "LearningCenterStaff";
+                        else if (Account.getType() == Account.Type.Educator)
+                            collection = "Educator";
+                        else if (Account.getType() == Account.Type.Student)
+                            collection = "Student";
                         db.collection(collection)
                             .whereEqualTo("Username", Account.getStringData("username"))
                             .get()
@@ -215,12 +221,23 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Account.setProfileData(document.getData());
                                             if (Account.getType()== Account.Type.LearningCenter) {
-                                                db.collection("LearningCenter")
-                                                    .document(Account.getStringData("centerId"))
-                                                    .get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                                DocumentReference docRef = db.collection("LearningCenter")
+                                                        .document(Account.getStringData("centerId"));
+                                                docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                                     @Override
-                                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                                        Account.setBusinessData(documentSnapshot.getData());
+                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                        if (task.isSuccessful()) {
+                                                            DocumentSnapshot document = task.getResult();
+                                                            if (document.exists()) {
+                                                                Account.setBusinessData(document.getData());
+                                                                Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                                                            } else {
+                                                                Log.d(TAG, "No such document");
+                                                            }
+                                                            System.out.println(Account.getStringData("centerId"));
+                                                        } else {
+                                                            Log.d(TAG, "get failed with ", task.getException());
+                                                        }
                                                         accountSet.set(true);
                                                     }
                                                 });
@@ -251,6 +268,18 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 //        return true;
     }
 
+    public boolean onPrepareOptionsMenu(Menu menu)
+    {
+        System.out.println(Account.getType());
+        MenuItem item = menu.findItem(R.id.menu_update_business);
+        if (Account.getType() == Account.Type.LearningCenter) {
+            item.setVisible(true);
+        } else {
+            item.setVisible(false);
+        }
+        return true;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -258,10 +287,13 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                 startActivity(new Intent(getApplicationContext(), AccountSettings.class));
                 return true;
             case R.id.menu_update_account:
-                startActivity(new Intent(getApplicationContext(), UpdateAccount.class));
+                startActivityForResult(new Intent(getApplicationContext(), UpdateAccount.class), UPDATE_ACCOUNT);
                 return true;
             case R.id.menu_update_profile:
-                startActivity(new Intent(getApplicationContext(), UpdateProfile.class));
+                startActivityForResult(new Intent(getApplicationContext(), UpdateProfile.class), UPDATE_PROFILE);
+                return true;
+            case R.id.menu_update_business:
+                startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
                 return true;
             case R.id.menu_logout:
                 Connection.logOut(this);
@@ -272,7 +304,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     }
 
     public void changeProfileImage() {
-        new Thread(new Runnable() {
+        runOnUiThread(new Runnable() {
             public void run() {
             if (user.getPhotoUrl() != null) {
                 storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
@@ -288,6 +320,22 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                 profileView.setVisibility(View.VISIBLE);
             }
             }
-        }).start();
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        setResult(RESULT_OK);
+        if(requestCode == UPDATE_ACCOUNT && resultCode == RESULT_OK) {
+            setAccount();
+            setProfileBanner();
+        } else if(requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
+            setAccount();
+            setProfileBanner();
+        } else if(requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
+            setAccount();
+            setProfileBanner();
+        }
     }
 }

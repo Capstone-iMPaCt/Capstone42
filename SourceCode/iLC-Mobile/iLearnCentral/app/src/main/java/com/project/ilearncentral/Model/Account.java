@@ -2,7 +2,15 @@ package com.project.ilearncentral.Model;
 
 import android.net.Uri;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,11 +18,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import androidx.annotation.NonNull;
+
 public class Account {
 
     private static String status = "";
     private static Type type;
     private static Map<String, Object> data = new HashMap<>();
+    private static List<Map<String, Object>> accounts = new ArrayList<>();
 
     public enum Type { LearningCenter, Educator, Student }
 
@@ -40,14 +51,17 @@ public class Account {
     }
 
     public static void setUserData(Map<String, Object> userData) {
-        if (userData.containsKey("AccountType"))
-            setType(userData.get("AccountType").toString());
-        String[] oldKeys = {"AccountStatus", "Email", "Username", "Image", "Question", "Answer"};
-        String[] newKeys = {"accountStatus", "email", "username", "image", "question", "answer"};
-        for (int i=0; i<oldKeys.length;i++) {
-            setValidatedData(oldKeys[i],userData,newKeys[i]);
+        System.out.println("set user data" + userData);
+        if (userData!=null) {
+            if (userData.containsKey("AccountType"))
+                setType(userData.get("AccountType").toString());
+            String[] oldKeys = {"AccountStatus", "Email", "Username", "Image", "Question", "Answer"};
+            String[] newKeys = {"accountStatus", "email", "username", "image", "question", "answer"};
+            for (int i = 0; i < oldKeys.length; i++) {
+                setValidatedData(oldKeys[i], userData, newKeys[i]);
+            }
+            System.out.println(userData);
         }
-        System.out.println(data);
     }
 
     public static Map<String, Object> getUserData() {
@@ -69,7 +83,7 @@ public class Account {
         return userData;
     }
 
-    /*public static void temp(final String collection) {
+    public static void temp(final String collection) {
         //temporary method to create bulk changes in database
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -99,43 +113,44 @@ public class Account {
                     }
                 });
 
-    }*/
+    }
 
     public static void setProfileData(Map<String, Object> profileData) {
-        if (profileData.containsKey("AccountType"))
-            setType(profileData.get("AccountType").toString());
-        if (type == Type.Educator) {
-            setValidatedData("Position",profileData,"position");
-            setValidatedData("EmploymentStatus",profileData,"employmentStatus");
-        } else if (type == Type.Student) {
-            setValidatedData("EnrolmentStatus",profileData,"enrolmentStatus");
-        } else if (type == Type.LearningCenter) {
-            setValidatedData("AccessLevel",profileData,"accessLevel");
+        System.out.println("set profile data" + profileData);
+        if (profileData!=null) {
+            if (type == Type.Educator) {
+                setValidatedData("Position", profileData, "position");
+                setValidatedData("EmploymentStatus", profileData, "employmentStatus");
+            } else if (type == Type.Student) {
+                setValidatedData("EnrolmentStatus", profileData, "enrolmentStatus");
+            } else if (type == Type.LearningCenter) {
+                setValidatedData("AccessLevel", profileData, "accessLevel");
+            }
+            String[] oldKeys = {"Username", "Religion", "Citizenship", "Gender", "MaritalStatus", "Birthday", "CenterID"};
+            String[] newKeys = {"username", "religion", "citizenship", "gender", "maritalStatus", "birthday", "centerId"};
+            for (int i = 0; i < oldKeys.length; i++) {
+                setValidatedData(oldKeys[i], profileData, newKeys[i]);
+            }
+            if (profileData.containsKey("Name")) {
+                Map<String, Object> name = ((Map<String, Object>) profileData.get("Name"));
+                setValidatedData("FirstName", name, "firstName");
+                setValidatedData("MiddleName", name, "middleName");
+                setValidatedData("LastName", name, "lastName");
+                setValidatedData("Extension", name, "extension");
+            }
+            if (profileData.containsKey("Address")) {
+                Map<String, Object> address = ((Map<String, Object>) profileData.get("Address"));
+                setValidatedData("HouseNo", address, "houseNo");
+                setValidatedData("Street", address, "street");
+                setValidatedData("Barangay", address, "barangay");
+                setValidatedData("City", address, "city");
+                setValidatedData("Province", address, "province");
+                setValidatedData("District", address, "district");
+                setValidatedData("ZipCode", address, "zipCode");
+                setValidatedData("Country", address, "country");
+            }
+            System.out.println(profileData.toString());
         }
-        String[] oldKeys = {"Username", "Religion", "Citizenship", "Gender", "MaritalStatus", "Birthday", "CenterID"};
-        String[] newKeys = {"username", "religion", "citizenship", "gender", "maritalStatus", "birthday",  "centerId"};
-        for (int i=0; i<oldKeys.length;i++) {
-            setValidatedData(oldKeys[i],profileData,newKeys[i]);
-        }
-        if (profileData.containsKey("Name")) {
-            Map<String, Object> name  = ((Map<String, Object>) profileData.get("Name"));
-            setValidatedData("FirstName", name, "firstName");
-            setValidatedData("MiddleName", name, "middleName");
-            setValidatedData("LastName", name, "lastName");
-            setValidatedData("Extension", name, "extension");
-        }
-        if (profileData.containsKey("Address")) {
-            Map<String, Object> address = ((Map<String, Object>) profileData.get("Address"));
-            setValidatedData("HouseNo", address, "houseNo");
-            setValidatedData("Street", address, "street");
-            setValidatedData("Barangay", address, "barangay");
-            setValidatedData("City", address, "city");
-            setValidatedData("Province", address, "province");
-            setValidatedData("District", address, "district");
-            setValidatedData("ZipCode", address, "zipCode");
-            setValidatedData("Country", address, "country");
-        }
-        System.out.println(profileData.toString());
     }
 
     public static Map<String, Object> getProfileData() {
@@ -153,7 +168,7 @@ public class Account {
         profileData.put("MaritalStatus", getStringData("maritalStatus"));
         profileData.put("Birthday", getTimeStampData("birthday"));
         if (hasKey("centerId"))
-            profileData.put("CenterID", "centerId");
+            profileData.put("CenterID", getStringData("centerId"));
         else
             profileData.put("CenterID", "");
         Map<String, Object> address = new HashMap<>();
@@ -188,31 +203,35 @@ public class Account {
     }
 
     public static void setBusinessData(Map<String, Object> businessData) {
-        String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime"};
-        String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime"};
-        for (int i=0; i<oldKeys.length;i++) {
-            setValidatedData(oldKeys[i],businessData,newKeys[i]);
-        }
-        if (businessData.containsKey("BusinessAddress")) {
-            Map<String, Object> address = ((Map<String, Object>) businessData.get("BusinessAddress"));
-            setValidatedData("HouseNo", address, "bHouseNo");
-            setValidatedData("Street", address, "bStreet");
-            setValidatedData("Barangay", address, "bBarangay");
-            setValidatedData("City", address, "bCity");
-            setValidatedData("Province", address, "bProvince");
-            setValidatedData("District", address, "bDistrict");
-            setValidatedData("ZipCode", address, "bZipCode");
-            setValidatedData("Country", address, "bCountry");
-        }
-
-        List<Map<String, Object>> accounts = (List<Map<String, Object>>) businessData.get("Accounts");
-        for(int i=0; i<accounts.size(); i++) {
-            if (accounts.get(i).get("Username").toString().equals(Account.getStringData("Username"))) {
-                setValidatedData("AccessLevel", accounts.get(i), "accessLevel");
-                setValidatedData("Status", accounts.get(i), "centerStatus");
+        System.out.println("set business data" + businessData);
+        if (businessData!=null) {
+            String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo"};
+            String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo"};
+            for (int i=0; i<oldKeys.length;i++) {
+                setValidatedData(oldKeys[i],businessData,newKeys[i]);
             }
+            if (businessData.containsKey("BusinessAddress")) {
+                Map<String, Object> address = ((Map<String, Object>) businessData.get("BusinessAddress"));
+                setValidatedData("HouseNo", address, "bHouseNo");
+                setValidatedData("Street", address, "bStreet");
+                setValidatedData("Barangay", address, "bBarangay");
+                setValidatedData("City", address, "bCity");
+                setValidatedData("Province", address, "bProvince");
+                setValidatedData("District", address, "bDistrict");
+                setValidatedData("ZipCode", address, "bZipCode");
+                setValidatedData("Country", address, "bCountry");
+            }
+
+            accounts.clear();
+            accounts.addAll((List<Map<String, Object>>) businessData.get("Accounts"));
+            for(int i=0; i<accounts.size(); i++) {
+                if (accounts.get(i).get("Username").toString().equals(Account.getStringData("Username"))) {
+                    setValidatedData("AccessLevel", accounts.get(i), "accessLevel");
+                    setValidatedData("Status", accounts.get(i), "centerStatus");
+                }
+            }
+            System.out.println(businessData.toString());
         }
-        System.out.println(businessData.toString());
     }
     public static Map<String, Object> getBusinessData() {
         Map<String, Object> businessData = new HashMap<>();
@@ -233,13 +252,15 @@ public class Account {
         businessData.put("BusinessAddress", address);
         businessData.put("ClosingTime", getTimeStampData("bClosingTime"));
         businessData.put("OpeningTime", getTimeStampData("bOpeningTime"));
+        businessData.put("Logo", data.get("bLogo"));
 
-        List<Map<String, Object>> accounts = new ArrayList<>();
+        if (accounts.isEmpty()) {
             Map<String, Object> account = new HashMap<>();
                 account.put("AccessLevel", "administrator");
                 account.put("Status", "active");
                 account.put("Username", getStringData("username"));
             accounts.add(account);
+        }
         businessData.put("Accounts", accounts);
         return businessData;
     }
@@ -260,6 +281,13 @@ public class Account {
         data.clear();
     }
 
+    public static void clear() {
+        type = Type.Student;
+        status = "";
+        data.clear();
+        accounts.clear();
+    }
+
     public static Map<String, Object> getData() {
         return data;
     }
@@ -274,7 +302,7 @@ public class Account {
     }
 
     public static Timestamp getTimeStampData(String key) {
-        if(data.containsKey(key)) {
+        if(data.containsKey(key) && data.get(key)!=null) {
             return (Timestamp) data.get(key);
         }
         return null;
@@ -288,7 +316,7 @@ public class Account {
     }
 
     public static Uri getUriData(String key) {
-        if(data.containsKey(key)) {
+        if(data.containsKey(key) && data.get(key)!=null) {
             return Uri.parse(data.get(key).toString());
         }
         return null;
@@ -303,7 +331,7 @@ public class Account {
     }
     public static void setType(String stringType) {
         switch (stringType) {
-            case "center": type = Type.LearningCenter;
+            case "learningcenter": type = Type.LearningCenter;
                 break;
             case "educator": type = Type.Educator;
                 break;
@@ -320,5 +348,13 @@ public class Account {
 
     public static void setStatus(String status) {
         Account.status = status;
+    }
+
+    public static List<Map<String, Object>> getAccounts() {
+        return accounts;
+    }
+
+    public static void setAccounts(List<Map<String, Object>> accounts) {
+        Account.accounts = accounts;
     }
 }
