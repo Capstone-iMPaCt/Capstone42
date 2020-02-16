@@ -61,7 +61,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private FirebaseUser user;
     private FirebaseFirestore db;
     private StorageReference storageRef;
-    private ObservableBoolean accountSet, authProfileSet;
+    private ObservableBoolean accountSet, authProfileSet,
+            userSet, profileSet, centerSet;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -158,6 +159,27 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        setObservableListeners();
+    }
+
+    private void setObservableListeners() {
+        userSet = new ObservableBoolean();
+        profileSet = new ObservableBoolean();
+        centerSet = new ObservableBoolean();
+        accountSet = new ObservableBoolean();
+        accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean newValue) {
+                if (newValue) {
+                    if (user.getDisplayName()==null || user.getDisplayName().equals("")) {
+                        Utility.updateProfileWithImage(TAG, authProfileSet);
+                    } else {
+                        authProfileSet.set(true);
+                        //SETUP all methods that need Account static to be completely loaded here.
+                    }
+                }
+            }
+        });
         authProfileSet = new ObservableBoolean();
         authProfileSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -173,24 +195,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         fieldDisplay.setText(Account.getType().toString());
                 } else {
 
-                }
-            }
-        });
-        setProfileBanner();
-    }
-
-    private void setProfileBanner() {
-        accountSet = new ObservableBoolean();
-        accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean newValue) {
-                if (newValue) {
-                    if (user.getDisplayName()==null || user.getDisplayName().equals("")) {
-                        Utility.updateProfileWithImage(TAG, authProfileSet);
-                    } else {
-                        authProfileSet.set(true);
-                        //SETUP all methods that need Account static to be completely loaded here.
-                    }
                 }
             }
         });
@@ -368,13 +372,13 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         setResult(RESULT_OK);
         if(requestCode == UPDATE_ACCOUNT && resultCode == RESULT_OK) {
             setAccount();
-            setProfileBanner();
+            setObservableListeners();
         } else if(requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
             setAccount();
-            setProfileBanner();
+            setObservableListeners();
         } else if(requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
             setAccount();
-            setProfileBanner();
+            setObservableListeners();
         }
     }
 }
