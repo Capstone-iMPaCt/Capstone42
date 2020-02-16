@@ -98,7 +98,6 @@ public class Chat extends AppCompatActivity {
                                     chatList.add(chat);
                                     adapter.notifyDataSetChanged();
                                 }
-                                System.out.println("~~~~~From " + addedChat);
                                 if (chatList.isEmpty()) noConversations.setVisibility(View.VISIBLE);
                                 else noConversations.setVisibility(View.INVISIBLE);
                                 Log.d(TAG, document.getId() + " From=> " + document.getData());
@@ -144,7 +143,6 @@ public class Chat extends AppCompatActivity {
                                     chatList.add(chat);
                                     adapter.notifyDataSetChanged();
                                 }
-                                System.out.println("~~~~~To " + addedChat);
                                 if (chatList.isEmpty()) noConversations.setVisibility(View.VISIBLE);
                                 else noConversations.setVisibility(View.INVISIBLE);
                                 Log.d(TAG, document.getId() + " To=> " + document.getData());

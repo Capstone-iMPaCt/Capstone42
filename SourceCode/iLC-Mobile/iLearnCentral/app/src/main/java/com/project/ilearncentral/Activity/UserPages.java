@@ -253,7 +253,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                                             } else {
                                                                 Log.d(TAG, "No such document");
                                                             }
-                                                            System.out.println(Account.getStringData("centerId"));
                                                         } else {
                                                             Log.d(TAG, "get failed with ", task.getException());
                                                         }
@@ -298,7 +297,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-        System.out.println(Account.getType());
         MenuItem updateBusiness = menu.findItem(R.id.menu_update_business);
         if (Account.getType() == Account.Type.LearningCenter) {
             updateBusiness.setVisible(true);

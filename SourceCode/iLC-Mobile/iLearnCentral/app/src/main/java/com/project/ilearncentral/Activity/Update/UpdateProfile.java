@@ -433,7 +433,6 @@ public class UpdateProfile extends AppCompatActivity {
     }
 
     public void uploadImage(String txtid){
-        System.out.println("final" + filePath);
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
