@@ -30,13 +30,12 @@ public class UserPagesAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int i) {
         switch (i) {
             case 0:
-                System.out.println("ACC TYPE:" + Account.getType().toString());
-                if (Account.getType() == Account.Type.LearningCenter)
+//                if (Account.getType() == Account.Type.LearningCenter)
                     return new LearningCenterProfile();
-                else if (Account.getType() == Account.Type.Educator)
-                    return new EducatorProfile();
-                else if (Account.getType() == Account.Type.Student)
-                    return new StudentProfile();
+//                else if (Account.getType() == Account.Type.Educator)
+//                    return new EducatorProfile();
+//                else if (Account.getType() == Account.Type.Student)
+//                    return new StudentProfile();
             case 1:
                 return new Feed();
             case 2:
