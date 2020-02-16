@@ -164,13 +164,43 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
     private void setObservableListeners() {
         userSet = new ObservableBoolean();
+        userSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+
+                } else {
+
+                }
+            }
+        });
         profileSet = new ObservableBoolean();
+        profileSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+
+                } else {
+
+                }
+            }
+        });
         centerSet = new ObservableBoolean();
+        centerSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+
+                } else {
+
+                }
+            }
+        });
         accountSet = new ObservableBoolean();
         accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
-            public void onBooleanChanged(boolean newValue) {
-                if (newValue) {
+            public void onBooleanChanged(boolean success) {
+                if (success) {
                     if (user.getDisplayName()==null || user.getDisplayName().equals("")) {
                         Utility.updateProfileWithImage(TAG, authProfileSet);
                     } else {
@@ -225,6 +255,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         Account.setUserData(document.getData());
+                        userSet.set(true);
                         Log.d(TAG, "User - DocumentSnapshot data: " + document.getData());
 
                         String collection = "";
@@ -243,6 +274,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                     if (task.isSuccessful()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
                                             Account.setProfileData(document.getData());
+                                            profileSet.set(true);
                                             if (Account.getType()== Account.Type.LearningCenter) {
                                                 DocumentReference docRef = db.collection("LearningCenter")
                                                         .document(Account.getStringData("centerId"));
@@ -253,8 +285,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                                             DocumentSnapshot document = task.getResult();
                                                             if (document.exists()) {
                                                                 Account.setBusinessData(document.getData());
+                                                                centerSet.set(true);
                                                                 Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                                                             } else {
+                                                                centerSet.set(false);
                                                                 Log.d(TAG, "No such document");
                                                             }
                                                         } else {
@@ -269,11 +303,13 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                             Log.d(TAG, document.getId() + " => " + document.getData());
                                         }
                                     } else {
+                                        profileSet.set(false);
                                         Log.d(TAG, "Error getting documents: ", task.getException());
                                     }
                                 }
                             });
                     } else {
+                        userSet.set(false);
                         Log.d(TAG, "User - No such document");
                     }
                 } else {
