@@ -403,7 +403,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
                 Log.e("Activity", "Pick from Gallery::>>> ");
 
                 imgPath = getRealPathFromURI(selectedImage);
-                destination = new File(imgPath.toString());
+                destination = new File(imgPath);
                 logo.setImageBitmap(bitmap);
                 withImage = true;
                 Account.addData("bLogo", selectedImage);

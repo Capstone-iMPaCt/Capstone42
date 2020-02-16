@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -132,6 +133,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                         if (task.isSuccessful()) {
                             if (!task.getResult().isEmpty()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
+                                    setAccountType(document.get("AccountType").toString());
                                     email = document.getString("Email");
                                     oldId = document.getId();
                                     oldData = document.getData();
@@ -158,6 +160,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                                 if (task.isSuccessful()) {
                                     if (!task.getResult().isEmpty()) {
                                         for (QueryDocumentSnapshot document : task.getResult()) {
+                                            setAccountType(document.get("AccountType").toString());
                                             email = document.getString("Email");
                                             oldId = document.getId();
                                             oldData = document.getData();
@@ -183,6 +186,23 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
                     .show();
             Log.d(TAG, "Short password");
+        }
+    }
+
+    private void setAccountType(String accountType) {
+        switch (accountType) {
+            case "student":
+                Account.setType(Account.Type.Student);
+                break;
+            case "educator":
+                Account.setType(Account.Type.Educator);
+                break;
+            case "learningcenter":
+                Account.setType(Account.Type.LearningCenter);
+                break;
+            default:
+                Account.setType(Account.Type.Student);
+                break;
         }
     }
 

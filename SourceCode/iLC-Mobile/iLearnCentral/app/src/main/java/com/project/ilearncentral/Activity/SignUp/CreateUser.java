@@ -230,7 +230,6 @@ public class CreateUser extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            System.out.println(filePath);
             setImage();
         }
     }
@@ -260,7 +259,6 @@ public class CreateUser extends AppCompatActivity {
     }
 
     public void uploadImage(String txtid){
-        System.out.println("final" + filePath);
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
@@ -346,7 +344,6 @@ public class CreateUser extends AppCompatActivity {
         public void onClick(View view) {
             if (checkErrors()) {
                 Utility.buttonWait(confirmBtn, true);
-                System.out.println("1" + oldEmail + " " + oldPassword);
                 db.collection("User").add(getUserData())
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override

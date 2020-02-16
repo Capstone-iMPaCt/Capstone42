@@ -51,7 +51,6 @@ public class Account {
     }
 
     public static void setUserData(Map<String, Object> userData) {
-        System.out.println("set user data" + userData);
         if (userData!=null) {
             if (userData.containsKey("AccountType"))
                 setType(userData.get("AccountType").toString());
@@ -60,7 +59,6 @@ public class Account {
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], userData, newKeys[i]);
             }
-            System.out.println(userData);
         }
     }
 
@@ -116,7 +114,6 @@ public class Account {
     }
 
     public static void setProfileData(Map<String, Object> profileData) {
-        System.out.println("set profile data" + profileData);
         if (profileData!=null) {
             if (type == Type.Educator) {
                 setValidatedData("Position", profileData, "position");
@@ -149,7 +146,6 @@ public class Account {
                 setValidatedData("ZipCode", address, "zipCode");
                 setValidatedData("Country", address, "country");
             }
-            System.out.println(profileData.toString());
         }
     }
 
@@ -203,7 +199,6 @@ public class Account {
     }
 
     public static void setBusinessData(Map<String, Object> businessData) {
-        System.out.println("set business data" + businessData);
         if (businessData!=null) {
             String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo"};
             String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo"};
@@ -230,7 +225,6 @@ public class Account {
                     setValidatedData("Status", accounts.get(i), "centerStatus");
                 }
             }
-            System.out.println(businessData.toString());
         }
     }
     public static Map<String, Object> getBusinessData() {

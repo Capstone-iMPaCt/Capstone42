@@ -6,20 +6,22 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".Activity.UserPages">
+
     <RelativeLayout
         android:id="@+id/user_loading_panel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:layout_gravity="center"
-        android:gravity="center"
-        >
+        android:background="@android:color/white"
+        android:gravity="center">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:gravity="center">
+            android:gravity="center"
+            android:orientation="vertical">
+
             <ProgressBar
                 android:id="@+id/loading_circle"
                 android:layout_width="wrap_content"
@@ -29,21 +31,21 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:text="Please wait..."
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="20dp"
-                android:layout_marginTop="20dp"
-                />
+                android:textSize="20dp" />
         </LinearLayout>
     </RelativeLayout>
+
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:background="@drawable/bg_toolbar"
-        android:visibility="invisible"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:visibility="invisible"
         app:layout_behavior=".CustomBehavior.CustomAppBarLayoutBehavior">
 
         <com.google.android.material.appbar.CollapsingToolbarLayout
@@ -63,16 +65,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center"
-                android:gravity="center"
                 android:layout_marginBottom="45dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/user_image"
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
-                    android:clickable="true"
                     android:background="@drawable/ic_account_circle_black_24dp"
+                    android:clickable="true"
                     android:src="@drawable/avatar_boy"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
@@ -174,9 +176,9 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/htab_viewpager"
-        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="invisible"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.viewpager.widget.ViewPager>

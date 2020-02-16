@@ -92,6 +92,7 @@ public class UpdateProfile extends AppCompatActivity {
     private String imgPath = null;
     private boolean withImage;
     private boolean updated;
+    ByteArrayOutputStream bitmapBytes;
     private Bitmap bitmap;
     private File destination = null;
     private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
@@ -184,6 +185,7 @@ public class UpdateProfile extends AppCompatActivity {
         updated = true;
         Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
         Utility.buttonWait(updateButton, false, "Update");
+        finish();
     }
 
     private boolean checkErrors() {
@@ -363,13 +365,13 @@ public class UpdateProfile extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
             try {
-                Uri selectedImage = data.getData();
+                filePath = data.getData();
                 bitmap = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+                bitmapBytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
 
-                bitmap = ImagePicker.getImageResized(this, selectedImage);
-                int rotation = ImagePicker.getRotation(this, selectedImage, true);
+                bitmap = ImagePicker.getImageResized(this, filePath);
+                int rotation = ImagePicker.getRotation(this, filePath, true);
                 bitmap = ImagePicker.rotate(bitmap, rotation);
 
                 Log.e("Activity", "Pick from Camera::>>> ");
@@ -381,19 +383,17 @@ public class UpdateProfile extends AppCompatActivity {
                 try {
                     destination.createNewFile();
                     fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
+                    fo.write(bitmapBytes.toByteArray());
                     fo.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 imgPath = destination.getAbsolutePath();
                 image.setImageBitmap(bitmap);
-                filePath = selectedImage;
                 withImage = true;
-                Account.addData("image", selectedImage);
+                Account.addData("image", filePath);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -402,45 +402,46 @@ public class UpdateProfile extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
-            System.out.println(filePath);
-            setImage();
-        }
-    }
+            try {
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-    private void setImage() {
-        try {
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                Cursor cursor = getContentResolver().query(filePath,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
 
-            Cursor cursor = getContentResolver().query(filePath,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
 
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
+                bitmap = BitmapFactory.decodeFile(picturePath);
+                bitmapBytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
 
-            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+                bitmap = ImagePicker.getImageResized(this, filePath);
+                int rotation = ImagePicker.getRotation(this, filePath, true);
+                bitmap = ImagePicker.rotate(bitmap, rotation);
 
-            image.setImageBitmap(bitmap);
-            withImage = true;
-            Account.addData("image", filePath.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
+                image.setImageBitmap(bitmap);
+                withImage = true;
+                Account.addData("image", filePath.toString());
+            }
+            catch (Exception e)
+            {
+                e.printStackTrace();
+            }
         }
     }
 
     public void uploadImage(String txtid){
-        System.out.println("final" + filePath);
         if(filePath != null)
         {
             final ProgressDialog progressDialog = new ProgressDialog(this);
             progressDialog.setTitle("Updating...");
             progressDialog.show();
 
+            byte[] data = bitmapBytes.toByteArray();
             ref = storageRef.child("images/"+ txtid);
-            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putFile(filePath)
+            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putBytes(data)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

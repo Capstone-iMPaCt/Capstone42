@@ -42,6 +42,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Activity.UserPages;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -89,6 +90,7 @@ public class SignUpOthers extends AppCompatActivity {
     private Uri filePath;
     private String imgPath = null;
     private boolean withImage;
+    ByteArrayOutputStream bitmapBytes;
     private Bitmap bitmap;
     private File destination = null;
     private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
@@ -389,10 +391,10 @@ public class SignUpOthers extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
             try {
-                Uri selectedImage = data.getData();
+                filePath = data.getData();
                 bitmap = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+                bitmapBytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
 
                 Log.e("Activity", "Pick from Camera::>>> ");
 
@@ -403,19 +405,17 @@ public class SignUpOthers extends AppCompatActivity {
                 try {
                     destination.createNewFile();
                     fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
+                    fo.write(bitmapBytes.toByteArray());
                     fo.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 imgPath = destination.getAbsolutePath();
                 image.setImageBitmap(bitmap);
-                filePath = selectedImage;
                 withImage = true;
-                Account.addData("image", selectedImage);
+                Account.addData("image", filePath);
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -440,7 +440,14 @@ public class SignUpOthers extends AppCompatActivity {
             String picturePath = cursor.getString(columnIndex);
             cursor.close();
 
-            Bitmap bitmap = BitmapFactory.decodeFile(picturePath);
+//            bitmap = BitmapFactory.decodeFile(picturePath);
+//            bitmapBytes = new ByteArrayOutputStream();
+//            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+
+            bitmap = ImagePicker.getImageResized(this, filePath);
+            int rotation = ImagePicker.getRotation(this, filePath, false);
+            bitmap = ImagePicker.rotate(bitmap, rotation);
+
             image.setImageBitmap(bitmap);
             withImage = true;
             Account.addData("image", filePath.toString());
@@ -462,8 +469,9 @@ public class SignUpOthers extends AppCompatActivity {
             progressDialog.setTitle("Signing Up...");
             progressDialog.show();
 
+            byte[] data = bitmapBytes.toByteArray();
             ref = storageRef.child("images/"+ txtid);
-            ref.putFile(filePath)
+            ref.putBytes(data)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
