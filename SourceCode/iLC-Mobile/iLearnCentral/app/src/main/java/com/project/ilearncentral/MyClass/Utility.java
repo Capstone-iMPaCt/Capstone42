@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Model.Account;
-import com.project.ilearncentral.MyClass.VariableListeners.ObservableBoolean;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import androidx.annotation.NonNull;
 

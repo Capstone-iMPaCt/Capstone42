@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,8 +41,8 @@ import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.MyClass.VariableListeners.ObservableBoolean;
-import com.project.ilearncentral.MyClass.VariableListeners.OnBooleanChangeListener;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
@@ -67,6 +68,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     private TabLayout tabLayout;
     private Button featuresButton, notificationButton, messageButton;
     private AppBarLayout appBarLayout;
+    private RelativeLayout loadingPage;
     private CollapsingToolbarLayout toolbarLayout;
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
@@ -95,12 +97,12 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         notificationButton = (Button) findViewById(R.id.notification_button);
         messageButton = (Button) findViewById(R.id.message_button);
         appBarLayout = (AppBarLayout) findViewById(R.id.home_app_bar);
+        loadingPage = findViewById(R.id.user_loading_panel);
         toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         clLayoutParams = (CoordinatorLayout.LayoutParams) appBarLayout.getLayoutParams();
         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
         usernameDisplay = findViewById(R.id.user_full_name);
         fieldDisplay = findViewById(R.id.user_expertise);
-        profileView = findViewById(R.id.user_pages_profile_view);
 
         setSupportActionBar(toolbar);
 
@@ -177,13 +179,17 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     }
 
     private void setProfileBanner() {
-        profileView.setVisibility(View.INVISIBLE);
         accountSet = new ObservableBoolean();
         accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 if (newValue) {
-                    Utility.updateProfileWithImage(TAG, authProfileSet);
+                    if (user.getDisplayName()==null || user.getDisplayName().equals("")) {
+                        Utility.updateProfileWithImage(TAG, authProfileSet);
+                    } else {
+                        authProfileSet.set(true);
+                        System.out.println("other layout set");
+                    }
                 }
             }
         });
@@ -333,7 +339,10 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         public void onSuccess(Uri uri) {
                             Picasso.get().load(uri.toString()).error(R.drawable.user)
                                     .into(userImage);
-                            profileView.setVisibility(View.VISIBLE);
+
+                            loadingPage.setVisibility(View.GONE);
+                            appBarLayout.setVisibility(View.VISIBLE);
+                            viewPager.setVisibility(View.VISIBLE);
                         }
                     });
             } else {

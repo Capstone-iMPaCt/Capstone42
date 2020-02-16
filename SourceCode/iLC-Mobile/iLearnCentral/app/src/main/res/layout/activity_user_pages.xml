@@ -6,12 +6,42 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context=".Activity.UserPages">
+    <RelativeLayout
+        android:id="@+id/user_loading_panel"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:layout_gravity="center"
+        android:gravity="center"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:gravity="center">
+            <ProgressBar
+                android:id="@+id/loading_circle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true" />
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Please wait..."
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="20dp"
+                android:layout_marginTop="20dp"
+                />
+        </LinearLayout>
+    </RelativeLayout>
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_app_bar"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_bar_height"
         android:background="@drawable/bg_toolbar"
+        android:visibility="invisible"
         android:fitsSystemWindows="true"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_behavior=".CustomBehavior.CustomAppBarLayoutBehavior">
@@ -42,6 +72,7 @@
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
                     android:clickable="true"
+                    android:background="@drawable/ic_account_circle_black_24dp"
                     android:src="@drawable/avatar_boy"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
@@ -143,6 +174,7 @@
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/htab_viewpager"
+        android:visibility="invisible"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">

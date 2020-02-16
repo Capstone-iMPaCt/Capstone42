@@ -1,4 +1,6 @@
-package com.project.ilearncentral.MyClass.VariableListeners;
+package com.project.ilearncentral.CustomBehavior;
+
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 
 public class ObservableString {
     private OnStringChangeListener listener;

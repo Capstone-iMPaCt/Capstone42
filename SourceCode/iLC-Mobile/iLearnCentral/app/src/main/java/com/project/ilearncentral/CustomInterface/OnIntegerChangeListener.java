@@ -1,4 +1,4 @@
-package com.project.ilearncentral.MyClass.VariableListeners;
+package com.project.ilearncentral.CustomInterface;
 
 public interface OnIntegerChangeListener {
         public void onIntegerChanged(int newValue);

@@ -45,8 +45,8 @@ import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.MyClass.VariableListeners.ObservableBoolean;
-import com.project.ilearncentral.MyClass.VariableListeners.OnBooleanChangeListener;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.R;
 
 import java.io.ByteArrayOutputStream;

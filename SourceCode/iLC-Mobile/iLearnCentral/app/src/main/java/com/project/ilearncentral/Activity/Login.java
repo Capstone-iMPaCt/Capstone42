@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -58,6 +59,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true);
         db = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         email = oldId = "";
@@ -124,30 +126,30 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             final String usernameValue = username.getText().toString();
             if (!Patterns.EMAIL_ADDRESS.matcher(usernameValue).matches()) {
                 db.collection("User").whereEqualTo("Username", usernameValue).get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    if (!task.getResult().isEmpty()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            email = document.getString("Email");
-                                            oldId = document.getId();
-                                            oldData = document.getData();
-                                            aUser = true;
-                                            loginEmail();
-                                            Log.d(TAG, document.getId() + " => " + document
-                                                    .getData());
-                                        }
-                                    } else {
-                                        Utility.buttonWait(logInButton, false, "Log In");
-                                        Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
-                                                .show();
-                                    }
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (!task.getResult().isEmpty()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    email = document.getString("Email");
+                                    oldId = document.getId();
+                                    oldData = document.getData();
+                                    aUser = true;
+                                    loginEmail();
+                                    Log.d(TAG, document.getId() + " => " + document
+                                            .getData());
                                 }
+                            } else {
+                                Utility.buttonWait(logInButton, false, "Log In");
+                                Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
+                                        .show();
                             }
-                        });
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
+                        }
+                        }
+                    });
             } else {
                 db.collection("User").whereEqualTo("Email", usernameValue).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
