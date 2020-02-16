@@ -320,6 +320,10 @@ public class Account {
         return type;
     }
 
+    public static boolean isType(String newType) {
+        return (type+"").equals(newType);
+    }
+
     public static void setType(Type type) {
         Account.type = type;
     }
