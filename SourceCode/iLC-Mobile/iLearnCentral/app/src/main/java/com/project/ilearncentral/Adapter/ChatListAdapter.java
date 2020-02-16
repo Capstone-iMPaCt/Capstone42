@@ -2,6 +2,7 @@ package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,9 +11,13 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.Messages;
 import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -43,8 +48,8 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
     public void onBindViewHolder(@NonNull final ChatListHolder holder, int position) {
         holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
-//        FirebaseStorage storage = FirebaseStorage.getInstance();
-//        final StorageReference storageRef = storage.getReference();
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        final StorageReference storageRef = storage.getReference();
 
         final Message chat = chatList.get(position);
         final boolean to = (chat.getType().equals("to"));
@@ -56,21 +61,21 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         holder.time.setText(dateFormat.getInstance().format(chat.getDateSent().toDate()));
 
-//        new Thread(new Runnable() {
-//            public void run() {
-//            try
-//            {
-//                storageRef.child("images").child(chat.get("image").toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-//                {
-//                    @Override
-//                    public void onSuccess(Uri uri)
-//                    {
-//                        Picasso.get().load(uri.toString()).error(R.drawable.user).into(holder.image);
-//                    }
-//                });
-//            } catch (Exception e) {}
-//            }
-//        }).start();
+        new Thread(new Runnable() {
+            public void run() {
+            try
+            {
+                storageRef.child("images").child(holder.username.getText().toString()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+                {
+                    @Override
+                    public void onSuccess(Uri uri)
+                    {
+                        Picasso.get().load(uri.toString()).error(R.drawable.user).into(holder.image);
+                    }
+                });
+            } catch (Exception e) {}
+            }
+        }).start();
         holder.parent.setOnClickListener(new View.OnClickListener()
         {
             @Override

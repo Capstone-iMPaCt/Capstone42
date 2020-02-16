@@ -5,19 +5,19 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/educator_detail_item_bullet"
+        android:id="@+id/resume_single_list_row_bullet"
         android:layout_width="10dp"
         android:layout_height="10dp"
         android:layout_gravity="start|center"
-        android:layout_marginStart="10dp"
         android:background="@drawable/list_bullet0" />
 
     <TextView
-        android:id="@+id/educator_detail_item"
+        android:id="@+id/resume_single_list_row_data"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start|center"
         android:layout_marginStart="10dp"
         android:text="Interests and Qualities"
+        android:textColor="@color/colorPrimaryDark"
         android:textSize="14sp" />
 </LinearLayout>

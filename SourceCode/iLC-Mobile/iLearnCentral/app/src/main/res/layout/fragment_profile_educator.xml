@@ -2,6 +2,7 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/educator_profile_nested_scrollview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:backgroundTint="@color/colorPrimary"
@@ -16,9 +17,11 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/educator_profile_header"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/bg_linear">
+            android:background="@drawable/bg_linear"
+            android:focusable="true">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,7 +50,7 @@
                         android:layout_weight="1"
                         android:gravity="top|center"
                         android:text="@string/followers"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -73,12 +76,13 @@
                         android:layout_weight="1"
                         android:gravity="top|center"
                         android:text="@string/following"
-                        android:textColor="@color/dark_gray"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_user_rating"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -118,6 +122,7 @@
                         android:layout_weight="1"
                         android:gravity="top|center"
                         android:text="@string/user_rating"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -129,22 +134,23 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="5dp"
+                    android:background="@color/colorAccent"
                     android:gravity="center"
+                    android:padding="5dp"
                     android:text="Career Objective"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -154,6 +160,7 @@
                     android:layout_height="wrap_content"
                     android:text="The big brown fox jumps over the lazy dog under the mango tree. Ang relo ni Liroy Libat. Ang kwarta ko sa kwarto kwatro."
                     android:textAlignment="center"
+                    android:textColor="@color/colorPrimaryDark"
                     android:textSize="14sp" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
@@ -189,6 +196,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
                         android:text="Email"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                 </LinearLayout>
@@ -211,6 +219,7 @@
                         android:layout_marginStart="10dp"
                         android:gravity="start|center"
                         android:text="+639 "
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                     <TextView
@@ -220,6 +229,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
                         android:text="XXX XXXX"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                     <TextView
@@ -247,6 +257,7 @@
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
                         android:text="N/A"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
                 </LinearLayout>
             </LinearLayout>
@@ -263,6 +274,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="5dp"
                 android:orientation="vertical">
 
@@ -289,9 +301,11 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_educational_background_recyclerview"
+                    android:id="@+id/educator_profile_educational_background_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:overScrollMode="never" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -316,9 +330,11 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_employment_history_recyclerview"
+                    android:id="@+id/educator_profile_employment_history_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:overScrollMode="never" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -343,9 +359,12 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_skillS_recyclerview"
+                    android:id="@+id/educator_profile_skills_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginBottom="10dp"
+                    android:overScrollMode="never" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -370,105 +389,110 @@
                 </LinearLayout>
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_awards_recyclerview"
+                    android:id="@+id/educator_profile_awards_recyclerview"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:layout_marginBottom="10dp"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@drawable/bg_linear"
-            android:padding="5dp">
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
-                    android:text="Interests"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_interests_recyclerview"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/bg_linear"
-            android:padding="5dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center"
+                    android:padding="5dp"
                     android:text="Qualities"
-                    android:textColor="@color/colorPrimary"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_qualities_recyclerview"
+                    android:id="@+id/educator_profile_qualities_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="10dp"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@drawable/bg_linear"
-            android:padding="5dp">
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
                 android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
+                    android:background="@color/colorPrimary"
                     android:gravity="center"
-                    android:text="References"
-                    android:textColor="@color/colorPrimary"
+                    android:padding="5dp"
+                    android:text="Interests"
+                    android:textColor="@android:color/white"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/educator_references_recyclerview"
+                    android:id="@+id/educator_profile_interests_recyclerview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="10dp"
+                    android:overScrollMode="never" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_linear"
+            android:paddingBottom="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="References"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/educator_profile_references_recyclerview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_marginBottom="5dp" />
+                    android:layout_marginBottom="5dp"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

@@ -11,11 +11,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Adapter.ChatListAdapter;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.R;
 
@@ -49,16 +49,6 @@ public class Chat extends AppCompatActivity {
         chatList = new ArrayList<>();
         addedChat = new ArrayList<>();
 
-        FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setTimestampsInSnapshotsEnabled(true)
-                .build();
-        firestore.setFirestoreSettings(settings);
-
-//        Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-//        setSupportActionBar(toolbar);
-//        toolbar.inflateMenu(R.menu.menu_activity_pages);
-
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.chat_coversations_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if(chatList.size() == 0) {
@@ -67,8 +57,12 @@ public class Chat extends AppCompatActivity {
         adapter = new ChatListAdapter(this, chatList);
         recyclerView.setAdapter(adapter);
 
-        username = user.getEmail().substring(0, user.getEmail().indexOf('@'));
+        username = Account.getStringData("username");
 
+        getMessages();
+    }
+
+    private void getMessages() {
         db.collection("Messages")
                 .whereEqualTo("From", username)
                 .orderBy("DateSent", Query.Direction.DESCENDING)

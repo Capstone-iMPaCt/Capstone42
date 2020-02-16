@@ -16,45 +16,45 @@ import com.project.ilearncentral.R;
 
 import java.util.List;
 
-public class EducatorDetailsAdapter extends RecyclerView.Adapter<EducatorDetailsAdapter.EducatorDetailsViewHolder> {
+public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleListAdapter.EducatorDetailsViewHolder> {
 
     Context context;
-    List<Resume> details;
+    List<Resume> data;
 
-    public EducatorDetailsAdapter(Context context, List<Resume> details) {
+    public ResumeSingleListAdapter(Context context, List<Resume> data) {
         this.context = context;
-        this.details = details;
+        this.data = data;
     }
 
     @NonNull
     @Override
     public EducatorDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_item_educator_details, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_educator_row_item_single_list, parent, false);
         return new EducatorDetailsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull EducatorDetailsViewHolder holder, int position) {
-        holder.bullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
-        holder.detail.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
+        holder.rowBullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
+        holder.rowData.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
 
-        holder.detail.setText(details.get(position).getDetail());
+        holder.rowData.setText(data.get(position).getDataList());
     }
 
     @Override
     public int getItemCount() {
-        return details.size();
+        return data.size();
     }
 
     public class EducatorDetailsViewHolder extends RecyclerView.ViewHolder {
 
-        private ImageView bullet;
-        private TextView detail;
+        private ImageView rowBullet;
+        private TextView rowData;
 
         EducatorDetailsViewHolder(View itemView) {
             super(itemView);
-            bullet = (ImageView) itemView.findViewById(R.id.educator_detail_item_bullet);
-            detail = (TextView)itemView.findViewById(R.id.educator_detail_item);
+            rowBullet = (ImageView) itemView.findViewById(R.id.resume_single_list_row_bullet);
+            rowData = (TextView)itemView.findViewById(R.id.resume_single_list_row_data);
         }
     }
 }

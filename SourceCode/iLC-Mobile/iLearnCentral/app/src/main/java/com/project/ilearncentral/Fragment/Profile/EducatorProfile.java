@@ -11,8 +11,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.project.ilearncentral.Adapter.EducatorBackgroundAdapter;
-import com.project.ilearncentral.Adapter.EducatorDetailsAdapter;
+import com.project.ilearncentral.Adapter.ResumeGroupListAdapter;
+import com.project.ilearncentral.Adapter.ResumeReferenceAdapter;
+import com.project.ilearncentral.Adapter.ResumeSingleListAdapter;
 import com.project.ilearncentral.Model.Resume;
 import com.project.ilearncentral.R;
 
@@ -21,11 +22,12 @@ import java.util.ArrayList;
 public class EducatorProfile extends Fragment {
 
     private TextView email, pwd;
-    private RecyclerView employmentHistoryRecyclerView, interestRecyclerView, qualitiesRecyclerView;
-    private EducatorDetailsAdapter educatorDetailsAdapter;
-    private EducatorBackgroundAdapter educatorBackgroundAdapter;
+    private RecyclerView groupListRecyclerView, singleListRecyclerView, resumeReferenceRecyclerView;
+    private ResumeGroupListAdapter resumeGroupListAdapter;
+    private ResumeSingleListAdapter resumeSingleListAdapter;
+    private ResumeReferenceAdapter resumeReferenceAdapter;
     private ArrayList<Resume> employmentHistory, educationalBackGround;
-    private ArrayList<Resume> interests, qualities, references;
+    private ArrayList<Resume> skills, awards, interests, qualities, references;
 
     public EducatorProfile() {
         // Required empty public constructor
@@ -44,41 +46,85 @@ public class EducatorProfile extends Fragment {
         email = (TextView) view.findViewById(R.id.email_textview);
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
 
+        // Adding Educational Background
         educationalBackGround = new ArrayList<>();
         educationalBackGround.add(new Resume("Primary School","Address","Year"));
         educationalBackGround.add(new Resume("Elementary School","Address","Year"));
         educationalBackGround.add(new Resume("High School","Address","Year"));
         educationalBackGround.add(new Resume("College","Address","Year"));
-        employmentHistoryRecyclerView = view.findViewById(R.id.educator_educational_background_recyclerview);
-        employmentHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        educatorBackgroundAdapter = new EducatorBackgroundAdapter(getContext(), educationalBackGround);
-        employmentHistoryRecyclerView.setAdapter(educatorBackgroundAdapter);
+        groupListRecyclerView = view.findViewById(R.id.educator_profile_educational_background_recyclerview);
+        groupListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        groupListRecyclerView.setNestedScrollingEnabled(false);
+        resumeGroupListAdapter = new ResumeGroupListAdapter(getContext(), educationalBackGround);
+        groupListRecyclerView.setAdapter(resumeGroupListAdapter);
 
+        // Adding Employment History
         employmentHistory = new ArrayList<>();
         employmentHistory.add(new Resume("Company Name","Address","Duration"));
         employmentHistory.add(new Resume("Company Name","Address","Duration"));
-        employmentHistoryRecyclerView = view.findViewById(R.id.educator_employment_history_recyclerview);
-        employmentHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        educatorBackgroundAdapter = new EducatorBackgroundAdapter(getContext(), employmentHistory);
-        employmentHistoryRecyclerView.setAdapter(educatorBackgroundAdapter);
+        groupListRecyclerView = view.findViewById(R.id.educator_profile_employment_history_recyclerview);
+        groupListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        groupListRecyclerView.setNestedScrollingEnabled(false);
+        resumeGroupListAdapter = new ResumeGroupListAdapter(getContext(), employmentHistory);
+        groupListRecyclerView.setAdapter(resumeGroupListAdapter);
 
-        interests = new ArrayList<>();
-        interests.add(new Resume("Programming"));
-        interests.add(new Resume("CISCO Networking"));
-        interests.add(new Resume("Computer Troubleshooting"));
-        interestRecyclerView = view.findViewById(R.id.educator_interests_recyclerview);
-        interestRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        educatorDetailsAdapter = new EducatorDetailsAdapter(getContext(), interests);
-        interestRecyclerView.setAdapter(educatorDetailsAdapter);
+        // Adding Skills
+        skills = new ArrayList<>();
+        skills.add(new Resume("Programming"));
+        skills.add(new Resume("CISCO Networking"));
+        skills.add(new Resume("Computer Troubleshooting"));
+        skills.add(new Resume("Carpentry"));
+        singleListRecyclerView = view.findViewById(R.id.educator_profile_skills_recyclerview);
+        singleListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        singleListRecyclerView.setNestedScrollingEnabled(false);
+        resumeSingleListAdapter = new ResumeSingleListAdapter(getContext(), skills);
+        singleListRecyclerView.setAdapter(resumeSingleListAdapter);
 
+        // Adding Awards
+        awards = new ArrayList<>();
+        awards.add(new Resume("Programming"));
+        awards.add(new Resume("CISCO Networking"));
+        awards.add(new Resume("Computer Troubleshooting"));
+        awards.add(new Resume("Carpentry"));
+        singleListRecyclerView = view.findViewById(R.id.educator_profile_awards_recyclerview);
+        singleListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        singleListRecyclerView.setNestedScrollingEnabled(false);
+        resumeSingleListAdapter = new ResumeSingleListAdapter(getContext(), awards);
+        singleListRecyclerView.setAdapter(resumeSingleListAdapter);
+
+        // Adding Qualities
         qualities = new ArrayList<>();
-        qualities.add(new Resume("AI Programming"));
-        qualities.add(new Resume("Network Security"));
-        qualities.add(new Resume("Game Developing"));
-        qualitiesRecyclerView = view.findViewById(R.id.educator_qualities_recyclerview);
-        qualitiesRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        educatorDetailsAdapter = new EducatorDetailsAdapter(getContext(), qualities);
-        qualitiesRecyclerView.setAdapter(educatorDetailsAdapter);
+        qualities.add(new Resume("Programming"));
+        qualities.add(new Resume("CISCO Networking"));
+        qualities.add(new Resume("Computer Troubleshooting"));
+        qualities.add(new Resume("Carpentry"));
+        singleListRecyclerView = view.findViewById(R.id.educator_profile_qualities_recyclerview);
+        singleListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        singleListRecyclerView.setNestedScrollingEnabled(false);
+        resumeSingleListAdapter = new ResumeSingleListAdapter(getContext(), qualities);
+        singleListRecyclerView.setAdapter(resumeSingleListAdapter);
+
+        // Adding Interests
+        interests = new ArrayList<>();
+        interests.add(new Resume("AI Programming"));
+        interests.add(new Resume("Network Security"));
+        interests.add(new Resume("Game Developing"));
+        singleListRecyclerView = view.findViewById(R.id.educator_profile_interests_recyclerview);
+        singleListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        singleListRecyclerView.setNestedScrollingEnabled(false);
+        resumeSingleListAdapter = new ResumeSingleListAdapter(getContext(), interests);
+        singleListRecyclerView.setAdapter(resumeSingleListAdapter);
+
+        // Adding References
+        references = new ArrayList<>();
+        references.add(new Resume("Person","Job Title","Company Name", "Contact Number"));
+        references.add(new Resume("Person","Job Title","Company Name", "Contact Number"));
+        references.add(new Resume("Person","Job Title","Company Name", "Contact Number"));
+        resumeReferenceRecyclerView = view.findViewById(R.id.educator_profile_references_recyclerview);
+        resumeReferenceRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        resumeReferenceRecyclerView.setNestedScrollingEnabled(false);
+        resumeReferenceAdapter = new ResumeReferenceAdapter(getContext(), references);
+        resumeReferenceRecyclerView.setAdapter(resumeReferenceAdapter);
 
         return view;
     }

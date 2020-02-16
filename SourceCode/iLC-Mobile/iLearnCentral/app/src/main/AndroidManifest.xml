@@ -15,13 +15,20 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ForgotPassword"></activity>
+        <activity android:name=".Activity.SignUp.CreateUser"></activity>
+        <activity
+            android:name=".Activity.Update.UpdateLearningCenter"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Activity.Update.UpdateAccount"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Activity.Update.UpdateProfile"
+            android:configChanges="orientation|screenSize" />
+        <activity android:name=".Activity.ForgotPassword" />
         <activity
             android:name=".Activity.AccountSettings"
             android:label="@string/title_activity_account_settings" />
-        <activity
-            android:name=".Activity.SignUp.SignUpOthers"
-            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.Messages" />
         <activity android:name=".Fragment.JobPost" />
         <activity android:name=".Activity.Chat" />
@@ -44,15 +51,24 @@
             android:name=".Activity.Home"
             android:label="@string/title_activity_home" />
         <activity android:name=".Fragment.Feed" />
-        <activity android:name=".Activity.UserPages">
+        <activity
+            android:name=".Activity.UserPages"
+            android:configChanges="orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.SignUp.SignUpLearningCenter" />
-        <activity android:name=".Activity.SignUp.SignUpUsers" />
+        <activity
+            android:name=".Activity.SignUp.SignUpLearningCenter"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Activity.SignUp.SignUpOthers"
+            android:configChanges="orientation|screenSize" />
+        <activity
+            android:name=".Activity.SignUp.SignUpUsers"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity
             android:name=".Activity.Login"

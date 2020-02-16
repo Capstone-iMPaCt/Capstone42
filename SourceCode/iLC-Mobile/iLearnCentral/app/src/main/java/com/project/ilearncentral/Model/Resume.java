@@ -2,48 +2,56 @@ package com.project.ilearncentral.Model;
 
 public class Resume {
 
-    private String detail;
-    private String companyName, companyAddress, durationPeriod;
+    private String dataList;
+    private String header, address, datePeriod;
+    private String personName, jobTitle, companyName, contactNumber;
 
-    public Resume(String detail) {
-        this.detail = detail;
+    public Resume(String dataList) {
+        this.dataList = dataList;
     }
 
-    public Resume(String companyName, String companyAddress, String durationPeriod) {
+    public Resume(String header, String address, String datePeriod) {
+        this.header = header;
+        this.address = address;
+        this.datePeriod = datePeriod;
+    }
+
+    public Resume(String personName, String jobTitle, String companyName, String contactNumber) {
+        this.personName = personName;
+        this.jobTitle = jobTitle;
         this.companyName = companyName;
-        this.companyAddress = companyAddress;
-        this.durationPeriod = durationPeriod;
+        this.contactNumber = contactNumber;
     }
 
-    public String getDetail() {
-        return detail;
+    public String getDataList() {
+        return dataList;
     }
 
-    public void setDetail(String detail) {
-        this.detail = detail;
+    public String getHeader() {
+        return header;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getDatePeriod() {
+        return datePeriod;
+    }
+
+    public String getPersonName() {
+        return personName;
+    }
+
+    public String getJobTitle() {
+        return jobTitle;
     }
 
     public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
-
-    public String getCompanyAddress() {
-        return companyAddress;
-    }
-
-    public void setCompanyAddress(String companyAddress) {
-        this.companyAddress = companyAddress;
-    }
-
-    public String getDurationPeriod() {
-        return durationPeriod;
-    }
-
-    public void setDurationPeriod(String durationPeriod) {
-        this.durationPeriod = durationPeriod;
+    public String getContactNumber() {
+        return contactNumber;
     }
 }

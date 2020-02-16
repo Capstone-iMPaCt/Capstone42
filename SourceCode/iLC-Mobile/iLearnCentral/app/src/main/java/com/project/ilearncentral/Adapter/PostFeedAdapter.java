@@ -39,16 +39,20 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         return new PostViewHolder(view);
     }
 
+    private int lastPosition = -1;
+
     // On bind/display animation
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, final int position) {
-        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
-        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
+        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
-        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
+        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
         getImage(holder.userImageView, posts.get(position).getNewsUserImageView());
-        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
+        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
         getImage(holder.contentImageView, posts.get(position).getNewsContentImageView());
+
+        lastPosition = position;
 
         holder.titleTextView.setText(posts.get(position).getTitleTextView());
         holder.dateTextView.setText(posts.get(position).getDateTextView());

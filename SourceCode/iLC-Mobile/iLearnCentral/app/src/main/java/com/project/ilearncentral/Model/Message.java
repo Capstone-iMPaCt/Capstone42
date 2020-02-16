@@ -12,6 +12,7 @@ public class Message implements Comparator<Message> {
     private String message;
     private Timestamp dateSent;
     private String type;
+    private String image;
 
     public Message() {
         this.id = "";
@@ -68,6 +69,14 @@ public class Message implements Comparator<Message> {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public int compare(Message message1, Message message2) {
