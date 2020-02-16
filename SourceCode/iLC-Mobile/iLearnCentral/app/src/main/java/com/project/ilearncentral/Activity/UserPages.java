@@ -189,7 +189,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             @Override
             public void onBooleanChanged(boolean success) {
                 if (success) {
-<<<<<<< HEAD
 
                 } else {
 
@@ -204,40 +203,15 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
                 } else {
 
-=======
-
-                } else {
-
-                }
-            }
-        });
-        centerSet = new ObservableBoolean();
-        centerSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-
-                } else {
-
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
                 }
             }
         });
         accountSet = new ObservableBoolean();
         accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
-<<<<<<< HEAD
-<<<<<<< HEAD
-            public void onBooleanChanged(boolean newValue) {
-                if (newValue) {
-                    if (user.getDisplayName() == null || user.getDisplayName().equals("")) {
-=======
-=======
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
             public void onBooleanChanged(boolean success) {
                 if (success) {
-                    if (user.getDisplayName()==null || user.getDisplayName().equals("")) {
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
+                    if (user.getDisplayName() == null || user.getDisplayName().equals("")) {
                         Utility.updateProfileWithImage(TAG, authProfileSet);
                     } else {
                         authProfileSet.set(true);
@@ -305,35 +279,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         else if (Account.getType() == Account.Type.Student)
                             collection = "Student";
                         db.collection(collection)
-<<<<<<< HEAD
-                                .whereEqualTo("Username", Account.getStringData("username"))
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                Account.setProfileData(document.getData());
-                                                if (Account.getType() == Account.Type.LearningCenter) {
-                                                    DocumentReference docRef = db.collection("LearningCenter")
-                                                            .document(Account.getStringData("centerId"));
-                                                    docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                            if (task.isSuccessful()) {
-                                                                DocumentSnapshot document = task.getResult();
-                                                                if (document.exists()) {
-                                                                    Account.setBusinessData(document.getData());
-                                                                    Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                                                                } else {
-                                                                    Log.d(TAG, "No such document");
-                                                                }
-                                                                System.out.println(Account.getStringData("centerId"));
-                                                            } else {
-                                                                Log.d(TAG, "get failed with ", task.getException());
-                                                            }
-                                                            accountSet.set(true);
-=======
                             .whereEqualTo("Username", Account.getStringData("username"))
                             .get()
                             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -361,7 +306,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                                             }
                                                         } else {
                                                             Log.d(TAG, "get failed with ", task.getException());
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
                                                         }
                                                     });
                                                 } else {
@@ -372,12 +316,9 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                                         } else {
                                             Log.d(TAG, "Error getting documents: ", task.getException());
                                         }
-<<<<<<< HEAD
-=======
                                     } else {
                                         profileSet.set(false);
                                         Log.d(TAG, "Error getting documents: ", task.getException());
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
                                     }
                                 });
                     } else {
@@ -407,16 +348,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 //        return super.onCreateOptionsMenu(menu);
     }
 
-<<<<<<< HEAD
-    public boolean onPrepareOptionsMenu(Menu menu) {
-        System.out.println(Account.getType());
-=======
     public boolean onPrepareOptionsMenu(Menu menu)
     {
-<<<<<<< HEAD
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
-=======
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
         MenuItem updateBusiness = menu.findItem(R.id.menu_update_business);
         if (Account.getType() == Account.Type.LearningCenter) {
             updateBusiness.setVisible(true);
@@ -460,24 +393,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     public void changeProfileImage() {
         runOnUiThread(new Runnable() {
             public void run() {
-<<<<<<< HEAD
-                if (user.getPhotoUrl() != null) {
-                    storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri.toString()).error(R.drawable.user)
-                                            .into(userImage);
-
-                                    loadingPage.setVisibility(View.GONE);
-                                    appBarLayout.setVisibility(View.VISIBLE);
-                                    viewPager.setVisibility(View.VISIBLE);
-                                }
-                            });
-                } else {
-                    profileView.setVisibility(View.VISIBLE);
-                }
-=======
             if (user.getPhotoUrl() != null) {
                 storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
                     .addOnSuccessListener(new OnSuccessListener<Uri>() {
@@ -496,8 +411,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                 appBarLayout.setVisibility(View.VISIBLE);
                 viewPager.setVisibility(View.VISIBLE);
             }
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
-            }
         });
     }
 
@@ -507,26 +420,11 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         setResult(RESULT_OK);
         if (requestCode == UPDATE_ACCOUNT && resultCode == RESULT_OK) {
             setAccount();
-<<<<<<< HEAD
-<<<<<<< HEAD
             setProfileBanner();
         } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
             setAccount();
             setProfileBanner();
         } else if (requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
-=======
-            setObservableListeners();
-        } else if(requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
-            setAccount();
-=======
-            setObservableListeners();
-        } else if(requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
-            setAccount();
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
-            setObservableListeners();
-        } else if(requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
->>>>>>> 8030ca2cb0f7c1387ebf722a06685fdbce2ba4f7
-            setAccount();
             setObservableListeners();
         }
     }
