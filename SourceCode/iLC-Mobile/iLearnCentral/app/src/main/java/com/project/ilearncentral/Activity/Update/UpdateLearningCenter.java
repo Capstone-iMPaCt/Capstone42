@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -37,6 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
@@ -85,6 +87,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
     private StorageReference ref;
 
     private Uri filePath;
+    ByteArrayOutputStream bitmapBytes;
     private Bitmap bitmap;
     private File destination = null;
     private String imgPath = null;
@@ -135,6 +138,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
                                         .show();
                                 Utility.buttonWait((Button) v, false, buttonText);
+                                finish();
                             }
                             Log.d(TAG, "DocumentSnapshot successfully written!");
                         }
@@ -150,76 +154,6 @@ public class UpdateLearningCenter extends AppCompatActivity {
         }
     }
 
-    public void uploadImage(String txtid){
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Updating...");
-            progressDialog.show();
-
-            ref = storageRef.child("images/"+ txtid);
-            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putFile(filePath)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    progressDialog.dismiss();
-                                    if (withImage) {
-                                        Account.addData("bLogo", uri.toString());
-                                        DocumentReference lcRef = db.collection("LearningCenter").document(Account.getStringData("centerId"));
-                                        lcRef
-                                                .update("Logo", uri.toString())
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        updated = true;
-                                                        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
-                                                                .show();
-                                                        Utility.buttonWait(updateButton, false, buttonText);
-                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Toast.makeText(getApplicationContext(), "Error Updating Logo!", Toast.LENGTH_SHORT)
-                                                                .show();
-                                                        Utility.buttonWait(updateButton, false, buttonText);
-                                                        Log.w(TAG, "Error updating document", e);
-                                                    }
-                                                });
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Utility.buttonWait(updateButton, false, "Update");
-                            showAlert("An Error Occured", "ERROR");
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = 0.0;
-                            progress = (100.0 * taskSnapshot
-                                    .getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
-                        }
-                    }).addOnCanceledListener(new OnCanceledListener() {
-                        @Override
-                        public void onCanceled() {
-                            Utility.buttonWait(updateButton, false, "Update");
-                        }
-                    });
-        }
-    }
     private boolean checkErrors() {
         boolean valid = true;
 
@@ -523,10 +457,14 @@ public class UpdateLearningCenter extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
             try {
-                Uri selectedImage = data.getData();
+                filePath = data.getData();
                 bitmap = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
+                bitmapBytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+
+                bitmap = ImagePicker.getImageResized(this, filePath);
+                int rotation = ImagePicker.getRotation(this, filePath, true);
+                bitmap = ImagePicker.rotate(bitmap, rotation);
 
                 Log.e("Activity", "Pick from Camera::>>> ");
 
@@ -537,33 +475,44 @@ public class UpdateLearningCenter extends AppCompatActivity {
                 try {
                     destination.createNewFile();
                     fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
+                    fo.write(bitmapBytes.toByteArray());
                     fo.close();
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
                 imgPath = destination.getAbsolutePath();
                 logo.setImageBitmap(bitmap);
-                filePath = selectedImage;
                 withImage = true;
+                Account.addData("image", filePath);
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
+        } else if(requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
+                && data != null && data.getData() != null )
+        {
             filePath = data.getData();
             try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-                Log.e(TAG, "Pick from Gallery::>>> ");
+                String[] filePathColumn = { MediaStore.Images.Media.DATA };
 
-                imgPath = getRealPathFromURI(selectedImage);
-                destination = new File(imgPath.toString());
+                Cursor cursor = getContentResolver().query(filePath,
+                        filePathColumn, null, null, null);
+                cursor.moveToFirst();
+
+                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                String picturePath = cursor.getString(columnIndex);
+                cursor.close();
+
+                bitmap = BitmapFactory.decodeFile(picturePath);
+                bitmapBytes = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+
+                bitmap = ImagePicker.getImageResized(this, filePath);
+                int rotation = ImagePicker.getRotation(this, filePath, false);
+                bitmap = ImagePicker.rotate(bitmap, rotation);
+
                 logo.setImageBitmap(bitmap);
                 withImage = true;
 
@@ -576,6 +525,78 @@ public class UpdateLearningCenter extends AppCompatActivity {
         }
     }
 
+    public void uploadImage(String txtid){
+        System.out.println("final" + filePath);
+        if(filePath != null)
+        {
+            final ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setTitle("Updating...");
+            progressDialog.show();
+
+            byte[] data = bitmapBytes.toByteArray();
+            ref = storageRef.child("images/"+ txtid);
+            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putBytes(data)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    progressDialog.dismiss();
+                                    if (withImage) {
+                                        Account.addData("bLogo", uri.toString());
+                                        DocumentReference lcRef = db.collection("LearningCenter").document(Account.getStringData("centerId"));
+                                        lcRef
+                                                .update("Logo", uri.toString())
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        updated = true;
+                                                        Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        Utility.buttonWait(updateButton, false, buttonText);
+                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getApplicationContext(), "Error Updating Logo!", Toast.LENGTH_SHORT)
+                                                                .show();
+                                                        Utility.buttonWait(updateButton, false, buttonText);
+                                                        Log.w(TAG, "Error updating document", e);
+                                                    }
+                                                });
+                                    }
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Utility.buttonWait(updateButton, false, "Update");
+                            showAlert("An Error Occured", "ERROR");
+                        }
+                    })
+                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                            double progress = 0.0;
+                            progress = (100.0 * taskSnapshot
+                                    .getBytesTransferred() / taskSnapshot
+                                    .getTotalByteCount());
+                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
+                        }
+                    }).addOnCanceledListener(new OnCanceledListener() {
+                        @Override
+                        public void onCanceled() {
+                            Utility.buttonWait(updateButton, false, "Update");
+                        }
+                    });
+        }
+    }
     public String getRealPathFromURI(Uri contentUri) {
         String[] filePathColumn = { MediaStore.Images.Media.DATA };
         Cursor cursor = getContentResolver().query(contentUri,

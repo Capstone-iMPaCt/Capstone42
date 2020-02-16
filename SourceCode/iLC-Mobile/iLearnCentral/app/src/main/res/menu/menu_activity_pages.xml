@@ -11,6 +11,7 @@
         android:id="@+id/menu_update_account"
         android:title="@string/update_account"
         android:icon="@drawable/ic_account_circle_black_24dp"
+
         app:showAsAction="never" />
 
     <item

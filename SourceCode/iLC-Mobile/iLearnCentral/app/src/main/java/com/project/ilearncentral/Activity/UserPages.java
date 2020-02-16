@@ -49,6 +49,7 @@ import com.squareup.picasso.Picasso;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
@@ -188,7 +189,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         Utility.updateProfileWithImage(TAG, authProfileSet);
                     } else {
                         authProfileSet.set(true);
-                        System.out.println("other layout set");
+                        //SETUP all methods that need Account static to be completely loaded here.
                     }
                 }
             }
@@ -281,9 +282,18 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+
         getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
-        return super.onCreateOptionsMenu(menu);
-//        return true;
+
+        if(menu instanceof MenuBuilder){
+            MenuBuilder m = (MenuBuilder) menu;
+            m.setOptionalIconsVisible(true);
+        }
+
+        return true;
+//        getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
+//        menu
+//        return super.onCreateOptionsMenu(menu);
     }
 
     public boolean onPrepareOptionsMenu(Menu menu)
@@ -346,7 +356,9 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         }
                     });
             } else {
-                profileView.setVisibility(View.VISIBLE);
+                loadingPage.setVisibility(View.GONE);
+                appBarLayout.setVisibility(View.VISIBLE);
+                viewPager.setVisibility(View.VISIBLE);
             }
             }
         });
