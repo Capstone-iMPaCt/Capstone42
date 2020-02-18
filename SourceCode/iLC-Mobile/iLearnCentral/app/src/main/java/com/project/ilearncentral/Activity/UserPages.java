@@ -97,7 +97,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.user_image);
-        featuresButton = (Button) findViewById(R.id.main_features_button);
+        featuresButton = (Button) findViewById(R.id.main_subscription_button);
         findUserButton = (Button) findViewById(R.id.main_find_user_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
         messageButton = (Button) findViewById(R.id.message_button);
@@ -248,9 +248,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.main_features_button:
-                startActivity(new Intent(getApplicationContext(), Home.class));
-                finish();
+            case R.id.main_subscription_button:
+                startActivity(new Intent(getApplicationContext(), Subscription.class));
                 break;
             case R.id.main_find_user_button:
                 startActivity(new Intent(getApplicationContext(), SearchUser.class));
