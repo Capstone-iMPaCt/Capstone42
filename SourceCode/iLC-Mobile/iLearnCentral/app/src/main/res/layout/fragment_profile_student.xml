@@ -17,11 +17,10 @@
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/student_profile_header"
+            android:id="@+id/educator_profile_header"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/bg_linear"
-            android:focusable="true">
+            android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -36,6 +35,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/student_followers"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -62,6 +62,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/student_following"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -82,7 +83,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/student_profile_user_rating"
+                    android:id="@+id/educator_profile_user_rating"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -97,6 +98,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/student_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -139,8 +141,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -155,9 +155,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/student_profile_about_me"
+                    android:id="@+id/student_about_me"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="The big brown fox jumps over the lazy dog under the mango tree. Ang relo ni Liroy Libat. Ang kwarta ko sa kwarto kwatro."
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
@@ -165,16 +166,28 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <fragment
+            android:id="@+id/educator_profile_aboutme_fragment_container"
+            android:name="com.project.ilearncentral.Fragment.UserAboutMe"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
             android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -236,10 +249,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent" />
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/darker_gray" />
+
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/educator_profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_linear">
@@ -247,24 +269,39 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="5dp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:padding="5dp"
-                    android:gravity="center"
-                    android:text="Interests"
-                    android:background="@color/colorPrimary"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold"/>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/student_profile_interest_recyclerview"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="5dp"/>
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="5dp"
+                        android:layout_marginEnd="5dp"
+                        android:background="@drawable/enrolment_history_icon" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Enrolment History"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/student_profile_enrolment_history_recyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="32dp"
+                    android:overScrollMode="never" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

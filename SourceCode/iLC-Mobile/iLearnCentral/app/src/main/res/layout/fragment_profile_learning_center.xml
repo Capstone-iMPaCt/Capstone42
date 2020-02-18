@@ -36,6 +36,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/learning_center_followers"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -62,6 +63,7 @@
                     android:orientation="vertical">
 
                     <TextView
+                        android:id="@+id/learning_center_following"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -97,6 +99,7 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/learning_center_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -139,8 +142,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -155,9 +156,10 @@
                     android:textStyle="bold" />
 
                 <TextView
-                    android:id="@+id/educator_profile_about_me"
+                    android:id="@+id/learning_center_about_us"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:padding="10dp"
                     android:text="The big brown fox jumps over the lazy dog under the mango tree. Ang relo ni Liroy Libat. Ang kwarta ko sa kwarto kwatro."
                     android:textAlignment="center"
                     android:textColor="@color/colorPrimaryDark"
@@ -168,13 +170,48 @@
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="1dp"
-            android:background="@drawable/bg_linear">
+            android:background="@drawable/bg_linear"
+            android:paddingBottom="5dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    android:text="Business Information"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/business_name_icon" />
+
+                    <TextView
+                        android:id="@+id/learning_center_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="start|center"
+                        android:text="Learning Center Name"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -195,12 +232,215 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
-                        android:text="Learning Center Type"
+                        android:text="Service Type"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
                 </LinearLayout>
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/address_icon" />
+
+                    <TextView
+                        android:id="@+id/learning_center_address"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:gravity="start|center"
+                        android:text="Learning Center Address"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/operating_days_icon" />
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp">
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_sun"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Sun"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_mon"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Mon"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_tue"
+                            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_sun"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_tue"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Tue"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_wed"
+                            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_mon"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_wed"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Wed"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_thu"
+                            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_tue"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_thu"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Thu"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_fri"
+                            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_wed"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_fri"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Fri"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_sat"
+                            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_thu"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/lc_profile_op_day_sat"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:background="@drawable/bg_unselected_day_rounded"
+                            android:gravity="center"
+                            android:text="Sat"
+                            android:textAllCaps="false"
+                            android:textColor="@android:color/white"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="20dp"
+                        android:src="@drawable/opening_time_icon" />
+
+                    <TextView
+                        android:id="@+id/learning_center_opening_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:layout_weight="1"
+                        android:gravity="start|center"
+                        android:text="Opening Time"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+
+                    <ImageView
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:layout_gravity="start|center"
+                        android:layout_marginStart="10dp"
+                        android:src="@drawable/closing_time_icon" />
+
+                    <TextView
+                        android:id="@+id/learning_center_closing_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="20dp"
+                        android:layout_weight="1"
+                        android:gravity="start|center"
+                        android:text="Closing Time"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:textSize="14sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="1dp"
+            android:background="@drawable/bg_linear">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -240,27 +480,14 @@
                         android:src="@drawable/phone_icon" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
-                        android:gravity="start|center"
-                        android:text="+639 "
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:id="@+id/learningcenter_contact_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
-                        android:text="XXX XXXX"
+                        android:text="+639 XXX XXXX"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -282,69 +509,9 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="20dp"
                         android:gravity="start|center"
-                        android:text="www.learningcenter.com"
+                        android:text="website"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
-                </LinearLayout>
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_linear"
-            android:paddingBottom="5dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorPrimary"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="Operation"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_margin="5dp"
-                    android:gravity="end"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Type:"
-                        android:textColor="@color/colorAccent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Days:"
-                        android:textColor="@color/colorAccent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Time:"
-                        android:textColor="@color/colorAccent" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:text="Others:"
-                        android:textColor="@color/colorAccent" />
                 </LinearLayout>
             </LinearLayout>
         </androidx.cardview.widget.CardView>

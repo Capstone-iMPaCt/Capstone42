@@ -29,7 +29,7 @@ public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleLi
     @NonNull
     @Override
     public EducatorDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_educator_row_item_single_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_row_item_single_list, parent, false);
         return new EducatorDetailsViewHolder(view);
     }
 

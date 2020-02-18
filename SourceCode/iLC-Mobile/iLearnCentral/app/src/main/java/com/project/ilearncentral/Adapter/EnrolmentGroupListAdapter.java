@@ -11,38 +11,38 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.R;
 
 import java.util.List;
 
-public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupListAdapter.ResumeBackgroundViewHolder> {
+public class EnrolmentGroupListAdapter extends RecyclerView.Adapter<EnrolmentGroupListAdapter.EnrolmentBackgroundViewHolder> {
 
     Context context;
-    List<Resume> data;
+    List<Enrolment> data;
 
-    public ResumeGroupListAdapter(Context context, List<Resume> data) {
+    public EnrolmentGroupListAdapter(Context context, List<Enrolment> data) {
         this.context = context;
         this.data = data;
     }
 
     @NonNull
     @Override
-    public ResumeBackgroundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EnrolmentBackgroundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_row_item_group_list, parent, false);
-        return new ResumeBackgroundViewHolder(view);
+        return new EnrolmentBackgroundViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ResumeBackgroundViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull EnrolmentBackgroundViewHolder holder, int position) {
         holder.rowLine.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         holder.rowBullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         if (position == data.size()-1)
             holder.rowLine.setVisibility(View.INVISIBLE);
 
-        holder.rowTitle.setText(data.get(position).getHeader());
-        holder.rowAddress.setText(data.get(position).getAddress());
-        holder.rowDatePeriod.setText(data.get(position).getDatePeriod());
+        holder.rowTitle.setText(data.get(position).getLearningCenterName());
+        holder.rowAddress.setText(data.get(position).getCourseEnrolled());
+        holder.rowDatePeriod.setText(data.get(position).getDateEnrolled());
     }
 
     @Override
@@ -50,13 +50,13 @@ public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupList
         return data.size();
     }
 
-    public class ResumeBackgroundViewHolder extends RecyclerView.ViewHolder {
+    public class EnrolmentBackgroundViewHolder extends RecyclerView.ViewHolder {
 
         private View rowLine;
         private ImageView rowBullet;
         private TextView rowTitle, rowAddress, rowDatePeriod;
 
-        ResumeBackgroundViewHolder(View itemView) {
+        EnrolmentBackgroundViewHolder(View itemView) {
             super(itemView);
             rowLine = (View) itemView.findViewById(R.id.resume_group_list_row_line);
             rowBullet = (ImageView) itemView.findViewById(R.id.resume_group_list_row_bullet);
