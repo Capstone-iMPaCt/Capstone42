@@ -53,7 +53,7 @@
     <string name="course_offered">Course</string>
     <string name="subscription">Subscription</string>
     <string name="subscription_end_date">Subscription End</string>
-    <string name="search">Search</string>
+    <string name="search">Search...</string>
     <string name="firstname">First Name</string>
     <string name="last_name">Last Name</string>
     <string name="middle_name">Middle Name</string>

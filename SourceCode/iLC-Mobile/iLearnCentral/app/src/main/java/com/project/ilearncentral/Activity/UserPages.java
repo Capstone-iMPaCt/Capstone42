@@ -12,6 +12,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.viewpager.widget.ViewPager;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +41,8 @@ import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
 import com.project.ilearncentral.Adapter.UserPagesAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.Management;
@@ -42,18 +52,8 @@ import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
-import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.viewpager.widget.ViewPager;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -97,7 +97,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.user_image);
-        featuresButton = (Button) findViewById(R.id.main_features_button);
+        featuresButton = (Button) findViewById(R.id.main_subscription_button);
         findUserButton = (Button) findViewById(R.id.main_find_user_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
         messageButton = (Button) findViewById(R.id.message_button);
@@ -117,26 +117,32 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
         messageButton.setOnClickListener(this);
         userImage.setOnClickListener(this);
 
-
         viewPager = (ViewPager) findViewById(R.id.htab_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
+        setObservableListeners();
+
+    }
+
+    private void generateTabs() {
         UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
-        System.out.println("Type = "+ Account.getType());
-        if (Account.getType() == Account.Type.LearningCenter)
+        if (Account.isType("LearningCenter")) {
             adapter.addFragment(new LearningCenterProfile(), "Profile");
-        else if (Account.getType() == Account.Type.Educator)
+            adapter.addFragment(new Feed(), "Feeds");
+            adapter.addFragment(new JobPost(), "Job Posts");
+        } else if (Account.getType() == Account.Type.Educator) {
             adapter.addFragment(new EducatorProfile(), "Profile");
-        else if (Account.getType() == Account.Type.Student)
+            adapter.addFragment(new Feed(), "Feeds");
+            adapter.addFragment(new JobPost(), "Job Posts");
+        } else if (Account.getType() == Account.Type.Student) {
             adapter.addFragment(new StudentProfile(), "Profile");
-        adapter.addFragment(new Feed(), "Feeds");
-        adapter.addFragment(new JobPost(), "Job Posts");
+            adapter.addFragment(new Feed(), "Feeds");
+        }
         adapter.addFragment(new Management(), "Recommendations");
         adapter.addFragment(new Management(), "My Activies");
 
         viewPager.setAdapter(adapter);
-//        tabLayout.setBackground();
         tabLayout.setupWithViewPager(viewPager);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL|TabLayout.GRAVITY_CENTER);
 
@@ -169,7 +175,6 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
-        setObservableListeners();
     }
 
     private void setObservableListeners() {
@@ -243,9 +248,8 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.main_features_button:
-                startActivity(new Intent(getApplicationContext(), Home.class));
-                finish();
+            case R.id.main_subscription_button:
+                startActivity(new Intent(getApplicationContext(), Subscription.class));
                 break;
             case R.id.main_find_user_button:
                 startActivity(new Intent(getApplicationContext(), SearchUser.class));
@@ -272,12 +276,16 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
                         Log.d(TAG, "User - DocumentSnapshot data: " + document.getData());
 
                         String collection = "";
-                        if (Account.getType() == Account.Type.LearningCenter)
+                        if (Account.getType() == Account.Type.LearningCenter) {
                             collection = "LearningCenterStaff";
-                        else if (Account.getType() == Account.Type.Educator)
+                            Account.setType(Account.Type.LearningCenter);
+                        } else if (Account.getType() == Account.Type.Educator) {
                             collection = "Educator";
-                        else if (Account.getType() == Account.Type.Student)
+                            Account.setType(Account.Type.Educator);
+                        } else if (Account.getType() == Account.Type.Student) {
                             collection = "Student";
+                            Account.setType(Account.Type.Student);
+                        }
                         setProfileDetails(collection);
                     } else {
                         userSet.set(false);
@@ -292,53 +300,54 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
     private void setProfileDetails(String collection) {
         db.collection(collection)
-            .whereEqualTo("Username", Account.getStringData("username"))
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            Account.setProfileData(document.getData());
-                            profileSet.set(true);
-                            if (Account.getType() == Account.Type.LearningCenter) {
-                                setLearningCenterDetails();
-                                Log.d(TAG, document.getId() + " => " + document.getData());
-                            } else {
-                                accountSet.set(true);
+                .whereEqualTo("Username", Account.getStringData("username"))
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Account.setProfileData(document.getData());
+                                profileSet.set(true);
+                                if (Account.getType() == Account.Type.LearningCenter) {
+                                    setLearningCenterDetails();
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                } else {
+                                    accountSet.set(true);
+                                }
                             }
+                        } else {
+                            profileSet.set(false);
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    } else {
-                        profileSet.set(false);
-                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-                }
-            });
+                });
+        generateTabs();
     }
 
     private void setLearningCenterDetails() {
-            DocumentReference docRef = db.collection("LearningCenter")
-                    .document(Account.getStringData("centerId"));
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            Account.setBusinessData(document.getData());
-                            accountSet.set(true);
-                            centerSet.set(true);
-                            Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                        } else {
-                            centerSet.set(false);
-                            accountSet.set(false);
-                            Log.d(TAG, "No such document");
-                        }
+        DocumentReference docRef = db.collection("LearningCenter")
+                .document(Account.getStringData("centerId"));
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        Account.setBusinessData(document.getData());
+                        accountSet.set(true);
+                        centerSet.set(true);
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
-                        Log.d(TAG, "get failed with ", task.getException());
+                        centerSet.set(false);
+                        accountSet.set(false);
+                        Log.d(TAG, "No such document");
                     }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
                 }
-            });
+            }
+        });
     }
 
     @Override
@@ -346,7 +355,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 
         getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
 
-        if(menu instanceof MenuBuilder){
+        if (menu instanceof MenuBuilder) {
             MenuBuilder m = (MenuBuilder) menu;
             m.setOptionalIconsVisible(true);
         }
@@ -357,8 +366,7 @@ public class UserPages extends AppCompatActivity implements View.OnClickListener
 //        return super.onCreateOptionsMenu(menu);
     }
 
-    public boolean onPrepareOptionsMenu(Menu menu)
-    {
+    public boolean onPrepareOptionsMenu(Menu menu) {
         MenuItem updateBusiness = menu.findItem(R.id.menu_update_business);
         if (Account.getType() == Account.Type.LearningCenter) {
             updateBusiness.setVisible(true);

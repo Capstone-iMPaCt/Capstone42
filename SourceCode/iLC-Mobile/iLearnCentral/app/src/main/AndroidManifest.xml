@@ -49,7 +49,7 @@
             android:resource="@color/colorAccent" />
 
         <activity
-            android:name=".Activity.Home"
+            android:name=".Activity.Subscription"
             android:label="@string/title_activity_home" />
         <activity android:name=".Fragment.Feed" />
         <activity

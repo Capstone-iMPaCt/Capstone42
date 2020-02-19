@@ -51,7 +51,8 @@
                 android:textColorHighlight="@color/mint_blue"
                 android:textColorHint="@color/text_hint_color"
                 android:textColorLink="@color/light_blue"
-                android:focusable="true" />
+                android:focusable="true"
+                android:autofillHints="" />
 
         </com.google.android.material.textfield.TextInputLayout>
 

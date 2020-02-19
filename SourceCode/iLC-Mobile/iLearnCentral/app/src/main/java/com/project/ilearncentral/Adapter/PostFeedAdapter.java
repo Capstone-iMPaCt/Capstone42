@@ -92,7 +92,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
             case R.id.user_imageview:
                 break;
             case R.id.post_title_textview:
-                intent = new Intent(context, Home.class);
+                intent = new Intent(context, Subscription.class);
                 intent.putExtra("title", posts.get(position).getTitleTextView());
                 context.startActivity(intent);
                 break;

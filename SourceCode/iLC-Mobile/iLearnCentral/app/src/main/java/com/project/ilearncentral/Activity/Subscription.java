@@ -17,7 +17,7 @@ import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 
-public class Home extends AppCompatActivity implements View.OnClickListener {
+public class Subscription extends AppCompatActivity implements View.OnClickListener {
 
     private AddonAdapter adapter;
     private RecyclerView recyclerView;
@@ -28,7 +28,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_subscription);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         setSupportActionBar(toolbar);
@@ -58,8 +58,7 @@ public class Home extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.user_page_link:
-//                onBackPressed();
-                startActivity(new Intent(getApplicationContext(), UserPages.class));
+                onBackPressed();
                 finish();
             default:
                 return;

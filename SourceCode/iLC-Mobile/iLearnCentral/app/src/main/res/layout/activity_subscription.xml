@@ -2,11 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_transparent"
     android:orientation="vertical"
-    android:id="@+id/root_layout"
-    tools:context=".Activity.Home">
+    tools:context=".Activity.Subscription">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/home_app_bar"
@@ -67,6 +68,6 @@
         android:layout_height="match_parent"
         android:backgroundTint="@color/bg_recyclerview" />
 
-<!--    <include layout="@layout/recyclerview_item_home" />-->
+    <!--    <include layout="@layout/recyclerview_item_home" />-->
 
 </LinearLayout>

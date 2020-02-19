@@ -2,6 +2,8 @@ package com.project.ilearncentral.Model;
 
 import android.net.Uri;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -18,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-
 public class Account {
 
     private static String status = "";
@@ -27,7 +27,7 @@ public class Account {
     private static Map<String, Object> data = new HashMap<>();
     private static List<Map<String, Object>> accounts = new ArrayList<>();
 
-    public enum Type { LearningCenter, Educator, Student }
+    public enum Type {LearningCenter, Educator, Student}
 
     public static String getName() {
         String name = getStringData("firstName") + " ";
@@ -43,7 +43,7 @@ public class Account {
 
 
     private static void setValidatedData(String oldKey, Map<String, Object> userData, String newKey) {
-        if(userData.containsKey(oldKey)) {
+        if (userData.containsKey(oldKey)) {
             data.put(newKey, userData.get(oldKey));
         } else {
             data.put(newKey, null);
@@ -51,7 +51,7 @@ public class Account {
     }
 
     public static void setUserData(Map<String, Object> userData) {
-        if (userData!=null) {
+        if (userData != null) {
             if (userData.containsKey("AccountType"))
                 setType(userData.get("AccountType").toString());
             String[] oldKeys = {"AccountStatus", "Email", "Username", "Image", "Question", "Answer"};
@@ -75,7 +75,7 @@ public class Account {
             userData.put("Image", data.get("image"));
             userData.put("Question", getStringData("question"));
             userData.put("Answer", getStringData("answer"));
-        } catch(Exception e) {
+        } catch (Exception e) {
             return null;
         }
         return userData;
@@ -93,18 +93,18 @@ public class Account {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 DocumentReference ref = db.collection(collection).document(document.getId());
-                                List<Map<String, Object>> addressList = (List<Map<String, Object>>)document.get("Address");
+                                List<Map<String, Object>> addressList = (List<Map<String, Object>>) document.get("Address");
                                 ref.update("Address", addressList.get(0))
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                        }
-                                    });
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                            }
+                                        });
                             }
                         } else {
                         }
@@ -114,7 +114,7 @@ public class Account {
     }
 
     public static void setProfileData(Map<String, Object> profileData) {
-        if (profileData!=null) {
+        if (profileData != null) {
             if (type == Type.Educator) {
                 setValidatedData("Position", profileData, "position");
                 setValidatedData("EmploymentStatus", profileData, "employmentStatus");
@@ -152,12 +152,12 @@ public class Account {
     public static Map<String, Object> getProfileData() {
         Map<String, Object> profileData = new HashMap<>();
         profileData.put("Username", getStringData("username"));
-            Map<String, String> name = new HashMap<>();
-                name.put("FirstName", getStringData("firstName"));
-                name.put("MiddleName", getStringData("middleName"));
-                name.put("LastName", getStringData("lastName"));
-                name.put("Extension", getStringData("extension"));
-            profileData.put("Name", name);
+        Map<String, String> name = new HashMap<>();
+        name.put("FirstName", getStringData("firstName"));
+        name.put("MiddleName", getStringData("middleName"));
+        name.put("LastName", getStringData("lastName"));
+        name.put("Extension", getStringData("extension"));
+        profileData.put("Name", name);
         profileData.put("Religion", getStringData("religion"));
         profileData.put("Citizenship", getStringData("citizenship"));
         profileData.put("Gender", getStringData("gender"));
@@ -168,14 +168,14 @@ public class Account {
         else
             profileData.put("CenterID", "");
         Map<String, Object> address = new HashMap<>();
-            address.put("HouseNo", getStringData("houseNo"));
-            address.put("Street", getStringData("street"));
-            address.put("Barangay", getStringData("barangay"));
-            address.put("City", getStringData("city"));
-            address.put("Province", getStringData("province"));
-            address.put("District", getStringData("district"));
-            address.put("ZipCode", getStringData("zipCode"));
-            address.put("Country", getStringData("country"));
+        address.put("HouseNo", getStringData("houseNo"));
+        address.put("Street", getStringData("street"));
+        address.put("Barangay", getStringData("barangay"));
+        address.put("City", getStringData("city"));
+        address.put("Province", getStringData("province"));
+        address.put("District", getStringData("district"));
+        address.put("ZipCode", getStringData("zipCode"));
+        address.put("Country", getStringData("country"));
         profileData.put("Address", address);
         if (type == Type.Educator) {
             if (hasKey("position"))
@@ -199,11 +199,11 @@ public class Account {
     }
 
     public static void setBusinessData(Map<String, Object> businessData) {
-        if (businessData!=null) {
+        if (businessData != null) {
             String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo"};
             String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo"};
-            for (int i=0; i<oldKeys.length;i++) {
-                setValidatedData(oldKeys[i],businessData,newKeys[i]);
+            for (int i = 0; i < oldKeys.length; i++) {
+                setValidatedData(oldKeys[i], businessData, newKeys[i]);
             }
             if (businessData.containsKey("BusinessAddress")) {
                 Map<String, Object> address = ((Map<String, Object>) businessData.get("BusinessAddress"));
@@ -219,7 +219,7 @@ public class Account {
 
             accounts.clear();
             accounts.addAll((List<Map<String, Object>>) businessData.get("Accounts"));
-            for(int i=0; i<accounts.size(); i++) {
+            for (int i = 0; i < accounts.size(); i++) {
                 if (accounts.get(i).get("Username").toString().equals(Account.getStringData("Username"))) {
                     setValidatedData("AccessLevel", accounts.get(i), "accessLevel");
                     setValidatedData("Status", accounts.get(i), "centerStatus");
@@ -227,6 +227,7 @@ public class Account {
             }
         }
     }
+
     public static Map<String, Object> getBusinessData() {
         Map<String, Object> businessData = new HashMap<>();
         businessData.put("BusinessName", getStringData("bName"));
@@ -235,14 +236,14 @@ public class Account {
         businessData.put("ContactNumber", getStringData("bContactNumber"));
         businessData.put("ServiceType", getStringData("bServiceType"));
         Map<String, Object> address = new HashMap<>();
-            address.put("HouseNo", getStringData("bHouseNo"));
-            address.put("Street", getStringData("bStreet"));
-            address.put("Barangay", getStringData("bBarangay"));
-            address.put("City", getStringData("bCity"));
-            address.put("Province", getStringData("bProvince"));
-            address.put("District", getStringData("bDistrict"));
-            address.put("ZipCode", getStringData("bZipCode"));
-            address.put("Country", getStringData("bCountry"));
+        address.put("HouseNo", getStringData("bHouseNo"));
+        address.put("Street", getStringData("bStreet"));
+        address.put("Barangay", getStringData("bBarangay"));
+        address.put("City", getStringData("bCity"));
+        address.put("Province", getStringData("bProvince"));
+        address.put("District", getStringData("bDistrict"));
+        address.put("ZipCode", getStringData("bZipCode"));
+        address.put("Country", getStringData("bCountry"));
         businessData.put("BusinessAddress", address);
         businessData.put("ClosingTime", getTimeStampData("bClosingTime"));
         businessData.put("OpeningTime", getTimeStampData("bOpeningTime"));
@@ -250,9 +251,9 @@ public class Account {
 
         if (accounts.isEmpty()) {
             Map<String, Object> account = new HashMap<>();
-                account.put("AccessLevel", "administrator");
-                account.put("Status", "active");
-                account.put("Username", getStringData("username"));
+            account.put("AccessLevel", "administrator");
+            account.put("Status", "active");
+            account.put("Username", getStringData("username"));
             accounts.add(account);
         }
         businessData.put("Accounts", accounts);
@@ -287,8 +288,8 @@ public class Account {
     }
 
     public static String getStringData(String key) {
-        if(data.containsKey(key)) {
-            if (data.get(key)==null)
+        if (data.containsKey(key)) {
+            if (data.get(key) == null)
                 return "";
             return data.get(key).toString();
         }
@@ -296,21 +297,21 @@ public class Account {
     }
 
     public static Timestamp getTimeStampData(String key) {
-        if(data.containsKey(key) && data.get(key)!=null) {
+        if (data.containsKey(key) && data.get(key) != null) {
             return (Timestamp) data.get(key);
         }
         return null;
     }
 
     public static Date getDateData(String key) {
-        if(data.containsKey(key)) {
+        if (data.containsKey(key)) {
             return ((Timestamp) data.get(key)).toDate();
         }
         return null;
     }
 
     public static Uri getUriData(String key) {
-        if(data.containsKey(key) && data.get(key)!=null) {
+        if (data.containsKey(key) && data.get(key) != null) {
             return Uri.parse(data.get(key).toString());
         }
         return null;
@@ -320,18 +321,27 @@ public class Account {
         return type;
     }
 
+    public static boolean isType(String newType) {
+        return (type + "").equals(newType);
+    }
+
     public static void setType(Type type) {
         Account.type = type;
     }
+
     public static void setType(String stringType) {
         switch (stringType) {
-            case "learningcenter": type = Type.LearningCenter;
+            case "learningcenter":
+                type = Type.LearningCenter;
                 break;
-            case "educator": type = Type.Educator;
+            case "educator":
+                type = Type.Educator;
                 break;
-            case "student": type = Type.Student;
+            case "student":
+                type = Type.Student;
                 break;
-            default: type = Type.Student;
+            default:
+                type = Type.Student;
                 break;
         }
     }
