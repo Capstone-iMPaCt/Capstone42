@@ -327,36 +327,36 @@ public class UpdateProfile extends AppCompatActivity {
     }
 
     private void selectImage() {
-        try {
-            PackageManager pm = getPackageManager();
-            int hasPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
-            if (hasPerm == PackageManager.PERMISSION_GRANTED) {
-                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Select Option");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (options[item].equals("Take Photo")) {
-                            dialog.dismiss();
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                        } else if (options[item].equals("Choose From Gallery")) {
-                            dialog.dismiss();
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                        } else if (options[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
+        if (Utility.checkPermission(this)) {
+            final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Select Option");
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals("Take Photo")) {
+                        dialog.dismiss();
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        startActivityForResult(intent, PICK_IMAGE_CAMERA);
+                    } else if (options[item].equals("Choose From Gallery")) {
+                        dialog.dismiss();
+                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
+                    } else if (options[item].equals("Cancel")) {
+                        dialog.dismiss();
                     }
-                });
-                builder.show();
-            } else
-                Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+                }
+            });
+            builder.show();
+        } else {
+            Utility.requestPermission(this);
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Utility.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @Override

@@ -1,8 +1,15 @@
 package com.project.ilearncentral.MyClass;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -19,6 +26,9 @@ import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 public class Utility {
 
@@ -26,6 +36,8 @@ public class Utility {
     private static FirebaseUser user = mAuth.getCurrentUser();
     private static FirebaseFirestore db = FirebaseFirestore.getInstance();
     private static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+
+    private static final int PERMISSION_REQUEST_CODE = 200;
 
     public static void buttonWait(Button button, boolean wait) {
         buttonWait(button, wait, "");
@@ -100,5 +112,57 @@ public class Utility {
                     });
             }
         });
+    }
+
+    public static boolean checkPermission(Activity activity) {
+        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted
+            return false;
+        }
+        return true;
+    }
+
+    public static void requestPermission(Activity activity) {
+        ActivityCompat.requestPermissions(activity,
+                new String[]{Manifest.permission.CAMERA},
+                PERMISSION_REQUEST_CODE);
+    }
+
+    public static void onRequestPermissionsResult(final Activity activity, int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Toast.makeText(activity, "Permission Granted", Toast.LENGTH_SHORT).show();
+
+                    // main logic
+                } else {
+                    Toast.makeText(activity, "Permission Denied", Toast.LENGTH_SHORT).show();
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
+                                != PackageManager.PERMISSION_GRANTED) {
+                            showMessageOKCancel(activity,"You need to allow access permissions",
+                                    new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                requestPermission(activity);
+                                            }
+                                        }
+                                    });
+                        }
+                    }
+                }
+                break;
+        }
+    }
+
+    private static void showMessageOKCancel(Activity activity, String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(activity)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
     }
 }
