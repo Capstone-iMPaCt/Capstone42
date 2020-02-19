@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_transparent"
     android:fitsSystemWindows="true"
-    tools:context=".Activity.UserPages">
+    tools:context=".Activity.Main">
 
     <RelativeLayout
         android:id="@+id/user_loading_panel"

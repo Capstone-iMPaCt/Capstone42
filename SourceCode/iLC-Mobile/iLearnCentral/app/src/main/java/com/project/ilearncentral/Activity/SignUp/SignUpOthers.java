@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -40,7 +39,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.project.ilearncentral.Activity.UserPages;
+import com.project.ilearncentral.Activity.Main;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
@@ -217,7 +216,7 @@ public class SignUpOthers extends AppCompatActivity {
     };
 
     public void updateUI() {
-        startActivity(new Intent(getApplicationContext(), UserPages.class));
+        startActivity(new Intent(getApplicationContext(), Main.class));
         Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
         Utility.buttonWait(signUpButton, false, "Confirm");
         setResult(RESULT_OK);

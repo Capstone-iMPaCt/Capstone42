@@ -99,7 +99,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
 
     private void checkCurrentUser() {
         if (FirebaseAuth.getInstance().getCurrentUser() != null) {
-            startActivity(new Intent(this, UserPages.class));
+            startActivity(new Intent(this, Main.class));
             Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
             finish();
         }
@@ -258,7 +258,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void loggedIn() {
-        startActivity(new Intent(getApplicationContext(), UserPages.class));
+        startActivity(new Intent(getApplicationContext(), Main.class));
         Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "Logged in.");
         finish();
