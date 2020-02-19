@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/user_imageview"
             android:layout_width="@dimen/post_user_image_lw"
             android:layout_height="@dimen/post_user_image_lw"
@@ -83,6 +83,7 @@
             android:layout_alignStart="@+id/content_imageview"
             android:layout_alignEnd="@+id/timestamp_layout"
             android:layout_marginTop="5dp"
+            android:paddingHorizontal="10dp"
             android:text="Text Content/Description..." />
 
     </RelativeLayout>

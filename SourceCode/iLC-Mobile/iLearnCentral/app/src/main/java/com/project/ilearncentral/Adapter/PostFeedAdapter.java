@@ -2,6 +2,7 @@ package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,17 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -26,10 +33,12 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     private Context context;
     private List<Post> posts;
     private Intent intent;
+    private StorageReference storageRef;
 
     public PostFeedAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
+        storageRef = FirebaseStorage.getInstance().getReference();
     }
 
     @NonNull
@@ -48,9 +57,9 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        getImage(holder.userImageView, posts.get(position).getNewsUserImageView());
+        getImage(holder.userImageView, "images/" , posts.get(position).getNewsUserImageView());
         holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        getImage(holder.contentImageView, posts.get(position).getNewsContentImageView());
+        getImage(holder.contentImageView, "posts/" , posts.get(position).getNewsContentImageView());
 
         lastPosition = position;
 
@@ -86,56 +95,36 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         return posts.size();
     }
 
-    /*@Override
-    public void onClick(View v, int position) {
-        switch (v.getId()) {
-            case R.id.user_imageview:
-                break;
-            case R.id.post_title_textview:
-                intent = new Intent(context, Subscription.class);
-                intent.putExtra("title", posts.get(position).getTitleTextView());
-                context.startActivity(intent);
-                break;
-            default:
-                break;
-        }
-    }*/
-
-    private void getImage(ImageView newsUserImageView, int newsContentImageView) {
-        Glide
-                .with(context)
-                .load(newsContentImageView)
-                .fitCenter()
-                .apply(new RequestOptions())
-                .into(newsUserImageView);
-    }
-
-    private void getImage(ImageView newsUserImageView, int newsContentImageView, int height) {
-        Glide
-                .with(context)
-                .load(newsContentImageView)
-                .fitCenter()
-                .apply(new RequestOptions().override(height))
-                .into(newsUserImageView);
+    private void getImage(final ImageView newsUserImageView, String folderName, String filename) {
+//        Glide.with(context)
+//                .load(storageRef.child(folderName).child(filename))
+//                .into(newsUserImageView);
+        storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri.toString()).into(newsUserImageView);
+            }
+        });
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout containerLayout, headerLayout;
-        private ImageView userImageView, contentImageView;
+        private CircleImageView userImageView;
+        private ImageView contentImageView;
         private TextView titleTextView, dateTextView, timeTextView, contentTextView;
 
         PostViewHolder(View itemView) {
             super(itemView);
 
-            containerLayout = (RelativeLayout) itemView.findViewById(R.id.addon_container_relativelayout);
-            userImageView = (ImageView) itemView.findViewById(R.id.user_imageview);
-            titleTextView = (TextView) itemView.findViewById(R.id.post_title_textview);
-            headerLayout = (RelativeLayout) itemView.findViewById(R.id.timestamp_layout);
-            dateTextView = (TextView) itemView.findViewById(R.id.date_textview);
-            timeTextView = (TextView) itemView.findViewById(R.id.time_textview);
-            contentImageView = (ImageView) itemView.findViewById(R.id.content_imageview);
-            contentTextView = (TextView) itemView.findViewById(R.id.content_textview);
+            containerLayout = itemView.findViewById(R.id.addon_container_relativelayout);
+            userImageView = itemView.findViewById(R.id.user_imageview);
+            titleTextView = itemView.findViewById(R.id.post_title_textview);
+            headerLayout = itemView.findViewById(R.id.timestamp_layout);
+            dateTextView = itemView.findViewById(R.id.date_textview);
+            timeTextView = itemView.findViewById(R.id.time_textview);
+            contentImageView = itemView.findViewById(R.id.content_imageview);
+            contentTextView = itemView.findViewById(R.id.content_textview);
         }
     }
 }

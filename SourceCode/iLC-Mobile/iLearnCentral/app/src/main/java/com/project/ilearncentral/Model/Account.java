@@ -54,8 +54,8 @@ public class Account {
         if (userData != null) {
             if (userData.containsKey("AccountType"))
                 setType(userData.get("AccountType").toString());
-            String[] oldKeys = {"AccountStatus", "Email", "Username", "Image", "Question", "Answer"};
-            String[] newKeys = {"accountStatus", "email", "username", "image", "question", "answer"};
+            String[] oldKeys = {"AccountStatus", "ContactNo", "Email", "Username", "Image", "Question", "Answer"};
+            String[] newKeys = {"accountStatus", "contactNo", "email", "username", "image", "question", "answer"};
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], userData, newKeys[i]);
             }
@@ -71,6 +71,7 @@ public class Account {
                 userData.put("AccountStatus", "active");
             userData.put("AccountType", type.toString().toLowerCase());
             userData.put("Email", getStringData("email"));
+            userData.put("ContactNo", getStringData("contactNo"));
             userData.put("Username", getStringData("username"));
             userData.put("Image", data.get("image"));
             userData.put("Question", getStringData("question"));
@@ -270,6 +271,47 @@ public class Account {
 
     public static boolean hasValue(String value) {
         return data.containsValue(value);
+    }
+
+    public static String getAddress() {
+        String address = "";
+        if (data.containsKey("houseNo"))
+            address += data.get("houseNo") + " ";
+        if (data.containsKey("street"))
+            address += data.get("street") + ", ";
+        if (data.containsKey("barangay"))
+            address += data.get("barangay") + ", ";
+        if (data.containsKey("city"))
+            address += data.get("city") + ", ";
+        if (data.containsKey("district"))
+            address += data.get("district") + " ";
+        if (data.containsKey("province"))
+            address += data.get("province") + ", ";
+        if (data.containsKey("country"))
+            address += data.get("country") + ", ";
+        if (data.containsKey("zipCode"))
+            address += data.get("zipCode") + ", ";
+        return address;
+    }
+    public static String getBusinessAddress() {
+        String address = "";
+        if (data.containsKey("bHouseNo"))
+            address += data.get("bHouseNo") + " ";
+        if (data.containsKey("bStreet"))
+            address += data.get("bHtreet") + ", ";
+        if (data.containsKey("bBarangay"))
+            address += data.get("bBarangay") + ", ";
+        if (data.containsKey("bCity"))
+            address += data.get("bCity") + ", ";
+        if (data.containsKey("bDistrict"))
+            address += data.get("bDistrict") + " ";
+        if (data.containsKey("bProvince"))
+            address += data.get("bProvince") + ", ";
+        if (data.containsKey("bCountry"))
+            address += data.get("bCountry") + ", ";
+        if (data.containsKey("bZipCode"))
+            address += data.get("bZipCode") + ", ";
+        return address;
     }
 
     public static void clearData() {

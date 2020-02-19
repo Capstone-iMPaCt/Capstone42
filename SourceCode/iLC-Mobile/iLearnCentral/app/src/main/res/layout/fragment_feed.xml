@@ -52,6 +52,12 @@
                 android:background="@drawable/search_option_icon" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/feed_pullToRefresh"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        >
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feed_recylerview"
@@ -59,8 +65,9 @@
         android:layout_height="match_parent"
         android:layout_gravity="bottom"
         android:backgroundTint="@color/bg_recyclerview"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        />
 
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/feed_add_fab"
         android:layout_width="wrap_content"
