@@ -15,27 +15,31 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:padding="30dp">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/sign_up_image_educator"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:src="@drawable/user"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/sign_up_image_change_educator"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            app:layout_constraintBottom_toBottomOf="@+id/sign_up_image_educator"
-            app:layout_constraintEnd_toEndOf="@+id/sign_up_image_educator"
-            android:src="@drawable/ic_camera_alt_black_24dp" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/sign_up_image_educator"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/user"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/sign_up_image_change_educator"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@drawable/ic_camera_alt_black_24dp"
+                app:layout_constraintBottom_toBottomOf="@+id/sign_up_image_educator"
+                app:layout_constraintEnd_toEndOf="@+id/sign_up_image_educator" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:id="@+id/sign_up_form_title"
             android:layout_width="match_parent"
@@ -243,8 +247,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
-            android:text="@string/home_address"
             android:inputType="textCapWords"
+            android:text="@string/home_address"
             android:textColor="@color/text_color"
             android:textStyle="italic" />
 
@@ -255,9 +259,9 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/spinner_bg_rounded"
             android:clickable="false"
+            android:entries="@array/countries"
             android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:entries="@array/countries"/>
+            android:paddingRight="10dp" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
@@ -265,9 +269,9 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/sign_up_house_no_educator"
-                android:hint="@string/house_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/house_number"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
@@ -286,9 +290,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_street_educator"
-                    android:hint="@string/street"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/street"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
@@ -302,9 +306,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_barangay_educator"
-                    android:hint="@string/barangay"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/barangay"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"

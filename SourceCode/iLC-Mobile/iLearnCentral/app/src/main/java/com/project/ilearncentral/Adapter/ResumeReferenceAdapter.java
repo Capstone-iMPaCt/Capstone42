@@ -27,7 +27,7 @@ public class ResumeReferenceAdapter extends RecyclerView.Adapter<ResumeReference
     @NonNull
     @Override
     public ResumeReferenceViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_educator_row_item_references, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_resume_references_row, parent, false);
         return new ResumeReferenceViewHolder(view);
     }
 

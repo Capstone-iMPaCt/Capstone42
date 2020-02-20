@@ -16,7 +16,7 @@ import com.project.ilearncentral.R;
 
 import java.util.List;
 
-public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleListAdapter.EducatorDetailsViewHolder> {
+public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleListAdapter.ResumeSingleListViewHolder> {
 
     Context context;
     List<Resume> data;
@@ -28,13 +28,13 @@ public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleLi
 
     @NonNull
     @Override
-    public EducatorDetailsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_row_item_single_list, parent, false);
-        return new EducatorDetailsViewHolder(view);
+    public ResumeSingleListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_resume_single_list_row, parent, false);
+        return new ResumeSingleListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull EducatorDetailsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ResumeSingleListViewHolder holder, int position) {
         holder.rowBullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
         holder.rowData.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
 
@@ -46,12 +46,12 @@ public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleLi
         return data.size();
     }
 
-    public class EducatorDetailsViewHolder extends RecyclerView.ViewHolder {
+    public class ResumeSingleListViewHolder extends RecyclerView.ViewHolder {
 
         private ImageView rowBullet;
         private TextView rowData;
 
-        EducatorDetailsViewHolder(View itemView) {
+        ResumeSingleListViewHolder(View itemView) {
             super(itemView);
             rowBullet = (ImageView) itemView.findViewById(R.id.resume_single_list_row_bullet);
             rowData = (TextView)itemView.findViewById(R.id.resume_single_list_row_data);
