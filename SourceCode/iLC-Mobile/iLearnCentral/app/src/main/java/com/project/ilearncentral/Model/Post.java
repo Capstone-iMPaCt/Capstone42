@@ -1,32 +1,37 @@
 package com.project.ilearncentral.Model;
 
+import com.google.firebase.Timestamp;
+import com.project.ilearncentral.MyClass.Utility;
+
 public class Post {
 
-    private int newsUserImageView, newsContentImageView;
-    private String titleTextView, dateTextView, timeTextView, contentTextView;
+    private Timestamp date;
+    private String titleTextView, dateTextView, timeTextView, contentTextView, newsUserImageView, newsContentImageView;
 
-    public Post(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, int newsContentImageView, String contentTextView) {
+    public Post(String newsUserImageView, String titleTextView, Timestamp date, String newsContentImageView, String contentTextView) {
         this.newsUserImageView = newsUserImageView;
         this.newsContentImageView = newsContentImageView;
         this.titleTextView = titleTextView;
-        this.dateTextView = dateTextView;
-        this.timeTextView = timeTextView;
+        this.date = date;
+        this.dateTextView = Utility.getStringFromDate(date);
+        this.timeTextView = Utility.getStringFromTime(date);
         this.contentTextView = contentTextView;
     }
 
-    public Post(int newsUserImageView, String titleTextView, String dateTextView, String timeTextView, String contentTextView) {
+    public Post(String newsUserImageView, String titleTextView, Timestamp date, String contentTextView) {
         this.newsUserImageView = newsUserImageView;
         this.titleTextView = titleTextView;
-        this.dateTextView = dateTextView;
-        this.timeTextView = timeTextView;
+        this.date = date;
+        this.dateTextView = Utility.getStringFromDate(date);
+        this.timeTextView = Utility.getStringFromTime(date);
         this.contentTextView = contentTextView;
     }
 
-    public int getNewsUserImageView() {
+    public String getNewsUserImageView() {
         return newsUserImageView;
     }
 
-    public int getNewsContentImageView() {
+    public String getNewsContentImageView() {
         return newsContentImageView;
     }
 
@@ -44,5 +49,13 @@ public class Post {
 
     public String getContentTextView() {
         return contentTextView;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
     }
 }

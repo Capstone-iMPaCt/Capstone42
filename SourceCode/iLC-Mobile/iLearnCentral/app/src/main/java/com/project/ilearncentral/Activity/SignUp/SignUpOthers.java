@@ -40,7 +40,11 @@ import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.project.ilearncentral.Activity.Main;
+import com.project.ilearncentral.Activity.Update.UpdateProfile;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.ImageHandler;
 import com.project.ilearncentral.MyClass.ImagePicker;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -86,10 +90,14 @@ public class SignUpOthers extends AppCompatActivity {
     private StorageReference storageRef;
     private StorageReference ref;
 
+    private String confirmText = "Confirm";
+
+    private ImageHandler imageHandler;
+    private ObservableString imageDone;
     private Uri filePath;
     private String imgPath = null;
-    private boolean withImage;
-    ByteArrayOutputStream bitmapBytes;
+    private boolean withImage, withLogo;
+    private ByteArrayOutputStream bitmapBytes;
     private Bitmap bitmap;
     private File destination = null;
     private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
@@ -103,6 +111,10 @@ public class SignUpOthers extends AppCompatActivity {
         res();
         setValues();
 
+
+        Intent i = getIntent();
+        withLogo = i.getBooleanExtra("withImage", false);
+
         if (Account.getType() == Account.Type.Student) {
             formTitle.setText(getString(R.string.student_sign_up_form));
         } else if (Account.getType() == Account.Type.LearningCenter) {
@@ -111,7 +123,7 @@ public class SignUpOthers extends AppCompatActivity {
         changeimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                imageHandler.selectImage();
             }
         });
         Log.d(TAG, Account.getStringData("username"));
@@ -136,7 +148,16 @@ public class SignUpOthers extends AppCompatActivity {
                 picker.show();
             }
         });
+        imageDone.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String uri) {
+                if (!uri.isEmpty()) {
 
+                } else {
+                    Utility.buttonWait(signUpButton, false, confirmText);
+                }
+            }
+        });
         signUpButton.setOnClickListener(signUp);
     }
 
@@ -313,7 +334,7 @@ public class SignUpOthers extends AppCompatActivity {
             Account.addData("gender", "Female");
         }
         if (withImage) {
-            Account.addData("image", filePath.toString());
+            Account.addData("image", imageHandler.getFilePath().toString());
         }
     }
 
@@ -346,118 +367,20 @@ public class SignUpOthers extends AppCompatActivity {
         }
         maritalStatusInput.setSelection(list.indexOf(Account.getStringData("maritalStatus")));
         if (Account.hasKey("image")) {
-            filePath = Account.getUriData("image");
-            setImage();
-        }
-    }
-
-    private void selectImage() {
-        try {
-            PackageManager pm = getPackageManager();
-            int hasPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
-            if (hasPerm == PackageManager.PERMISSION_GRANTED) {
-                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Select Option");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (options[item].equals("Take Photo")) {
-                            dialog.dismiss();
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                        } else if (options[item].equals("Choose From Gallery")) {
-                            dialog.dismiss();
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                        } else if (options[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
-            } else
-                Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
+            imageHandler.setFilePath(Account.getUriData("image"), true, "image", image);
+            withImage = true;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            try {
-                filePath = data.getData();
-                bitmap = (Bitmap) data.getExtras().get("data");
-                bitmapBytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-
-                Log.e("Activity", "Pick from Camera::>>> ");
-
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-                destination = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" +
-                        getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bitmapBytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                imgPath = destination.getAbsolutePath();
-                image.setImageBitmap(bitmap);
-                withImage = true;
-                Account.addData("image", filePath);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if(requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
-                && data != null && data.getData() != null )
-        {
-            filePath = data.getData();
-            setImage();
-        }
-    }
-
-    private void setImage() {
-        try {
-            String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-            Cursor cursor = getContentResolver().query(filePath,
-                    filePathColumn, null, null, null);
-            cursor.moveToFirst();
-
-            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-            String picturePath = cursor.getString(columnIndex);
-            cursor.close();
-
-//            bitmap = BitmapFactory.decodeFile(picturePath);
-//            bitmapBytes = new ByteArrayOutputStream();
-//            bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-
-            bitmap = ImagePicker.getImageResized(this, filePath);
-            int rotation = ImagePicker.getRotation(this, filePath, false);
-            bitmap = ImagePicker.rotate(bitmap, rotation);
-
-            image.setImageBitmap(bitmap);
-            withImage = true;
-            Account.addData("image", filePath.toString());
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+        withImage = imageHandler
+                .onActivityResult(requestCode, resultCode, data, null, image, "image");
     }
 
     public void uploadImage(String txtid, final String centerId){
+        filePath = Account.getUriData("image");
         otherPath = null;
         if (!centerId.isEmpty())
                 otherPath = Account.getUriData("bLogo");
@@ -468,9 +391,8 @@ public class SignUpOthers extends AppCompatActivity {
             progressDialog.setTitle("Signing Up...");
             progressDialog.show();
 
-            byte[] data = bitmapBytes.toByteArray();
             ref = storageRef.child("images/"+ txtid);
-            ref.putBytes(data)
+            ref.putFile(filePath)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -673,6 +595,9 @@ public class SignUpOthers extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         withImage = false;
         format = new SimpleDateFormat("MM/dd/yyyy");
+
+        imageHandler = new ImageHandler(this, SignUpOthers.this);
+        imageDone = new ObservableString();
     }
     @Override
     public void onBackPressed() {

@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
@@ -92,6 +93,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             startActivity(new Intent(this, Login.class));
             finish();
         }
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(true)
+                .build();
+        db.setFirestoreSettings(settings);
 
         setAccount();
 
@@ -183,7 +188,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onBooleanChanged(boolean success) {
                 if (success) {
-
+                    generateTabs();
                 } else {
 
                 }
@@ -194,7 +199,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onBooleanChanged(boolean success) {
                 if (success) {
-
                 } else {
 
                 }
@@ -232,7 +236,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 if (success) {
                     changeProfileImage();
                     usernameDisplay
-                            .setText(Account.getName() + " | " + Account.getStringData("username"));
+                            .setText(Account.getName());
                     if (Account.getType() == Account.Type.LearningCenter) {
                         fieldDisplay.setText(Account.getType().toString() + " | " + Utility
                                 .caps(Account.getStringData("accessLevel")));
@@ -322,7 +326,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         }
                     }
                 });
-        generateTabs();
     }
 
     private void setLearningCenterDetails() {

@@ -1,6 +1,6 @@
 <resources>
     -- Titles and Subtitles --
-    <string name="app_Name">iLearnCentral</string>
+    <string name="app_name">iLearnCentral</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_home">Home</string>
     <string name="nav_header_title">Android Studio</string>

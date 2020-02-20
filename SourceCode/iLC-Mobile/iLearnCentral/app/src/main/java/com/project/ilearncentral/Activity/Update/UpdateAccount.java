@@ -35,8 +35,8 @@ public class UpdateAccount extends AppCompatActivity {
 
     private String TAG = "UpdateAccount";
     private TextInputLayout oldPasswordLayout;
-    private TextInputEditText usernameInput, passwordInput, oldPasswordInput, confirmInput, emailInput, answerInput;
-    private String username, newPassword, oldPassword, confirm, email, answer, question;
+    private TextInputEditText usernameInput, passwordInput, oldPasswordInput, confirmInput, emailInput, contactInput, answerInput;
+    private String username, newPassword, oldPassword, confirm, email, contact, answer, question;
     private Spinner questions;
     private TextView title;
     private Button UpdateBtn;
@@ -56,6 +56,7 @@ public class UpdateAccount extends AppCompatActivity {
         passwordInput = findViewById(R.id.sign_up_password);
         confirmInput = findViewById(R.id.sign_up_confirm_password);
         emailInput = findViewById(R.id.sign_up_email);
+        contactInput = findViewById(R.id.sign_up_contact_no);
         answerInput = findViewById(R.id.sign_up_security_answer);
         questions = findViewById(R.id.sign_up_security_question);
         title = findViewById(R.id.sign_up_user_title);
@@ -187,11 +188,13 @@ public class UpdateAccount extends AppCompatActivity {
 
     private void updateUser() {
         if(emailChangeFlag) Account.addData("email", email);
+        Account.addData("contactNo", contact);
         Account.addData("answer", answer);
         Account.addData("question", question);
         DocumentReference ref = db.collection("User").document(user.getUid());
         ref
                 .update("Email", Account.getStringData("email"),
+                        "ContactNo", contact,
                         "Answer", answer,
                         "Question", question)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -217,9 +220,14 @@ public class UpdateAccount extends AppCompatActivity {
         newPassword = passwordInput.getText().toString();
         confirm = confirmInput.getText().toString();
         email = emailInput.getText().toString();
+        contact = contactInput.getText().toString();
         answer = answerInput.getText().toString().toLowerCase();
         question = questions.getSelectedItem().toString();
 
+        if (contact.isEmpty()) {
+            contactInput.setError("Contact number is empty");
+            valid = false;
+        }
         if (email.isEmpty()) {
             emailInput.setError("Email is empty");
             valid = false;
@@ -253,7 +261,7 @@ public class UpdateAccount extends AppCompatActivity {
             answerInput.setError("Please provide an answer.");
             valid = false;
         }
-        securityChangeFlag = !answer.equals(Account.getStringData("answer")) || !question.equals(Account.getStringData("question"));
+        securityChangeFlag = !answer.equals(Account.getStringData("answer")) || !question.equals(Account.getStringData("question")) || !contact.equals(Account.getStringData("contactNo"));
 
         return valid;
     }
@@ -261,6 +269,7 @@ public class UpdateAccount extends AppCompatActivity {
     private void setValues() {
         usernameInput.setText(Account.getStringData("username"));
         emailInput.setText(Account.getStringData("email"));
+        contactInput.setText(Account.getStringData("contactNo"));
         List<String> list = new ArrayList<>();
         for(String s:getResources().getStringArray(R.array.my_security_questions)) {
             list.add(s);

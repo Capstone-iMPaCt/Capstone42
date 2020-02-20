@@ -29,7 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class SignUpUsers extends AppCompatActivity {
 
     private String TAG = "SIGNUP";
-    private TextInputEditText usernameInput, passwordInput, confirmInput, emailInput, answerInput;
+    private TextInputEditText usernameInput, passwordInput, confirmInput, emailInput, contactInput, answerInput;
     private Spinner questions;
     private Intent intent;
     private TextView title;
@@ -47,6 +47,7 @@ public class SignUpUsers extends AppCompatActivity {
         passwordInput = findViewById(R.id.sign_up_password);
         confirmInput = findViewById(R.id.sign_up_confirm_password);
         emailInput = findViewById(R.id.sign_up_email);
+        contactInput = findViewById(R.id.sign_up_contact_no);
         answerInput = findViewById(R.id.sign_up_security_answer);
         questions = findViewById(R.id.sign_up_security_question);
         title = findViewById(R.id.sign_up_user_title);
@@ -65,7 +66,9 @@ public class SignUpUsers extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (checkErrors()) {
+                Intent i = getIntent();
                 intent = new Intent(getApplicationContext(), SignUpOthers.class);
+                intent.putExtra("withImage", i.getBooleanExtra("withImage", false));
                 startActivityForResult(intent, 1);
             } else {
                 Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT)
@@ -82,6 +85,7 @@ public class SignUpUsers extends AppCompatActivity {
         String confirm = confirmInput.getText().toString();
         String email = emailInput.getText().toString();
         String answer = answerInput.getText().toString().toLowerCase();
+        String contact = contactInput.getText().toString().toLowerCase();
         String question = questions.getSelectedItem().toString();
 
         if (username.isEmpty()) {
@@ -126,6 +130,10 @@ public class SignUpUsers extends AppCompatActivity {
             emailInput.setError("Email invalid format");
             valid = false;
         }
+        if (contact.isEmpty()) {
+            contactInput.setError("Please provide a contact number.");
+            valid = false;
+        }
         if (answer.isEmpty()) {
             answerInput.setError("Please provide an answer.");
             valid = false;
@@ -141,6 +149,7 @@ public class SignUpUsers extends AppCompatActivity {
         Account.addData("username", usernameInput.getText().toString().toLowerCase());
         Account.addData("password", passwordInput.getText().toString());
         Account.addData("email", emailInput.getText().toString());
+        Account.addData("contactNo", contactInput.getText().toString());
         Account.addData("answer", answerInput.getText().toString().toLowerCase());
         Account.addData("question", questions.getSelectedItem().toString());
     }
@@ -149,6 +158,7 @@ public class SignUpUsers extends AppCompatActivity {
         usernameInput.setText(Account.getStringData("username"));
         passwordInput.setText(Account.getStringData("password"));
         emailInput.setText(Account.getStringData("email"));
+        contactInput.setText(Account.getStringData("contactNo"));
         List<String> list = new ArrayList<>();
         for(String s:getResources().getStringArray(R.array.my_security_questions)) {
             list.add(s);

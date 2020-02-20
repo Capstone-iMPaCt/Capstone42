@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
+import android.os.health.TimerStat;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -24,6 +26,9 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -38,6 +43,8 @@ public class Utility {
     private static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
     private static final int PERMISSION_REQUEST_CODE = 200;
+    private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+    private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
 
     public static void buttonWait(Button button, boolean wait) {
         buttonWait(button, wait, "");
@@ -164,5 +171,33 @@ public class Utility {
                 .setNegativeButton("Cancel", null)
                 .create()
                 .show();
+    }
+
+    public static Timestamp getDateFromString(String value) {
+        Timestamp t;
+        try {
+            t = new Timestamp(dateFormat.parse(value));
+        } catch (ParseException e) {
+            t = null;
+        }
+        return t;
+    }
+
+    public static String getStringFromDate(Timestamp value) {
+        return dateFormat.format(value.toDate());
+    }
+
+    public static Timestamp getTimeFromString(String value) {
+        Timestamp t;
+        try {
+            t = new Timestamp(timeFormat.parse(value));
+        } catch (ParseException e) {
+            t = null;
+        }
+        return t;
+    }
+
+    public static String getStringFromTime(Timestamp value) {
+        return timeFormat.format(value.toDate());
     }
 }

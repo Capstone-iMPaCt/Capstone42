@@ -27,7 +27,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.ImageHandler;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -60,16 +63,11 @@ public class SignUpLearningCenter extends AppCompatActivity {
     ImageView logo;
     CircleImageView changeImage;
 
-    private FirebaseAuth mAuth;
-    private FirebaseFirestore db;
-    private StorageReference storageRef;
-    private StorageReference ref;
-
-    private Bitmap bitmap;
-    private File destination = null;
-    private String imgPath = null;
     private boolean withImage;
-    private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12, FINISH = 1;
+
+    private ImageHandler imageHandler;
+    private ObservableString imageDone;
+    private int FINISH = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +79,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         changeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                imageHandler.selectImage();
             }
         });
         serviceTypeInput.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -102,6 +100,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         Utility.buttonWait((Button)v, true);
         if (checkErrors()) {
             Intent intent = new Intent(getApplicationContext(), SignUpUsers.class);
+            intent.putExtra("withImage", withImage);
             startActivityForResult(intent,FINISH);
         }
         Utility.buttonWait((Button)v, false, "Continue");
@@ -172,6 +171,11 @@ public class SignUpLearningCenter extends AppCompatActivity {
             cityInput.setError("City is empty");
             valid = false;
         }
+        if (province.isEmpty()) {
+            provinceInput.setError("Province is empty");
+            valid = false;
+        }
+
 
         Timestamp s, e;
         SimpleDateFormat format = new SimpleDateFormat("hh:mm a");
@@ -240,13 +244,15 @@ public class SignUpLearningCenter extends AppCompatActivity {
         for(String s:getResources().getStringArray(R.array.service_types)) {
             list.add(s);
         }
-        int position = list.indexOf(Account.getStringData("bServiceType"));
-        if (position<0) {
-            serviceTypeInput.setSelection(list.indexOf("Others"));
-            otherServiceTypeInput.setText(Account.getStringData("bServiceType"));
-            otherServiceTypeInput.setVisibility(View.VISIBLE);
-        } else {
-            serviceTypeInput.setSelection(list.indexOf(Account.getStringData("bServiceType")));
+        if (Account.hasKey("bServiceType")) {
+            int position = list.indexOf(Account.getStringData("bServiceType"));
+            if (position < 0) {
+                serviceTypeInput.setSelection(list.indexOf("Others"));
+                otherServiceTypeInput.setText(Account.getStringData("bServiceType"));
+                otherServiceTypeInput.setVisibility(View.VISIBLE);
+            } else {
+                serviceTypeInput.setSelection(list.indexOf(Account.getStringData("bServiceType")));
+            }
         }
         houseNoInput.setText(Account.getStringData("bHouseNo"));
         streetInput.setText(Account.getStringData("bStreet"));
@@ -260,6 +266,10 @@ public class SignUpLearningCenter extends AppCompatActivity {
             list.add(s);
         }
         countryInput.setSelection(list.indexOf(Account.getStringData("bCountry")));
+        if (Account.hasKey("bLogo")) {
+            imageHandler.setFilePath(Account.getUriData("bLogo"));
+            imageHandler.setImage("bLogo", logo);
+        }
     }
 
 
@@ -289,10 +299,9 @@ public class SignUpLearningCenter extends AppCompatActivity {
         serviceTypeInput = findViewById(R.id.sign_up_service_type_lc);
         logo = findViewById(R.id.sign_up_image_lc);
         changeImage = findViewById(R.id.sign_up_image_change_lc);
-        storageRef = FirebaseStorage.getInstance().getReference();
-        mAuth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
         withImage = false;
+        imageHandler = new ImageHandler(this, SignUpLearningCenter.this);
+        imageDone = new ObservableString();
     }
 
     public void inputTime(final View v) {
@@ -326,104 +335,19 @@ public class SignUpLearningCenter extends AppCompatActivity {
         dialog.show();
     }
 
-    private void selectImage() {
-        try {
-            PackageManager pm = getPackageManager();
-            int hasPerm = pm.checkPermission(Manifest.permission.CAMERA, getPackageName());
-            if (hasPerm == PackageManager.PERMISSION_GRANTED) {
-                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Select Option");
-                builder.setItems(options, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (options[item].equals("Take Photo")) {
-                            dialog.dismiss();
-                            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                            startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                        } else if (options[item].equals("Choose From Gallery")) {
-                            dialog.dismiss();
-                            Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                            startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                        } else if (options[item].equals("Cancel")) {
-                            dialog.dismiss();
-                        }
-                    }
-                });
-                builder.show();
-            } else
-                Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(this, "Camera Permission error", Toast.LENGTH_SHORT).show();
-            e.printStackTrace();
-        }
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            try {
-                Uri selectedImage = data.getData();
-                bitmap = (Bitmap) data.getExtras().get("data");
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-
-                Log.e("Activity", "Pick from Camera::>>> ");
-
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-                destination = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" +
-                        getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                imgPath = destination.getAbsolutePath();
-                logo.setImageBitmap(bitmap);
-                withImage = true;
-                Account.addData("bLogo", selectedImage);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK) {
-            Uri selectedImage = data.getData();
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 50, bytes);
-                Log.e("Activity", "Pick from Gallery::>>> ");
-
-                imgPath = getRealPathFromURI(selectedImage);
-                destination = new File(imgPath);
-                logo.setImageBitmap(bitmap);
-                withImage = true;
-                Account.addData("bLogo", selectedImage);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if(requestCode == FINISH && resultCode == RESULT_OK) {
+        if (requestCode == FINISH && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
             finish();
-        }
+        } else
+            withImage = imageHandler
+                    .onActivityResult(requestCode, resultCode, data, null, logo, "bLogo");
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] filePathColumn = { MediaStore.Images.Media.DATA };
-        Cursor cursor = getContentResolver().query(contentUri,
-                filePathColumn, null, null, null);
-        cursor.moveToFirst();
-        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-        return cursor.getString(columnIndex);
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        imageHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
     @Override
