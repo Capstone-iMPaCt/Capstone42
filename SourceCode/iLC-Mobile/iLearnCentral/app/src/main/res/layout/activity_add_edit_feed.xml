@@ -1,21 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".Activity.AddEditFeed">
-
-    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:layout_gravity="center"
         android:paddingHorizontal="30dp"
+        tools:context=".Activity.AddEditFeed"
         >
 
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/feed_add_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:errorEnabled="true"
+        app:hintEnabled="false">
 
-    </LinearLayout>
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/feed_add_title"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/input_opacity80_bg_rounded"
+            android:drawablePadding="20dp"
+            android:hint="Title"
+            android:textStyle="bold"
+            android:inputType="textCapWords"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/mint_blue"
+            android:textColorHint="@color/text_hint_color"
+            android:textColorLink="@color/light_blue"
+            android:focusable="true"/>
 
-</ScrollView>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/feed_add_image"
+            android:layout_width="wrap_content"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:src="@drawable/no_image_available"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:contentDescription="@string/iLC_logo_description" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/feed_add_change_image"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/feed_add_image"
+            app:layout_constraintEnd_toEndOf="@+id/feed_add_image"
+            android:src="@drawable/ic_camera_alt_black_24dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_marginTop="20dp"
+        android:id="@+id/feed_add_content_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        app:errorEnabled="true"
+        app:hintEnabled="false">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/feed_add_content"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_gravity="left"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/input_opacity80_bg_rounded"
+            android:drawablePadding="20dp"
+            android:hint="Content"
+            android:gravity="left"
+            android:textAlignment="gravity"
+            android:lines="10"
+            android:inputType="textCapSentences|textMultiLine"
+            android:padding="10dp"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/mint_blue"
+            android:textColorHint="@color/text_hint_color"
+            android:textColorLink="@color/light_blue"
+            android:focusable="true"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/feed_add_button"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/button_dark_blue"
+        android:text="Post"
+        android:textColor="@color/text_view_background" />
+</LinearLayout>

@@ -78,12 +78,12 @@
         <ImageView
             android:id="@+id/content_imageview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="100dp"
             android:layout_below="@id/user_imageview"
             android:layout_alignStart="@id/user_imageview"
             android:layout_alignEnd="@+id/timestamp_layout"
             android:layout_marginTop="5dp"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerInside" />
 
         <TextView
             android:id="@+id/content_textview"

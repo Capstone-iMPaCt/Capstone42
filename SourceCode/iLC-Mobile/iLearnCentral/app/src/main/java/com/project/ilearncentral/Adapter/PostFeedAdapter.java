@@ -18,11 +18,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.Model.Posts;
 import com.project.ilearncentral.R;
@@ -52,16 +54,17 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 
     private int lastPosition = -1;
 
-    // On bind/display animation
     @Override
     public void onBindViewHolder(@NonNull PostViewHolder holder, final int position) {
-        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
-        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
         final Post post = posts.get(position);
+
+//        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+//        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+//        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+//        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+
         getImage(holder.userImageView, "images/" , post.getNewsUserImageView());
-        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
         getImage(holder.contentImageView, "posts/" , post.getNewsContentImageView());
 
         lastPosition = position;
@@ -84,16 +87,20 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
                 intent.putExtra("title", posts.get(position).getTitleTextView());
                 context.startActivity(intent);*/
                 Toast.makeText(context, post.getTitleTextView(), Toast.LENGTH_SHORT).show();
-//                System.out.print(posts.get(position).getTitleTextView());
             }
         });
+        if (!post.getNewsUserImageView().equals(Account.getStringData("username"))) {
+            holder.editTextView.setVisibility(View.GONE);
+        }
 
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Posts.setCurPost(Posts.getIdOfPost(post.getNewsUserImageView(), post.getContentTextView()));
                 if (Posts.hasCurrent()) {
-                    context.startActivity(new Intent(context, AddEditFeed.class));
+                    Intent i = new Intent(context, AddEditFeed.class);
+                    i.putExtra("postId", post.getNewsContentImageView());
+                    context.startActivity(i);
                 }
             }
         });
@@ -107,13 +114,15 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     }
 
     private void getImage(final ImageView newsUserImageView, String folderName, String filename) {
-//        Glide.with(context)
-//                .load(storageRef.child(folderName).child(filename))
-//                .into(newsUserImageView);
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri.toString()).into(newsUserImageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                newsUserImageView.setVisibility(View.GONE);
             }
         });
     }

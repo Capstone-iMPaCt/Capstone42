@@ -9,6 +9,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -99,14 +100,14 @@ public class Posts {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
                     posts.put(documentReference.getId(), data);
-                    done.set(documentReference.getId());
+                    if (done!=null) done.set(documentReference.getId());
                     Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                 }
             })
             .addOnFailureListener(new OnFailureListener() {
                 @Override
                 public void onFailure(@NonNull Exception e) {
-                    done.set("");
+                    if (done!=null) done.set("");
                     Log.w(TAG, "Error adding document", e);
                 }
             });
@@ -121,10 +122,64 @@ public class Posts {
         addPostToDB(data, done);
     }
 
+    public static void updatePostToDB(String postId, final Map<String, Object> data, final ObservableBoolean done) {
+        db.collection("Post").document(postId)
+                .set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        if (done!=null) done.set(true);
+                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        if (done!=null) done.set(false);
+                        Log.w(TAG, "Error writing document", e);
+                    }
+                });
+    }
+
+    public static void updatePost(String postId, String title, String content, final ObservableBoolean done) {
+        Map<String, Object> data = getPostById(postId);
+        data.put("Title", title);
+        data.put("Content", content);
+        data.put("Username", Account.getStringData("username"));
+        data.put("Date", Timestamp.now());
+        updatePostToDB(postId, data, done);
+    }
+
+    public static Map<String, Object> getPostFromDB(String postId, final ObservableBoolean done) {
+        final Map<String, Object> post = new HashMap<>();
+        DocumentReference docRef = db.collection("Post").document(postId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        post.putAll(document.getData());
+
+                        if (done!=null) done.set(true);
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        if (done!=null) done.set(false);
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
+        return post;
+    }
+
     public static Post setPostToView(String postId) {
         if (posts.containsKey(postId)) {
             curPost = posts.get(postId);
-            return new Post(stringCurPost("Username"), stringCurPost("Title"), (Timestamp) curPost.get("Date"), postId, stringCurPost("Content"));
+            return new Post(stringCurPost("Username"), stringCurPost("Title"), (Timestamp) curPost
+                    .get("Date"), postId, stringCurPost("Content"));
         }
         return null;
     }

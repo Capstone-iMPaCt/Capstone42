@@ -66,8 +66,6 @@ public class UpdateProfile extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
     private FirebaseFirestore db;
-    private StorageReference storageRef;
-    private StorageReference ref;
 
     private ImageHandler imageHandler;
     private ObservableString imageDone;
@@ -384,7 +382,6 @@ public class UpdateProfile extends AppCompatActivity {
         maleInput = findViewById(R.id.sign_up_gender_male_educator);
         femaleInput = findViewById(R.id.sign_up_gender_female_educator);
         updateButton = findViewById(R.id.sign_up_button_educator);
-        storageRef = FirebaseStorage.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();

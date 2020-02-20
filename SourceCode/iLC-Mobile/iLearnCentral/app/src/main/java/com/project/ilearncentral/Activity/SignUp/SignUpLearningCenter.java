@@ -189,6 +189,14 @@ public class SignUpLearningCenter extends AppCompatActivity {
         } catch (ParseException ex) {
             e = null;
         }
+        if (s==null) {
+            timeStartInput.setError("No time given");
+            valid = false;
+        }
+        if (e==null) {
+            timeEndInput.setError("No time given");
+            valid = false;
+        }
         if(s!=null && s.compareTo(e) >= 0) {
             Toast.makeText(getApplicationContext(), "Time End should be after start", Toast.LENGTH_SHORT).show();
             valid = false;
@@ -330,6 +338,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
                         else
                             time += " pm";
                         ((TextInputEditText) v).setText(time);
+                        ((TextInputEditText) v).setError(null);
                     }
                 }, mHour, mMinute, false);
         dialog.show();

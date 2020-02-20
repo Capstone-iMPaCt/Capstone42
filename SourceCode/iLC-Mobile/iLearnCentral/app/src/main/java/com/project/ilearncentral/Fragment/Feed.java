@@ -38,6 +38,7 @@ public class Feed extends Fragment {
     private ObservableBoolean done;
 
     private FloatingActionButton addNewPostBtn;
+    private final int NEW_POST = 1;
 
     public Feed() {
         // Required empty public constructor
@@ -60,7 +61,7 @@ public class Feed extends Fragment {
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), AddEditFeed.class),1);
+                startActivityForResult(new Intent(getContext(), AddEditFeed.class),NEW_POST);
             }
         });
 
@@ -96,7 +97,7 @@ public class Feed extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK) {
+        if(requestCode == NEW_POST && resultCode == RESULT_OK) {
             Posts.retrievePostsFromDB(done);
         }
     }
