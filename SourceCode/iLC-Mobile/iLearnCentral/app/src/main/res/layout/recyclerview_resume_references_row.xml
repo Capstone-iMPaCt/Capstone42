@@ -19,7 +19,7 @@
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_margin="10dp"
-            android:background="@drawable/list_bullet0"
+            android:background="@drawable/list_bullet"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
     </LinearLayout>

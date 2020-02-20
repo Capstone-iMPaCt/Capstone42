@@ -170,7 +170,8 @@
             android:id="@+id/educator_profile_aboutme_fragment_container"
             android:name="com.project.ilearncentral.Fragment.Profile.UserAboutMe"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            tools:layout="@layout/fragment_personal_information" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

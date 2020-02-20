@@ -29,7 +29,7 @@ public class EnrolmentGroupListAdapter extends RecyclerView.Adapter<EnrolmentGro
     @NonNull
     @Override
     public EnrolmentBackgroundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_row_item_group_list, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_resume_group_list_row, parent, false);
         return new EnrolmentBackgroundViewHolder(view);
     }
 

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear"
+    tools:context=".Activity.SignUp.SignUpOthers">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/bg_transparent"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <TextView
+            android:id="@+id/resume_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="RESUME"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_first_name_educator"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Career Objective"
+                android:inputType="textMultiLine|textCapSentences"
+                android:textSize="14sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Educational Background"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:id="@+id/resume_add_employment_history_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <View
+                android:id="@+id/resume_add_employment_history_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+
+        <ImageButton
+            android:id="@+id/resume_add_educational_background_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Employment History"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/resume_add_employment_history_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Skills"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <ImageButton
+            android:id="@+id/resume_add_skills_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Awards"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <ImageButton
+            android:id="@+id/resume_add_awards_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Qualities"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <ImageButton
+            android:id="@+id/resume_add_qualities_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="Interests"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <ImageButton
+            android:id="@+id/resume_add_interests_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="8dp"
+            android:text="References"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp" />
+
+
+        <ImageButton
+            android:id="@+id/resume_add_references_addbutton"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="end"
+            android:background="@color/transparent"
+            android:src="@drawable/ic_add_circle_mint_50dp" />
+
+        <Button
+            android:id="@+id/resume_confirm_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/button_dark_blue"
+            android:text="@string/confirm"
+            android:textColor="@color/text_view_background" />
+    </LinearLayout>
+</ScrollView>

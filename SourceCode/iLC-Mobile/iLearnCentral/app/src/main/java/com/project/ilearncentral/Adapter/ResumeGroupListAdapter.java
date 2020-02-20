@@ -16,7 +16,7 @@ import com.project.ilearncentral.R;
 
 import java.util.List;
 
-public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupListAdapter.ResumeBackgroundViewHolder> {
+public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupListAdapter.ResumeGroupListViewHolder> {
 
     Context context;
     List<Resume> data;
@@ -28,13 +28,13 @@ public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupList
 
     @NonNull
     @Override
-    public ResumeBackgroundViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_row_item_group_list, parent, false);
-        return new ResumeBackgroundViewHolder(view);
+    public ResumeGroupListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_resume_group_list_row, parent, false);
+        return new ResumeGroupListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ResumeBackgroundViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ResumeGroupListViewHolder holder, int position) {
         holder.rowLine.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         holder.rowBullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_up));
         if (position == data.size()-1)
@@ -50,13 +50,13 @@ public class ResumeGroupListAdapter extends RecyclerView.Adapter<ResumeGroupList
         return data.size();
     }
 
-    public class ResumeBackgroundViewHolder extends RecyclerView.ViewHolder {
+    public class ResumeGroupListViewHolder extends RecyclerView.ViewHolder {
 
         private View rowLine;
         private ImageView rowBullet;
         private TextView rowTitle, rowAddress, rowDatePeriod;
 
-        ResumeBackgroundViewHolder(View itemView) {
+        ResumeGroupListViewHolder(View itemView) {
             super(itemView);
             rowLine = (View) itemView.findViewById(R.id.resume_group_list_row_line);
             rowBullet = (ImageView) itemView.findViewById(R.id.resume_group_list_row_bullet);
