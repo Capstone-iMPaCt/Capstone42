@@ -388,6 +388,12 @@ public class Account {
         }
     }
 
+    public static Object get(String key) {
+        if (data.containsKey(key))
+            return  data.get(key);
+        return null;
+    }
+
     public static String getStatus() {
         return status;
     }

@@ -63,6 +63,16 @@
                 android:text="Time"
                 android:textSize="10sp" />
 
+            <TextView
+                android:id="@+id/edit_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/time_textview"
+                android:layout_alignRight="@+id/time_textview"
+                android:text="Edit"
+                android:textColor="@color/colorPrimary"
+                android:textSize="10sp" />
+
         </RelativeLayout>
 
         <ImageView

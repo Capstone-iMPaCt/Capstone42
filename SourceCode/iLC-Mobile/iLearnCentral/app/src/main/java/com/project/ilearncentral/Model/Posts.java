@@ -1,23 +1,25 @@
 package com.project.ilearncentral.Model;
 
+import android.net.Uri;
 import android.util.Log;
-import android.widget.ScrollView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -90,6 +92,35 @@ public class Posts {
                 });
     }
 
+    public static void addPostToDB(final Map<String, Object> data, final ObservableString done) {
+        db.collection("Post")
+            .add(data)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    posts.put(documentReference.getId(), data);
+                    done.set(documentReference.getId());
+                    Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
+                }
+            })
+            .addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    done.set("");
+                    Log.w(TAG, "Error adding document", e);
+                }
+            });
+    }
+
+    public static void addPost(String title, String content, final ObservableString done) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("Title", title);
+        data.put("Content", content);
+        data.put("Username", Account.getStringData("username"));
+        data.put("Date", Timestamp.now());
+        addPostToDB(data, done);
+    }
+
     public static Post setPostToView(String postId) {
         if (posts.containsKey(postId)) {
             curPost = posts.get(postId);
@@ -138,5 +169,14 @@ public class Posts {
             curPost = null;
         }
         return "";
+    }
+
+    public static void setCurPost(String postId) {
+        if (posts.containsKey(postId))
+            curPost = posts.get(postId);
+    }
+
+    public static boolean hasCurrent() {
+        return curPost!=null;
     }
 }

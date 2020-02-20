@@ -22,7 +22,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.AddEditFeed;
 import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.Posts;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
@@ -57,16 +59,17 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        getImage(holder.userImageView, "images/" , posts.get(position).getNewsUserImageView());
+        final Post post = posts.get(position);
+        getImage(holder.userImageView, "images/" , post.getNewsUserImageView());
         holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        getImage(holder.contentImageView, "posts/" , posts.get(position).getNewsContentImageView());
+        getImage(holder.contentImageView, "posts/" , post.getNewsContentImageView());
 
         lastPosition = position;
 
-        holder.titleTextView.setText(posts.get(position).getTitleTextView());
-        holder.dateTextView.setText(posts.get(position).getDateTextView());
-        holder.timeTextView.setText(posts.get(position).getTimeTextView());
-        holder.contentTextView.setText(posts.get(position).getContentTextView());
+        holder.titleTextView.setText(post.getTitleTextView());
+        holder.dateTextView.setText(post.getDateTextView());
+        holder.timeTextView.setText(post.getTimeTextView());
+        holder.contentTextView.setText(post.getContentTextView());
 
         holder.userImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,13 +83,21 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
                 /*intent = new Intent(context, Chat.class);
                 intent.putExtra("title", posts.get(position).getTitleTextView());
                 context.startActivity(intent);*/
-                Toast.makeText(context, posts.get(position).getTitleTextView(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, post.getTitleTextView(), Toast.LENGTH_SHORT).show();
 //                System.out.print(posts.get(position).getTitleTextView());
             }
         });
 
-//        holder.userImageView.setOnClickListener(this);
-//        holder.titleTextView.setOnClickListener(this);
+        holder.editTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Posts.setCurPost(Posts.getIdOfPost(post.getNewsUserImageView(), post.getContentTextView()));
+                if (Posts.hasCurrent()) {
+                    context.startActivity(new Intent(context, AddEditFeed.class));
+                }
+            }
+        });
+
     }
 
 
@@ -112,7 +123,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         private RelativeLayout containerLayout, headerLayout;
         private CircleImageView userImageView;
         private ImageView contentImageView;
-        private TextView titleTextView, dateTextView, timeTextView, contentTextView;
+        private TextView titleTextView, dateTextView, timeTextView, contentTextView, editTextView;
 
         PostViewHolder(View itemView) {
             super(itemView);
@@ -125,6 +136,8 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
             timeTextView = itemView.findViewById(R.id.time_textview);
             contentImageView = itemView.findViewById(R.id.content_imageview);
             contentTextView = itemView.findViewById(R.id.content_textview);
+            editTextView = itemView.findViewById(R.id.edit_textview);
+
         }
     }
 }

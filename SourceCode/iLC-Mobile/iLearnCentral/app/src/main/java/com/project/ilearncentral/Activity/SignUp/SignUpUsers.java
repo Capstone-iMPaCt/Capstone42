@@ -66,7 +66,9 @@ public class SignUpUsers extends AppCompatActivity {
         @Override
         public void onClick(View view) {
             if (checkErrors()) {
+                Intent i = getIntent();
                 intent = new Intent(getApplicationContext(), SignUpOthers.class);
+                intent.putExtra("withImage", i.getBooleanExtra("withImage", false));
                 startActivityForResult(intent, 1);
             } else {
                 Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT)

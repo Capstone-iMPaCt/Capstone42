@@ -1,19 +1,10 @@
 package com.project.ilearncentral.Activity.Update;
 
-import android.Manifest;
 import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.provider.MediaStore;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +15,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -37,37 +27,28 @@ import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
-import com.google.firebase.storage.UploadTask;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Account;
-import com.project.ilearncentral.MyClass.ImagePicker;
+import com.project.ilearncentral.MyClass.ImageHandler;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UpdateProfile extends AppCompatActivity {
 
     private String TAG = "Update_Profile";
+    private String buttonText = "Update";
     private TextView formTitle;
     private CircleImageView image;
     private CircleImageView changeimage;
@@ -88,17 +69,12 @@ public class UpdateProfile extends AppCompatActivity {
     private StorageReference storageRef;
     private StorageReference ref;
 
-    private Uri filePath;
-    private String imgPath = null;
-    private boolean withImage;
-    private boolean updated;
-    ByteArrayOutputStream bitmapBytes;
-    private Bitmap bitmap;
-    private File destination = null;
-    private final int PICK_IMAGE_CAMERA = 11, PICK_IMAGE_GALLERY = 12;
+    private ImageHandler imageHandler;
+    private ObservableString imageDone;
+    private boolean withImage, updated;
 
     private String fName, mName, lName, extension, birthday, citizenship, religion,
-        houseNo, street, barangay, city, province, district, zipCode, country, maritalStatus;
+            houseNo, street, barangay, city, province, district, zipCode, country, maritalStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,14 +89,14 @@ public class UpdateProfile extends AppCompatActivity {
         changeimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                selectImage();
+                imageHandler.selectImage();
             }
         });
         birthDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 final Calendar calendarldr = Calendar.getInstance();
-                if (t!=null) {
+                if (t != null) {
                     calendarldr.setTime(t.toDate());
                 }
                 int day = calendarldr.get(Calendar.DAY_OF_MONTH);
@@ -130,7 +106,7 @@ public class UpdateProfile extends AppCompatActivity {
                 picker = new DatePickerDialog(UpdateProfile.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        birthDateInput.setText((monthOfYear + 1) +  "/" + dayOfMonth + "/" + year);
+                        birthDateInput.setText((monthOfYear + 1) + "/" + dayOfMonth + "/" + year);
                         birthDateInput.setError(null);
                     }
                 }, year, month, day);
@@ -138,6 +114,33 @@ public class UpdateProfile extends AppCompatActivity {
             }
         });
 
+        imageDone.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String uri) {
+                if (!uri.isEmpty()) {
+                    Account.addData("image", uri);
+                    DocumentReference userRef = db.collection("User")
+                            .document(user.getUid());
+                    userRef
+                            .update("Image", uri)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w(TAG, "Error updating document", e);
+                                }
+                            });
+                    updateProfileWithImage(Uri.parse(uri), true);
+                } else {
+                    Utility.buttonWait(updateButton, false, buttonText);
+                }
+            }
+        });
         formTitle.setText("Update Profile");
         updateButton.setText("Update");
         updateButton.setOnClickListener(updateProfile);
@@ -152,28 +155,32 @@ public class UpdateProfile extends AppCompatActivity {
                         Utility.buttonWait(updateButton, true);
                         user = mAuth.getCurrentUser();
                         if (Account.getType() == Account.Type.Student)
-                            db.collection("Student").document(user.getUid()).set(Account.getProfileData());
-                        else if(Account.getType() == Account.Type.Educator)
-                            db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
+                            db.collection("Student").document(user.getUid())
+                                    .set(Account.getProfileData());
+                        else if (Account.getType() == Account.Type.Educator)
+                            db.collection("Educator").document(user.getUid())
+                                    .set(Account.getProfileData());
                         else
-                            db.collection("LearningCenterStaff").document(user.getUid()).set(Account.getProfileData());
+                            db.collection("LearningCenterStaff").document(user.getUid())
+                                    .set(Account.getProfileData());
 
                         if (!withImage) {
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                .setDisplayName(Account.getName())
-                                .build();
+                                    .setDisplayName(Account.getName())
+                                    .build();
                             user.updateProfile(profileUpdates)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            updateUI();
-                                            Log.d(TAG, "User profile updated.");
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                updateUI();
+                                                Log.d(TAG, "User profile updated.");
+                                            }
                                         }
-                                    }
-                                });
+                                    });
                         } else {
-                            uploadImage(Account.getStringData("username"));
+                            imageHandler.uploadImage("images", Account
+                                    .getStringData("username"), imageDone);
                         }
                     }
                 }
@@ -183,6 +190,7 @@ public class UpdateProfile extends AppCompatActivity {
 
     public void updateUI() {
         updated = true;
+        setResult(RESULT_OK);
         Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT).show();
         Utility.buttonWait(updateButton, false, "Update");
         finish();
@@ -232,12 +240,13 @@ public class UpdateProfile extends AppCompatActivity {
         } catch (ParseException e) {
             t = null;
         }
-        if (t==null) {
+        if (t == null) {
             birthDateInput.setError("Birthday has incorrect format");
             valid = false;
         }
-        if (maritalStatusInput.getSelectedItemPosition()==0) {
-            Toast.makeText(getApplicationContext(), "Select Marital Status", Toast.LENGTH_SHORT).show();
+        if (maritalStatusInput.getSelectedItemPosition() == 0) {
+            Toast.makeText(getApplicationContext(), "Select Marital Status", Toast.LENGTH_SHORT)
+                    .show();
             valid = false;
         }
 
@@ -253,7 +262,7 @@ public class UpdateProfile extends AppCompatActivity {
         Account.addData("lastName", lName);
         Account.addData("extension", extension);
         Account.addData("citizenship", citizenship);
-        if (t!=null) Account.addData("birthday", t);
+        if (t != null) Account.addData("birthday", t);
         Account.addData("religion", religion);
         Account.addData("houseNo", houseNo);
         Account.addData("street", street);
@@ -266,12 +275,11 @@ public class UpdateProfile extends AppCompatActivity {
         Account.addData("maritalStatus", maritalStatus);
         if (maleInput.isChecked()) {
             Account.addData("gender", "Male");
-        }
-        else {
+        } else {
             Account.addData("gender", "Female");
         }
         if (withImage) {
-            Account.addData("image", filePath.toString());
+            Account.addData("image", imageHandler.getFilePath().toString());
         }
     }
 
@@ -304,199 +312,16 @@ public class UpdateProfile extends AppCompatActivity {
         }
         maritalStatusInput.setSelection(list.indexOf(Account.getStringData("maritalStatus")));
         if (Account.hasKey("image")) {
-            filePath = Account.getUriData("image");
-            changeProfileImage();
+            imageHandler.setFilePath(Account.getUriData("image"));
+            imageHandler.setImage("images", Account.getStringData("username"), image);
         }
-    }
-
-    public void changeProfileImage() {
-        new Thread(new Runnable() {
-            public void run() {
-                if (user.getPhotoUrl() != null) {
-                    storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri.toString()).error(R.drawable.user)
-                                            .into(image);
-                                }
-                            });
-                }
-            }
-        }).start();
-    }
-
-    private void selectImage() {
-        if (Utility.checkPermission(this)) {
-            final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Select Option");
-            builder.setItems(options, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int item) {
-                    if (options[item].equals("Take Photo")) {
-                        dialog.dismiss();
-                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(intent, PICK_IMAGE_CAMERA);
-                    } else if (options[item].equals("Choose From Gallery")) {
-                        dialog.dismiss();
-                        Intent pickPhoto = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(pickPhoto, PICK_IMAGE_GALLERY);
-                    } else if (options[item].equals("Cancel")) {
-                        dialog.dismiss();
-                    }
-                }
-            });
-            builder.show();
-        } else {
-            Utility.requestPermission(this);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Utility.onRequestPermissionsResult(this, requestCode, permissions, grantResults);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
-            try {
-                filePath = data.getData();
-                bitmap = (Bitmap) data.getExtras().get("data");
-                bitmapBytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-
-                bitmap = ImagePicker.getImageResized(this, filePath);
-                int rotation = ImagePicker.getRotation(this, filePath, true);
-                bitmap = ImagePicker.rotate(bitmap, rotation);
-
-                Log.e("Activity", "Pick from Camera::>>> ");
-
-                String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-                destination = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/" +
-                        getString(R.string.app_name), "IMG_" + timeStamp + ".jpg");
-                FileOutputStream fo;
-                try {
-                    destination.createNewFile();
-                    fo = new FileOutputStream(destination);
-                    fo.write(bitmapBytes.toByteArray());
-                    fo.close();
-                } catch (FileNotFoundException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-                imgPath = destination.getAbsolutePath();
-                image.setImageBitmap(bitmap);
-                withImage = true;
-                Account.addData("image", filePath);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else if(requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
-                && data != null && data.getData() != null )
-        {
-            filePath = data.getData();
-            try {
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
-
-                Cursor cursor = getContentResolver().query(filePath,
-                        filePathColumn, null, null, null);
-                cursor.moveToFirst();
-
-                int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                String picturePath = cursor.getString(columnIndex);
-                cursor.close();
-
-                bitmap = BitmapFactory.decodeFile(picturePath);
-                bitmapBytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-
-                bitmap = ImagePicker.getImageResized(this, filePath);
-                int rotation = ImagePicker.getRotation(this, filePath, true);
-                bitmap = ImagePicker.rotate(bitmap, rotation);
-
-                image.setImageBitmap(bitmap);
-                withImage = true;
-                Account.addData("image", filePath.toString());
-            }
-            catch (Exception e)
-            {
-                e.printStackTrace();
-            }
-        }
-    }
-
-    public void uploadImage(String txtid){
-        if(filePath != null)
-        {
-            final ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setTitle("Updating...");
-            progressDialog.show();
-
-            byte[] data = bitmapBytes.toByteArray();
-            ref = storageRef.child("images/"+ txtid);
-            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putBytes(data)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    progressDialog.dismiss();
-                                    if (withImage) {
-                                        Account.addData("image", uri.toString());
-                                        DocumentReference userRef = db.collection("User")
-                                                .document(user.getUid());
-                                        userRef
-                                                .update("Image", uri.toString())
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                                    }
-                                                })
-                                                .addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-                                                        Log.w(TAG, "Error updating document", e);
-                                                    }
-                                                });
-                                        updateProfileWithImage(uri, true);
-                                    }
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Utility.buttonWait(updateButton, false, "Update");
-                            showAlert("An Error Occured", "ERROR");
-                        }
-                    })
-                    .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                            double progress = 0.0;
-                            progress = (100.0 * taskSnapshot
-                                    .getBytesTransferred() / taskSnapshot
-                                    .getTotalByteCount());
-                            progressDialog.setMessage("Uploading data " + (int) progress + "%");
-                        }
-                    }).addOnCanceledListener(new OnCanceledListener() {
-                        @Override
-                        public void onCanceled() {
-                            Utility.buttonWait(updateButton, false, "Update");
-                        }
-                    });
-        }
+        withImage = imageHandler
+                .onActivityResult(requestCode, resultCode, data, null, image, "image");
     }
 
     public void updateProfileWithImage(final Uri uri, final boolean continueSignIn) {
@@ -510,45 +335,29 @@ public class UpdateProfile extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             if (continueSignIn) {
-                                DocumentReference lcRef = db.collection("User").document(user.getUid());
+                                DocumentReference lcRef = db.collection("User")
+                                        .document(user.getUid());
                                 lcRef
-                                    .update("Image", uri.toString())
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            updateUI();
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            Log.w(TAG, "Error updating document", e);
-                                        }
-                                    });
+                                        .update("Image", uri.toString())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                updateUI();
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.w(TAG, "Error updating document", e);
+                                            }
+                                        });
                             }
                             //update image urk in db
                             Log.d(TAG, "User profile updated.");
                         }
                     }
                 });
-    }
-
-    public void showAlert(String Message,String label)
-    {
-        //set alert for executing the task
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setTitle(""+label);
-        alert.setMessage(""+Message);
-
-        alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick (DialogInterface dialog, int id){
-                dialog.cancel();
-            }
-        });
-
-        Dialog dialog = alert.create();
-        dialog.show();
     }
 
     private void res() {
@@ -580,11 +389,13 @@ public class UpdateProfile extends AppCompatActivity {
         user = mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
         format = new SimpleDateFormat("MM/dd/yyyy");
-        withImage = false;
-        updated = false;
+        withImage = updated = false;
+        imageHandler = new ImageHandler(this, UpdateProfile.this);
+        imageDone = new ObservableString();
         fName = mName = lName = extension = birthday = citizenship = religion = houseNo
-             = street = barangay = city = province = district = zipCode = country = maritalStatus = "";
+                = street = barangay = city = province = district = zipCode = country = maritalStatus = "";
     }
+
     @Override
     public void onBackPressed() {
         if (updated)
@@ -594,5 +405,9 @@ public class UpdateProfile extends AppCompatActivity {
         //retrieveData();
         Log.d(TAG, "onBackPressed Called");
         super.onBackPressed();
+    }
+
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        imageHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
