@@ -9,41 +9,54 @@
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_update_resume_grouplist_row_name_layout"
+        android:id="@+id/add_update_resume_reference_row_personname_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_update_resume_grouplist_row_name"
+            android:id="@+id/add_update_resume_reference_row_personname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Header"
+            android:hint="Person Name"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_update_resume_grouplist_row_address_layout"
+        android:id="@+id/add_update_resume_reference_row_jobtitle_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_update_resume_grouplist_row_address"
+            android:id="@+id/add_update_resume_reference_row_jobtitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Address"
+            android:hint="Job Title"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/add_update_resume_grouplist_row_dateperiod_layout"
+        android:id="@+id/add_update_resume_referencerow_companyname_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/add_update_resume_grouplist_row_dateperiod"
+            android:id="@+id/add_update_resume_reference_row_companyname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Duration/Period"
+            android:hint="Company Name"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/add_update_resume_reference_row_contactnumber_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/add_update_resume_reference_row_contactnumber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Contact Number"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>
