@@ -83,6 +83,14 @@ public class Utility {
         return capText.trim();
     }
 
+    public static String formatFullName(String firstName, String middleName, String lastName) {
+        String name = firstName + " ";
+        if (!middleName.isEmpty())
+            name += middleName.toUpperCase().charAt(0) + ". ";
+        name += lastName;
+        return name;
+    }
+
     public static void getFullName(final String username, final ObservableString fullname) {
         db.collection("User").whereEqualTo("Username", username).get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -106,11 +114,7 @@ public class Utility {
                                         if (task.isSuccessful()) {
                                             for (QueryDocumentSnapshot document : task.getResult()) {
                                                 Map<String, String> nameDB = (Map<String, String>) document.get("Name");
-                                                String name = nameDB.get("FirstName") + " ";
-                                                if (!nameDB.get("MiddleName").isEmpty())
-                                                    name += nameDB.get("MiddleName").toUpperCase().charAt(0) + ". ";
-                                                name += nameDB.get("LastName");
-                                                fullname.set(name);
+                                                fullname.set(formatFullName(nameDB.get("FirstName"), nameDB.get("MiddleName"), nameDB.get("LastName")));
                                             }
                                         } else {
                                         }
