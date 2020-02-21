@@ -32,9 +32,11 @@
         <activity
             android:name=".Activity.AccountSettings"
             android:label="@string/title_activity_account_settings" />
-        <activity android:name=".Activity.Messages" />
+        <activity android:name=".Activity.Messages"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Fragment.JobPost" />
-        <activity android:name=".Activity.Chat" />
+        <activity android:name=".Activity.Chat"
+            android:configChanges="orientation|screenSize" />
         <!--
  Set custom default icon. This is used when no icon is set for incoming notification messages.
         See README(https://goo.gl/l4GJaQ) for more.

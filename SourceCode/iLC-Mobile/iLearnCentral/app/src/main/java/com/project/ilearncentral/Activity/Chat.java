@@ -15,15 +15,23 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Adapter.ChatListAdapter;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Message;
+import com.project.ilearncentral.Model.Posts;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Observable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -32,9 +40,12 @@ public class Chat extends AppCompatActivity {
     private String TAG = "CHAT";
     private FirebaseFirestore db;
     private FirebaseUser user;
+    private SearchView searchView;
     private TextView noConversations;
     private ChatListAdapter adapter;
+    private ChatListAdapter filteredAdapter;
     private List<Message> chatList;
+    private List<Message> filteredList;
     private List<String> addedChat;
     private String username;
 
@@ -47,18 +58,47 @@ public class Chat extends AppCompatActivity {
 
         noConversations = findViewById(R.id.chat_no_data_text);
         chatList = new ArrayList<>();
+        filteredList = new ArrayList<>();
         addedChat = new ArrayList<>();
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.chat_coversations_recycler);
+        final RecyclerView recyclerView =  findViewById(R.id.chat_coversations_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         if(chatList.size() == 0) {
             noConversations.setVisibility(View.VISIBLE);
         }
         adapter = new ChatListAdapter(this, chatList);
+        filteredAdapter = new ChatListAdapter(this, filteredList);
         recyclerView.setAdapter(adapter);
 
         username = Account.getStringData("username");
 
+        searchView = findViewById(R.id.chat_search);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                filteredList.clear();
+                for(Message message: chatList) {
+                    if (message.getFullname().toLowerCase().contains(query.toLowerCase())) {
+                        filteredList.add(message);
+                    }
+                }
+                recyclerView.swapAdapter(filteredAdapter, true);
+                filteredAdapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.swapAdapter(adapter, true);
+                return false;
+            }
+        });
         getMessages();
     }
 

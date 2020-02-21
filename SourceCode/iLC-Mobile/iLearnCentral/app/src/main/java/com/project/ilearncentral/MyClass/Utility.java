@@ -23,13 +23,17 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -79,99 +83,83 @@ public class Utility {
         return capText.trim();
     }
 
-
+    public static void getFullName(final String username, final ObservableString fullname) {
+        db.collection("User").whereEqualTo("Username", username).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        String collection = "";
+                        if (document.get("AccountType").equals("learningcenter")) {
+                            collection = "LearningCenterStaff";
+                        } else if (document.get("AccountType").equals("educator")) {
+                            collection = "Educator";
+                        } else if (document.get("AccountType").equals("student")) {
+                            collection = "Student";
+                        }
+                        db.collection(collection).whereEqualTo("Username", username)
+                            .get()
+                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                        if (task.isSuccessful()) {
+                                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                                Map<String, String> nameDB = (Map<String, String>) document.get("Name");
+                                                String name = nameDB.get("FirstName") + " ";
+                                                if (!nameDB.get("MiddleName").isEmpty())
+                                                    name += nameDB.get("MiddleName").toUpperCase().charAt(0) + ". ";
+                                                name += nameDB.get("LastName");
+                                                fullname.set(name);
+                                            }
+                                        } else {
+                                        }
+                                    }
+                                });
+                    }
+                } else {
+                }
+            }
+        });
+    }
+    
     public static void updateProfileWithImage(final String TAG, final ObservableBoolean done) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-        {
-            @Override
-            public void onSuccess(final Uri uri)
-            {UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+        {public void onSuccess(final Uri uri)
+        {UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(Account.getName())
                 .setPhotoUri(uri)
                 .build();
-                user.updateProfile(profileUpdates)
+            user.updateProfile(profileUpdates)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()) {
                                 DocumentReference lcRef = db.collection("User").document(user.getUid());
                                 lcRef
-                                    .update("Image", uri.toString())
-                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                        @Override
-                                        public void onSuccess(Void aVoid) {
-                                            done.set(true);
-                                            Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            done.set(false);
-                                            Log.w(TAG, "Error updating document", e);
-                                        }
-                                    });
-                                Log.d(TAG, "User profile updated.");
-                            }
-                        }
-                    });
-            }
-        });
-    }
-
-    public static boolean checkPermission(Activity activity) {
-        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                != PackageManager.PERMISSION_GRANTED) {
-            // Permission is not granted
-            return false;
-        }
-        return true;
-    }
-
-    public static void requestPermission(Activity activity) {
-        ActivityCompat.requestPermissions(activity,
-                new String[]{Manifest.permission.CAMERA},
-                PERMISSION_REQUEST_CODE);
-    }
-
-    public static void onRequestPermissionsResult(final Activity activity, int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CODE:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(activity, "Permission Granted", Toast.LENGTH_SHORT).show();
-
-                    // main logic
-                } else {
-                    Toast.makeText(activity, "Permission Denied", Toast.LENGTH_SHORT).show();
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA)
-                                != PackageManager.PERMISSION_GRANTED) {
-                            showMessageOKCancel(activity,"You need to allow access permissions",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermission(activity);
+                                        .update("Image", uri.toString())
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                done.set(true);
+                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
                                             }
-                                        }
-                                    });
-                        }
-                    }
-                }
-                break;
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                done.set(false);
+                                                Log.w(TAG, "Error updating document", e);
+                                            }
+                                        });
+                                Log.d(TAG, "User profile updated.");
+                            }}
+                    });
         }
-    }
-
-    private static void showMessageOKCancel(Activity activity, String message, DialogInterface.OnClickListener okListener) {
-        new AlertDialog.Builder(activity)
-                .setMessage(message)
-                .setPositiveButton("OK", okListener)
-                .setNegativeButton("Cancel", null)
-                .create()
-                .show();
+        });
     }
 
     public static Timestamp getDateFromString(String value) {
