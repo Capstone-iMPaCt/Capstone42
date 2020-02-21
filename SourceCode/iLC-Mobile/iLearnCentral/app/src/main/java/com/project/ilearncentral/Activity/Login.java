@@ -78,6 +78,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         signUpLink.setOnClickListener(this);
         forgotPasswordLink.setOnClickListener(this);
         logInButton.setOnClickListener(this);
+
+        //erase this later;
+        password.setText("123456");
+        //erase this later
     }
 
     @Override

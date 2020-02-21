@@ -15,7 +15,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.Messages;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Message;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
@@ -61,6 +64,20 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
         DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         holder.time.setText(dateFormat.getInstance().format(chat.getDateSent().toDate()));
 
+        ObservableString fullname = new ObservableString();
+        fullname.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String fullName) {
+                holder.username.setText(fullName);
+                chat.setFullname(fullName);
+            }
+        });
+        if (chat.getFullname().isEmpty()) {
+            Utility.getFullName(holder.username.getText().toString(), fullname);
+        } else {
+            holder.username.setText(chat.getFullname());
+        }
+
         new Thread(new Runnable() {
             public void run() {
             try
@@ -86,10 +103,12 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                 if (to) {
                     intent.putExtra("USER_NAME", chat.getFrom());
                     intent.putExtra("TYPE", "From");
+                    intent.putExtra("FULL_NAME", chat.getFullname());
                 }
                 else {
                     intent.putExtra("USER_NAME", chat.getTo());
                     intent.putExtra("TYPE", "To");
+                    intent.putExtra("FULL_NAME", chat.getFullname());
                 }
                 context.startActivity(intent);
             }

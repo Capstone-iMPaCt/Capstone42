@@ -13,14 +13,11 @@ public class Message implements Comparator<Message> {
     private Timestamp dateSent;
     private String type;
     private String image;
+    private String fullname;
 
     public Message() {
-        this.id = "";
-        this.to = "";
-        this.from = "";
-        this.message = "";
+        this.id = this.to = this.from = this.message = this.type = this.fullname = "";
         this.dateSent = Timestamp.now();
-        this.type = "";
     }
 
     public String getId() {
@@ -89,6 +86,14 @@ public class Message implements Comparator<Message> {
 
         //descending order
         return dateSent2.compareTo(dateSent1);
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 //
 //    public int compareTo(Message message1) {

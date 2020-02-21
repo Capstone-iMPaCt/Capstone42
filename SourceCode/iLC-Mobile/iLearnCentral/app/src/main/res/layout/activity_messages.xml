@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray"
     tools:context=".Activity.Messages">
 
@@ -16,11 +17,42 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/chat_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/chat_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/bg_toolbar">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/message_user_profile_picture"
+                android:layout_width="@dimen/nav_icon_lw"
+                android:layout_height="@dimen/nav_icon_lw"
+                android:layout_marginEnd="8dp"
+                android:visibility="gone"
+                android:src="@drawable/avatar_boy"/>
+
+            <TextView
+                android:id="@+id/message_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/nav_icon_lw"
+                android:gravity="center|center_vertical"
+                android:textColor="@android:color/white" />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/message_recycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_above="@+id/message_typer" />
+            android:layout_above="@+id/message_typer"
+            app:stackFromEnd="true"
+            />
     </LinearLayout>
 
     <RelativeLayout
