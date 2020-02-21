@@ -36,7 +36,7 @@ public class AddEditFeed extends AppCompatActivity {
     private TextInputEditText titleInput, contentInput;
     private ImageHandler imageHandler;
     private ObservableString imageDone, postingDone;
-    private boolean withImage;
+    private boolean withImage, isUpdate;
     private String title, content, postId;
 
     @Override
@@ -47,8 +47,10 @@ public class AddEditFeed extends AppCompatActivity {
         res();
 
         Intent i = getIntent();
-        if (i.hasExtra("postId"))
+        if (i.hasExtra("postId")) {
             postId = i.getStringExtra("postId");
+            isUpdate = true;
+        }
 
         if (!postId.isEmpty())
             setValues();
@@ -64,13 +66,18 @@ public class AddEditFeed extends AppCompatActivity {
             public void onClick(View v) {
                 if (checkErrors()) {
                     Utility.buttonWait(postButton, true, "Posting...");
-                    Posts.addPost(title, content, postingDone);
+                    if (isUpdate) {
+                        Posts.updatePost(postId, title, content, postingDone);
+                    } else {
+                        Posts.addPost(title, content, postingDone);
+                    }
                 }
             }
         });
         postingDone.setOnStringChangeListener(new OnStringChangeListener() {
             @Override
-            public void onStringChanged(String postId) {
+            public void onStringChanged(String id) {
+                 postId = id;
                 if(withImage) {
                     imageHandler.uploadImage("posts", postId, imageDone);
                 } else {
@@ -102,7 +109,9 @@ public class AddEditFeed extends AppCompatActivity {
 
     private void finishPost() {
         Utility.buttonWait(postButton, false, buttonText);
-        setResult(RESULT_OK);
+        Intent i = new Intent();  // or // Intent i = getIntent()
+        i.putExtra("postId", postId);
+        setResult(RESULT_OK, i);
         finish();
     }
 
@@ -144,7 +153,7 @@ public class AddEditFeed extends AppCompatActivity {
         imageHandler = new ImageHandler(this, AddEditFeed.this);
         imageDone = new ObservableString();
         postingDone = new ObservableString();
-        withImage = false;
+        withImage = isUpdate = false;
         title = content = postId = "";
     }
 }

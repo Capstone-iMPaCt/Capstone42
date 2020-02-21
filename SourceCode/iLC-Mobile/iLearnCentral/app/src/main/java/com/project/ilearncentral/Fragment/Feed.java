@@ -1,17 +1,19 @@
 package com.project.ilearncentral.Fragment;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.AccountTypeSelection;
@@ -38,6 +40,7 @@ public class Feed extends Fragment {
     private ObservableBoolean done;
 
     private FloatingActionButton addNewPostBtn;
+    private SearchView searchView;
     private final int NEW_POST = 1;
 
     public Feed() {
@@ -56,6 +59,29 @@ public class Feed extends Fragment {
 
         if (Account.getType() == Account.Type.Student)
             view.findViewById(R.id.feed_add_fab).setVisibility(View.GONE);
+
+        searchView = view.findViewById(R.id.feed_searchview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                post.clear();
+                post.addAll(Posts.searchText(query));
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                done.set(true);
+                return false;
+            }
+        });
 
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
@@ -80,6 +106,11 @@ public class Feed extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                if (!searchView.isIconified()) {
+                    searchView.setQuery("", false);
+                    searchView.setIconified(true);
+                }
+                searchView.clearFocus();
                 Posts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
             }
@@ -98,7 +129,7 @@ public class Feed extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == NEW_POST && resultCode == RESULT_OK) {
-            Posts.retrievePostsFromDB(done);
+            Posts.retrievePostFromDB(data.getStringExtra("postId"), done);
         }
     }
 }

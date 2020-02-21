@@ -77,16 +77,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         holder.userImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            }
-        });
-        holder.titleTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                /*intent = new Intent(context, Chat.class);
-                intent.putExtra("title", posts.get(position).getTitleTextView());
-                context.startActivity(intent);*/
-                Toast.makeText(context, post.getTitleTextView(), Toast.LENGTH_SHORT).show();
+                //view user
             }
         });
         if (!post.getNewsUserImageView().equals(Account.getStringData("username"))) {

@@ -18,6 +18,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.MyClass.Utility;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,10 +79,8 @@ public class Posts {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (QueryDocumentSnapshot document : task.getResult()) {
-                                if (!posts.containsKey(document.getId())) {
-                                    posts.put(document.getId(), (Map<String, Object>) document
-                                            .getData());
-                                }
+                                posts.put(document.getId(), (Map<String, Object>) document
+                                        .getData());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             done.set(true);
@@ -91,6 +90,29 @@ public class Posts {
                         }
                     }
                 });
+    }
+
+    public static void retrievePostFromDB(String postId, final ObservableBoolean done) {
+        DocumentReference docRef = db.collection("Post").document(postId);
+        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        posts.put(document.getId(), document.getData());
+                        done.set(true);
+                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
+                    } else {
+                        done.set(false);
+                        Log.d(TAG, "No such document");
+                    }
+                } else {
+                    done.set(false);
+                    Log.d(TAG, "get failed with ", task.getException());
+                }
+            }
+        });
     }
 
     public static void addPostToDB(final Map<String, Object> data, final ObservableString done) {
@@ -122,26 +144,26 @@ public class Posts {
         addPostToDB(data, done);
     }
 
-    public static void updatePostToDB(String postId, final Map<String, Object> data, final ObservableBoolean done) {
+    public static void updatePostToDB(final String postId, final Map<String, Object> data, final ObservableString done) {
         db.collection("Post").document(postId)
                 .set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        if (done!=null) done.set(true);
+                        if (done!=null) done.set(postId);
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        if (done!=null) done.set(false);
+                        if (done!=null) done.set("");
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
     }
 
-    public static void updatePost(String postId, String title, String content, final ObservableBoolean done) {
+    public static void updatePost(String postId, String title, String content, final ObservableString done) {
         Map<String, Object> data = getPostById(postId);
         data.put("Title", title);
         data.put("Content", content);
@@ -188,6 +210,24 @@ public class Posts {
         ArrayList<Post> postViews = new ArrayList<>();
         for (Map.Entry postEntry : posts.entrySet()) {
             postViews.add(setPostToView(postEntry.getKey().toString()));
+        }
+        Collections.sort(postViews, new Comparator<Post>() {
+            public int compare(Post o1, Post o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+        return postViews;
+    }
+
+    public static ArrayList<Post> searchText(String text) {
+        text = text.toLowerCase();
+        ArrayList<Post> postViews = new ArrayList<>();
+        for (Map.Entry postEntry : posts.entrySet()) {
+            Map<String, Object> post = (Map<String, Object>)postEntry.getValue();
+            if (post.get("Title").toString().toLowerCase().contains(text) ||
+                post.get("Content").toString().toLowerCase().contains(text) ||
+                post.get("Username").toString().toLowerCase().contains(text))
+                    postViews.add(setPostToView(postEntry.getKey().toString()));
         }
         Collections.sort(postViews, new Comparator<Post>() {
             public int compare(Post o1, Post o2) {
