@@ -4,12 +4,17 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Adapter.EnrolmentGroupListAdapter;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.R;
 
@@ -17,6 +22,7 @@ import java.util.ArrayList;
 
 public class StudentProfile extends Fragment {
 
+    private TextView email, contactNo;
     private RecyclerView groupListRecyclerView;
     private EnrolmentGroupListAdapter enrolmentListAdapter;
     private ArrayList<Enrolment> enrolmentHistory;
@@ -34,6 +40,20 @@ public class StudentProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_student, container, false);
+        email = view.findViewById(R.id.student_profile_email);
+        contactNo = view.findViewById(R.id.student_profile_contact);
+
+        email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        ObservableBoolean update = new ObservableBoolean();
+        update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    contactNo.setText(Account.getStringData("contactNo"));
+                }
+            }
+        });
+        Account.updateObservables.add(update);
 
         // Adding Enrolment History
         enrolmentHistory = new ArrayList<>();

@@ -8,7 +8,10 @@ import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 public class UserAboutMe extends Fragment {
@@ -34,12 +37,32 @@ public class UserAboutMe extends Fragment {
         citizenshipOutput = view.findViewById(R.id.aboutme_citizenship);
         maritalStatusOutput = view.findViewById(R.id.aboutme_marital_status);
 
+        ObservableBoolean update = new ObservableBoolean();
+        update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    setOutputs();
+                } else {
+                }
+            }
+        });
+
+        setOutputs();
+
+        Account.updateObservables.add(update);
+
+        return view;
+    }
+
+    private void setOutputs() {
         addressOutput.setText(Account.getAddress());
-        birthdateOutput.setText(Account.getStringData("birthday"));
+        if (Account.getTimeStampData("birthday")!=null)
+            birthdateOutput.setText(Utility.getStringFromDate(Account.getTimeStampData("birthday")));
+        else
+            birthdateOutput.setText("");
         religionOutput.setText(Account.getStringData("religion"));
         citizenshipOutput.setText(Account.getStringData("citizenship"));
         maritalStatusOutput.setText(Account.getStringData("maritalStatus"));
-
-        return view;
     }
 }

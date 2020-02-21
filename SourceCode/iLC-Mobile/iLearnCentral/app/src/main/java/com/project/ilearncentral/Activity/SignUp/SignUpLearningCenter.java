@@ -61,6 +61,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
     CheckBox monday, tuesday, wednesday, thursday, friday, saturday, sunday;
     Spinner countryInput, serviceTypeInput;
     ImageView logo;
+    List<String> operatingDays;
     CircleImageView changeImage;
 
     private boolean withImage;
@@ -133,7 +134,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         String country = countryInput.getSelectedItem().toString();
         String serviceType = serviceTypeInput.getSelectedItem().toString();
 
-        List<String> operatingDays = new ArrayList<>();
+        operatingDays = new ArrayList<>();
 
         if(monday.isChecked())
             operatingDays.add(mon);
@@ -278,6 +279,24 @@ public class SignUpLearningCenter extends AppCompatActivity {
             imageHandler.setFilePath(Account.getUriData("bLogo"));
             imageHandler.setImage("bLogo", logo);
         }
+        operatingDays.clear();
+        if (Account.get("bOperatingDays")!=null)
+            operatingDays.addAll((List<String>)Account.get("bOperatingDays"));
+
+        setDaysChecked("Mon", monday);
+        setDaysChecked("Tue", tuesday);
+        setDaysChecked("Wed", wednesday);
+        setDaysChecked("Thu", thursday);
+        setDaysChecked("Fri", friday);
+        setDaysChecked("Sat", saturday);
+        setDaysChecked("Sun", sunday);
+    }
+
+    private void setDaysChecked(String text, CheckBox view) {
+        if (operatingDays.contains(text))
+            view.setChecked(true);
+        else
+            view.setChecked(false);
     }
 
 

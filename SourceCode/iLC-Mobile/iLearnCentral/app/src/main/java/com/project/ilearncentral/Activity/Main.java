@@ -220,6 +220,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onBooleanChanged(boolean success) {
                 if (success) {
+                    Account.activateObservables(success);
                     if (user.getDisplayName() == null || user.getDisplayName().equals("")) {
                         Utility.updateProfileWithImage(TAG, authProfileSet);
                     } else {
@@ -279,18 +280,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         userSet.set(true);
                         Log.d(TAG, "User - DocumentSnapshot data: " + document.getData());
 
-                        String collection = "";
-                        if (Account.getType() == Account.Type.LearningCenter) {
-                            collection = "LearningCenterStaff";
-                            Account.setType(Account.Type.LearningCenter);
-                        } else if (Account.getType() == Account.Type.Educator) {
-                            collection = "Educator";
-                            Account.setType(Account.Type.Educator);
-                        } else if (Account.getType() == Account.Type.Student) {
-                            collection = "Student";
-                            Account.setType(Account.Type.Student);
-                        }
-                        setProfileDetails(collection);
+                        setProfileDetails();
                     } else {
                         userSet.set(false);
                         Log.d(TAG, "User - No such document");
@@ -302,7 +292,19 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         });
     }
 
-    private void setProfileDetails(String collection) {
+    private void setProfileDetails() {
+
+        String collection = "";
+        if (Account.getType() == Account.Type.LearningCenter) {
+            collection = "LearningCenterStaff";
+            Account.setType(Account.Type.LearningCenter);
+        } else if (Account.getType() == Account.Type.Educator) {
+            collection = "Educator";
+            Account.setType(Account.Type.Educator);
+        } else if (Account.getType() == Account.Type.Student) {
+            collection = "Student";
+            Account.setType(Account.Type.Student);
+        }
         db.collection(collection)
                 .whereEqualTo("Username", Account.getStringData("username"))
                 .get()
@@ -313,7 +315,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Account.setProfileData(document.getData());
                                 profileSet.set(true);
-                                if (Account.getType() == Account.Type.LearningCenter) {
+                                if (Account.getType() == Account.Type.LearningCenter || !Account.getStringData("centerId").isEmpty()) {
                                     setLearningCenterDetails();
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                 } else {
@@ -344,7 +346,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                     } else {
                         centerSet.set(false);
                         accountSet.set(false);
-                        Log.d(TAG, "No such document");
+                        Log.d(TAG, "No such document in Learning Center");
                     }
                 } else {
                     Log.d(TAG, "get failed with ", task.getException());
@@ -442,12 +444,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         setResult(RESULT_OK);
         if (requestCode == UPDATE_ACCOUNT && resultCode == RESULT_OK) {
             setAccount();
-            authProfileSet.set(true);
+            accountSet.set(true);
         } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
             setAccount();
-            authProfileSet.set(true);
+            accountSet.set(true);
         } else if (requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
-            setObservableListeners();
+            setAccount();
+            accountSet.set(true);
         }
     }
 }

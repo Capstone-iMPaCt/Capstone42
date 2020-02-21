@@ -203,7 +203,7 @@
                         android:src="@drawable/email_icon" />
 
                     <TextView
-                        android:id="@+id/email_textview"
+                        android:id="@+id/educator_profile_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
@@ -228,30 +228,19 @@
                         android:src="@drawable/phone_icon" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:id="@+id/educator_profile_contact"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="start|center"
-                        android:text="+639 "
+                        android:text="+639 XXX XXXX"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/phone_textview"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="start|center"
-                        android:text="XXX XXXX"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_center_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal">
@@ -264,7 +253,7 @@
                         android:background="@drawable/company_icon" />
 
                     <TextView
-                        android:id="@+id/educator_company"
+                        android:id="@+id/educator_profile_center"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"

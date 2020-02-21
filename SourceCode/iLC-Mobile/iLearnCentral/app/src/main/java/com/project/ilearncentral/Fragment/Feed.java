@@ -66,7 +66,12 @@ public class Feed extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 post.clear();
                 post.addAll(Posts.searchText(query));
-                adapter.notifyDataSetChanged();
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        adapter.notifyDataSetChanged();
+                    }
+                });
                 return false;
             }
 

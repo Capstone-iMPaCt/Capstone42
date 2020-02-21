@@ -6,21 +6,16 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
@@ -64,15 +59,19 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 //        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 //        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
-        getImage(holder.userImageView, "images/" , post.getNewsUserImageView());
-        getImage(holder.contentImageView, "posts/" , post.getNewsContentImageView());
+        getImage(holder.userImageView, "images/" , post.getPostSender());
+
+        if (post.isWithImage())
+            getImage(holder.contentImageView, "posts/" , post.getPostId());
+        else
+            holder.contentImageView.setVisibility(View.GONE);
 
         lastPosition = position;
 
-        holder.titleTextView.setText(post.getTitleTextView());
-        holder.dateTextView.setText(post.getDateTextView());
-        holder.timeTextView.setText(post.getTimeTextView());
-        holder.contentTextView.setText(post.getContentTextView());
+        holder.titleTextView.setText(post.getPostTitle());
+        holder.dateTextView.setText(post.getDatePosted());
+        holder.timeTextView.setText(post.getTimePosted());
+        holder.contentTextView.setText(post.getContent());
 
         holder.userImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,17 +79,17 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
                 //view user
             }
         });
-        if (!post.getNewsUserImageView().equals(Account.getStringData("username"))) {
+        if (!post.getPostSender().equals(Account.getStringData("username"))) {
             holder.editTextView.setVisibility(View.GONE);
         }
 
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Posts.setCurPost(Posts.getIdOfPost(post.getNewsUserImageView(), post.getContentTextView()));
+                Posts.setCurPost(Posts.getIdOfPost(post.getPostSender(), post.getContent()));
                 if (Posts.hasCurrent()) {
                     Intent i = new Intent(context, AddEditFeed.class);
-                    i.putExtra("postId", post.getNewsContentImageView());
+                    i.putExtra("postId", post.getPostId());
                     context.startActivity(i);
                 }
             }
@@ -104,16 +103,16 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         return posts.size();
     }
 
-    private void getImage(final ImageView newsUserImageView, String folderName, String filename) {
+    private void getImage(final ImageView imageView, String folderName, String filename) {
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).into(newsUserImageView);
+                Picasso.get().load(uri.toString()).into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                newsUserImageView.setVisibility(View.GONE);
+                imageView.setVisibility(View.GONE);
             }
         });
     }

@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Model;
 
+import android.app.Activity;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -26,6 +28,7 @@ public class Account {
     private static Type type;
     private static Map<String, Object> data = new HashMap<>();
     private static List<Map<String, Object>> accounts = new ArrayList<>();
+    public static List<ObservableBoolean> updateObservables = new ArrayList<>();
 
     public enum Type {LearningCenter, Educator, Student}
 
@@ -35,6 +38,12 @@ public class Account {
             name += getStringData("middleName").toUpperCase().charAt(0) + " ";
         name += getStringData("lastName");
         return name;
+    }
+
+    public static void activateObservables(boolean success) {
+        for (ObservableBoolean updateObservable:updateObservables) {
+            updateObservable.set(success);
+        }
     }
 
     public static String getBusinessName() {
@@ -201,8 +210,8 @@ public class Account {
 
     public static void setBusinessData(Map<String, Object> businessData) {
         if (businessData != null) {
-            String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo"};
-            String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo"};
+            String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo", "OperatingDays"};
+            String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo", "bOperatingDays"};
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], businessData, newKeys[i]);
             }
@@ -249,7 +258,7 @@ public class Account {
         businessData.put("ClosingTime", getTimeStampData("bClosingTime"));
         businessData.put("OpeningTime", getTimeStampData("bOpeningTime"));
         businessData.put("Logo", data.get("bLogo"));
-
+        businessData.put("OperatingDays", data.get("bOperatingDays"));
         if (accounts.isEmpty()) {
             Map<String, Object> account = new HashMap<>();
             account.put("AccessLevel", "administrator");
@@ -275,42 +284,48 @@ public class Account {
 
     public static String getAddress() {
         String address = "";
-        if (data.containsKey("houseNo"))
+        if (!getStringData("houseNo").isEmpty())
             address += data.get("houseNo") + " ";
-        if (data.containsKey("street"))
-            address += data.get("street") + ", ";
-        if (data.containsKey("barangay"))
-            address += data.get("barangay") + ", ";
-        if (data.containsKey("city"))
-            address += data.get("city") + ", ";
-        if (data.containsKey("district"))
-            address += data.get("district") + " ";
-        if (data.containsKey("province"))
-            address += data.get("province") + ", ";
-        if (data.containsKey("country"))
-            address += data.get("country") + ", ";
-        if (data.containsKey("zipCode"))
-            address += data.get("zipCode") + ", ";
-        return address;
+        if (!getStringData("street").isEmpty())
+            address += " " + data.get("street");
+        if (!getStringData("barangay").isEmpty())
+            address += ", " + data.get("barangay");
+        if (!getStringData("city").isEmpty())
+            address += ", " + data.get("city");
+        if (!getStringData("district").isEmpty())
+            address += ", " + data.get("district");
+        if (!getStringData("province").isEmpty())
+            address += ", " + data.get("province");
+        if (!getStringData("country").isEmpty())
+            address += ", " + data.get("country");
+        if (!getStringData("zipCode").isEmpty())
+            address += ", " + data.get("zipCode");
+        if (address.length()>1 && address.charAt(0)==',')
+            address = address.substring(1);
+        address.replaceAll("\\s", " ");
+        return address.trim();
     }
     public static String getBusinessAddress() {
         String address = "";
-        if (data.containsKey("bHouseNo"))
-            address += data.get("bHouseNo") + " ";
-        if (data.containsKey("bStreet"))
-            address += data.get("bHtreet") + ", ";
-        if (data.containsKey("bBarangay"))
-            address += data.get("bBarangay") + ", ";
-        if (data.containsKey("bCity"))
-            address += data.get("bCity") + ", ";
-        if (data.containsKey("bDistrict"))
-            address += data.get("bDistrict") + " ";
-        if (data.containsKey("bProvince"))
-            address += data.get("bProvince") + ", ";
-        if (data.containsKey("bCountry"))
-            address += data.get("bCountry") + ", ";
-        if (data.containsKey("bZipCode"))
-            address += data.get("bZipCode") + ", ";
+        if (!getStringData("bHouseNo").isEmpty())
+            address += ", " + data.get("bHouseNo");
+        if (!getStringData("bStreet").isEmpty())
+            address += ", " + data.get("bStreet");
+        if (!getStringData("bBarangay").isEmpty())
+            address += ", " + data.get("bBarangay");
+        if (!getStringData("bCity").isEmpty())
+            address += ", " + data.get("bCity");
+        if (!getStringData("bDistrict").isEmpty())
+            address += ", " + data.get("bDistrict");
+        if (!getStringData("bProvince").isEmpty())
+            address += ", " + data.get("bProvince");
+        if (!getStringData("bCountry").isEmpty())
+            address += ", " + data.get("bCountry");
+        if (!getStringData("bZipCode").isEmpty())
+            address += ", " + data.get("bZipCode");
+        if (address.length()>1 && address.charAt(0)==',')
+            address = address.substring(1);
+        address.replaceAll("\\s", " ");
         return address;
     }
 

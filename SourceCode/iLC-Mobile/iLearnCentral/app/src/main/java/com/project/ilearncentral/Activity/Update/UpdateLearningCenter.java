@@ -140,6 +140,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)
                                         .show();
                                 Utility.buttonWait((Button) v, false, buttonText);
+                                setResult(RESULT_OK);
                                 finish();
                             }
                             Log.d(TAG, "DocumentSnapshot successfully written!");
@@ -326,6 +327,24 @@ public class UpdateLearningCenter extends AppCompatActivity {
             imageHandler.setFilePath(Account.getUriData("bLogo"));
             imageHandler.setImage("images", Account.getStringData("centerId"), logo);
         }
+        operatingDays.clear();
+        if (Account.get("bOperatingDays")!=null) {
+            operatingDays.addAll((List<String>) Account.get("bOperatingDays"));
+        }
+        setDaysChecked("Mon", monday);
+        setDaysChecked("Tue", tuesday);
+        setDaysChecked("Wed", wednesday);
+        setDaysChecked("Thu", thursday);
+        setDaysChecked("Fri", friday);
+        setDaysChecked("Sat", saturday);
+        setDaysChecked("Sun", sunday);
+    }
+
+    private void setDaysChecked(String text, CheckBox view) {
+        if (operatingDays.contains(text))
+            view.setChecked(true);
+        else
+            view.setChecked(false);
     }
 
     private void res() {

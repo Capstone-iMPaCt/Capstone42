@@ -67,9 +67,9 @@ public class AddEditFeed extends AppCompatActivity {
                 if (checkErrors()) {
                     Utility.buttonWait(postButton, true, "Posting...");
                     if (isUpdate) {
-                        Posts.updatePost(postId, title, content, postingDone);
+                        Posts.updatePost(postId, title, content, withImage, postingDone);
                     } else {
-                        Posts.addPost(title, content, postingDone);
+                        Posts.addPost(title, content, withImage, postingDone);
                     }
                 }
             }
@@ -95,16 +95,21 @@ public class AddEditFeed extends AppCompatActivity {
 
     private void setValues() {
         Map<String, Object> post = Posts.getPostById(postId);
-        titleInput.setText(post.get("Title").toString());
-        contentInput.setText(post.get("Content").toString());
-        FirebaseStorage.getInstance().getReference()
-                .child("posts").child(postId)
-                .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).into(image);
-            }
-        });
+        title = post.get("Title").toString();
+        titleInput.setText(title);
+        content = post.get("Content").toString();
+        contentInput.setText(content);
+        withImage = (boolean) post.get("Image");
+        if (withImage) {
+            FirebaseStorage.getInstance().getReference()
+                    .child("posts").child(postId)
+                    .getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    Picasso.get().load(uri.toString()).into(image);
+                }
+            });
+        }
     }
 
     private void finishPost() {

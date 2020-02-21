@@ -6,49 +6,52 @@ import com.project.ilearncentral.MyClass.Utility;
 public class Post {
 
     private Timestamp date;
-    private String titleTextView, dateTextView, timeTextView, contentTextView, newsUserImageView, newsContentImageView;
+    private String postTitle, datePosted, timePosted, postId, postSender, content;
+    private boolean withImage;
 
-    public Post(String newsUserImageView, String titleTextView, Timestamp date, String newsContentImageView, String contentTextView) {
-        this.newsUserImageView = newsUserImageView;
-        this.newsContentImageView = newsContentImageView;
-        this.titleTextView = titleTextView;
+    public Post(String postSender, String postTitle, Timestamp date, String postId, String content, boolean withImage) {
+        this.postSender = postSender;
+        this.content = content;
+        this.postTitle = postTitle;
         this.date = date;
-        this.dateTextView = Utility.getStringFromDate(date);
-        this.timeTextView = Utility.getStringFromTime(date);
-        this.contentTextView = contentTextView;
+        this.datePosted = Utility.getStringFromDate(date);
+        this.timePosted = Utility.getStringFromTime(date);
+        this.postId = postId;
+        this.withImage = withImage;
     }
 
-    public Post(String newsUserImageView, String titleTextView, Timestamp date, String contentTextView) {
-        this.newsUserImageView = newsUserImageView;
-        this.titleTextView = titleTextView;
+    public Post(String postSender, String postTitle, Timestamp date, String content, boolean withImage) {
+        this.postSender = postSender;
+        this.postTitle = postTitle;
         this.date = date;
-        this.dateTextView = Utility.getStringFromDate(date);
-        this.timeTextView = Utility.getStringFromTime(date);
-        this.contentTextView = contentTextView;
+        this.datePosted = Utility.getStringFromDate(date);
+        this.timePosted = Utility.getStringFromTime(date);
+        this.content = content;
+        this.withImage = withImage;
     }
 
-    public String getNewsUserImageView() {
-        return newsUserImageView;
+    public String getPostSender() {
+        return postSender;
     }
 
-    public String getNewsContentImageView() {
-        return newsContentImageView;
+    public String getContent() {
+        return content;
     }
 
-    public String getTitleTextView() {
-        return titleTextView;
+    public String getPostTitle() {
+        return postTitle;
     }
 
-    public String getDateTextView() {
-        return dateTextView;
+    public String getDatePosted() {
+        return datePosted;
     }
 
-    public String getTimeTextView() {
-        return timeTextView;
+    public String getTimePosted() {
+        return timePosted;
     }
 
-    public String getContentTextView() {
-        return contentTextView;
+    public String getPostId() {
+        return postId;
     }
 
     public Timestamp getDate() {
@@ -57,5 +60,13 @@ public class Post {
 
     public void setDate(Timestamp date) {
         this.date = date;
+    }
+
+    public boolean isWithImage() {
+        return withImage;
+    }
+
+    public void setWithImage(boolean withImage) {
+        this.withImage = withImage;
     }
 }

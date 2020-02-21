@@ -443,6 +443,7 @@
                     android:background="@android:color/darker_gray" />
 
                 <LinearLayout
+                    android:id="@+id/learningcenter_profile_email_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal">
@@ -455,7 +456,7 @@
                         android:src="@drawable/email_icon" />
 
                     <TextView
-                        android:id="@+id/learningcenter_email"
+                        android:id="@+id/learningcenter_profile_email"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
@@ -468,6 +469,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/learningcenter_profile_contact_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal">
@@ -480,6 +482,7 @@
                         android:src="@drawable/phone_icon" />
 
                     <TextView
+                        android:id="@+id/learningcenter_profile_contact"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
@@ -491,6 +494,7 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/learningcenter_profile_website_layout"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:orientation="horizontal">
@@ -503,7 +507,7 @@
                         android:background="@drawable/website_icon" />
 
                     <TextView
-                        android:id="@+id/learningcenter_website"
+                        android:id="@+id/learningcenter_profile_website"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"

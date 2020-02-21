@@ -135,12 +135,13 @@ public class Posts {
             });
     }
 
-    public static void addPost(String title, String content, final ObservableString done) {
+    public static void addPost(String title, String content, boolean withImage, final ObservableString done) {
         Map<String, Object> data = new HashMap<>();
         data.put("Title", title);
         data.put("Content", content);
         data.put("Username", Account.getStringData("username"));
         data.put("Date", Timestamp.now());
+        data.put("Image", withImage);
         addPostToDB(data, done);
     }
 
@@ -163,12 +164,13 @@ public class Posts {
                 });
     }
 
-    public static void updatePost(String postId, String title, String content, final ObservableString done) {
+    public static void updatePost(String postId, String title, String content, boolean withImage, final ObservableString done) {
         Map<String, Object> data = getPostById(postId);
         data.put("Title", title);
         data.put("Content", content);
         data.put("Username", Account.getStringData("username"));
         data.put("Date", Timestamp.now());
+        data.put("Image", withImage);
         updatePostToDB(postId, data, done);
     }
 
@@ -201,7 +203,7 @@ public class Posts {
         if (posts.containsKey(postId)) {
             curPost = posts.get(postId);
             return new Post(stringCurPost("Username"), stringCurPost("Title"), (Timestamp) curPost
-                    .get("Date"), postId, stringCurPost("Content"));
+                    .get("Date"), postId, stringCurPost("Content"), (boolean)curPost.get("Image"));
         }
         return null;
     }

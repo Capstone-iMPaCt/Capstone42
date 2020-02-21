@@ -228,27 +228,15 @@
                         android:src="@drawable/phone_icon" />
 
                     <TextView
+                        android:id="@+id/student_profile_contact"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
                         android:gravity="start|center"
-                        android:text="+639 "
+                        android:text="+639 XXX XXXX"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="14sp" />
 
-                    <TextView
-                        android:id="@+id/student_profile_contact_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="20dp"
-                        android:gravity="start|center"
-                        android:text="XXX XXXX"
-                        android:textColor="@color/colorPrimaryDark"
-                        android:textSize="14sp" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
                 </LinearLayout>
 
                 <View

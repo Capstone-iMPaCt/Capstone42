@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
@@ -14,6 +15,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Adapter.ResumeGroupListAdapter;
 import com.project.ilearncentral.Adapter.ResumeReferenceAdapter;
 import com.project.ilearncentral.Adapter.ResumeSingleListAdapter;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Resume;
 import com.project.ilearncentral.R;
 
@@ -21,7 +25,8 @@ import java.util.ArrayList;
 
 public class EducatorProfile extends Fragment {
 
-    private TextView email, pwd;
+    private TextView email, contactNo, centerName;
+    private LinearLayout centerLayout;
     private RecyclerView groupListRecyclerView, singleListRecyclerView, resumeReferenceRecyclerView;
     private ResumeGroupListAdapter resumeGroupListAdapter;
     private ResumeSingleListAdapter resumeSingleListAdapter;
@@ -43,8 +48,28 @@ public class EducatorProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_educator, container, false);
         // Codes here
-        email = (TextView) view.findViewById(R.id.email_textview);
+        email = view.findViewById(R.id.educator_profile_email);
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+        contactNo = view.findViewById(R.id.educator_profile_contact);
+        centerName = view.findViewById(R.id.educator_profile_center);
+        centerLayout = view.findViewById(R.id.educator_profile_center_layout);
+
+        ObservableBoolean update = new ObservableBoolean();
+        update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    contactNo.setText(Account.getStringData("contactNo"));
+                    if (Account.getStringData("centerId").isEmpty()) {
+                        centerLayout.setVisibility(View.GONE);
+                    } else {
+                        centerName.setText(Account.getBusinessName());
+                    }
+                }
+            }
+        });
+        Account.updateObservables.add(update);
+
 
         // Adding Educational Background
         educationalBackGround = new ArrayList<>();
