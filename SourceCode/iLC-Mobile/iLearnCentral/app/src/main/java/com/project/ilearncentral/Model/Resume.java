@@ -2,18 +2,12 @@ package com.project.ilearncentral.Model;
 
 public class Resume {
 
-    private String dataList;
+    private String detail;
     private String header, address, datePeriod;
     private String personName, jobTitle, companyName, contactNumber;
 
-    public Resume() {
-        this.header = "";
-        this.address = "";
-        this.datePeriod = "";
-    }
-
-    public Resume(String dataList) {
-        this.dataList = dataList;
+    public Resume(String detail) {
+        this.detail = detail;
     }
 
     public Resume(String header, String address, String datePeriod) {
@@ -29,8 +23,8 @@ public class Resume {
         this.contactNumber = contactNumber;
     }
 
-    public String getDataList() {
-        return dataList;
+    public String getDetail() {
+        return detail;
     }
 
     public String getHeader() {
@@ -59,5 +53,37 @@ public class Resume {
 
     public String getContactNumber() {
         return contactNumber;
+    }
+
+    public void setDetail(String detail) {
+        this.detail = detail;
+    }
+
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public void setDatePeriod(String datePeriod) {
+        this.datePeriod = datePeriod;
+    }
+
+    public void setPersonName(String personName) {
+        this.personName = personName;
+    }
+
+    public void setJobTitle(String jobTitle) {
+        this.jobTitle = jobTitle;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public void setContactNumber(String contactNumber) {
+        this.contactNumber = contactNumber;
     }
 }

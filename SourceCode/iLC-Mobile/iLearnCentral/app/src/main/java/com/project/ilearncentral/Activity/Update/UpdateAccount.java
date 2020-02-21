@@ -34,7 +34,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class UpdateAccount extends AppCompatActivity {
 
     private String TAG = "UpdateAccount";
-    private TextInputLayout oldPasswordLayout;
+    private TextInputLayout oldPasswordLayout, passwordLayout;
     private TextInputEditText usernameInput, passwordInput, oldPasswordInput, confirmInput, emailInput, contactInput, answerInput;
     private String username, newPassword, oldPassword, confirm, email, contact, answer, question;
     private Spinner questions;
@@ -53,6 +53,7 @@ public class UpdateAccount extends AppCompatActivity {
         usernameInput = findViewById(R.id.sign_up_username);
         oldPasswordLayout = findViewById(R.id.sign_up_old_password_layout);
         oldPasswordInput = findViewById(R.id.sign_up_old_password);
+        passwordLayout = findViewById(R.id.sign_up_password_layout);
         passwordInput = findViewById(R.id.sign_up_password);
         confirmInput = findViewById(R.id.sign_up_confirm_password);
         emailInput = findViewById(R.id.sign_up_email);
@@ -70,6 +71,8 @@ public class UpdateAccount extends AppCompatActivity {
 
         usernameInput.setEnabled(false);
         oldPasswordLayout.setVisibility(View.VISIBLE);
+        oldPasswordLayout.setHint("Old Password");
+        passwordLayout.setHint("New Password");
         title.setText("Update User Account");
         UpdateBtn.setText("Update");
         UpdateBtn.setOnClickListener(updateAccount);

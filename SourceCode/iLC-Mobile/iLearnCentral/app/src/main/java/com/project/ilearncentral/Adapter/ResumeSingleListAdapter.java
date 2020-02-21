@@ -38,7 +38,7 @@ public class ResumeSingleListAdapter extends RecyclerView.Adapter<ResumeSingleLi
         holder.rowBullet.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
         holder.rowData.setAnimation(AnimationUtils.loadAnimation(context, R.anim.move_left));
 
-        holder.rowData.setText(data.get(position).getDataList());
+        holder.rowData.setText(data.get(position).getDetail());
     }
 
     @Override
