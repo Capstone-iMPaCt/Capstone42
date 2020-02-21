@@ -6,6 +6,12 @@ public class Resume {
     private String header, address, datePeriod;
     private String personName, jobTitle, companyName, contactNumber;
 
+    public Resume() {
+        this.header = "";
+        this.address = "";
+        this.datePeriod = "";
+    }
+
     public Resume(String dataList) {
         this.dataList = dataList;
     }

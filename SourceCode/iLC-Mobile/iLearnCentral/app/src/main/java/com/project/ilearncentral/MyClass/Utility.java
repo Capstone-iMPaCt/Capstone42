@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.health.TimerStat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.Toast;
@@ -199,5 +200,15 @@ public class Utility {
 
     public static String getStringFromTime(Timestamp value) {
         return timeFormat.format(value.toDate());
+    }
+
+    public static int dpToPx(Context context, int dp) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    public static int pxToDp(Context context, int px) {
+        DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
+        return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 }

@@ -389,7 +389,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.menu_account_settings:
 //                startActivity(new Intent(getApplicationContext(), AccountSettings.class));
-                startActivity(new Intent(getApplicationContext(), ResumeAdd.class));
+                startActivity(new Intent(getApplicationContext(), AddUpdateResume.class));
                 return true;
             case R.id.menu_update_account:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateAccount.class), UPDATE_ACCOUNT);
