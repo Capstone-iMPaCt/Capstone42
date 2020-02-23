@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -20,10 +20,10 @@ import java.util.List;
 public class AddUpdateResumeSingleListAdapter extends RecyclerView.Adapter<AddUpdateResumeSingleListAdapter.AddUpdateResumeSingleListViewHolder> {
 
     private Context context;
-    private List<Resume> data;
+    private List<ResumeItem> data;
     private String rowDetailHint;
 
-    public AddUpdateResumeSingleListAdapter(Context context, List<Resume> data, String rowDetailHint) {
+    public AddUpdateResumeSingleListAdapter(Context context, List<ResumeItem> data, String rowDetailHint) {
         this.context = context;
         this.data = data;
         this.rowDetailHint = rowDetailHint;
@@ -64,7 +64,7 @@ public class AddUpdateResumeSingleListAdapter extends RecyclerView.Adapter<AddUp
         return data.size();
     }
 
-    public List<Resume> getData() {
+    public List<ResumeItem> getData() {
         return data;
     }
 

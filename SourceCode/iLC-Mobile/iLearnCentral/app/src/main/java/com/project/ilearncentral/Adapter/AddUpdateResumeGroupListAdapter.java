@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -20,15 +20,15 @@ import java.util.List;
 public class AddUpdateResumeGroupListAdapter extends RecyclerView.Adapter<AddUpdateResumeGroupListAdapter.AddUpdateResumeGroupListViewHolder> {
 
     private Context context;
-    private List<Resume> data;
+    private List<ResumeItem> data;
     private String rowNameHint, rowAddressHint, rowDatePeriodHint;
 
-    public AddUpdateResumeGroupListAdapter(Context context, List<Resume> data) {
+    public AddUpdateResumeGroupListAdapter(Context context, List<ResumeItem> data) {
         this.context = context;
         this.data = data;
     }
 
-    public AddUpdateResumeGroupListAdapter(Context context, List<Resume> data, String rowNameHint, String rowAddressHint, String rowDatePeriodHint) {
+    public AddUpdateResumeGroupListAdapter(Context context, List<ResumeItem> data, String rowNameHint, String rowAddressHint, String rowDatePeriodHint) {
         this.context = context;
         this.data = data;
         this.rowNameHint = rowNameHint;
@@ -49,7 +49,7 @@ public class AddUpdateResumeGroupListAdapter extends RecyclerView.Adapter<AddUpd
         holder.rowAddressLayout.setHint(this.rowAddressHint);
         holder.rowDatePeriodLayout.setHint(this.rowDatePeriodHint);
 
-        holder.rowName.setText(data.get(position).getAddress());
+        holder.rowName.setText(data.get(position).getHeader());
         holder.rowName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -107,7 +107,7 @@ public class AddUpdateResumeGroupListAdapter extends RecyclerView.Adapter<AddUpd
         return data.size();
     }
 
-    public List<Resume> getData() {
+    public List<ResumeItem> getData() {
         return data;
     }
 

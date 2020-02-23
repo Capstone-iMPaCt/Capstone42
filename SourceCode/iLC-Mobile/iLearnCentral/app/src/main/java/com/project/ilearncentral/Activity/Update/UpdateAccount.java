@@ -270,7 +270,7 @@ public class UpdateAccount extends AppCompatActivity {
     }
 
     private void setValues() {
-        usernameInput.setText(Account.getStringData("username"));
+        usernameInput.setText(Account.getUsername());
         emailInput.setText(Account.getStringData("email"));
         contactInput.setText(Account.getStringData("contactNo"));
         List<String> list = new ArrayList<>();

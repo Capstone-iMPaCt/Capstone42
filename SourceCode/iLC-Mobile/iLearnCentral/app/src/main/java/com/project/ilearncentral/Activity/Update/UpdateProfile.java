@@ -82,7 +82,7 @@ public class UpdateProfile extends AppCompatActivity {
         res();
         setValues();
 
-        Log.d(TAG, Account.getStringData("username"));
+        Log.d(TAG, Account.getUsername());
 
         changeimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,7 +178,7 @@ public class UpdateProfile extends AppCompatActivity {
                                     });
                         } else {
                             imageHandler.uploadImage("images", Account
-                                    .getStringData("username"), imageDone);
+                                    .getUsername(), imageDone);
                         }
                     }
                 }
@@ -311,7 +311,7 @@ public class UpdateProfile extends AppCompatActivity {
         maritalStatusInput.setSelection(list.indexOf(Account.getStringData("maritalStatus")));
         if (Account.hasKey("image")) {
             imageHandler.setFilePath(Account.getUriData("image"));
-            imageHandler.setImage("images", Account.getStringData("username"), image);
+            imageHandler.setImage("images", Account.getUsername(), image);
         }
     }
 

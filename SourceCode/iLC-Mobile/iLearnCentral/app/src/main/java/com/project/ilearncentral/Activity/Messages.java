@@ -76,7 +76,7 @@ public class Messages extends AppCompatActivity {
 
         Intent intent = getIntent();
         otherUser = intent.getStringExtra("USER_NAME");
-        username = Account.getStringData("username");
+        username = Account.getUsername();
         fullName = intent.getStringExtra("FULL_NAME");
 
         message = findViewById(R.id.message_text);

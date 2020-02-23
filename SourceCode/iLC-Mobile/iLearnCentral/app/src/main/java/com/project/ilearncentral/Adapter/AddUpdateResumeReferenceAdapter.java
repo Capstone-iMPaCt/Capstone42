@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -19,9 +19,9 @@ import java.util.List;
 public class AddUpdateResumeReferenceAdapter extends RecyclerView.Adapter<AddUpdateResumeReferenceAdapter.AddUpdateResumeReferenceViewHolder> {
 
     private Context context;
-    private List<Resume> data;
+    private List<ResumeItem> data;
 
-    public AddUpdateResumeReferenceAdapter(Context context, List<Resume> data) {
+    public AddUpdateResumeReferenceAdapter(Context context, List<ResumeItem> data) {
         this.context = context;
         this.data = data;
     }
@@ -110,7 +110,7 @@ public class AddUpdateResumeReferenceAdapter extends RecyclerView.Adapter<AddUpd
         return data.size();
     }
 
-    public List<Resume> getData() {
+    public List<ResumeItem> getData() {
         return data;
     }
 

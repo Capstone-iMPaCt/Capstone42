@@ -155,7 +155,7 @@ public class SignUpUsers extends AppCompatActivity {
     }
 
     private void setValues() {
-        usernameInput.setText(Account.getStringData("username"));
+        usernameInput.setText(Account.getUsername());
         passwordInput.setText(Account.getStringData("password"));
         emailInput.setText(Account.getStringData("email"));
         contactInput.setText(Account.getStringData("contactNo"));
