@@ -6,7 +6,7 @@ import com.project.ilearncentral.MyClass.Utility;
 public class Post {
 
     private Timestamp date;
-    private String postTitle, datePosted, timePosted, postId, postSender, content;
+    private String postTitle, datePosted, timePosted, postId, postSender, content, fullname;
     private boolean withImage;
 
     public Post(String postSender, String postTitle, Timestamp date, String postId, String content, boolean withImage) {
@@ -18,6 +18,7 @@ public class Post {
         this.timePosted = Utility.getStringFromTime(date);
         this.postId = postId;
         this.withImage = withImage;
+        this.fullname = "";
     }
 
     public Post(String postSender, String postTitle, Timestamp date, String content, boolean withImage) {
@@ -28,6 +29,7 @@ public class Post {
         this.timePosted = Utility.getStringFromTime(date);
         this.content = content;
         this.withImage = withImage;
+        this.fullname = "";
     }
 
     public String getPostSender() {
@@ -68,5 +70,13 @@ public class Post {
 
     public void setWithImage(boolean withImage) {
         this.withImage = withImage;
+    }
+
+    public String getFullname() {
+        return fullname;
+    }
+
+    public void setFullname(String fullname) {
+        this.fullname = fullname;
     }
 }

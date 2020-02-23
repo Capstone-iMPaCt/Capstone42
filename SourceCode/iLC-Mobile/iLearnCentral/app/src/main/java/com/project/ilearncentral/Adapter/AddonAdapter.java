@@ -60,7 +60,7 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
         AddonViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            addonContainerLayout = (RelativeLayout)itemView.findViewById(R.id.addon_container_relativelayout);
+            addonContainerLayout = (RelativeLayout)itemView.findViewById(R.id.item_post_container);
             titleTextView = (TextView)itemView.findViewById(R.id.addon_title_textview);
             descriptionTextView = (TextView)itemView.findViewById(R.id.addon_description_textview);
             subscriptionLabelTextView = (TextView)itemView.findViewById(R.id.addon_subscribe_button);

@@ -202,8 +202,9 @@ public class Posts {
     public static Post setPostToView(String postId) {
         if (posts.containsKey(postId)) {
             curPost = posts.get(postId);
-            return new Post(stringCurPost("Username"), stringCurPost("Title"), (Timestamp) curPost
-                    .get("Date"), postId, stringCurPost("Content"), (boolean)curPost.get("Image"));
+            return new Post(stringCurPost("Username"), stringCurPost("Title"),
+                    (Timestamp) curPost.get("Date"), postId, stringCurPost("Content"),
+                    (boolean)curPost.get("Image"));
         }
         return null;
     }
@@ -228,7 +229,22 @@ public class Posts {
             Map<String, Object> post = (Map<String, Object>)postEntry.getValue();
             if (post.get("Title").toString().toLowerCase().contains(text) ||
                 post.get("Content").toString().toLowerCase().contains(text) ||
-                post.get("Username").toString().toLowerCase().contains(text))
+                post.get("FullName").toString().toLowerCase().contains(text))
+                    postViews.add(setPostToView(postEntry.getKey().toString()));
+        }
+        Collections.sort(postViews, new Comparator<Post>() {
+            public int compare(Post o1, Post o2) {
+                return o2.getDate().compareTo(o1.getDate());
+            }
+        });
+        return postViews;
+    }
+
+    public static ArrayList<Post> myPosts() {
+        ArrayList<Post> postViews = new ArrayList<>();
+        for (Map.Entry postEntry : posts.entrySet()) {
+            Map<String, Object> post = (Map<String, Object>)postEntry.getValue();
+            if (post.get("Username").toString().toLowerCase().contains(Account.getStringData("username")))
                     postViews.add(setPostToView(postEntry.getKey().toString()));
         }
         Collections.sort(postViews, new Comparator<Post>() {

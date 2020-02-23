@@ -36,20 +36,26 @@
                 app:contentInsetRight="0dp"
                 app:contentInsetStart="0dp" />
 
-<!--            <View-->
-<!--                android:layout_width="1dp"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:layout_marginTop="3dp"-->
-<!--                android:layout_marginBottom="3dp"-->
-<!--                android:background="@android:color/darker_gray" />-->
+            <View
+                android:id="@+id/feed_searchview_line_divider"
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_marginTop="3dp"
+                android:layout_marginBottom="3dp"
+                android:background="@android:color/darker_gray" />
 
-<!--            <Button-->
-<!--                android:id="@+id/feed_searchview_filter_option"-->
-<!--                android:layout_width="@dimen/nav_icon_lw"-->
-<!--                android:layout_height="@dimen/nav_icon_lw"-->
-<!--                android:layout_gravity="center"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:background="@drawable/search_option_icon" />-->
+            <TextView
+                android:id="@+id/feed_toggle_view"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:textSize="12sp"
+                android:text="All"
+                android:textColor="@android:color/white"
+                android:textStyle="bold"
+                android:background="@drawable/bg_selected_day_rounded" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout

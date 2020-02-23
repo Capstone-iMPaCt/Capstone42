@@ -1,12 +1,11 @@
 package com.project.ilearncentral.Fragment;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -16,9 +15,10 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.project.ilearncentral.Activity.AccountTypeSelection;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Activity.AddEditFeed;
-import com.project.ilearncentral.Activity.Login;
 import com.project.ilearncentral.Adapter.PostFeedAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
@@ -41,6 +41,7 @@ public class Feed extends Fragment {
 
     private FloatingActionButton addNewPostBtn;
     private SearchView searchView;
+    private TextView toggleView;
     private final int NEW_POST = 1;
 
     public Feed() {
@@ -57,7 +58,7 @@ public class Feed extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (Account.getType() != Account.Type.Student)
+        if (!Account.isType("Student"))
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
 
         searchView = view.findViewById(R.id.feed_searchview);
@@ -88,11 +89,19 @@ public class Feed extends Fragment {
             }
         });
 
+        toggleView = view.findViewById(R.id.feed_toggle_view);
+        toggleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setToggleView(toggleView);
+            }
+        });
+
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), AddEditFeed.class),NEW_POST);
+                startActivityForResult(new Intent(getContext(), AddEditFeed.class), NEW_POST);
             }
         });
 
@@ -120,9 +129,9 @@ public class Feed extends Fragment {
                 pullToRefresh.setRefreshing(false);
             }
         });
+
         // set up the RecyclerView
         post = new ArrayList<>();
-
         recyclerView = view.findViewById(R.id.feed_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new PostFeedAdapter(getContext(), post);
@@ -133,8 +142,24 @@ public class Feed extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == NEW_POST && resultCode == RESULT_OK) {
+        if (requestCode == NEW_POST && resultCode == RESULT_OK) {
             Posts.retrievePostFromDB(data.getStringExtra("postId"), done);
+        }
+    }
+
+    private void setToggleView(TextView v) {
+        if (v.getText().toString() == "All") {
+            v.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
+            v.setText("Mine");
+            post.clear();
+            post.addAll(Posts.myPosts());
+            adapter.notifyDataSetChanged();
+        } else {
+            v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+            v.setText("All");
+            post.clear();
+            post.addAll(Posts.searchText(""));
+            adapter.notifyDataSetChanged();
         }
     }
 }

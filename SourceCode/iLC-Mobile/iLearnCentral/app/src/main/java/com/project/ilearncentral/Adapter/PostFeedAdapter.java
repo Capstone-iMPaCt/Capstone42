@@ -19,9 +19,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.Model.Posts;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
@@ -50,7 +53,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     private int lastPosition = -1;
 
     @Override
-    public void onBindViewHolder(@NonNull PostViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final PostViewHolder holder, final int position) {
 
         final Post post = posts.get(position);
 
@@ -67,6 +70,21 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
             holder.contentImageView.setVisibility(View.GONE);
 
         lastPosition = position;
+        ObservableString fullname = new ObservableString();
+        fullname.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String fullName) {
+                holder.fullnameTextView.setText(fullName);
+                post.setFullname(fullName);
+                String postID = Posts.getIdOfPost(post.getPostSender(), post.getContent());
+                Posts.getPostById(postID).put("FullName", fullName);
+            }
+        });
+        if (post.getFullname().isEmpty()) {
+            Utility.getFullName(post.getPostSender(), fullname);
+        } else {
+            holder.fullnameTextView.setText(post.getFullname());
+        }
 
         holder.titleTextView.setText(post.getPostTitle());
         holder.dateTextView.setText(post.getDatePosted());
@@ -94,9 +112,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
                 }
             }
         });
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -122,21 +138,21 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         private RelativeLayout containerLayout, headerLayout;
         private CircleImageView userImageView;
         private ImageView contentImageView;
-        private TextView titleTextView, dateTextView, timeTextView, contentTextView, editTextView;
+        private TextView fullnameTextView, titleTextView, dateTextView, timeTextView, contentTextView, editTextView;
 
         PostViewHolder(View itemView) {
             super(itemView);
 
-            containerLayout = itemView.findViewById(R.id.addon_container_relativelayout);
-            userImageView = itemView.findViewById(R.id.user_imageview);
-            titleTextView = itemView.findViewById(R.id.post_title_textview);
-            headerLayout = itemView.findViewById(R.id.timestamp_layout);
-            dateTextView = itemView.findViewById(R.id.date_textview);
-            timeTextView = itemView.findViewById(R.id.time_textview);
-            contentImageView = itemView.findViewById(R.id.content_imageview);
-            contentTextView = itemView.findViewById(R.id.content_textview);
-            editTextView = itemView.findViewById(R.id.edit_textview);
-
+            containerLayout = itemView.findViewById(R.id.item_post_container);
+            userImageView = itemView.findViewById(R.id.item_post_user_display_image);
+            fullnameTextView = itemView.findViewById(R.id.item_post_user_fullname);
+            titleTextView = itemView.findViewById(R.id.item_post_title);
+            headerLayout = itemView.findViewById(R.id.item_post_timestamp_container);
+            dateTextView = itemView.findViewById(R.id.item_post_date);
+            timeTextView = itemView.findViewById(R.id.item_post_time);
+            contentImageView = itemView.findViewById(R.id.item_post_content_image);
+            contentTextView = itemView.findViewById(R.id.item_post_content_text);
+            editTextView = itemView.findViewById(R.id.item_post_edit_link);
         }
     }
 }

@@ -1,21 +1,25 @@
 package com.project.ilearncentral.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.content.Intent;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Display;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Posts;
@@ -38,13 +42,14 @@ public class AddEditFeed extends AppCompatActivity {
     private ObservableString imageDone, postingDone;
     private boolean withImage, isUpdate;
     private String title, content, postId;
+    private LinearLayout.LayoutParams layoutParams;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_feed);
 
-        res();
+        bindHolders();
 
         Intent i = getIntent();
         if (i.hasExtra("postId")) {
@@ -148,12 +153,21 @@ public class AddEditFeed extends AppCompatActivity {
         imageHandler.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    private void res() {
+    private void bindHolders() {
         image = findViewById(R.id.feed_add_image);
         changeImageButton = findViewById(R.id.feed_add_change_image);
         postButton = findViewById(R.id.feed_add_button);
         titleInput = findViewById(R.id.feed_add_title);
         contentInput = findViewById(R.id.feed_add_content);
+
+        Display display = getWindowManager().getDefaultDisplay();
+        int width = display.getWidth(); // ((display.getWidth()*20)/100)
+//        int height = display.getHeight();// ((display.getHeight()*30)/100)
+//        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(display.getWidth(), display.getWidth()*2/3);
+//        image.setLayoutParams(layoutParams);
+//        image.requestLayout();
+
+//        System.out.println(">>>>>>>>>>>>>>>>"+image.getWidth()+">>>>>>>>"+image.getHeight());
 
         imageHandler = new ImageHandler(this, AddEditFeed.this);
         imageDone = new ObservableString();

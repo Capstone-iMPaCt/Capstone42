@@ -8,7 +8,7 @@
     tools:context=".Activity.Subscription" >
 
     <RelativeLayout
-        android:id="@+id/addon_container_relativelayout"
+        android:id="@+id/item_post_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_home_height"
         android:layout_marginTop="5dp"

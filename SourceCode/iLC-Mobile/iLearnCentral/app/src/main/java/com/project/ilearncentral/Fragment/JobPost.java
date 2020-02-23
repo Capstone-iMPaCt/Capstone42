@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,6 +14,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Adapter.PostFeedAdapter;
 import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.Posts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ public class JobPost extends Fragment {
     private PostFeedAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<Post> post;
+    private TextView toggleView;
 
     public JobPost() {
         // Required empty public constructor
@@ -39,6 +42,19 @@ public class JobPost extends Fragment {
 
         if (Account.getType() == Account.Type.LearningCenter)
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
+
+        toggleView = view.findViewById(R.id.feed_toggle_view);
+        if (Account.isType("Educator")) {
+            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.GONE);
+            toggleView.setVisibility(View.GONE);
+        } else {
+            toggleView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setToggleView(toggleView);
+                }
+            });
+        }
 
         // set up the RecyclerView
         post = new ArrayList<>();
@@ -68,5 +84,21 @@ public class JobPost extends Fragment {
         adapter = new PostFeedAdapter(getContext(), post);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    private void setToggleView(TextView v) {
+        if (v.getText().toString() == "All") {
+            v.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
+            v.setText("Mine");
+            post.clear();
+            post.addAll(Posts.searchText(""));
+            adapter.notifyDataSetChanged();
+        } else {
+            v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+            v.setText("All");
+            post.clear();
+            post.addAll(Posts.searchText(""));
+            adapter.notifyDataSetChanged();
+        }
     }
 }

@@ -1,52 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content">
 
     <RelativeLayout
-        android:id="@+id/addon_container_relativelayout"
+        android:id="@+id/item_post_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/bg_item_recyclerview"
+        android:background="@android:color/white"
+        android:paddingBottom="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/user_imageview"
+            android:id="@+id/item_post_user_display_image"
             android:layout_width="@dimen/post_user_image_lw"
             android:layout_height="@dimen/post_user_image_lw"
-            android:layout_marginTop="5dp"
             android:layout_marginStart="5dp"
-            app:srcCompat="@mipmap/ic_launcher" />
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_account_circle_black_24dp" />
 
         <RelativeLayout
-            android:id="@+id/timestamp_layout"
+            android:id="@+id/item_post_timestamp_container"
             android:layout_width="match_parent"
             android:layout_height="@dimen/post_user_image_lw"
-            android:layout_toEndOf="@id/user_imageview"
-            android:layout_alignTop="@id/user_imageview"
+            android:layout_alignTop="@id/item_post_user_display_image"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="5dp" >
+            android:layout_marginRight="5dp"
+            android:layout_toEndOf="@id/item_post_user_display_image">
 
             <TextView
-                android:id="@+id/post_title_textview"
+                android:id="@+id/item_post_user_fullname"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/post_user_image_lw"
-                android:layout_marginEnd="10dp"
-                android:layout_toStartOf="@+id/date_textview"
                 android:layout_alignParentStart="true"
-                android:text="Title"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@+id/item_post_date"
+                android:text="User Fullname"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/date_textview"
+                android:id="@+id/item_post_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -55,47 +54,58 @@
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/time_textview"
+                android:id="@+id/item_post_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/date_textview"
-                android:layout_alignRight="@+id/date_textview"
+                android:layout_below="@+id/item_post_date"
+                android:layout_alignRight="@+id/item_post_date"
                 android:text="Time"
                 android:textSize="10sp" />
 
             <TextView
-                android:id="@+id/edit_textview"
+                android:id="@+id/item_post_edit_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/time_textview"
-                android:layout_alignRight="@+id/time_textview"
+                android:layout_below="@+id/item_post_time"
+                android:layout_alignRight="@+id/item_post_time"
                 android:text="Edit"
                 android:textColor="@color/colorPrimary"
                 android:textSize="10sp" />
 
         </RelativeLayout>
 
+        <TextView
+            android:id="@+id/item_post_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_post_user_display_image"
+            android:layout_alignStart="@+id/item_post_user_display_image"
+            android:layout_alignEnd="@id/item_post_timestamp_container"
+            android:padding="5dp"
+            android:text="Title"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
         <ImageView
-            android:id="@+id/content_imageview"
+            android:id="@+id/item_post_content_image"
             android:layout_width="match_parent"
             android:layout_height="100dp"
-            android:layout_below="@id/user_imageview"
-            android:layout_alignStart="@id/user_imageview"
-            android:layout_alignEnd="@+id/timestamp_layout"
-            android:layout_marginTop="5dp"
+            android:layout_below="@id/item_post_title"
+            android:layout_alignStart="@id/item_post_title"
+            android:layout_alignEnd="@+id/item_post_title"
+            android:background="@color/light_gray"
             android:scaleType="centerInside" />
 
         <TextView
-            android:id="@+id/content_textview"
+            android:id="@+id/item_post_content_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/content_imageview"
-            android:layout_alignStart="@+id/content_imageview"
-            android:layout_alignEnd="@+id/timestamp_layout"
-            android:layout_marginTop="5dp"
+            android:layout_below="@id/item_post_content_image"
+            android:layout_alignStart="@+id/item_post_content_image"
+            android:layout_alignEnd="@+id/item_post_timestamp_container"
+            android:padding="5dp"
             android:paddingHorizontal="10dp"
             android:text="Text Content/Description..." />
-
     </RelativeLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>
