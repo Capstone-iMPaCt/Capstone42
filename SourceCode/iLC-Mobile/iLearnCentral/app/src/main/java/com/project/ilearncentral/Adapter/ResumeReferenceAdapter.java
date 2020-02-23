@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -17,9 +17,9 @@ import java.util.List;
 public class ResumeReferenceAdapter extends RecyclerView.Adapter<ResumeReferenceAdapter.ResumeReferenceViewHolder> {
 
     Context context;
-    List<Resume> data;
+    List<ResumeItem> data;
 
-    public ResumeReferenceAdapter(Context context, List<Resume> data) {
+    public ResumeReferenceAdapter(Context context, List<ResumeItem> data) {
         this.context = context;
         this.data = data;
     }

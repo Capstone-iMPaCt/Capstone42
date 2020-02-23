@@ -17,6 +17,7 @@
             android:id="@+id/add_update_resume_grouplist_row_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapWords"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -29,6 +30,7 @@
             android:id="@+id/add_update_resume_grouplist_row_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapWords"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -41,6 +43,7 @@
             android:id="@+id/add_update_resume_grouplist_row_dateperiod"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:inputType="textCapWords"
             android:textSize="14sp" />
     </com.google.android.material.textfield.TextInputLayout>
 </LinearLayout>

@@ -50,6 +50,9 @@ public class Account {
         return data.get("bName").toString();
     }
 
+    public static String getUsername() {
+        return getStringData("username");
+    }
 
     private static void setValidatedData(String oldKey, Map<String, Object> userData, String newKey) {
         if (userData.containsKey(oldKey)) {

@@ -131,7 +131,7 @@ public class Utility {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
+        storageRef.child("images").child(Account.getUsername()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
         {public void onSuccess(final Uri uri)
         {UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(Account.getName())

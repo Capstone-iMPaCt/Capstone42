@@ -70,7 +70,7 @@ public class Chat extends AppCompatActivity {
         filteredAdapter = new ChatListAdapter(this, filteredList);
         recyclerView.setAdapter(adapter);
 
-        username = Account.getStringData("username");
+        username = Account.getUsername();
 
         searchView = findViewById(R.id.chat_search);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

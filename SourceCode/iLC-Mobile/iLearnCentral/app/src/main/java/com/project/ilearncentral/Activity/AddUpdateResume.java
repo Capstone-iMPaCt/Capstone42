@@ -1,19 +1,27 @@
 package com.project.ilearncentral.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.internal.Util;
 
+import com.google.android.material.textfield.TextInputEditText;
 import com.project.ilearncentral.Adapter.AddUpdateResumeGroupListAdapter;
 import com.project.ilearncentral.Adapter.AddUpdateResumeReferenceAdapter;
 import com.project.ilearncentral.Adapter.AddUpdateResumeSingleListAdapter;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.Model.ResumeItem;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -32,70 +40,89 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
             skillsAddButton, skillsRemoveButton, awardsAddButton, awardsRemoveButton,
             qualitiesAddButton, qualitiesRemoveButton, interestsAddButton, interestsRemoveButton,
             referencesAddButton, referencesRemoveButton;
-    private List<Resume> educationalBackground, employmentHistory, skills, awards, qualities,
+    private List<ResumeItem> educationalBackground, employmentHistory, skills, awards, qualities,
             interests, references;
     private Button confirm;
+    private TextInputEditText objective;
+    private ObservableString doneUpload;
+    private String resumeId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_update_resume);
 
+        Intent i = getIntent();
+        if (i.hasExtra("resumeId")) {
+            resumeId = i.getStringExtra("resumeId");
+        }
+        else {
+            resumeId = "";
+        }
+
+        educationalBackground = Resume.getEducationalBackground();
+        employmentHistory = Resume.getEmploymentHistory();
+        skills = Resume.getSkills();
+        awards = Resume.getAwards();
+        qualities = Resume.getQualities();
+        interests = Resume.getInterest();
+        references = Resume.getReferences();
+
         bindButtons();
         setAdapters();
         setButtonClickListeners();
 
-        // retrieving row data test
-//        TextView t = findViewById(R.id.educ_bg);
-//        t.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                System.out.println("0~~~~~~~~~~~~" + educationalBackgroundAdapter.getData().get(0).getHeader());
-//                System.out.println("1~~~~~~~~~~~~" + educationalBackgroundAdapter.getData().get(1).getHeader());
-//            }
-//        });
+        objective.setText(Resume.getObjective());
+
+        doneUpload.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String resumeId) {
+                Utility.buttonWait(confirm, false, "Confirm");
+                if (resumeId.isEmpty()) {
+                    Resume.resumeChange = false;
+                }
+                else {
+                    Resume.resumeChange = true;
+                    setResult(RESULT_OK);
+                    finish();
+                }
+            }
+        });
     }
 
     private void setAdapters() {
-        educationalBackground = new ArrayList<>();
         educationalBackgroundRecyclerView = findViewById(R.id.add_update_resume_educational_background_recyclerview);
         educationalBackgroundRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         educationalBackgroundAdapter = new AddUpdateResumeGroupListAdapter(this, educationalBackground,
                 "School Name","School Address","School Period");
         educationalBackgroundRecyclerView.setAdapter(educationalBackgroundAdapter);
 
-        employmentHistory = new ArrayList<>();
         employmentHistoryRecyclerView = findViewById(R.id.add_update_resume_employment_history_recyclerview);
         employmentHistoryRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         employmentHistoryAdapter = new AddUpdateResumeGroupListAdapter(this, employmentHistory,
                 "Employer Name","Employer Address","Employment Period");
         employmentHistoryRecyclerView.setAdapter(employmentHistoryAdapter);
 
-        skills = new ArrayList<>();
         skillsRecyclerView = findViewById(R.id.add_update_resume_skills_recyclerview);
         skillsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         skillsAdapter = new AddUpdateResumeSingleListAdapter(this, skills, "Skill");
         skillsRecyclerView.setAdapter(skillsAdapter);
 
-        awards = new ArrayList<>();
         awardsRecyclerView = findViewById(R.id.add_update_resume_awards_recyclerview);
         awardsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         awardsAdapter = new AddUpdateResumeSingleListAdapter(this, awards, "Award");
         awardsRecyclerView.setAdapter(awardsAdapter);
 
-        qualities = new ArrayList<>();
         qualitiesRecyclerView = findViewById(R.id.add_update_resume_qualities_recyclerview);
         qualitiesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         qualitiesAdapter = new AddUpdateResumeSingleListAdapter(this, qualities, "Quality");
         qualitiesRecyclerView.setAdapter(qualitiesAdapter);
 
-        interests = new ArrayList<>();
         interestsRecyclerView = findViewById(R.id.add_update_resume_interests_recyclerview);
         interestsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         interestsAdapter = new AddUpdateResumeSingleListAdapter(this, interests, "Interest");
         interestsRecyclerView.setAdapter(interestsAdapter);
 
-        references = new ArrayList<>();
         referencesRecyclerView = findViewById(R.id.add_update_resume_references_recyclerview);
         referencesRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         referencesAdapter = new AddUpdateResumeReferenceAdapter(this, references);
@@ -136,13 +163,15 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
         referencesAddButton = findViewById(R.id.add_update_resume_references_addbutton);
         referencesRemoveButton = findViewById(R.id.add_update_resume_references_removebutton);
         confirm = findViewById(R.id.add_update_resume_confirm_button);
+        objective = findViewById(R.id.add_update_resume_career_objective);
+        doneUpload = new ObservableString();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.add_update_resume_educational_background_addbutton:
-                educationalBackground.add(new Resume("","",""));
+                educationalBackground.add(new ResumeItem("","",""));
                 educationalBackgroundAdapter.notifyItemInserted(educationalBackground.size());
                 break;
             case R.id.add_update_resume_educational_background_removebutton:
@@ -151,7 +180,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 educationalBackgroundAdapter.notifyItemRemoved(educationalBackground.size());
                 break;
             case R.id.add_update_resume_employment_history_addbutton:
-                employmentHistory.add(new Resume("","",""));
+                employmentHistory.add(new ResumeItem("","",""));
                 employmentHistoryAdapter.notifyItemInserted(employmentHistory.size());
                 break;
             case R.id.add_update_resume_employment_history_removebutton:
@@ -160,7 +189,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 employmentHistoryAdapter.notifyItemRemoved(employmentHistory.size());
                 break;
             case R.id.add_update_resume_skills_addbutton:
-                skills.add(new Resume(""));
+                skills.add(new ResumeItem(""));
                 skillsAdapter.notifyItemInserted(skills.size());
                 break;
             case R.id.add_update_resume_skills_removebutton:
@@ -169,7 +198,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 skillsAdapter.notifyItemRemoved(skills.size());
                 break;
             case R.id.add_update_resume_awards_addbutton:
-                awards.add(new Resume(""));
+                awards.add(new ResumeItem(""));
                 awardsAdapter.notifyItemInserted(awards.size());
                 break;
             case R.id.add_update_resume_awards_removebutton:
@@ -178,7 +207,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 awardsAdapter.notifyItemRemoved(awards.size());
                 break;
             case R.id.add_update_resume_qualities_addbutton:
-                qualities.add(new Resume(""));
+                qualities.add(new ResumeItem(""));
                 qualitiesAdapter.notifyItemInserted(qualities.size());
                 break;
             case R.id.add_update_resume_qualities_removebutton:
@@ -187,7 +216,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 qualitiesAdapter.notifyItemRemoved(qualities.size());
                 break;
             case R.id.add_update_resume_interests_addbutton:
-                interests.add(new Resume(""));
+                interests.add(new ResumeItem(""));
                 interestsAdapter.notifyItemInserted(interests.size());
                 break;
             case R.id.add_update_resume_interests_removebutton:
@@ -196,7 +225,7 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 interestsAdapter.notifyItemRemoved(interests.size());
                 break;
             case R.id.add_update_resume_references_addbutton:
-                references.add(new Resume("","","",""));
+                references.add(new ResumeItem("","","",""));
                 referencesAdapter.notifyItemInserted(references.size());
                 break;
             case R.id.add_update_resume_references_removebutton:
@@ -205,8 +234,20 @@ public class AddUpdateResume extends AppCompatActivity implements View.OnClickLi
                 referencesAdapter.notifyItemRemoved(references.size());
                 break;
             case R.id.add_update_resume_confirm_button:
-                // push to database code here
-                break;
+                Utility.buttonWait(confirm, true);
+                Resume.setAwards(awards);
+                Resume.setEducationalBackground(educationalBackground);
+                Resume.setEmploymentHistory(employmentHistory);
+                Resume.setInterest(interests);
+                Resume.setQualities(qualities);
+                Resume.setReferences(references);
+                Resume.setSkills(skills);
+                Resume.setObjective(objective.getText().toString());
+                if (resumeId.isEmpty())
+                    Resume.addResume(doneUpload);
+                else
+                    Resume.updateResume(resumeId, doneUpload);
+            break;
         }
     }
 }

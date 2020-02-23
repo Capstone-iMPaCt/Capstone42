@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,6 +52,7 @@ import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.Model.Resume;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -66,6 +68,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private StorageReference storageRef;
     private ObservableBoolean accountSet, authProfileSet,
             userSet, profileSet, centerSet;
+    private boolean tabGenerate;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -88,6 +91,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
+        tabGenerate = true;
 
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
@@ -131,16 +135,17 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void generateTabs() {
+        tabGenerate = false;
         UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
         if (Account.isType("LearningCenter")) {
             adapter.addFragment(new LearningCenterProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
-        } else if (Account.getType() == Account.Type.Educator) {
+        } else if (Account.isType("Educator")) {
             adapter.addFragment(new EducatorProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
-        } else if (Account.getType() == Account.Type.Student) {
+        } else if (Account.isType("Student")) {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
         }
@@ -188,7 +193,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onBooleanChanged(boolean success) {
                 if (success) {
-                    generateTabs();
+                    if(tabGenerate) generateTabs();
                 } else {
 
                 }
@@ -306,7 +311,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             Account.setType(Account.Type.Student);
         }
         db.collection(collection)
-                .whereEqualTo("Username", Account.getStringData("username"))
+                .whereEqualTo("Username", Account.getUsername())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -404,7 +409,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivityForResult(new Intent(getApplicationContext(), UpdateProfile.class), UPDATE_PROFILE);
                 return true;
             case R.id.menu_update_resume:
-                startActivityForResult(new Intent(getApplicationContext(), AddUpdateResume.class), UPDATE_RESUME);
+                Intent intent = new Intent(getApplicationContext(), AddUpdateResume.class);
+                if (!Resume.getId().isEmpty())
+                    intent.putExtra("resumeId", Resume.getId());
+                startActivityForResult(intent, UPDATE_RESUME);
                 return true;
             case R.id.menu_update_business:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
@@ -424,7 +432,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         runOnUiThread(new Runnable() {
             public void run() {
                 if (user.getPhotoUrl() != null) {
-                    storageRef.child("images").child(Account.getStringData("username")).getDownloadUrl()
+                    storageRef.child("images").child(Account.getUsername()).getDownloadUrl()
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
@@ -453,13 +461,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             setAccount();
             accountSet.set(true);
         } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
-            setAccount();
+            setProfileDetails();
             accountSet.set(true);
-        } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
-            setAccount();
+        } else if (requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
+            setLearningCenterDetails();
             accountSet.set(true);
         } else if (requestCode == UPDATE_RESUME && resultCode == RESULT_OK) {
-            setAccount();
             accountSet.set(true);
         }
     }

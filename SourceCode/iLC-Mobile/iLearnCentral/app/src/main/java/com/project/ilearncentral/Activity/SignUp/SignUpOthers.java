@@ -126,7 +126,7 @@ public class SignUpOthers extends AppCompatActivity {
                 imageHandler.selectImage();
             }
         });
-        Log.d(TAG, Account.getStringData("username"));
+        Log.d(TAG, Account.getUsername());
         birthDateInput.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +189,7 @@ public class SignUpOthers extends AppCompatActivity {
                                                 public void onSuccess(DocumentReference documentReference) {
                                                         Account.addData("centerId", documentReference.getId());
                                                         db.collection("LearningCenterStaff").document(user.getUid()).set(Account.getProfileData());
-                                                        uploadImage(Account.getStringData("username"), documentReference.getId());
+                                                        uploadImage(Account.getUsername(), documentReference.getId());
                                                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                                                     }
                                                 })
@@ -204,7 +204,7 @@ public class SignUpOthers extends AppCompatActivity {
 
 
                                         if (Account.getType() != Account.Type.LearningCenter) {
-                                            uploadImage(Account.getStringData("username"), "");
+                                            uploadImage(Account.getUsername(), "");
                                         }
                                         if (!withImage) {
                                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
