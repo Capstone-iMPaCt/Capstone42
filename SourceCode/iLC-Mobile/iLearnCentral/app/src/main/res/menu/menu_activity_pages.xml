@@ -11,13 +11,19 @@
         android:id="@+id/menu_update_account"
         android:title="@string/update_account"
         android:icon="@drawable/ic_account_circle_black_24dp"
-
         app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_update_profile"
         android:title="@string/update_profile"
         android:icon="@drawable/ic_face_black_24dp"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_update_resume"
+        android:title="@string/update_resume"
+        android:icon="@drawable/resume_icon"
+        android:visible="false"
         app:showAsAction="never" />
 
     <item

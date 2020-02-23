@@ -326,6 +326,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         serviceTypeInput = findViewById(R.id.sign_up_service_type_lc);
         logo = findViewById(R.id.sign_up_image_lc);
         changeImage = findViewById(R.id.sign_up_image_change_lc);
+        operatingDays = new ArrayList<>();
         withImage = false;
         imageHandler = new ImageHandler(this, SignUpLearningCenter.this);
         imageDone = new ObservableString();

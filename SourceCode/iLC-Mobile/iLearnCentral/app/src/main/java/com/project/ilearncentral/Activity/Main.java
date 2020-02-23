@@ -60,7 +60,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG = "USER_PAGES";
+    private String TAG = "MAIN";
     private FirebaseUser user;
     private FirebaseFirestore db;
     private StorageReference storageRef;
@@ -78,7 +78,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
     private LinearLayout profileView;
-    private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14;
+    private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14, UPDATE_RESUME = 15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,17 +89,17 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         db = FirebaseFirestore.getInstance();
         storageRef = FirebaseStorage.getInstance().getReference();
 
-        if (user == null) {
-            startActivity(new Intent(this, Login.class));
-            finish();
-        }
         FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                 .setPersistenceEnabled(true)
                 .build();
         db.setFirestoreSettings(settings);
 
-        setAccount();
-
+        if (user == null) {
+            startActivity(new Intent(this, Login.class));
+            finish();
+        } else {
+            setAccount();
+        }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.user_image);
         featuresButton = (Button) findViewById(R.id.main_subscription_button);
@@ -383,6 +383,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } else {
             updateBusiness.setVisible(false);
         }
+        if (Account.getType() == Account.Type.Educator) {
+            MenuItem resume = menu.findItem(R.id.menu_update_resume);
+            resume.setVisible(true);
+        }
         return true;
     }
 
@@ -398,6 +402,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 return true;
             case R.id.menu_update_profile:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateProfile.class), UPDATE_PROFILE);
+                return true;
+            case R.id.menu_update_resume:
+                startActivityForResult(new Intent(getApplicationContext(), AddUpdateResume.class), UPDATE_RESUME);
                 return true;
             case R.id.menu_update_business:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateLearningCenter.class), UPDATE_CENTER);
@@ -448,7 +455,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
             setAccount();
             accountSet.set(true);
-        } else if (requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
+        } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
+            setAccount();
+            accountSet.set(true);
+        } else if (requestCode == UPDATE_RESUME && resultCode == RESULT_OK) {
             setAccount();
             accountSet.set(true);
         }

@@ -37,8 +37,8 @@ public class JobPost extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (Account.getType() == Account.Type.Educator)
-            view.findViewById(R.id.feed_add_fab).setVisibility(View.GONE);
+        if (Account.getType() == Account.Type.LearningCenter)
+            view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
 
         // set up the RecyclerView
         post = new ArrayList<>();

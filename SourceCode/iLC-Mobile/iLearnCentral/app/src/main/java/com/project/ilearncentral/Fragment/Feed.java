@@ -57,8 +57,8 @@ public class Feed extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (Account.getType() == Account.Type.Student)
-            view.findViewById(R.id.feed_add_fab).setVisibility(View.GONE);
+        if (Account.getType() != Account.Type.Student)
+            view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
 
         searchView = view.findViewById(R.id.feed_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
