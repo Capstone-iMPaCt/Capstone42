@@ -15,8 +15,10 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.AddUpdateResume"
-            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activity.NveJobPost"></activity>
+        <activity
+            android:name=".Activity.AddUpdateResume"
+            android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.AddEditFeed" />
         <activity android:name=".Activity.SearchUser" />
         <activity android:name=".Activity.SignUp.CreateUser" />
@@ -33,10 +35,12 @@
         <activity
             android:name=".Activity.AccountSettings"
             android:label="@string/title_activity_account_settings" />
-        <activity android:name=".Activity.Messages"
+        <activity
+            android:name=".Activity.Messages"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".Fragment.JobPost" />
-        <activity android:name=".Activity.Chat"
+        <activity
+            android:name=".Activity.Chat"
             android:configChanges="orientation|screenSize" />
         <!--
  Set custom default icon. This is used when no icon is set for incoming notification messages.

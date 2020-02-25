@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -51,8 +50,8 @@ import com.project.ilearncentral.Fragment.Management;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
-import com.project.ilearncentral.Model.Account;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;

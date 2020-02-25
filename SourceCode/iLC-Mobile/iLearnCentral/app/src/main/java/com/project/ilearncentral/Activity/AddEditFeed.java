@@ -1,7 +1,6 @@
 package com.project.ilearncentral.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -10,19 +9,16 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.view.Display;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.Model.Posts;
+import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.MyClass.ImageHandler;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -166,8 +162,6 @@ public class AddEditFeed extends AppCompatActivity {
 //        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(display.getWidth(), display.getWidth()*2/3);
 //        image.setLayoutParams(layoutParams);
 //        image.requestLayout();
-
-//        System.out.println(">>>>>>>>>>>>>>>>"+image.getWidth()+">>>>>>>>"+image.getHeight());
 
         imageHandler = new ImageHandler(this, AddEditFeed.this);
         imageDone = new ObservableString();

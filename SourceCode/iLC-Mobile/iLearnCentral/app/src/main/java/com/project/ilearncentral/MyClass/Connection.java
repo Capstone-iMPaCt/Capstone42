@@ -6,7 +6,6 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Activity.Login;
-import com.project.ilearncentral.Model.Account;
 
 public class Connection {
 

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginVertical="3dp"
+    android:layout_marginHorizontal="5dp"
+    android:background="@drawable/input_white_bg_rounded"
+    android:elevation="5dp"
+    android:orientation="vertical">
+
+    <CheckBox
+        android:id="@+id/job_post_nve_educ_graduate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="Graduated"
+        android:checked="true"
+        android:textSize="12sp"/>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/job_post_nve_educ_level_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/job_post_nve_educ_level"
+            android:layout_width="match_parent"
+            android:inputType="textCapWords"
+            android:layout_height="wrap_content"
+            android:hint="Educational Level"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/job_post_nve_educ_degree_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/job_post_nve_educ_degree"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName|textCapWords"
+            android:hint="Degree"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/job_post_nve_educ_major_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/job_post_nve_educ_major"
+            android:layout_width="match_parent"
+            android:inputType="textCapWords"
+            android:layout_height="wrap_content"
+            android:hint="Major"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/job_post_nve_educ_unit_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/job_post_nve_educ_unit"
+            android:layout_width="match_parent"
+            android:inputType="numberDecimal"
+            android:layout_height="wrap_content"
+            android:hint="Minimum Units"
+            android:textSize="14sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

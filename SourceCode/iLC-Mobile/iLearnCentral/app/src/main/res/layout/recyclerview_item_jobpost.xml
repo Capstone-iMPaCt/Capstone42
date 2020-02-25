@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/job_post_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="5dp"
+    android:background="@android:color/white"
+    android:paddingBottom="5dp">
+
+    <ImageView
+        android:id="@+id/job_post_center_logo"
+        android:layout_width="@dimen/post_user_image_lw"
+        android:layout_height="@dimen/post_user_image_lw"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_white_transparent_10" />
+
+    <RelativeLayout
+        android:id="@+id/job_post_timestamp_container"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/post_user_image_lw"
+        android:layout_alignTop="@id/job_post_center_logo"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="5dp"
+        android:layout_toEndOf="@id/job_post_center_logo">
+
+        <TextView
+            android:id="@+id/job_post_business_name"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/post_user_image_lw"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="10dp"
+            android:layout_toStartOf="@+id/item_post_date"
+            android:text=""
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/job_post_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:text="Date"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/job_post_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/job_post_date"
+            android:layout_alignRight="@+id/job_post_date"
+            android:text="Time"
+            android:textSize="10sp" />
+
+        <TextView
+            android:id="@+id/job_post_edit_link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/job_post_time"
+            android:layout_alignRight="@+id/job_post_time"
+            android:text="Edit"
+            android:visibility="gone"
+            android:textColor="@color/colorPrimary"
+            android:textSize="10sp" />
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/job_post_position_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/job_post_center_logo"
+        android:layout_alignStart="@+id/job_post_center_logo"
+        android:layout_alignEnd="@id/job_post_timestamp_container"
+        android:padding="5dp"
+        android:text="Position"
+        android:textColor="@color/colorPrimary"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/job_post_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/job_post_position_title"
+        android:layout_alignEnd="@+id/job_post_timestamp_container"
+        android:padding="5dp"
+        android:paddingHorizontal="10dp"
+        android:text="Job Description..." />
+</RelativeLayout>

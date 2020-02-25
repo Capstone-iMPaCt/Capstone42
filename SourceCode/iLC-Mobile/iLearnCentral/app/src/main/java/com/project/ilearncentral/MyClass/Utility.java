@@ -1,17 +1,10 @@
 package com.project.ilearncentral.MyClass;
 
-import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
-import android.os.health.TimerStat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,23 +15,24 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.Model.Account;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 
 public class Utility {
 
@@ -126,6 +120,50 @@ public class Utility {
             }
         });
     }
+
+    public static void getBusinessName(final String centerId, final ObservableObject businessName) {
+        db.collection("LearningCenter").document(centerId)
+        .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    Map<String, String> addressData = ((Map<String, String>) document.get("BusinessAddress"));
+                    if (document.exists()) {
+                        String address = "";
+                        if (!addressData.get("HouseNo").isEmpty())
+                            address += ", " + addressData.get("HouseNo");
+                        if (!addressData.get("Street").isEmpty())
+                            address += ", " + addressData.get("Street");
+                        if (!addressData.get("Barangay").isEmpty())
+                            address += ", " + addressData.get("Barangay");
+                        if (!addressData.get("City").isEmpty())
+                            address += ", " + addressData.get("City");
+                        if (!addressData.get("District").isEmpty())
+                            address += ", " + addressData.get("District");
+                        if (!addressData.get("Province").isEmpty())
+                            address += ", " + addressData.get("Province");
+                        if (!addressData.get("Country").isEmpty())
+                            address += ", " + addressData.get("Country");
+                        if (!addressData.get("ZipCode").isEmpty())
+                            address += ", " + addressData.get("ZipCode");
+                        if (address.length()>1 && address.charAt(0)==',')
+                            address = address.substring(1);
+                        address.replaceAll("\\s", " ");
+                        Map<String, String> details = new HashMap<>();
+                        details.put("BusinessName", document.getString("BusinessName"));
+                        details.put("CompanyWebsite", document.getString("CompanyWebsite"));
+                        details.put("ContactEmail", document.getString("ContactEmail"));
+                        details.put("ContactNumber", document.getString("ContactNumber"));
+                        details.put("BusinessAddress", address);
+                        businessName.set(details);
+                    } else {
+                    }
+                } else {
+                }
+            }
+        });
+    }
     
     public static void updateProfileWithImage(final String TAG, final ObservableBoolean done) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -202,5 +240,24 @@ public class Utility {
     public static int pxToDp(Context context, int px) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
+    }
+
+    public static List<Map<String, Object>> cloneMapList(List<Map<String, Object>> data) {
+        List<Map<String, Object>> newData = new ArrayList<>();
+        for (Map<String, Object> map: data) {
+            Map<String, Object> newMap = new HashMap<>();
+            for (Map.Entry entry : map.entrySet()) {
+                newMap.put(entry.getKey().toString(), entry.getValue());
+            }
+            newData.add(newMap);
+        }
+        return newData;
+    }
+    public static List<String> cloneStringList(List<String> data) {
+        List<String> newData = new ArrayList<>();
+        for (String s: data) {
+            newData.add(s);
+        }
+        return newData;
     }
 }
