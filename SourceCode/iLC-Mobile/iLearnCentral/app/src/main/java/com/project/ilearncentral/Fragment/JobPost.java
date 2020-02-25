@@ -91,13 +91,13 @@ public class JobPost extends Fragment {
             v.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             v.setText("Mine");
             post.clear();
-            post.addAll(Posts.searchText(""));
+            post.addAll(post);
             adapter.notifyDataSetChanged();
         } else {
             v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
             v.setText("All");
             post.clear();
-            post.addAll(Posts.searchText(""));
+            post.addAll(post);
             adapter.notifyDataSetChanged();
         }
     }

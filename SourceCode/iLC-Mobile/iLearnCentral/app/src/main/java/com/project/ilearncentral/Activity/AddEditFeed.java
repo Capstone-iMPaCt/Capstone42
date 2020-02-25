@@ -154,20 +154,20 @@ public class AddEditFeed extends AppCompatActivity {
     }
 
     private void bindHolders() {
+        ConstraintLayout imageLayout = findViewById(R.id.feed_add_image_layout);
         image = findViewById(R.id.feed_add_image);
         changeImageButton = findViewById(R.id.feed_add_change_image);
         postButton = findViewById(R.id.feed_add_button);
         titleInput = findViewById(R.id.feed_add_title);
         contentInput = findViewById(R.id.feed_add_content);
-
-        Display display = getWindowManager().getDefaultDisplay();
-        int width = display.getWidth(); // ((display.getWidth()*20)/100)
+//
+//        Display display = getWindowManager().getDefaultDisplay();
+//        int width = display.getWidth(); // ((display.getWidth()*20)/100)
 //        int height = display.getHeight();// ((display.getHeight()*30)/100)
+//        System.out.println(">>>>>>>>>>>>>>>>"+display.getWidth()+">>>>>>>>"+display.getWidth()*2/3);
 //        ConstraintLayout.LayoutParams layoutParams = new ConstraintLayout.LayoutParams(display.getWidth(), display.getWidth()*2/3);
 //        image.setLayoutParams(layoutParams);
 //        image.requestLayout();
-
-//        System.out.println(">>>>>>>>>>>>>>>>"+image.getWidth()+">>>>>>>>"+image.getHeight());
 
         imageHandler = new ImageHandler(this, AddEditFeed.this);
         imageDone = new ObservableString();

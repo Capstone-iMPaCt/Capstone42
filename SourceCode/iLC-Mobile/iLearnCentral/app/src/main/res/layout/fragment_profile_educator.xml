@@ -289,7 +289,7 @@
                 android:layout_marginTop="30dp"
                 android:layout_marginBottom="30dp"
                 android:visibility="gone"
-                android:background="@drawable/button_dark_blue"
+                android:background="@drawable/button_color_primary"
                 android:text="@string/update_resume"
                 android:textColor="@color/text_view_background" />
 

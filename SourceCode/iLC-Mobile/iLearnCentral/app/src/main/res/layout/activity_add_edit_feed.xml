@@ -1,109 +1,120 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_linear_transparent"
-    android:orientation="vertical"
-    android:padding="20dp"
     tools:context=".Activity.AddEditFeed">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/feed_add_title_layout"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        app:errorEnabled="true"
-        app:hintEnabled="false">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_linear_transparent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/feed_add_title"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/input_white_bg_rounded"
-            android:drawablePadding="20dp"
-            android:focusable="true"
-            android:hint="Title"
-            android:inputType="textCapWords"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:textColor="@color/text_color"
-            android:textColorHighlight="@color/mint_blue"
-            android:textColorHint="@color/text_hint_color"
-            android:textColorLink="@color/light_blue"
-            android:textStyle="bold" />
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/feed_add_title_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/feed_add_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:hint="Title"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue"
+                    android:textStyle="bold" />
 
-        <ImageView
-            android:id="@+id/feed_add_image"
-            android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
-            android:background="@color/light_gray"
-            android:contentDescription="@string/iLC_logo_description"
-            android:src="@drawable/no_image_available"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/feed_add_change_image"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_camera_alt_black_24dp"
-            app:layout_constraintBottom_toBottomOf="@+id/feed_add_image"
-            app:layout_constraintEnd_toEndOf="@+id/feed_add_image" />
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/feed_add_image_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp">
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/feed_add_content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        app:errorEnabled="true"
-        app:hintEnabled="false">
+                <ImageView
+                    android:id="@+id/feed_add_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="20dp"
+                    android:contentDescription="@string/iLC_logo_description"
+                    android:src="@drawable/no_image_available"
+                    android:scaleType="centerInside"
+                    app:layout_constraintDimensionRatio="3:2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/feed_add_content"
-            android:layout_width="match_parent"
-            android:layout_height="250dp"
-            android:layout_gravity="left"
-            android:layout_marginTop="32dp"
-            android:background="@drawable/input_white_bg_rounded"
-            android:drawablePadding="20dp"
-            android:focusable="true"
-            android:gravity="left"
-            android:hint="Content"
-            android:inputType="textCapSentences|textMultiLine"
-            android:lines="10"
-            android:padding="10dp"
-            android:textAlignment="gravity"
-            android:textColor="@color/text_color"
-            android:textColorHighlight="@color/mint_blue"
-            android:textColorHint="@color/text_hint_color"
-            android:textColorLink="@color/light_blue" />
-    </com.google.android.material.textfield.TextInputLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/feed_add_change_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginBottom="10dp"
+                    android:src="@drawable/ic_camera_alt_black_24dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/feed_add_image"
+                    app:layout_constraintEnd_toEndOf="@+id/feed_add_image" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <Button
-        android:id="@+id/feed_add_button"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|bottom"
-        android:layout_marginVertical="20dp"
-        android:background="@drawable/button_dark_blue"
-        android:text="Post"
-        android:textColor="@color/text_view_background" />
-</LinearLayout>
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/feed_add_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/feed_add_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:gravity="start"
+                    android:hint="Content"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:minLines="8"
+                    android:padding="10dp"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/feed_add_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_color_primary"
+                android:text="Post"
+                android:textColor="@color/text_view_background" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

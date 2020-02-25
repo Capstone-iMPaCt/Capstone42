@@ -15,6 +15,7 @@
     <string name="googleIcon">Google Icon Link</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="my_activities_instruction">Select Activities and click "Optimize" to make the system do its job.</string>
 
     -- Button Labels --
     <string name="sign_up"><b><u>Sign Up</u></b></string>
@@ -124,5 +125,6 @@
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
     <string name="login_error_message_no_email">There is no user record corresponding to this identifier. The user may have been deleted.</string>
+    <string name="username_email">Username / Email</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

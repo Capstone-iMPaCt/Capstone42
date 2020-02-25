@@ -36,7 +36,9 @@ public class Resume {
     private static List<ResumeItem> skills = new ArrayList<>();
     public static boolean resumeChange = true;
 
-    public enum ResumeItemType {Award, Education, Employment, Interest, Qualities, Reference, Skill};
+    public enum ResumeItemType {Award, Education, Employment, Interest, Qualities, Reference, Skill}
+
+    ;
 
     public static void clearAll() {
         id = "";
@@ -143,13 +145,14 @@ public class Resume {
             }
         });
     }
+
     public static void addResume(final ObservableString done) {
         db.collection("Resume")
-        .add(getData())
+                .add(getData())
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        if (done!=null) done.set(documentReference.getId());
+                        if (done != null) done.set(documentReference.getId());
                         id = documentReference.getId();
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                     }
@@ -158,28 +161,28 @@ public class Resume {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         id = "";
-                        if (done!=null) done.set("");
+                        if (done != null) done.set("");
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
     }
 
     public static void updateResume(String givenId, final ObservableString done) {
-        if (givenId==null || givenId.isEmpty()) givenId = id;
+        if (givenId == null || givenId.isEmpty()) givenId = id;
         else id = givenId;
         db.collection("Resume").document(givenId)
                 .set(getData())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        if (done!=null) done.set("success");
+                        if (done != null) done.set("success");
                         Log.d(TAG, "DocumentSnapshot successfully written!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        if (done!=null) done.set("fail");
+                        if (done != null) done.set("fail");
                         Log.w(TAG, "Error writing document", e);
                     }
                 });
@@ -187,7 +190,7 @@ public class Resume {
 
     private static List<Object> mapDataFromResumeItem(List<ResumeItem> items, ResumeItemType type) {
         List<Object> data = new ArrayList();
-        for (ResumeItem item:items) {
+        for (ResumeItem item : items) {
             data.add(item.getData(type));
         }
         return data;
@@ -210,37 +213,39 @@ public class Resume {
 
     public static List<ResumeItem> mapDataToResumeItem(List<Object> data, ResumeItemType type) {
         List<ResumeItem> dataList = new ArrayList<>();
-        for (int i = 0; i<data.size();i++) {
-            Map<String, Object> d;
-            switch (type) {
-                case Award:
-                case Interest:
-                case Qualities:
-                case Skill:
-                    dataList.add(new ResumeItem(data.get(i).toString()));
-                    break;
-                case Education:
-                    d = (Map<String, Object>)data.get(i);
-                    dataList.add(new ResumeItem(
-                            d.get("SchoolName").toString(),
-                            d.get("SchoolAddress").toString(),
-                            d.get("SchoolYear").toString()));
-                    break;
-                case Employment:
-                    d = (Map<String, Object>)data.get(i);
-                    dataList.add(new ResumeItem(
-                            d.get("CompanyName").toString(),
-                            d.get("CompanyAddress").toString(),
-                            d.get("DatePeriod").toString()));
-                    break;
-                case Reference:
-                    d = (Map<String, Object>)data.get(i);
-                    dataList.add(new ResumeItem(
-                            d.get("ReferenceName").toString(),
-                            d.get("Affiliation").toString(),
-                            d.get("Position").toString(),
-                            d.get("ContactNo").toString()));
-                    break;
+        if (data != null) {
+            for (int i = 0; i < data.size(); i++) {
+                Map<String, Object> d;
+                switch (type) {
+                    case Award:
+                    case Interest:
+                    case Qualities:
+                    case Skill:
+                        dataList.add(new ResumeItem(data.get(i).toString()));
+                        break;
+                    case Education:
+                        d = (Map<String, Object>) data.get(i);
+                        dataList.add(new ResumeItem(
+                                d.get("SchoolName").toString(),
+                                d.get("SchoolAddress").toString(),
+                                d.get("SchoolYear").toString()));
+                        break;
+                    case Employment:
+                        d = (Map<String, Object>) data.get(i);
+                        dataList.add(new ResumeItem(
+                                d.get("CompanyName").toString(),
+                                d.get("CompanyAddress").toString(),
+                                d.get("DatePeriod").toString()));
+                        break;
+                    case Reference:
+                        d = (Map<String, Object>) data.get(i);
+                        dataList.add(new ResumeItem(
+                                d.get("ReferenceName").toString(),
+                                d.get("Affiliation").toString(),
+                                d.get("Position").toString(),
+                                d.get("ContactNo").toString()));
+                        break;
+                }
             }
         }
         return dataList;

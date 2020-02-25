@@ -38,6 +38,7 @@
                 app:layout_constraintEnd_toEndOf="@+id/sign_up_image_lc"
                 android:src="@drawable/ic_camera_alt_black_24dp" />
         </androidx.constraintlayout.widget.ConstraintLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -454,7 +455,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="30dp"
             android:layout_marginBottom="30dp"
-            android:background="@drawable/button_dark_blue"
+            android:background="@drawable/button_color_primary"
             android:text="@string/_continue"
             android:onClick="centerSignUpContinue"
             android:textColor="@color/text_view_background" />

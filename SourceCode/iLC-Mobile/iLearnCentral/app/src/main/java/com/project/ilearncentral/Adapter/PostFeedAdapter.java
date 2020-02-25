@@ -3,6 +3,7 @@ package com.project.ilearncentral.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -90,6 +92,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         holder.dateTextView.setText(post.getDatePosted());
         holder.timeTextView.setText(post.getTimePosted());
         holder.contentTextView.setText(post.getContent());
+        holder.editTextView.setVisibility(View.VISIBLE);
 
         holder.userImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,7 +126,9 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).into(imageView);
+                imageView.setVisibility(View.VISIBLE);
+                Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
+//                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -135,7 +140,8 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout containerLayout, headerLayout;
+//        private RelativeLayout containerLayout,
+//        private ConstraintLayout headerLayout;
         private CircleImageView userImageView;
         private ImageView contentImageView;
         private TextView fullnameTextView, titleTextView, dateTextView, timeTextView, contentTextView, editTextView;
@@ -143,11 +149,11 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         PostViewHolder(View itemView) {
             super(itemView);
 
-            containerLayout = itemView.findViewById(R.id.item_post_container);
+//            containerLayout = itemView.findViewById(R.id.item_post_container);
             userImageView = itemView.findViewById(R.id.item_post_user_display_image);
             fullnameTextView = itemView.findViewById(R.id.item_post_user_fullname);
             titleTextView = itemView.findViewById(R.id.item_post_title);
-            headerLayout = itemView.findViewById(R.id.item_post_timestamp_container);
+//            headerLayout = itemView.findViewById(R.id.item_post_header_container);
             dateTextView = itemView.findViewById(R.id.item_post_date);
             timeTextView = itemView.findViewById(R.id.item_post_time);
             contentImageView = itemView.findViewById(R.id.item_post_content_image);

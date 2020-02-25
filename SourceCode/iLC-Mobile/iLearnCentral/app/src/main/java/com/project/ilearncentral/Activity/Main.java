@@ -11,7 +11,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -47,7 +46,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
-import com.project.ilearncentral.Fragment.Management;
+import com.project.ilearncentral.Fragment.UserActivitySchedules;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
@@ -149,8 +148,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
         }
-        adapter.addFragment(new Management(), "Recommendations");
-        adapter.addFragment(new Management(), "My Activies");
+        adapter.addFragment(new UserActivitySchedules(), "My Activies");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
