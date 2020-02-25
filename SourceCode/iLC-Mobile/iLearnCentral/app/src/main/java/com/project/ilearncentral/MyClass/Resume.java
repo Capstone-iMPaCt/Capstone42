@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Model;
+package com.project.ilearncentral.MyClass;
 
 import android.util.Log;
 
@@ -12,6 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.Model.ResumeItem;
 
 import java.util.ArrayList;
 import java.util.HashMap;

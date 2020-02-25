@@ -1,6 +1,5 @@
-package com.project.ilearncentral.Model;
+package com.project.ilearncentral.MyClass;
 
-import android.net.Uri;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -16,9 +15,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -83,9 +83,9 @@ public class Posts {
                                         .getData());
                                 Log.d(TAG, document.getId() + " => " + document.getData());
                             }
-                            done.set(true);
+                            if (done!=null) done.set(true);
                         } else {
-                            done.set(false);
+                            if (done!=null) done.set(false);
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
                     }
@@ -101,14 +101,14 @@ public class Posts {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         posts.put(document.getId(), document.getData());
-                        done.set(true);
+                        if (done!=null) done.set(true);
                         Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
-                        done.set(false);
+                        if (done!=null) done.set(false);
                         Log.d(TAG, "No such document");
                     }
                 } else {
-                    done.set(false);
+                    if (done!=null) done.set(false);
                     Log.d(TAG, "get failed with ", task.getException());
                 }
             }

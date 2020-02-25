@@ -89,6 +89,9 @@
     <string name="personal_information">Personal Information</string>
     <string name="home_address">Home Address</string>
     <string name="gender">Gender</string>
+    <string name="fulltime">Full Time</string>
+    <string name="parttime">Part Time</string>
+    <string name="contractual">Contractual</string>
 
     -- Items --
     <string name="account_settings">Account Settings</string>

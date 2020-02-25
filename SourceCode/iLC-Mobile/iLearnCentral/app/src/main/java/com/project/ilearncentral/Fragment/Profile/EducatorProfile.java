@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
@@ -18,21 +17,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Activity.AddUpdateResume;
-import com.project.ilearncentral.Activity.Update.UpdateProfile;
-import com.project.ilearncentral.Adapter.AddUpdateResumeGroupListAdapter;
-import com.project.ilearncentral.Adapter.AddUpdateResumeReferenceAdapter;
-import com.project.ilearncentral.Adapter.AddUpdateResumeSingleListAdapter;
 import com.project.ilearncentral.Adapter.ResumeGroupListAdapter;
 import com.project.ilearncentral.Adapter.ResumeReferenceAdapter;
 import com.project.ilearncentral.Adapter.ResumeSingleListAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
-import com.project.ilearncentral.Model.Account;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class EducatorProfile extends Fragment {
@@ -134,7 +128,6 @@ public class EducatorProfile extends Fragment {
     }
 
     private void setResumeDetails() {
-        System.out.println("(((((((((((((((((((((Set Resume Details");
         educationalBackgroundAdapter.notifyDataSetChanged();
         employmentHistoryAdapter.notifyDataSetChanged();
         skillsAdapter.notifyDataSetChanged();

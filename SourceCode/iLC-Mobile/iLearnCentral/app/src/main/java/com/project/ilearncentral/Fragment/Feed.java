@@ -15,16 +15,13 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Activity.AddEditFeed;
 import com.project.ilearncentral.Adapter.PostFeedAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
-import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Post;
-import com.project.ilearncentral.Model.Posts;
+import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -40,9 +37,10 @@ public class Feed extends Fragment {
     private ObservableBoolean done;
 
     private FloatingActionButton addNewPostBtn;
+    private final int NEW_POST = 1;
+
     private SearchView searchView;
     private TextView toggleView;
-    private final int NEW_POST = 1;
 
     public Feed() {
         // Required empty public constructor
@@ -93,7 +91,14 @@ public class Feed extends Fragment {
         toggleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setToggleView(toggleView);
+                if (toggleView.getText().toString() == "All") {
+                    toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
+                    toggleView.setText("Mine");
+                } else {
+                    toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+                    toggleView.setText("All");
+                }
+                setToggleView();
             }
         });
 
@@ -125,7 +130,11 @@ public class Feed extends Fragment {
                     searchView.setIconified(true);
                 }
                 searchView.clearFocus();
-                Posts.retrievePostsFromDB(done);
+                if (toggleView.getText().toString().equals("Mine")) {
+                    setToggleView();
+                } else {
+                    Posts.retrievePostsFromDB(done);
+                }
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -147,16 +156,12 @@ public class Feed extends Fragment {
         }
     }
 
-    private void setToggleView(TextView v) {
-        if (v.getText().toString() == "All") {
-            v.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-            v.setText("Mine");
+    private void setToggleView() {
+        if (toggleView.getText().toString().equals("Mine")) {
             post.clear();
             post.addAll(Posts.myPosts());
             adapter.notifyDataSetChanged();
         } else {
-            v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-            v.setText("All");
             post.clear();
             post.addAll(Posts.searchText(""));
             adapter.notifyDataSetChanged();

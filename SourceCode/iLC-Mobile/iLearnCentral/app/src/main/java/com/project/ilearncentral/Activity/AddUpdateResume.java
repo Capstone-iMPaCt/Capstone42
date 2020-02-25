@@ -4,14 +4,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import okhttp3.internal.Util;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.ilearncentral.Adapter.AddUpdateResumeGroupListAdapter;
@@ -19,12 +16,11 @@ import com.project.ilearncentral.Adapter.AddUpdateResumeReferenceAdapter;
 import com.project.ilearncentral.Adapter.AddUpdateResumeSingleListAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.Model.Resume;
+import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class AddUpdateResume extends AppCompatActivity implements View.OnClickListener {

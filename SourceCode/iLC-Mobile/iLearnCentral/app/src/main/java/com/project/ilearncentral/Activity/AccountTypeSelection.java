@@ -8,7 +8,7 @@ import android.widget.LinearLayout;
 
 import com.project.ilearncentral.Activity.SignUp.SignUpLearningCenter;
 import com.project.ilearncentral.Activity.SignUp.SignUpUsers;
-import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 import androidx.annotation.Nullable;

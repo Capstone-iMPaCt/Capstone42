@@ -1,0 +1,408 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusable="false"
+    tools:context=".Activity.NveJobPost">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/job_post_nve_logo"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center"
+            android:layout_alignParentLeft="true"
+            android:contentDescription="@string/iLC_logo_description"
+            android:src="@drawable/logo_icon"/>
+
+        <TextView
+            android:id="@+id/job_post_nve_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Learning Center Name"
+            android:textAlignment="center"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/job_post_nve_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/job_post_nve_name"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:text="@string/business_address"
+            android:textColor="@color/text_color"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/job_post_nve_website"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/job_post_nve_address"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:text="@string/company_website"
+            android:textColor="@color/text_color"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/job_post_nve_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/job_post_nve_website"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:text="@string/contact_Email"
+            android:textColor="@color/text_color"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/job_post_nve_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:textSize="15sp"
+            android:layout_below="@+id/job_post_nve_email"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:text="@string/contact_number"
+            android:textColor="@color/text_color"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_below="@+id/job_post_nve_logo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingHorizontal="20dp">
+
+            <Switch
+                android:id="@+id/job_post_nve_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:textSize="18sp"
+                android:text="Receiving Applicants" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/job_post_nve_position"
+                    android:hint="@string/position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
+                    android:textSize="16sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <CheckBox
+                    android:id="@+id/job_post_nve_fulltime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/fulltime"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+                <CheckBox
+                    android:id="@+id/job_post_nve_parttime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/parttime"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@id/sign_up_wednesday_lc"
+                    app:layout_constraintStart_toEndOf="@id/sign_up_monday_lc"
+                    app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+                <CheckBox
+                    android:id="@+id/job_post_nve_contractual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="5dp"
+                    android:text="@string/contractual"
+                    android:textSize="12sp"
+                    app:layout_constraintEnd_toStartOf="@id/sign_up_thursday_lc"
+                    app:layout_constraintStart_toEndOf="@id/sign_up_tuesday_lc"
+                    app:layout_constraintTop_toBottomOf="@id/operatingDaysLabel" />
+
+            </LinearLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/job_post_nve_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:gravity="left"
+                    android:hint="Description"
+
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:minLines="5"
+                    android:padding="10dp"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/job_post_nve_educ_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Educational Requirements"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/job_post_nve_educ_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:id="@+id/job_post_nve_educ_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_educ_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_remove_circle_mint_50dp" />
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_educ_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_add_circle_mint_50dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/job_post_nve_qual_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Qualifications"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/job_post_nve_qual_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:id="@+id/job_post_nve_qual_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_qual_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_remove_circle_mint_50dp" />
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_qual_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_add_circle_mint_50dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/job_post_nve_skill_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Skills"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/job_post_nve_skill_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:id="@+id/job_post_nve_skill_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_skill_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_remove_circle_mint_50dp" />
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_skill_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_add_circle_mint_50dp" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/job_post_nve_resp_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Responsibilities"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/job_post_nve_resp_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:id="@+id/job_post_nve_resp_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_resp_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_remove_circle_mint_50dp" />
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_resp_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_add_circle_mint_50dp" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/job_post_nve_appm_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Application Methods"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/job_post_nve_appm_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:overScrollMode="never" />
+
+            <LinearLayout
+                android:id="@+id/job_post_nve_appm_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:orientation="horizontal">
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_appm_remove"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_remove_circle_mint_50dp" />
+
+                <ImageButton
+                    android:id="@+id/job_post_nve_appm_add"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/ic_add_circle_mint_50dp" />
+            </LinearLayout>
+
+
+            <Button
+                android:id="@+id/job_post_nve_confirm"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/button_dark_blue"
+                android:text="@string/confirm"
+                android:textColor="@color/text_view_background" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</ScrollView>

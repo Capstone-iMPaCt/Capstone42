@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.Adapter.EnrolmentGroupListAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
-import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.R;
 

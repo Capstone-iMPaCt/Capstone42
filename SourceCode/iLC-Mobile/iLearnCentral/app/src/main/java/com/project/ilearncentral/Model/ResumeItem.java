@@ -1,5 +1,7 @@
 package com.project.ilearncentral.Model;
 
+import com.project.ilearncentral.MyClass.Resume;
+
 import java.util.HashMap;
 import java.util.Map;
 

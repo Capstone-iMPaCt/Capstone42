@@ -1,6 +1,5 @@
-package com.project.ilearncentral.Model;
+package com.project.ilearncentral.MyClass;
 
-import android.app.Activity;
 import android.net.Uri;
 
 import androidx.annotation.NonNull;
@@ -381,8 +380,8 @@ public class Account {
         return type;
     }
 
-    public static boolean isType(String newType) {
-        return (type + "").equals(newType);
+    public static boolean isType(String accountType) {
+        return (type + "").equals(accountType);
     }
 
     public static void setType(Type type) {

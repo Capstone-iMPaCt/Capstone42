@@ -15,19 +15,12 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Adapter.ChatListAdapter;
-import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Message;
-import com.project.ilearncentral.Model.Posts;
-import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Observable;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

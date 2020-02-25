@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.project.ilearncentral.Model.Account;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
