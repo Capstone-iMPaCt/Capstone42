@@ -45,19 +45,32 @@
                 android:background="@android:color/darker_gray"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/feed_toggle_view"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
-                android:background="@drawable/bg_selected_day_rounded"
-                android:gravity="center"
-                android:text="All"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:id="@+id/feed_toggle_view"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/bg_selected_day_rounded"
+                    android:gravity="center"
+                    android:text="All"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    android:visibility="gone"/>
+
+                <ImageButton
+                    android:id="@+id/feed_toggle_recommend"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@drawable/disable_recommend_icon"
+                    android:gravity="center"
+                    android:visibility="gone"/>
+            </FrameLayout>
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

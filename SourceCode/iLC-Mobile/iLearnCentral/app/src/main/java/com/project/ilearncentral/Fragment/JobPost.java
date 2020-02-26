@@ -1,10 +1,12 @@
 package com.project.ilearncentral.Fragment;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -44,6 +46,9 @@ public class JobPost extends Fragment {
 
     private SearchView searchView;
     private TextView toggleView, searchOption;
+    private ImageButton toggleRecommend;
+
+    private Drawable enableRecommend, disableRecommend;
 
     public JobPost() {
         // Required empty public constructor
@@ -59,12 +64,13 @@ public class JobPost extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (Account.isType("LearningCenter")) {
-            view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
-        }
-        view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
+        enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
+        disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
+
         searchOption = view.findViewById(R.id.feed_toggle_view);
-        searchOption.setVisibility(View.VISIBLE);
+        toggleRecommend = view.findViewById(R.id.feed_toggle_recommend);
+        toggleRecommend.setBackground(disableRecommend);
+
 //        searchOption.setBackgroundResource();
 
         editOrView = new ObservableString();
@@ -110,9 +116,31 @@ public class JobPost extends Fragment {
         });
 
         toggleView = view.findViewById(R.id.feed_toggle_view);
-        if (Account.isType("Educator")) {
-            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.GONE);
+        if (!Account.isType("Student")){
+            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
+        }
+        if (Account.isType("LearningCenter")) {
+            view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
+            searchOption.setVisibility(View.VISIBLE);
+            searchOption.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+        if (Account.isType("Educator")){
             toggleView.setVisibility(View.GONE);
+            toggleRecommend.setVisibility(View.VISIBLE);
+            toggleRecommend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (toggleRecommend.getBackground().equals(disableRecommend))
+                        toggleRecommend.setBackground(enableRecommend);
+                    else
+                        toggleRecommend.setBackground(disableRecommend);
+                }
+            });
         } else {
             toggleView.setOnClickListener(new View.OnClickListener() {
                 @Override
