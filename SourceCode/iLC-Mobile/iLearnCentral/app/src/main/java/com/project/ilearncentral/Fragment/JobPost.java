@@ -115,12 +115,20 @@ public class JobPost extends Fragment {
             }
         });
 
+        addNewPostBtn = view.findViewById(R.id.feed_add_fab);
+        addNewPostBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivityForResult(new Intent(getContext(), NveJobPost.class), NEW_POST);
+            }
+        });
+
         toggleView = view.findViewById(R.id.feed_toggle_view);
         if (!Account.isType("Student")){
             view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
         }
         if (Account.isType("LearningCenter")) {
-            view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
+            addNewPostBtn.setVisibility(View.VISIBLE);
             searchOption.setVisibility(View.VISIBLE);
             searchOption.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -130,6 +138,7 @@ public class JobPost extends Fragment {
             });
         }
         if (Account.isType("Educator")){
+            addNewPostBtn.setVisibility(View.GONE);
             toggleView.setVisibility(View.GONE);
             toggleRecommend.setVisibility(View.VISIBLE);
             toggleRecommend.setOnClickListener(new View.OnClickListener() {
@@ -149,14 +158,6 @@ public class JobPost extends Fragment {
                 }
             });
         }
-
-        addNewPostBtn = view.findViewById(R.id.feed_add_fab);
-        addNewPostBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(getContext(), NveJobPost.class), NEW_POST);
-            }
-        });
 
         done = new ObservableBoolean();
         done.setOnBooleanChangeListener(new OnBooleanChangeListener() {

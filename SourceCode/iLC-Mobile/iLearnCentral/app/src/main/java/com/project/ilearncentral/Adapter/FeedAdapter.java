@@ -33,14 +33,14 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder> {
 
     private Context context;
     private List<Post> posts;
     private Intent intent;
     private StorageReference storageRef;
 
-    public PostFeedAdapter(Context context, List<Post> posts) {
+    public FeedAdapter(Context context, List<Post> posts) {
         this.context = context;
         this.posts = posts;
         storageRef = FirebaseStorage.getInstance().getReference();
@@ -49,7 +49,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
     @NonNull
     @Override
     public PostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_item_post, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_feed_row, parent, false);
         return new PostViewHolder(view);
     }
 
@@ -65,10 +65,10 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 //        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 //        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
-        getImage(holder.userImageView, "images/" , post.getPostSender());
+        getImage(holder.userImageView, "images/", post.getPostSender());
 
         if (post.isWithImage())
-            getImage(holder.contentImageView, "posts/" , post.getPostId());
+            getImage(holder.contentImageView, "posts/", post.getPostId());
         else
             holder.contentImageView.setVisibility(View.GONE);
 

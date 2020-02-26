@@ -16,7 +16,7 @@ import androidx.appcompat.widget.SearchView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.AddEditFeed;
-import com.project.ilearncentral.Adapter.PostFeedAdapter;
+import com.project.ilearncentral.Adapter.FeedAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
@@ -30,7 +30,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Feed extends Fragment {
 
-    private PostFeedAdapter adapter;
+    private FeedAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<Post> post;
 
@@ -139,7 +139,7 @@ public class Feed extends Fragment {
         post = new ArrayList<>();
         recyclerView = view.findViewById(R.id.feed_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new PostFeedAdapter(getContext(), post);
+        adapter = new FeedAdapter(getContext(), post);
         recyclerView.setAdapter(adapter);
         return view;
     }

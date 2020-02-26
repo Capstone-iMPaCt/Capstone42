@@ -92,5 +92,6 @@
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"
         android:text="Text Content/Description..."
+        android:textColor="@color/colorPrimaryDark"
         app:layout_constraintTop_toBottomOf="@id/item_post_content_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>

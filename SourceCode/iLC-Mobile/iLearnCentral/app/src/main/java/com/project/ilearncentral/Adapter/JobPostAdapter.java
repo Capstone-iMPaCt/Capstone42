@@ -1,8 +1,6 @@
 package com.project.ilearncentral.Adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +10,15 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.project.ilearncentral.Activity.NveJobPost;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
@@ -28,15 +29,8 @@ import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.recyclerview.widget.RecyclerView;
-
-import static android.app.Activity.RESULT_OK;
 
 public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostViewHolder> {
 
@@ -56,7 +50,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
     @Override
     public JobPostViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context)
-                .inflate(R.layout.recyclerview_item_jobpost, parent, false);
+                .inflate(R.layout.recyclerview_jobpost_row, parent, false);
         return new JobPostAdapter.JobPostViewHolder(view);
     }
 
@@ -126,13 +120,13 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
     }
 
     private void getImage(final ImageView imageView, String folderName, String filename) {
-        storageRef.child(folderName).child(filename).getDownloadUrl()
-                .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri.toString()).into(imageView);
-                    }
-                }).addOnFailureListener(new OnFailureListener() {
+        storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
+//                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
 
@@ -142,7 +136,8 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
 
     public class JobPostViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout containerLayout, headerLayout;
+        private ConstraintLayout containerLayout;
+        private RelativeLayout headerLayout;
         private ImageView logoImageView;
         private TextView businessNameTextView, positionTextView, dateTextView, timeTextView, descriptionTextView, editTextView;
 
