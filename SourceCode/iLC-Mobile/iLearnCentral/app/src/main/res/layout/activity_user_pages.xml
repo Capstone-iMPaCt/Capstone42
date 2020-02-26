@@ -71,7 +71,7 @@
                 android:orientation="vertical">
 
                 <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/user_image"
+                    android:id="@+id/view_user_image"
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
                     android:background="@drawable/ic_account_circle_black_24dp"
@@ -158,7 +158,6 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
-
             </androidx.appcompat.widget.Toolbar>
 
             <com.google.android.material.tabs.TabLayout
@@ -172,7 +171,6 @@
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1" />
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
-
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.viewpager.widget.ViewPager
@@ -183,5 +181,4 @@
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     </androidx.viewpager.widget.ViewPager>
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

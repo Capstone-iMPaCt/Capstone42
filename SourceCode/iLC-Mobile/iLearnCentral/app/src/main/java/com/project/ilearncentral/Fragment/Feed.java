@@ -56,8 +56,11 @@ public class Feed extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (!Account.isType("Student"))
+        if (!Account.isType("Student")){
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.feed_toggle_view).setVisibility(View.VISIBLE);
+        }
 
         searchView = view.findViewById(R.id.feed_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -91,13 +94,6 @@ public class Feed extends Fragment {
         toggleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (toggleView.getText().toString() == "All") {
-                    toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-                    toggleView.setText("Mine");
-                } else {
-                    toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-                    toggleView.setText("All");
-                }
                 setToggleView();
             }
         });
@@ -130,7 +126,7 @@ public class Feed extends Fragment {
                     searchView.setIconified(true);
                 }
                 searchView.clearFocus();
-                if (toggleView.getText().toString().equals("Mine")) {
+                if (toggleView.getText().toString().equalsIgnoreCase("Mine")) {
                     setToggleView();
                 } else {
                     Posts.retrievePostsFromDB(done);
@@ -157,11 +153,15 @@ public class Feed extends Fragment {
     }
 
     private void setToggleView() {
-        if (toggleView.getText().toString().equals("Mine")) {
+        if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+            toggleView.setText("Mine");
+            toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             post.clear();
             post.addAll(Posts.myPosts());
             adapter.notifyDataSetChanged();
         } else {
+            toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+            toggleView.setText("All");
             post.clear();
             post.addAll(Posts.searchText(""));
             adapter.notifyDataSetChanged();

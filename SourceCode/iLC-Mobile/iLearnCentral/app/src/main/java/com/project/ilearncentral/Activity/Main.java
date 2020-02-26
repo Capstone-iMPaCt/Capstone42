@@ -40,7 +40,7 @@ import com.project.ilearncentral.Activity.SignUp.CreateUser;
 import com.project.ilearncentral.Activity.Update.UpdateAccount;
 import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
-import com.project.ilearncentral.Adapter.UserPagesAdapter;
+import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
@@ -104,7 +104,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             setAccount();
         }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
-        userImage = (CircleImageView) findViewById(R.id.user_image);
+        userImage = (CircleImageView) findViewById(R.id.view_user_image);
         featuresButton = (Button) findViewById(R.id.main_subscription_button);
         findUserButton = (Button) findViewById(R.id.main_find_user_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
@@ -135,7 +135,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private void generateTabs() {
         tabGenerate = false;
-        UserPagesAdapter adapter = new UserPagesAdapter(getSupportFragmentManager());
+        MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
         if (Account.isType("LearningCenter")) {
             adapter.addFragment(new LearningCenterProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
@@ -398,7 +398,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         switch (item.getItemId()) {
             case R.id.menu_account_settings:
 //                startActivity(new Intent(getApplicationContext(), AccountSettings.class));
-                startActivity(new Intent(getApplicationContext(), AddUpdateResume.class));
+                startActivity(new Intent(getApplicationContext(), ViewUser.class));
                 return true;
             case R.id.menu_update_account:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateAccount.class), UPDATE_ACCOUNT);
@@ -434,7 +434,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri.toString()).error(R.drawable.user)
+                                    Picasso.get().load(uri.toString()).fit().error(R.drawable.user)
                                             .into(userImage);
 
                                     loadingPage.setVisibility(View.GONE);

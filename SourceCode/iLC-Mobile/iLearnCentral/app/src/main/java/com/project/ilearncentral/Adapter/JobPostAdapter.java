@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -59,10 +60,14 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         return new JobPostAdapter.JobPostViewHolder(view);
     }
 
+    private int lastPosition = -1;
+
     @Override
     public void onBindViewHolder(@NonNull final JobPostViewHolder holder, final int position) {
 
         final JobVacancy job = jobs.get(position);
+
+        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         getImage(holder.logoImageView, "images/", job.getCenterId());
         ObservableObject businessDetails = new ObservableObject();

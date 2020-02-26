@@ -129,5 +129,7 @@
 
     <string name="login_error_message_no_email">There is no user record corresponding to this identifier. The user may have been deleted.</string>
     <string name="username_email">Username / Email</string>
+    <string name="title_activity_view_user">ViewUserActivity</string>
+    <string name="action_settings">Settings</string>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

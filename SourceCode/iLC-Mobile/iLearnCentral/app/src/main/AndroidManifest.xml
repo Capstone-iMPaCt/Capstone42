@@ -15,7 +15,11 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.NveJobPost"></activity>
+        <activity
+            android:name=".Activity.ViewUser"
+            android:label="@string/title_activity_view_user"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity android:name=".Activity.NveJobPost" />
         <activity
             android:name=".Activity.AddUpdateResume"
             android:configChanges="orientation|screenSize" />

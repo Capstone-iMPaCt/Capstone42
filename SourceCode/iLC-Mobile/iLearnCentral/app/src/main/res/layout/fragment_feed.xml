@@ -42,7 +42,8 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
                 android:layout_marginBottom="3dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@android:color/darker_gray"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/feed_toggle_view"
@@ -50,30 +51,31 @@
                 android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_margin="5dp"
+                android:background="@drawable/bg_selected_day_rounded"
                 android:gravity="center"
-                android:textSize="12sp"
                 android:text="All"
                 android:textColor="@android:color/white"
+                android:textSize="12sp"
                 android:textStyle="bold"
-                android:background="@drawable/bg_selected_day_rounded" />
+                android:visibility="gone" />
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/feed_pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/feed_recylerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="bottom"
-        android:backgroundTint="@color/bg_recyclerview"
-        />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feed_recylerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom"
+            android:backgroundTint="@color/bg_recyclerview" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/feed_add_fab"
         android:layout_width="wrap_content"

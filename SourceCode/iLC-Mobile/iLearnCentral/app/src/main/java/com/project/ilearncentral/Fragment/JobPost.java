@@ -15,19 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.project.ilearncentral.Activity.AddEditFeed;
 import com.project.ilearncentral.Activity.NveJobPost;
 import com.project.ilearncentral.Adapter.JobPostAdapter;
-import com.project.ilearncentral.Adapter.PostFeedAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.MyClass.JobPosts;
-import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -47,7 +43,7 @@ public class JobPost extends Fragment {
     private final int NEW_POST = 1, UPDATE_POST = 2;
 
     private SearchView searchView;
-    private TextView toggleView;
+    private TextView toggleView, searchOption;
 
     public JobPost() {
         // Required empty public constructor
@@ -63,8 +59,13 @@ public class JobPost extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (Account.isType("LearningCenter"))
+        if (Account.isType("LearningCenter")) {
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
+        }
+        view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
+        searchOption = view.findViewById(R.id.feed_toggle_view);
+        searchOption.setVisibility(View.VISIBLE);
+//        searchOption.setBackgroundResource();
 
         editOrView = new ObservableString();
         editOrView.setOnStringChangeListener(new OnStringChangeListener() {
@@ -72,7 +73,7 @@ public class JobPost extends Fragment {
             public void onStringChanged(String newValue) {
                 if (!newValue.isEmpty()) {
                     Intent i = new Intent(getContext(), NveJobPost.class);
-                    if (newValue.charAt(0)=='y') {
+                    if (newValue.charAt(0) == 'y') {
                         i.putExtra("jobId", newValue.substring(1));
                         startActivityForResult(i, UPDATE_POST);
                     } else {
@@ -116,7 +117,7 @@ public class JobPost extends Fragment {
             toggleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    setToggleView(toggleView);
+                    setToggleView();
                 }
             });
         }
@@ -173,16 +174,16 @@ public class JobPost extends Fragment {
         }
     }
 
-    private void setToggleView(TextView v) {
-        if (v.getText().toString() == "All") {
-            v.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-            v.setText("Mine");
+    private void setToggleView() {
+        if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+            toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
+            toggleView.setText("Mine");
             jobs.clear();
             jobs.addAll(JobPosts.searchText(""));
             adapter.notifyDataSetChanged();
         } else {
-            v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-            v.setText("All");
+            toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+            toggleView.setText("All");
             jobs.clear();
             jobs.addAll(JobPosts.searchText(""));
             adapter.notifyDataSetChanged();

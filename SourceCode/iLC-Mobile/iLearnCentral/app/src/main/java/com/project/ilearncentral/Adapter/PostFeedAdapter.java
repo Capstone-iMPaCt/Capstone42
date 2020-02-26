@@ -3,17 +3,17 @@ package com.project.ilearncentral.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -23,14 +23,15 @@ import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostViewHolder> {
 
@@ -59,7 +60,7 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 
         final Post post = posts.get(position);
 
-//        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+        holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 //        holder.headerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 //        holder.userImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 //        holder.contentImageView.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
@@ -140,8 +141,8 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
 
     public class PostViewHolder extends RecyclerView.ViewHolder {
 
-//        private RelativeLayout containerLayout,
-//        private ConstraintLayout headerLayout;
+        private ConstraintLayout containerLayout;
+        private RelativeLayout headerLayout;
         private CircleImageView userImageView;
         private ImageView contentImageView;
         private TextView fullnameTextView, titleTextView, dateTextView, timeTextView, contentTextView, editTextView;
@@ -149,11 +150,11 @@ public class PostFeedAdapter extends RecyclerView.Adapter<PostFeedAdapter.PostVi
         PostViewHolder(View itemView) {
             super(itemView);
 
-//            containerLayout = itemView.findViewById(R.id.item_post_container);
+            containerLayout = itemView.findViewById(R.id.item_post_container);
             userImageView = itemView.findViewById(R.id.item_post_user_display_image);
             fullnameTextView = itemView.findViewById(R.id.item_post_user_fullname);
             titleTextView = itemView.findViewById(R.id.item_post_title);
-//            headerLayout = itemView.findViewById(R.id.item_post_header_container);
+            headerLayout = itemView.findViewById(R.id.item_post_header_container);
             dateTextView = itemView.findViewById(R.id.item_post_date);
             timeTextView = itemView.findViewById(R.id.item_post_time);
             contentImageView = itemView.findViewById(R.id.item_post_content_image);
