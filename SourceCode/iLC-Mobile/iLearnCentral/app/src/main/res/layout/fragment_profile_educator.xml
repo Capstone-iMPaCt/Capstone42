@@ -303,6 +303,7 @@
                 android:orientation="vertical">
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_educational_background_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -332,6 +333,7 @@
                     android:overScrollMode="never" />
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_employment_history_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -361,6 +363,7 @@
                     android:overScrollMode="never" />
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_skills_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -391,6 +394,7 @@
                     android:overScrollMode="never" />
 
                 <LinearLayout
+                    android:id="@+id/educator_profile_awards_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
@@ -421,6 +425,7 @@
                     android:overScrollMode="never" />
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/educator_profile_qualities_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_linear"
@@ -454,6 +459,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/educator_profile_interests_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_linear"
@@ -487,6 +493,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/educator_profile_references_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/bg_linear"

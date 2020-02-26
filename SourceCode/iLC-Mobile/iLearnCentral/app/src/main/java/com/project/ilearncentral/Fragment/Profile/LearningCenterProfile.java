@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
@@ -21,9 +22,10 @@ import java.util.List;
 public class LearningCenterProfile extends Fragment {
 
     private TextView sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-    private TextView businessName, serviceType, businessAddress, openingTime, closingTime, email, contact, website;
+    private TextView businessName, serviceType, businessAddress, openingTime, closingTime, email, contact, website, aboutUs;
     private LinearLayout emailLayout, contactLayout, websiteLayout;
-    List<String> operatingDays;
+    private CardView aboutUsLayout;
+    private List<String> operatingDays;
 
     public LearningCenterProfile() {
         // Required empty public constructor
@@ -32,6 +34,7 @@ public class LearningCenterProfile extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override
@@ -54,9 +57,11 @@ public class LearningCenterProfile extends Fragment {
         email = view.findViewById(R.id.learningcenter_profile_email);
         contact = view.findViewById(R.id.learningcenter_profile_contact);
         website = view.findViewById(R.id.learningcenter_profile_website);
+        aboutUs = view.findViewById(R.id.learning_center_about_us);
         emailLayout = view.findViewById(R.id.learningcenter_profile_email_layout);
         contactLayout = view.findViewById(R.id.learningcenter_profile_contact_layout);
         websiteLayout = view.findViewById(R.id.learningcenter_profile_website_layout);
+        aboutUsLayout = view.findViewById(R.id.learning_center_about_us_layout);
         operatingDays = new ArrayList<>();
 
         ObservableBoolean update = new ObservableBoolean();
@@ -81,21 +86,31 @@ public class LearningCenterProfile extends Fragment {
                 if (Account.getStringData("bEmail").isEmpty()) {
                     emailLayout.setVisibility(View.GONE);
                 } else {
+                    emailLayout.setVisibility(View.VISIBLE);
                     email.setText(Account.getStringData("bEmail"));
                 }
                 if (Account.getStringData("bContactNumber").isEmpty()) {
                     contactLayout.setVisibility(View.GONE);
                 } else {
+                    contactLayout.setVisibility(View.VISIBLE);
                     contact.setText(Account.getStringData("bContactNumber"));
                 }
                 if (Account.getStringData("bWebsite").isEmpty()) {
                     websiteLayout.setVisibility(View.GONE);
                 } else {
+                    websiteLayout.setVisibility(View.VISIBLE);
                     website.setText(Account.getStringData("bWebsite"));
+                }
+                if (Account.getStringData("bDescription").isEmpty()) {
+                    aboutUsLayout.setVisibility(View.GONE);
+                } else {
+                    aboutUsLayout.setVisibility(View.VISIBLE);
+                    aboutUs.setText(Account.getStringData("bDescription"));
                 }
             }
         });
         Account.updateObservables.add(update);
+        if (Account.businessSet) update.set(true);
         return view;
     }
 

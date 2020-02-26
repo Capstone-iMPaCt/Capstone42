@@ -21,6 +21,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.AppBarLayout;
@@ -246,6 +247,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                                 .caps(Account.getStringData("accessLevel")));
                     } else
                         fieldDisplay.setText(Account.getType().toString());
+                    loadingPage.setVisibility(View.GONE);
+                    appBarLayout.setVisibility(View.VISIBLE);
+                    viewPager.setVisibility(View.VISIBLE);
                 } else {
 
                 }
@@ -431,21 +435,20 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             public void run() {
                 if (user.getPhotoUrl() != null) {
                     storageRef.child("images").child(Account.getUsername()).getDownloadUrl()
-                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    Picasso.get().load(uri.toString()).fit().error(R.drawable.user)
-                                            .into(userImage);
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
 
-                                    loadingPage.setVisibility(View.GONE);
-                                    appBarLayout.setVisibility(View.VISIBLE);
-                                    viewPager.setVisibility(View.VISIBLE);
-                                }
-                            });
+                                Picasso.get().load(uri.toString()).fit().error(R.drawable.user)
+                                        .into(userImage);
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                            }
+                        });
                 } else {
-                    loadingPage.setVisibility(View.GONE);
-                    appBarLayout.setVisibility(View.VISIBLE);
-                    viewPager.setVisibility(View.VISIBLE);
                 }
             }
         });

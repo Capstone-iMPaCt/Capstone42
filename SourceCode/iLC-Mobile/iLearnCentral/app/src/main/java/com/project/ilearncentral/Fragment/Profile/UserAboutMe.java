@@ -31,6 +31,9 @@ public class UserAboutMe extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_personal_information, container, false);
+
+        setRetainInstance(true);
+
         addressOutput = view.findViewById(R.id.aboutme_address);
         birthdateOutput = view.findViewById(R.id.aboutme_birthdate);
         religionOutput = view.findViewById(R.id.aboutme_religion);
@@ -51,6 +54,7 @@ public class UserAboutMe extends Fragment {
         setOutputs();
 
         Account.updateObservables.add(update);
+        if (Account.profileSet) update.set(true);
 
         return view;
     }

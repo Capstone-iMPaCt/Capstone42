@@ -33,7 +33,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SignUpLearningCenter extends AppCompatActivity {
 
     private String TAG = "SIGNUP_CENTER";
-    TextInputEditText nameInput, websiteInput, emailInput, contactInput,
+    TextInputEditText nameInput, websiteInput, emailInput, contactInput, descriptionInput,
             timeStartInput, timeEndInput, otherServiceTypeInput,
             houseNoInput, streetInput, barangayInput, cityInput,
             provinceInput, districtInput, zipCodeInput;
@@ -92,6 +92,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         String name = nameInput.getText().toString();
         String website = websiteInput.getText().toString();
         String contact = contactInput.getText().toString();
+        String description = descriptionInput.getText().toString();
         String email = emailInput.getText().toString();
         String timeStart = timeStartInput.getText().toString();
         String timeEnd = timeEndInput.getText().toString();
@@ -197,6 +198,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
             Account.addData("bWebsite", website);
             Account.addData("bEmail", email);
             Account.addData("bContactNumber", contact);
+            Account.addData("bDescription", description);
             Account.addData("bOpeningTime", s);
             Account.addData("bClosingTime", e);
             Account.addData("bOperatingDays", operatingDays);
@@ -224,6 +226,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         websiteInput.setText(Account.getStringData("bWebsite"));
         emailInput.setText(Account.getStringData("bEmail"));
         contactInput.setText(Account.getStringData("bContactNumber"));
+        descriptionInput.setText(Account.getStringData("bDescription"));
         if (Account.hasKey("bOpeningTime"))
             timeStartInput.setText(format.format(Account.getTimeStampData("bOpeningTime").toDate()));
         if (Account.hasKey("bClosingTime"))
@@ -284,6 +287,7 @@ public class SignUpLearningCenter extends AppCompatActivity {
         websiteInput = findViewById(R.id.sign_up_website_lc);
         emailInput = findViewById(R.id.sign_up_email_lc);
         contactInput = findViewById(R.id.sign_up_contact_lc);
+        descriptionInput = findViewById(R.id.sign_up_description_lc);
         timeStartInput = findViewById(R.id.sign_up_time_open_lc);
         timeEndInput = findViewById(R.id.sign_up_time_close_lc);
         otherServiceTypeInput = findViewById(R.id.sign_up_other_service_lc);

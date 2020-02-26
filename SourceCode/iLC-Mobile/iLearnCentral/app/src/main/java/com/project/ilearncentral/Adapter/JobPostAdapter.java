@@ -123,13 +123,8 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
+                Glide.with(context).load(uri.toString()).error(R.drawable.white).fitCenter().into(imageView);
 //                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
             }
         });
     }
