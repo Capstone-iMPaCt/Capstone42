@@ -24,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

@@ -61,6 +61,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
 
         final JobVacancy job = jobs.get(position);
 
+        holder.editTextView.setVisibility(View.GONE);
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         getImage(holder.logoImageView, "images/", job.getCenterId());

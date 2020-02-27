@@ -7,22 +7,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_transparent"
     android:orientation="vertical"
-    tools:context=".Activity.Subscription">
+    tools:context=".Activity.SearchUser">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/home_app_bar"
+        android:id="@+id/search_user_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/home_toolbar"
+            android:id="@+id/search_user__toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bg_toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <androidx.appcompat.widget.SearchView
+                android:id="@+id/search_user_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"

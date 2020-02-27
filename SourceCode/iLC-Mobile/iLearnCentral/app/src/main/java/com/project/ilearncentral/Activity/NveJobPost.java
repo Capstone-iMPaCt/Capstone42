@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -156,7 +157,7 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
                     .child("images/").child(job.getCenterId()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                    Picasso.get().load(uri.toString()).error(getDrawable(R.drawable.logo_icon)).into(logo);
+                    Picasso.get().load(uri.toString()).error(getDrawable(R.drawable.logo_icon)).fit().into(logo);
                 }
             });
             status.setVisibility(View.VISIBLE);
@@ -329,31 +330,52 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
                 appmAdapter.notifyItemRemoved(appmList.size());
                 break;
             case R.id.job_post_nve_confirm:
-                Utility.buttonWait(confirm, true);
-                job.setEducationalRequirements(educList);
-                job.setQualification(qualList);
-                job.setResponsibilities(respList);
-                job.setSkills(skillList);
-                job.setApplicationMethods(appmList);
-                job.setPosition(position.getText().toString());
-                job.setJobDescription(description.getText().toString());
-                job.getJobTypes().clear();
-                if (full.isChecked())
-                    job.getJobTypes().add("Full Time");
-                if (part.isChecked())
-                    job.getJobTypes().add("Part Time");
-                if (contract.isChecked())
-                    job.getJobTypes().add("Contractual");
-                if (nve == 1)
-                    JobPosts.addPostToDB(job, doneUpload);
-                else {
-                    if (status.isChecked())
-                        job.setStatus("open");
-                    else
-                        job.setStatus("close");
-                    JobPosts.updatePostToDB(jobId, job, doneUpload);
+                if(checkErrors()) {
+                    Utility.buttonWait(confirm, true);
+                    job.setEducationalRequirements(educList);
+                    job.setQualification(qualList);
+                    job.setResponsibilities(respList);
+                    job.setSkills(skillList);
+                    job.setApplicationMethods(appmList);
+                    job.setPosition(position.getText().toString());
+                    job.setJobDescription(description.getText().toString());
+                    job.getJobTypes().clear();
+                    if (full.isChecked())
+                        job.getJobTypes().add("Full Time");
+                    if (part.isChecked())
+                        job.getJobTypes().add("Part Time");
+                    if (contract.isChecked())
+                        job.getJobTypes().add("Contractual");
+                    if (nve == 1)
+                        JobPosts.addPostToDB(job, doneUpload);
+                    else {
+                        if (status.isChecked())
+                            job.setStatus("open");
+                        else
+                            job.setStatus("close");
+                        JobPosts.updatePostToDB(jobId, job, doneUpload);
+                    }
                 }
                 break;
         }
+    }
+
+    private boolean checkErrors() {
+        boolean valid = true;
+
+        if (position.getText().toString().isEmpty()) {
+            position.setError("Position is empty.");
+            valid = false;
+        }
+        if (description.getText().toString().isEmpty()) {
+            description.setError("Description is empty.");
+            valid = false;
+        }
+        if (!full.isChecked() && !part.isChecked() && !contract.isChecked()) {
+            Toast.makeText(this, "No job type checked.", Toast.LENGTH_SHORT).show();
+            valid = false;
+        }
+
+        return valid;
     }
 }

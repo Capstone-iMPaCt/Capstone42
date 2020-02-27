@@ -40,7 +40,6 @@
                     android:layout_height="@dimen/dp_diameter"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
-                    android:background="@drawable/ic_account_circle_black_24dp"
                     android:src="@drawable/avatar_boy"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"

@@ -87,7 +87,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                     @Override
                     public void onSuccess(Uri uri)
                     {
-                        Picasso.get().load(uri.toString()).error(R.drawable.user).into(holder.image);
+                        Picasso.get().load(uri.toString()).error(R.drawable.user).fit().into(holder.image);
                     }
                 });
             } catch (Exception e) {}

@@ -86,7 +86,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_pages);
+        setContentView(R.layout.activity_main);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         db = FirebaseFirestore.getInstance();
@@ -138,7 +138,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         tabGenerate = false;
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
         if (Account.isType("LearningCenter")) {
-            adapter.addFragment(new LearningCenterProfile(), "Profile");
+            adapter.addFragment(new LearningCenterProfile(), "Center");
+            adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
         } else if (Account.isType("Educator")) {
@@ -438,8 +439,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-
-                                Picasso.get().load(uri.toString()).fit().error(R.drawable.user)
+                                Picasso.get().load(uri.toString()).fit().error(R.drawable.ic_account_circle_black_24dp)
                                         .into(userImage);
 
                             }

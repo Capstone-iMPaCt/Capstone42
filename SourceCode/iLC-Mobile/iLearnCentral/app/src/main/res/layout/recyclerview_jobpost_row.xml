@@ -22,7 +22,7 @@
             android:layout_height="@dimen/post_user_image_lw"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-            android:src="@drawable/ic_account_circle_black_24dp" />
+            android:src="@drawable/white" />
 
         <TextView
             android:id="@+id/job_post_business_name"
@@ -33,7 +33,7 @@
             android:layout_toStartOf="@+id/job_post_date"
             android:layout_toEndOf="@+id/job_post_center_logo"
             android:gravity="start|center"
-            android:text="Learning Center Name"
+            android:text=""
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -44,7 +44,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:text="Date"
+            android:text=""
             android:textSize="10sp" />
 
         <TextView
@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/job_post_date"
             android:layout_alignEnd="@+id/job_post_date"
-            android:text="Time"
+            android:text=""
             android:textSize="10sp" />
 
         <TextView
@@ -64,8 +64,7 @@
             android:layout_alignEnd="@+id/job_post_time"
             android:text="Edit"
             android:textColor="@color/colorPrimary"
-            android:textSize="10sp"
-            android:visibility="gone" />
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <TextView
@@ -73,7 +72,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
-        android:text="Position"
+        android:text=""
         android:textColor="@color/colorPrimary"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -84,7 +83,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingVertical="10dp"
-        android:text="Job Description..."
+        android:text=""
         android:textColor="@color/colorPrimaryDark"
         app:layout_constraintTop_toBottomOf="@+id/job_post_position_title" />
 </androidx.constraintlayout.widget.ConstraintLayout>
