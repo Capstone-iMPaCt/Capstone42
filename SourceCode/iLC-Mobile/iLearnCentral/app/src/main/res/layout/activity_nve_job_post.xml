@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_linear"
     android:focusable="false"
     tools:context=".Activity.NveJobPost">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:padding="20dp"
+        android:background="@drawable/bg_transparent">
 
         <ImageView
             android:id="@+id/job_post_nve_logo"
@@ -26,7 +29,6 @@
             android:layout_height="wrap_content"
             android:text="Learning Center Name"
             android:textAlignment="center"
-            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/job_post_nve_logo"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
@@ -37,7 +39,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_name"
             android:layout_toRightOf="@+id/job_post_nve_logo"
@@ -49,7 +50,7 @@
             android:id="@+id/job_post_nve_website"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_address"
             android:layout_toRightOf="@+id/job_post_nve_logo"
@@ -61,7 +62,7 @@
             android:id="@+id/job_post_nve_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_website"
             android:layout_toRightOf="@+id/job_post_nve_logo"
@@ -73,7 +74,7 @@
             android:id="@+id/job_post_nve_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_email"
             android:layout_toRightOf="@+id/job_post_nve_logo"
@@ -85,8 +86,7 @@
             android:layout_below="@+id/job_post_nve_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingHorizontal="20dp">
+            android:orientation="vertical">
 
             <Switch
                 android:id="@+id/job_post_nve_status"
@@ -403,5 +403,4 @@
                 android:textColor="@color/text_view_background" />
         </LinearLayout>
     </RelativeLayout>
-
 </ScrollView>

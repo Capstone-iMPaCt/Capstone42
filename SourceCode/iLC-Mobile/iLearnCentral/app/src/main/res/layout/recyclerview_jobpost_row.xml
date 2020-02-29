@@ -4,7 +4,7 @@
     android:id="@+id/job_post_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="5dp"
+    android:layout_marginVertical="5dp"
     android:background="@android:color/white"
     android:padding="5dp">
 
