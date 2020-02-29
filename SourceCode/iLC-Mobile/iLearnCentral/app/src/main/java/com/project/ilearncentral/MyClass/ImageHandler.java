@@ -319,7 +319,7 @@ public class ImageHandler {
             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).error(R.drawable.user)
+                Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
                     .into(view);
                 }
             });
@@ -329,7 +329,7 @@ public class ImageHandler {
             .addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).error(R.drawable.user)
+                Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
                     .into(view);
                 }
             });

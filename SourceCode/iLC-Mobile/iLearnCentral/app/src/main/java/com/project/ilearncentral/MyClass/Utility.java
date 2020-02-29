@@ -24,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -168,40 +170,62 @@ public class Utility {
     public static void updateProfileWithImage(final String TAG, final ObservableBoolean done) {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        storageRef.child("images").child(Account.getUsername()).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>()
-        {public void onSuccess(final Uri uri)
-        {UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+        try {
+        storageRef.child("images/").child(Account.getUsername()).getDownloadUrl()
+            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+            public void onSuccess(final Uri uri) {
+            UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                 .setDisplayName(Account.getName())
                 .setPhotoUri(uri)
                 .build();
+
             user.updateProfile(profileUpdates)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                DocumentReference lcRef = db.collection("User").document(user.getUid());
-                                lcRef
-                                        .update("Image", uri.toString())
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                done.set(true);
-                                                Log.d(TAG, "DocumentSnapshot successfully updated!");
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                done.set(false);
-                                                Log.w(TAG, "Error updating document", e);
-                                            }
-                                        });
-                                Log.d(TAG, "User profile updated.");
-                            }}
-                    });
-        }
+                        if (task.isSuccessful()) {
+                            DocumentReference lcRef = db.collection("User").document(user.getUid());
+                            lcRef
+                                .update("Image", uri.toString())
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        done.set(true);
+                                        Log.d(TAG, "DocumentSnapshot successfully updated!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        done.set(false);
+                                        Log.w(TAG, "Error updating document", e);
+                                    }
+                                });
+                            Log.d(TAG, "User profile updated.");
+                        }}
+                });
+            }
+            }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                    .setDisplayName(Account.getName())
+                    .build();
+
+                user.updateProfile(profileUpdates)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                if (task.isSuccessful()) {
+                                    done.set(true);
+                                }
+                            }
+                        });
+            }
         });
+        } catch (Exception e) {
+            done.set(false);
+        }
     }
 
     public static Timestamp getDateFromString(String value) {

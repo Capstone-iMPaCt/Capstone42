@@ -123,6 +123,34 @@
                 android:textSize="16sp" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/sign_up_description_lc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:background="@drawable/input_white_bg_rounded"
+                android:drawablePadding="20dp"
+                android:focusable="true"
+                android:gravity="left"
+                android:hint="About the learning center"
+                android:inputType="textCapSentences|textMultiLine"
+                android:minLines="3"
+                android:padding="10dp"
+                android:textAlignment="gravity"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

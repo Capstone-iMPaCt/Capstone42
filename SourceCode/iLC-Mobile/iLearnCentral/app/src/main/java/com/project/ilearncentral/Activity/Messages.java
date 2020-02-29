@@ -89,7 +89,7 @@ public class Messages extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri.toString()).into(image);
+                        Picasso.get().load(uri.toString()).fit().into(image);
                         image.setVisibility(View.VISIBLE);
                     }
                 });

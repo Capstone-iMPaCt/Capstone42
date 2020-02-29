@@ -227,29 +227,35 @@ public class Resume {
                     case Education:
                         d = (Map<String, Object>) data.get(i);
                         dataList.add(new ResumeItem(
-                                d.get("SchoolName").toString(),
-                                d.get("SchoolAddress").toString(),
-                                d.get("SchoolYear").toString()));
+                                getMapStringData(d, "SchoolName"),
+                                getMapStringData(d, "SchoolAddress"),
+                                getMapStringData(d, "SchoolYear")));
                         break;
                     case Employment:
                         d = (Map<String, Object>) data.get(i);
                         dataList.add(new ResumeItem(
-                                d.get("CompanyName").toString(),
-                                d.get("CompanyAddress").toString(),
-                                d.get("DatePeriod").toString()));
+                                getMapStringData(d, "CompanyName"),
+                                getMapStringData(d, "CompanyAddress"),
+                                getMapStringData(d, "DatePeriod")));
                         break;
                     case Reference:
                         d = (Map<String, Object>) data.get(i);
                         dataList.add(new ResumeItem(
-                                d.get("ReferenceName").toString(),
-                                d.get("Affiliation").toString(),
-                                d.get("Position").toString(),
-                                d.get("ContactNo").toString()));
+                                getMapStringData(d, "ReferenceName"),
+                                getMapStringData(d, "Affiliation"),
+                                getMapStringData(d, "Position"),
+                                getMapStringData(d, "CompanyName")));
                         break;
                 }
             }
         }
         return dataList;
+    }
+
+    private static String getMapStringData(Map<String, Object> map, String key) {
+        if (map.containsKey(key))
+            return map.get(key).toString();
+        return "";
     }
 
     public static void setData(Map<String, Object> data) {

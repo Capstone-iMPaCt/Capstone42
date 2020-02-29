@@ -61,6 +61,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
 
         final JobVacancy job = jobs.get(position);
 
+        holder.editTextView.setVisibility(View.GONE);
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         getImage(holder.logoImageView, "images/", job.getCenterId());
@@ -123,13 +124,8 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
+                Glide.with(context).load(uri.toString()).error(R.drawable.white).fitCenter().into(imageView);
 //                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-
             }
         });
     }

@@ -28,6 +28,7 @@ public class Account {
     private static Map<String, Object> data = new HashMap<>();
     private static List<Map<String, Object>> accounts = new ArrayList<>();
     public static List<ObservableBoolean> updateObservables = new ArrayList<>();
+    public static boolean userSet, profileSet, businessSet = false;
 
     public enum Type {LearningCenter, Educator, Student}
 
@@ -70,6 +71,7 @@ public class Account {
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], userData, newKeys[i]);
             }
+            userSet = true;
         }
     }
 
@@ -77,7 +79,7 @@ public class Account {
         Map<String, Object> userData = new HashMap<>();
         try {
             if (hasKey("accountStatus"))
-                userData.put("AccountStatus", "accountStatus");
+                userData.put("AccountStatus", getStringData("accountStatus"));
             else
                 userData.put("AccountStatus", "active");
             userData.put("AccountType", type.toString().toLowerCase());
@@ -93,37 +95,6 @@ public class Account {
         return userData;
     }
 
-    public static void temp(final String collection) {
-        //temporary method to create bulk changes in database
-        final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-        db.collection(collection)
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                DocumentReference ref = db.collection(collection).document(document.getId());
-                                List<Map<String, Object>> addressList = (List<Map<String, Object>>) document.get("Address");
-                                ref.update("Address", addressList.get(0))
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                            }
-                                        });
-                            }
-                        } else {
-                        }
-                    }
-                });
-
-    }
 
     public static void setProfileData(Map<String, Object> profileData) {
         if (profileData != null) {
@@ -158,6 +129,7 @@ public class Account {
                 setValidatedData("ZipCode", address, "zipCode");
                 setValidatedData("Country", address, "country");
             }
+            profileSet = true;
         }
     }
 
@@ -191,16 +163,16 @@ public class Account {
         profileData.put("Address", address);
         if (type == Type.Educator) {
             if (hasKey("position"))
-                profileData.put("Position", "position");
+                profileData.put("Position", getStringData("position"));
             else
                 profileData.put("Position", "none");
             if (hasKey("employmentStatus"))
-                profileData.put("EmploymentStatus", "employmentStatus");
+                profileData.put("EmploymentStatus", getStringData("employmentStatus"));
             else
                 profileData.put("EmploymentStatus", "none");
         } else if (type == Type.Student) {
             if (hasKey("enrolmentStatus"))
-                profileData.put("EnrolmentStatus", "enrolmentStatus");
+                profileData.put("EnrolmentStatus", getStringData("enrolmentStatus"));
             else
                 profileData.put("EnrolmentStatus", "none");
         } else if (type == Type.LearningCenter) {
@@ -212,8 +184,8 @@ public class Account {
 
     public static void setBusinessData(Map<String, Object> businessData) {
         if (businessData != null) {
-            String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "ServiceType", "ClosingTime", "OpeningTime", "Logo", "OperatingDays"};
-            String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo", "bOperatingDays"};
+            String[] oldKeys = {"BusinessName", "CompanyWebsite", "ContactEmail", "ContactNumber", "Description", "ServiceType", "ClosingTime", "OpeningTime", "Logo", "OperatingDays"};
+            String[] newKeys = {"bName", "bWebsite", "bEmail", "bContactNumber", "bDescription", "bServiceType", "bClosingTime", "bOpeningTime", "bLogo", "bOperatingDays"};
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], businessData, newKeys[i]);
             }
@@ -237,6 +209,7 @@ public class Account {
                     setValidatedData("Status", accounts.get(i), "centerStatus");
                 }
             }
+            businessSet = true;
         }
     }
 
@@ -246,6 +219,7 @@ public class Account {
         businessData.put("CompanyWebsite", getStringData("bWebsite"));
         businessData.put("ContactEmail", getStringData("bEmail"));
         businessData.put("ContactNumber", getStringData("bContactNumber"));
+        businessData.put("Description", getStringData("bDescription"));
         businessData.put("ServiceType", getStringData("bServiceType"));
         Map<String, Object> address = new HashMap<>();
         address.put("HouseNo", getStringData("bHouseNo"));

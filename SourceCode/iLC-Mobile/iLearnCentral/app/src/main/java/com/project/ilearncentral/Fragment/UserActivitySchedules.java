@@ -31,6 +31,8 @@ public class UserActivitySchedules extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_user_activity_schedules, container, false);
 
+        setRetainInstance(true);
+
         return view;
     }
 

@@ -40,7 +40,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
 
     private String TAG = "SIGNUP_CENTER";
     private String buttonText = "Update";
-    TextInputEditText nameInput, websiteInput, emailInput, contactInput,
+    TextInputEditText nameInput, websiteInput, emailInput, contactInput, descriptionInput,
             timeStartInput, timeEndInput, otherServiceTypeInput,
             houseNoInput, streetInput, barangayInput, cityInput,
             provinceInput, districtInput, zipCodeInput;
@@ -50,9 +50,9 @@ public class UpdateLearningCenter extends AppCompatActivity {
     CircleImageView changeImage;
     private Button updateButton;
 
-    String name, website, contact, email, timeStart, timeEnd, otherServiceType,
+    String name, website, contact, email, description, timeStart, timeEnd,
         houseNo, street, barangay, city, province, district, zipCode,
-        mon, tue, wed, thu, fri, sat, sun, country, serviceType;
+        mon, tue, wed, thu, fri, sat, sun, country, serviceType, otherServiceType;
     List<String> operatingDays;
     Timestamp start, end;
 
@@ -164,6 +164,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
         website = websiteInput.getText().toString();
         contact = contactInput.getText().toString();
         email = emailInput.getText().toString();
+        description = descriptionInput.getText().toString();
         timeStart = timeStartInput.getText().toString();
         timeEnd = timeEndInput.getText().toString();
         otherServiceType = otherServiceTypeInput.getText().toString();
@@ -270,6 +271,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
         Account.addData("bName", name);
         Account.addData("bWebsite", website);
         Account.addData("bEmail", email);
+        Account.addData("bDescription", description);
         Account.addData("bContactNumber", contact);
         Account.addData("bOpeningTime", start);
         Account.addData("bClosingTime", end);
@@ -294,6 +296,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
         nameInput.setText(Account.getStringData("bName"));
         websiteInput.setText(Account.getStringData("bWebsite"));
         emailInput.setText(Account.getStringData("bEmail"));
+        descriptionInput.setText(Account.getStringData("bDescription"));
         contactInput.setText(Account.getStringData("bContactNumber"));
         if (Account.hasKey("bOpeningTime"))
             timeStartInput.setText(format.format(Account.getTimeStampData("bOpeningTime").toDate()));
@@ -351,6 +354,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
         nameInput = findViewById(R.id.sign_up_business_name_lc);
         websiteInput = findViewById(R.id.sign_up_website_lc);
         emailInput = findViewById(R.id.sign_up_email_lc);
+        descriptionInput = findViewById(R.id.sign_up_description_lc);
         contactInput = findViewById(R.id.sign_up_contact_lc);
         timeStartInput = findViewById(R.id.sign_up_time_open_lc);
         timeEndInput = findViewById(R.id.sign_up_time_close_lc);

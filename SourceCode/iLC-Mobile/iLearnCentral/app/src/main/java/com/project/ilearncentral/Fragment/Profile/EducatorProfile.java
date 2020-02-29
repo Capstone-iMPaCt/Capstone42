@@ -33,15 +33,14 @@ public class EducatorProfile extends Fragment {
 
     private int UPDATE_RESUME = 15;
     private TextView email, contactNo, centerName, careerObjective;
-    private LinearLayout centerLayout, resumeDetails;
-    private CardView objective;
+    private LinearLayout centerLayout, resumeDetails, educationalLayout, employmentLayout, skillsLayout, awardsLayout;
+    private CardView objective, qualitiesLayout, interestLayout, referencesLayout;
     private RecyclerView educationalBackgroundRecyclerView, employmentHistoryRecyclerView,
             skillsRecyclerView, awardsRecyclerView, qualitiesRecyclerView, interestsRecyclerView,
             referencesRecyclerView;
     private ResumeGroupListAdapter educationalBackgroundAdapter, employmentHistoryAdapter;
     private ResumeSingleListAdapter skillsAdapter, awardsAdapter, qualitiesAdapter, interestsAdapter;
     private ResumeReferenceAdapter referencesAdapter;
-    private RecyclerView groupListRecyclerView, singleListRecyclerView, resumeReferenceRecyclerView;
     private List<ResumeItem> employmentHistory, educationalBackGround,
             skills, awards, interests, qualities, references;
     private Button updateResume;
@@ -60,6 +59,8 @@ public class EducatorProfile extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         final View view = inflater.inflate(R.layout.fragment_profile_educator, container, false);
+
+        setRetainInstance(true);
         // Codes here
         email = view.findViewById(R.id.educator_profile_email);
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
@@ -70,6 +71,13 @@ public class EducatorProfile extends Fragment {
         resumeDetails = view.findViewById(R.id.educator_profile_resume_details);
         updateResume = view.findViewById(R.id.educator_profile_update_resume_button);
         objective = view.findViewById(R.id.educator_profile_objective);
+        educationalLayout = view.findViewById(R.id.educator_profile_educational_background_layout );
+        employmentLayout = view.findViewById(R.id.educator_profile_employment_history_layout);
+        skillsLayout = view.findViewById(R.id.educator_profile_skills_layout);
+        awardsLayout = view.findViewById(R.id.educator_profile_awards_layout);
+        qualitiesLayout = view.findViewById(R.id.educator_profile_qualities_layout);
+        interestLayout = view.findViewById(R.id.educator_profile_interests_layout);
+        referencesLayout = view.findViewById(R.id.educator_profile_references_layout);
         init = true;
 
         updateResume.setOnClickListener(new View.OnClickListener() {
@@ -87,6 +95,40 @@ public class EducatorProfile extends Fragment {
                     careerObjective.setText(Resume.getObjective());
                     if (init) initResumeDetails(view);
                     else setResumeDetails();
+
+                    if (educationalBackGround.isEmpty())
+                        educationalLayout.setVisibility(View.GONE);
+                    else
+                        educationalLayout.setVisibility(View.VISIBLE);
+                    if (employmentHistory.isEmpty())
+                        employmentLayout.setVisibility(View.GONE);
+                    else
+                        employmentLayout.setVisibility(View.VISIBLE);
+                    if (skills.isEmpty())
+                        skillsLayout.setVisibility(View.GONE);
+                    else
+                        skillsLayout.setVisibility(View.VISIBLE);
+                    if (awards.isEmpty())
+                        awardsLayout.setVisibility(View.GONE);
+                    else
+                        awardsLayout.setVisibility(View.VISIBLE);
+                    if (qualities.isEmpty())
+                        qualitiesLayout.setVisibility(View.GONE);
+                    else
+                        qualitiesLayout.setVisibility(View.VISIBLE);
+                    if (interests.isEmpty())
+                        interestLayout.setVisibility(View.GONE);
+                    else
+                        interestLayout.setVisibility(View.VISIBLE);
+                    if (references.isEmpty())
+                        referencesLayout.setVisibility(View.GONE);
+                    else
+                        referencesLayout.setVisibility(View.VISIBLE);
+
+
+                    updateResume.setVisibility(View.GONE);
+                    resumeDetails.setVisibility(View.VISIBLE);
+                    objective.setVisibility(View.VISIBLE);
                 }
                 else {
                     updateResume.setVisibility(View.VISIBLE);
@@ -105,6 +147,7 @@ public class EducatorProfile extends Fragment {
                     if (Account.getStringData("centerId").isEmpty()) {
                         centerLayout.setVisibility(View.GONE);
                     } else {
+                        centerLayout.setVisibility(View.VISIBLE);
                         centerName.setText(Account.getBusinessName());
                     }
                     if (Resume.resumeChange) {
@@ -117,7 +160,7 @@ public class EducatorProfile extends Fragment {
             }
         });
         Account.updateObservables.add(update);
-
+        if (Account.profileSet) update.set(true);
 
         return view;
     }
