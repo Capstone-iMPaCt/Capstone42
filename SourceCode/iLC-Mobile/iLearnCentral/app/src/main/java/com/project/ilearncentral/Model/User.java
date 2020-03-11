@@ -1,5 +1,21 @@
 package com.project.ilearncentral.Model;
 
+import android.util.Log;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.MyClass.Utility;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+import androidx.annotation.NonNull;
+
 public class User {
     private String username;
     private String fullname;
@@ -7,6 +23,7 @@ public class User {
     private String image;
     private boolean followedUser;
     private boolean followingMe;
+    private static List<User> retrievedUsers = new ArrayList<>();
 
     public User() {
         username = fullname = type = "";
@@ -87,5 +104,72 @@ public class User {
         this.image = user.getImage();
         followingMe = user.isFollowingMe();
         followedUser = user.isFollowedUser();
+    }
+
+    public static void retrieveUsersFromDB() {
+        FirebaseFirestore.getInstance().collection("User")
+            .get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String collection = "";
+                            if (document.get("AccountType").equals("learningcenter")) {
+                                collection = "LearningCenterStaff";
+                            } else if (document.get("AccountType").equals("educator")) {
+                                collection = "Educator";
+                            } else if (document.get("AccountType").equals("student")) {
+                                collection = "Student";
+                            }
+                            final Map<String, Object> userData = ((Map<String, Object>) document.getData());
+                            if (document.get("Image") == null) userData.put("Image", "");
+                            FirebaseFirestore.getInstance().collection(collection).whereEqualTo("Username", document.getString("Username"))
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                                    Map<String, String> nameDB = (Map<String, String>) document.get("Name");
+
+                                                    String fullname = Utility.formatFullName(nameDB.get("FirstName"), nameDB.get("MiddleName"), nameDB.get("LastName"));
+                                                    int pos = getUserPositionByUsername(document.getString("Username"));
+                                                    User curUser = new User(document.getString("Username"), fullname, userData.get("AccountType")+"", userData.get("Image").toString());
+                                                    if (pos==-1) {
+                                                        retrievedUsers.add(curUser);
+                                                    } else {
+                                                        retrievedUsers.get(pos).setUser(curUser);
+                                                    }
+                                                }
+                                            } else {
+                                            }
+                                        }
+                                    });
+                        }
+                    } else {
+                        Log.d("getUsers", "Error getting documents: ", task.getException());
+                    }
+                }
+            });
+    }
+
+    public static int getUserPositionByUsername(String username) {
+        for (int i=0; i<retrievedUsers.size();i++) {
+            if (retrievedUsers.get(i).getUsername().equals(username))
+                return i;
+        }
+        return -1;
+    }
+    public static User getUserByUsername(String username) {
+        for (int i=0; i<retrievedUsers.size();i++) {
+            if (retrievedUsers.get(i).getUsername().equals(username))
+                return retrievedUsers.get(i);
+        }
+        return null;
+    }
+
+    public static List<User> getRetrievedUsers() {
+        return retrievedUsers;
     }
 }

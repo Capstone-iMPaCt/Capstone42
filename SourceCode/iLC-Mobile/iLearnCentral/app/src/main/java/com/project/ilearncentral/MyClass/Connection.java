@@ -54,6 +54,7 @@ public class Connection {
             activity.startActivity(intent);
             Toast.makeText(activity, "Logged Out", Toast.LENGTH_SHORT).show();
             Account.clear();
+            Resume.clearAll();
         }
         else
             Toast.makeText(activity, "No Internet Access", Toast.LENGTH_SHORT).show();

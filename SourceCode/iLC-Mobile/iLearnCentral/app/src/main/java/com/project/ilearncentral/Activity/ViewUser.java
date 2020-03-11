@@ -12,9 +12,11 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
@@ -37,6 +39,7 @@ public class ViewUser extends AppCompatActivity {
 
     private final String TAG = "ViewUser";
     private CircleImageView imageView;
+    private CardView aboutMe;
     private TextView usernameView, expertiseView, addressOutput,
             birthdateOutput, religionOutput, citizenshipOutput, maritalStatusOutput;
     private Button chat, follow;
@@ -67,6 +70,7 @@ public class ViewUser extends AppCompatActivity {
         religionOutput = findViewById(R.id.aboutme_religion);
         citizenshipOutput = findViewById(R.id.aboutme_citizenship);
         maritalStatusOutput = findViewById(R.id.aboutme_marital_status);
+        aboutMe = findViewById(R.id.view_user_aboutme);
 
         chat = findViewById(R.id.view_user_chat);
         chat.setOnClickListener(new View.OnClickListener() {
@@ -122,6 +126,7 @@ public class ViewUser extends AppCompatActivity {
         religionOutput.setText(getString("Religion"));
         citizenshipOutput.setText(getString("Citizenship"));
         maritalStatusOutput.setText(getString("MaritalStatus"));
+        aboutMe.setVisibility(View.VISIBLE);
     }
 
     private String getString(String key) {
@@ -173,5 +178,14 @@ public class ViewUser extends AppCompatActivity {
                     }
                 }
             });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+        }
+        return true;
     }
 }

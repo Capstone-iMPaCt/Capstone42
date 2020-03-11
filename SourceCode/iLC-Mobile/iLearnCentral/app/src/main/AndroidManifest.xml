@@ -15,10 +15,12 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.ViewLearningCenter"></activity>
+        <activity android:name=".Activity.SearchCenter" />
         <activity
             android:name=".Activity.ViewUser"
             android:label="@string/title_activity_view_user"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.NveJobPost" />
         <activity
             android:name=".Activity.AddUpdateResume"

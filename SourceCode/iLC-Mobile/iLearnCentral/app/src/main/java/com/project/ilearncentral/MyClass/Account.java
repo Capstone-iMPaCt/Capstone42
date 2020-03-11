@@ -28,7 +28,7 @@ public class Account {
     private static Map<String, Object> data = new HashMap<>();
     private static List<Map<String, Object>> accounts = new ArrayList<>();
     public static List<ObservableBoolean> updateObservables = new ArrayList<>();
-    public static boolean userSet, profileSet, businessSet = false;
+    public static boolean userSet, profileSet, businessSet = false, openCenter = false;
 
     public enum Type {LearningCenter, Educator, Student}
 
@@ -355,7 +355,7 @@ public class Account {
     }
 
     public static boolean isType(String accountType) {
-        return (type + "").equals(accountType);
+        return (type + "").equalsIgnoreCase(accountType);
     }
 
     public static void setType(Type type) {

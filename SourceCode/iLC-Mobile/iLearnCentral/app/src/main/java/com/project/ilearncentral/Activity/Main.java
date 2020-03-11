@@ -51,6 +51,8 @@ import com.project.ilearncentral.Fragment.UserActivitySchedules;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
+import com.project.ilearncentral.Model.LearningCenter;
+import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.MyClass.Connection;
@@ -74,7 +76,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private CircleImageView userImage;
     private ViewPager viewPager;
     private TabLayout tabLayout;
-    private Button featuresButton, findUserButton, notificationButton, messageButton;
+    private Button featuresButton, findUserButton, findCenterButton, notificationButton, messageButton;
     private AppBarLayout appBarLayout;
     private RelativeLayout loadingPage;
     private CollapsingToolbarLayout toolbarLayout;
@@ -108,6 +110,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         userImage = (CircleImageView) findViewById(R.id.view_user_image);
         featuresButton = (Button) findViewById(R.id.main_subscription_button);
         findUserButton = (Button) findViewById(R.id.main_find_user_button);
+        findCenterButton = (Button) findViewById(R.id.main_center_list_button);
         notificationButton = (Button) findViewById(R.id.notification_button);
         messageButton = (Button) findViewById(R.id.message_button);
         appBarLayout = (AppBarLayout) findViewById(R.id.home_app_bar);
@@ -122,6 +125,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         featuresButton.setOnClickListener(this);
         findUserButton.setOnClickListener(this);
+        findCenterButton.setOnClickListener(this);
         notificationButton.setOnClickListener(this);
         messageButton.setOnClickListener(this);
         userImage.setOnClickListener(this);
@@ -194,6 +198,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             public void onBooleanChanged(boolean success) {
                 if (success) {
                     if(tabGenerate) generateTabs();
+                    new Thread(new Runnable() {
+                        public void run() {
+                            User.retrieveUsersFromDB();
+                            LearningCenter.retrieveLearningCentersFromDB();
+                        }
+                    }).start();
                 } else {
 
                 }
@@ -266,6 +276,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.main_find_user_button:
                 startActivity(new Intent(getApplicationContext(), SearchUser.class));
+                break;
+            case R.id.main_center_list_button:
+                startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
                 setAccount();

@@ -54,7 +54,7 @@ public class StudentProfile extends Fragment {
         update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean success) {
-                if (success) {
+                if (success && Account.isType("student")) {
                     contactNo.setText(Account.getStringData("contactNo"));
                     if (enrolmentHistory.isEmpty()) {
                         enrolmentLayout.setVisibility(View.GONE);
@@ -62,6 +62,8 @@ public class StudentProfile extends Fragment {
                         enrolmentLayout.setVisibility(View.VISIBLE);
                     }
 
+                } else {
+                    enrolmentLayout.setVisibility(View.GONE);
                 }
             }
         });

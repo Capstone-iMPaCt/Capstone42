@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -68,49 +69,99 @@ public class LearningCenterProfile extends Fragment {
         update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean newValue) {
-                businessName.setText(Account.getBusinessName());
-                businessAddress.setText(Account.getBusinessAddress());
-                serviceType.setText(Account.getStringData("bServiceType"));
-                openingTime.setText(Utility.getStringFromTime(Account.getTimeStampData("bOpeningTime")));
-                closingTime.setText(Utility.getStringFromTime(Account.getTimeStampData("bClosingTime")));
-                operatingDays.clear();
-                operatingDays.addAll((List<String>)Account.get("bOperatingDays"));
-                checkDay("Mon", monday);
-                checkDay("Tue", tuesday);
-                checkDay("Wed", wednesday);
-                checkDay("Thu", thursday);
-                checkDay("Fri", friday);
-                checkDay("Sat", saturday);
-                checkDay("Sun", sunday);
+                if (newValue) {
+                    businessName.setText(Account.getBusinessName());
+                    businessAddress.setText(Account.getBusinessAddress());
+                    serviceType.setText(Account.getStringData("bServiceType"));
+                    openingTime.setText(Utility
+                            .getStringFromTime(Account.getTimeStampData("bOpeningTime")));
+                    closingTime.setText(Utility
+                            .getStringFromTime(Account.getTimeStampData("bClosingTime")));
+                    operatingDays.clear();
+                    operatingDays.addAll((List<String>) Account.get("bOperatingDays"));
+                    checkDay("Mon", monday);
+                    checkDay("Tue", tuesday);
+                    checkDay("Wed", wednesday);
+                    checkDay("Thu", thursday);
+                    checkDay("Fri", friday);
+                    checkDay("Sat", saturday);
+                    checkDay("Sun", sunday);
 
-                if (Account.getStringData("bEmail").isEmpty()) {
-                    emailLayout.setVisibility(View.GONE);
-                } else {
-                    emailLayout.setVisibility(View.VISIBLE);
-                    email.setText(Account.getStringData("bEmail"));
-                }
-                if (Account.getStringData("bContactNumber").isEmpty()) {
-                    contactLayout.setVisibility(View.GONE);
-                } else {
-                    contactLayout.setVisibility(View.VISIBLE);
-                    contact.setText(Account.getStringData("bContactNumber"));
-                }
-                if (Account.getStringData("bWebsite").isEmpty()) {
-                    websiteLayout.setVisibility(View.GONE);
-                } else {
-                    websiteLayout.setVisibility(View.VISIBLE);
-                    website.setText(Account.getStringData("bWebsite"));
-                }
-                if (Account.getStringData("bDescription").isEmpty()) {
-                    aboutUsLayout.setVisibility(View.GONE);
-                } else {
-                    aboutUsLayout.setVisibility(View.VISIBLE);
-                    aboutUs.setText(Account.getStringData("bDescription"));
+                    if (Account.getStringData("bEmail").isEmpty()) {
+                        emailLayout.setVisibility(View.GONE);
+                    } else {
+                        emailLayout.setVisibility(View.VISIBLE);
+                        email.setText(Account.getStringData("bEmail"));
+                    }
+                    if (Account.getStringData("bContactNumber").isEmpty()) {
+                        contactLayout.setVisibility(View.GONE);
+                    } else {
+                        contactLayout.setVisibility(View.VISIBLE);
+                        contact.setText(Account.getStringData("bContactNumber"));
+                    }
+                    if (Account.getStringData("bWebsite").isEmpty()) {
+                        websiteLayout.setVisibility(View.GONE);
+                    } else {
+                        websiteLayout.setVisibility(View.VISIBLE);
+                        website.setText(Account.getStringData("bWebsite"));
+                    }
+                    if (Account.getStringData("bDescription").isEmpty()) {
+                        aboutUsLayout.setVisibility(View.GONE);
+                    } else {
+                        aboutUsLayout.setVisibility(View.VISIBLE);
+                        aboutUs.setText(Account.getStringData("bDescription"));
+                    }
+                    Account.businessSet = false;
                 }
             }
         });
         Account.updateObservables.add(update);
         if (Account.businessSet) update.set(true);
+        if (Account.openCenter) {
+            LearningCenter lc = LearningCenter.getLCById(Account.getStringData("openLC"));
+            businessName.setText(lc.getBusinessName());
+            businessAddress.setText(lc.getBusinessAddress());
+            serviceType.setText(lc.getServiceType());
+            openingTime.setText(Utility
+                    .getStringFromTime(lc.getOpen()));
+            closingTime.setText(Utility
+                    .getStringFromTime(lc.getClose()));
+            operatingDays.clear();
+            operatingDays.addAll((List<String>) lc.getOperatingDays());
+            checkDay("Mon", monday);
+            checkDay("Tue", tuesday);
+            checkDay("Wed", wednesday);
+            checkDay("Thu", thursday);
+            checkDay("Fri", friday);
+            checkDay("Sat", saturday);
+            checkDay("Sun", sunday);
+
+            if (lc.getContactEmail().isEmpty()) {
+                emailLayout.setVisibility(View.GONE);
+            } else {
+                emailLayout.setVisibility(View.VISIBLE);
+                email.setText(lc.getContactEmail());
+            }
+            if (lc.getContactNumber().isEmpty()) {
+                contactLayout.setVisibility(View.GONE);
+            } else {
+                contactLayout.setVisibility(View.VISIBLE);
+                contact.setText(lc.getContactNumber());
+            }
+            if (lc.getCompanyWebsite().isEmpty()) {
+                websiteLayout.setVisibility(View.GONE);
+            } else {
+                websiteLayout.setVisibility(View.VISIBLE);
+                website.setText(lc.getCompanyWebsite());
+            }
+            if (lc.getDescription().isEmpty()) {
+                aboutUsLayout.setVisibility(View.GONE);
+            } else {
+                aboutUsLayout.setVisibility(View.VISIBLE);
+                aboutUs.setText(lc.getDescription());
+            }
+            Account.openCenter = false;
+        }
         return view;
     }
 
