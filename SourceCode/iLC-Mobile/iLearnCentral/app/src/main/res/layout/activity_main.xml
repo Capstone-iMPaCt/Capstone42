@@ -81,9 +81,7 @@
                     android:id="@+id/view_user_image"
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
-                    android:background="@drawable/ic_account_circle_black_24dp"
                     android:clickable="true"
-                    android:src="@drawable/avatar_boy"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
                     app:layout_collapseMode="none" />
