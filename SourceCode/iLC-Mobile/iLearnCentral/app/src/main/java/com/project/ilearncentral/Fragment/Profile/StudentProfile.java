@@ -17,13 +17,14 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Enrolment;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 
 public class StudentProfile extends Fragment {
 
-    private TextView email, contactNo;
+    private TextView email, contactNo, following, followers, rating;
     private RecyclerView groupListRecyclerView;
     private EnrolmentGroupListAdapter enrolmentListAdapter;
     private ArrayList<Enrolment> enrolmentHistory;
@@ -48,6 +49,9 @@ public class StudentProfile extends Fragment {
         email = view.findViewById(R.id.student_profile_email);
         contactNo = view.findViewById(R.id.student_profile_contact);
         enrolmentLayout = view.findViewById(R.id.student_profile_enrolment_history_layout);
+        followers = view.findViewById(R.id.student_followers);
+        following = view.findViewById(R.id.student_following);
+        rating = view.findViewById(R.id.student_rating);
 
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         ObservableBoolean update = new ObservableBoolean();
@@ -56,6 +60,9 @@ public class StudentProfile extends Fragment {
             public void onBooleanChanged(boolean success) {
                 if (success && Account.isType("student")) {
                     contactNo.setText(Account.getStringData("contactNo"));
+                    followers.setText(Utility.processCount(Account.me.getFollowers()));
+                    following.setText(Utility.processCount(Account.me.getFollowing()));
+                    rating.setText(Account.me.getRating()+"");
                     if (enrolmentHistory.isEmpty()) {
                         enrolmentLayout.setVisibility(View.GONE);
                     } else {
@@ -82,5 +89,13 @@ public class StudentProfile extends Fragment {
         groupListRecyclerView.setAdapter(enrolmentListAdapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        followers.setText(Utility.processCount(Account.me.getFollowers()));
+        following.setText(Utility.processCount(Account.me.getFollowing()));
+        rating.setText(Account.me.getRating()+"");
     }
 }

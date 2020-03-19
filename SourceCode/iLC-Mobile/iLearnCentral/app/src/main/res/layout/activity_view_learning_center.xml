@@ -34,81 +34,70 @@
                 android:layout_gravity="center"
                 android:gravity="center">
 
-                <de.hdodenhof.circleimageview.CircleImageView
+                <ImageView
                     android:id="@+id/view_center_image"
-                    android:layout_width="@dimen/dp_diameter"
+                    android:layout_width="wrap_content"
                     android:layout_height="@dimen/dp_diameter"
                     android:layout_alignParentStart="true"
                     android:layout_alignParentEnd="true"
-                    android:src="@drawable/avatar_boy"
-                    app:civ_border_color="@android:color/white"
-                    app:civ_border_width="3dp"
+                    android:background="@color/transparent"
+                    android:src="@drawable/logo_icon"
                     app:layout_collapseMode="none"
                     app:layout_constraintBottom_toTopOf="@id/view_center_full_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <Button
-                    android:id="@+id/view_center_chat"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:background="@drawable/button_color_mint"
-                    android:text="Chat"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/view_center_image"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-
-                <Button
-                    android:id="@+id/view_center_follow"
-                    android:layout_width="100dp"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@id/view_center_image"
-                    android:background="@drawable/button_color_mint"
-                    android:text="Follow"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view_center_image"
-                    app:layout_constraintTop_toTopOf="parent" />
-
                 <TextView
                     android:id="@+id/view_center_full_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view_center_image"
                     android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
-                    android:text="User Name"
+                    android:text=""
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view_center_image" />
 
-                <TextView
-                    android:id="@+id/view_center_expertise"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view_center_full_name"
-                    android:layout_centerHorizontal="true"
-                    android:layout_gravity="center"
-                    android:text="Field of Expertise"
-                    android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:orientation="horizontal"
+                    android:gravity="center"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_center_full_name" />
+                    app:layout_constraintTop_toBottomOf="@id/view_center_full_name">
+
+                    <Button
+                        android:id="@+id/view_center_follow_button"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@drawable/button_color_mint"
+                        android:textColor="@android:color/white"
+                        android:text="FOLLOW"/>
+
+                    <Button
+                        android:id="@+id/view_center_courses_button"
+                        android:layout_width="150dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_color_mint"
+                        android:textColor="@android:color/white"
+                        android:text="COURSES" />
+
+                    <Button
+                        android:id="@+id/view_center_message_button"
+                        android:layout_marginHorizontal="20dp"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_color_mint"
+                        android:textColor="@android:color/white"
+                        android:text="CHAT"/>
+                </LinearLayout>
+
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -118,12 +107,15 @@
                 android:layout_gravity="top"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="" />
+                app:title="" >
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <fragment
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         android:id="@+id/fragment_container"
         android:name="com.project.ilearncentral.Fragment.Profile.LearningCenterProfile"
         android:layout_width="match_parent"

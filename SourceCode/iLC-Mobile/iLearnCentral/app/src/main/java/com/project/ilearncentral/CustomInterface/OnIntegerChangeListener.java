@@ -1,5 +1,5 @@
 package com.project.ilearncentral.CustomInterface;
 
 public interface OnIntegerChangeListener {
-        public void onIntegerChanged(int newValue);
+        public void onIntegerChanged(int value);
 }

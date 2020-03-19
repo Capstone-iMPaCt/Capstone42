@@ -15,19 +15,25 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ViewLearningCenter"></activity>
-        <activity android:name=".Activity.SearchCenter" />
+        <activity android:name=".Activity.ViewLearningCenter"
+            android:configChanges="orientation|screenSize"></activity>
+        <activity android:name=".Activity.SearchCenter"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activity.ViewUser"
             android:label="@string/title_activity_view_user"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".Activity.NveJobPost" />
+        <activity android:name=".Activity.NveJobPost"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activity.AddUpdateResume"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activity.AddEditFeed" />
-        <activity android:name=".Activity.SearchUser" />
-        <activity android:name=".Activity.SignUp.CreateUser" />
+        <activity android:name=".Activity.AddEditFeed"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activity.SearchUser"
+            android:configChanges="orientation|screenSize"/>
+        <activity android:name=".Activity.SignUp.CreateUser"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activity.Update.UpdateLearningCenter"
             android:configChanges="orientation|screenSize" />
@@ -37,7 +43,8 @@
         <activity
             android:name=".Activity.Update.UpdateProfile"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activity.ForgotPassword" />
+        <activity android:name=".Activity.ForgotPassword"
+            android:configChanges="orientation|screenSize"/>
         <activity
             android:name=".Activity.AccountSettings"
             android:label="@string/title_activity_account_settings" />
@@ -88,7 +95,8 @@
         <activity android:name=".Activity.AccountTypeSelection" />
         <activity
             android:name=".Activity.Login"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize"/>
     </application>
 
 </manifest>

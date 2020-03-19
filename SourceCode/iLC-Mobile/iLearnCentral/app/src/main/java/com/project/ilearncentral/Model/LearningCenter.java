@@ -21,13 +21,18 @@ public class LearningCenter {
     private List<Map<String, String>> accounts;
     private List<String> operatingDays;
     private Timestamp open, close;
-    private boolean followedUser;
-    private boolean followingMe;
+    private List<String> followers;
+    private List<String> following;
+    private double rating;
+    private Map<String, Integer> ratings;
     private static List<LearningCenter> retrieved = new ArrayList<>();
 
     public LearningCenter() {
         businessName = businessAddress = companyWebsite = contactEmail = contactNumber = description = serviceType = logo = "";
-        followingMe = followedUser = false;
+        following = new ArrayList<>();
+        followers = new ArrayList<>();
+        rating = 0;
+        ratings = new HashMap<>();
         accounts = new ArrayList<>();
         operatingDays = new ArrayList<>();
         open = close = Timestamp.now();
@@ -145,22 +150,114 @@ public class LearningCenter {
         this.close = close;
     }
 
-    public boolean isFollowedUser() {
-        return followedUser;
+    public List<String> getFollowers() {
+        return followers;
     }
 
-    public void setFollowedUser(boolean followedUser) {
-        this.followedUser = followedUser;
+    public boolean isFollower(String id) {
+        if (getFollowerPosition(id) == -1)
+            return false;
+        return true;
     }
 
-    public boolean isFollowingMe() {
-        return followingMe;
+    public void addFollower(String id) {
+        followers.add(id);
     }
 
-    public void setFollowingMe(boolean followingMe) {
-        this.followingMe = followingMe;
+    public void addFollower(List<String> list) {
+        followers.addAll(list);
     }
 
+    public int getFollowerPosition(String id) {
+        if (followers!=null) {
+            for (int i = 0; i < followers.size(); i++) {
+                if (followers.get(i).equals(id)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void setFollowers(List<String> followers) {
+        if (followers!=null)
+            this.followers = followers;
+    }
+
+    public List<String> getFollowing() {
+        return following;
+    }
+
+    public boolean isFollowing(String id) {
+        if (getFollowingPosition(id) == -1)
+            return false;
+        return true;
+    }
+
+    public void addFollowing(String id) {
+        following.add(id);
+    }
+
+    public void addFollowing(List<String> list) {
+        following.addAll(list);
+    }
+
+    public int getFollowingPosition(String id) {
+        if (following!=null) {
+            for (int i = 0; i < following.size(); i++) {
+                if (following.get(i).equals(id)) {
+                    return i;
+                }
+            }
+        }
+        return -1;
+    }
+
+    public void setFollowing(List<String> following) {
+        if (following!= null)
+            this.following = following;
+    }
+
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public Map<String, Integer> getRatings() {
+        return ratings;
+    }
+
+    public void setRatings(Map<String, Integer> ratings) {
+        this.ratings = ratings;
+        setRating();
+    }
+
+    public void addRating(String username, int rating) {
+        ratings.put(username, rating);
+        setRating();
+    }
+
+    public void addRating(Map<String, Integer> r) {
+        for (Map.Entry entry : r.entrySet()) {
+            ratings.put(entry.getKey().toString(), Integer.parseInt(entry.getValue().toString()));
+        }
+        setRating();
+    }
+
+    private void setRating() {
+        if (ratings!=null && ratings.size()>0) {
+            rating = 0;
+            for (Map.Entry entry : ratings.entrySet()) {
+                rating += Double.valueOf(entry.getValue()+"");
+            }
+            rating /= ratings.size();
+            System.out.println("Rating set " + rating + " " + ratings.size());
+        }
+    }
     public void setLearningCenter(LearningCenter lc) {
         businessName = lc.getBusinessName();
         businessAddress = lc.getBusinessAddress();
@@ -170,8 +267,10 @@ public class LearningCenter {
         description = lc.getDescription();
         serviceType = lc.getServiceType();
         logo = lc.getLogo();
-        followingMe = lc.isFollowingMe();
-        followedUser = lc.isFollowedUser();
+        following = lc.getFollowing();
+        followers = lc.getFollowers();
+        rating = lc.getRating();
+        ratings = lc.getRatings();
         accounts = lc.getAccounts();
         operatingDays = lc.getOperatingDays();
         open = lc.getOpen();
@@ -203,8 +302,7 @@ public class LearningCenter {
                                 lc.setDescription(document.getString("Description"));
                                 lc.setServiceType(document.getString("ServiceType"));
                                 lc.setLogo(document.getString("Logo"));
-                                lc.setFollowedUser(false);
-                                lc.setFollowingMe(false);
+
                                 List <Object> accounts = (List<Object>) document.get("Accounts");
                                 for (int i=0;i<accounts.size();i++) {
                                     Map <String, String> data = new HashMap<>();

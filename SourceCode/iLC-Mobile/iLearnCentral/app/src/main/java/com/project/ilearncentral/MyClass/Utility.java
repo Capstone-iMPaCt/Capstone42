@@ -16,6 +16,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -24,6 +25,7 @@ import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.Model.User;
 
@@ -283,5 +285,76 @@ public class Utility {
             newData.add(s);
         }
         return newData;
+    }
+
+    public static String processCount(List<String> list) {
+        if (list!=null) {
+            double in = (double) list.size();
+            String s;
+            if (in >= 1000000000) {
+                s = in / 1000000000 + "";
+                return (s.substring(0, 4) + "B");
+            } else if (in >= 100000000) {
+                s = in / 1000000 + "";
+                return (s.substring(0, 3) + "M");
+            } else if (in >= 10000000) {
+                s = in / 1000000 + "";
+                return (s.substring(0, 5) + "M");
+            } else if (in >= 1000000) {
+                s = in / 1000000 + "";
+                return (s.substring(0, 4) + "M");
+            } else if (in >= 100000) {
+                s = in / 1000 + "";
+                return (s.substring(0, 3) + "K");
+            } else if (in >= 10000) {
+                s = in / 1000 + "";
+                return (s.substring(0, 5) + "K");
+            } else if (in >= 1000) {
+                s = in / 1000 + "";
+                return (s.substring(0, 4) + "K");
+            } else
+                return ((int) in + "");
+        }
+        return "0";
+    }
+
+    public static void follow(User u) {
+        if (Account.me.getFollowing().size()>0)
+            db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayUnion(u.getUsername()));
+        else {
+            db.collection("User").document(user.getUid()).update("Following", Account.me.getFollowing());
+        }
+        if (u.getFollowers().size()>0)
+            db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayUnion(Account.getUsername()));
+        else {
+            db.collection("User").document(u.getUserId()).update("Followers", u.getFollowers());
+        }
+    }
+
+    public static void followLC(LearningCenter lc) {
+        if (Account.me.getFollowing().size()>0)
+            db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayUnion(lc.getCenterId()));
+        else {
+            db.collection("User").document(user.getUid()).update("Following", Account.me.getFollowing());
+        }
+        if (lc.getFollowers().size()>0)
+            db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayUnion(Account.getUsername()));
+        else {
+            db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", lc.getFollowers());
+        }
+    }
+
+    public static void unfollow(User u) {
+        db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayRemove(u.getUsername()));
+        db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayRemove(Account.getUsername()));
+    }
+
+    public static void unfollowLC(LearningCenter lc) {
+        db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayRemove(lc.getCenterId()));
+        db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayRemove(Account.getUsername()));
+    }
+
+    public static void rate(User u) {
+        db.collection("User").document(u.getUserId()).update("Ratings", u.getRatings());
     }
 }

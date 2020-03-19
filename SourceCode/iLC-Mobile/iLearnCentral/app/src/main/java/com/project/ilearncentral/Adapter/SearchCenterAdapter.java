@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.project.ilearncentral.Activity.ViewLearningCenter;
 import com.project.ilearncentral.Activity.ViewUser;
 import com.project.ilearncentral.Model.LearningCenter;
@@ -48,9 +49,8 @@ public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapte
         holder.type.setText(center.getServiceType() + "\n" + center.getDescription());
         holder.name.setText(center.getBusinessName());
         if (!center.getLogo().isEmpty())
-            if (holder.image.getBackground() == null)
-                Picasso.get().load(Uri.parse(center.getLogo())).error(R.drawable.user).fit()
-                        .into(holder.image);
+                if (holder.image.getBackground() == null)
+                    Glide.with(context).load(center.getLogo()).error(R.drawable.logo_icon).fitCenter().into(holder.image);
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

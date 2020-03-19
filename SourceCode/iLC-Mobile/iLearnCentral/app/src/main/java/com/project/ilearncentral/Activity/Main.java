@@ -100,6 +100,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 .build();
         db.setFirestoreSettings(settings);
 
+        Account.clear();
         if (user == null) {
             startActivity(new Intent(this, Login.class));
             finish();
@@ -142,8 +143,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         tabGenerate = false;
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
         if (Account.isType("LearningCenter")) {
-            adapter.addFragment(new LearningCenterProfile(), "Center");
             adapter.addFragment(new StudentProfile(), "Profile");
+            adapter.addFragment(new LearningCenterProfile(), "Center");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
         } else if (Account.isType("Educator")) {
