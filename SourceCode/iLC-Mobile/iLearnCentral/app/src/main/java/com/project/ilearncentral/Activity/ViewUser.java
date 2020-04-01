@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,19 +13,25 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
 import de.hdodenhof.circleimageview.CircleImageView;
+import okhttp3.internal.Util;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Model.User;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -37,12 +44,15 @@ public class ViewUser extends AppCompatActivity {
 
     private final String TAG = "ViewUser";
     private CircleImageView imageView;
+    private CardView aboutMe;
     private TextView usernameView, expertiseView, addressOutput,
-            birthdateOutput, religionOutput, citizenshipOutput, maritalStatusOutput;
+            birthdateOutput, religionOutput, citizenshipOutput, maritalStatusOutput,
+            following, followers, rating;
     private Button chat, follow;
 
     private Map<String, Object> userData;
     private String username;
+    private User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,8 +65,10 @@ public class ViewUser extends AppCompatActivity {
         userData = new HashMap<>();
 
         Intent i = getIntent();
-        if (i.hasExtra("USERNAME"))
+        if (i.hasExtra("USERNAME")) {
             username = i.getStringExtra("USERNAME");
+            user = User.getUserByUsername(username);
+        }
         retrieveUserFromDB();
 
         imageView = findViewById(R.id.view_user_image);
@@ -67,7 +79,33 @@ public class ViewUser extends AppCompatActivity {
         religionOutput = findViewById(R.id.aboutme_religion);
         citizenshipOutput = findViewById(R.id.aboutme_citizenship);
         maritalStatusOutput = findViewById(R.id.aboutme_marital_status);
+        aboutMe = findViewById(R.id.view_user_aboutme);
+        followers = findViewById(R.id.view_user_followers);
+        following = findViewById(R.id.view_user_following);
+        rating = findViewById(R.id.view_user_rating);
 
+        follow = findViewById(R.id.view_user_follow);
+        follow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (follow.getText().toString().equalsIgnoreCase("Follow")) {
+                    user.addFollower(Account.getUsername());
+                    Account.me.addFollowing(username);
+                    User.getUserByUsername(Account.getUsername()).addFollowing(username);
+                    Utility.follow(user);
+                    follow.setText("Unfollow");
+                    followers.setText(Utility.processCount(user.getFollowers()));
+
+                } else {
+                    user.getFollowers().remove(Account.getUsername());
+                    User.getUserByUsername(Account.getUsername()).getFollowing().remove(username);
+                    Account.me.getFollowing().remove(username);
+                    Utility.unfollow(user);
+                    follow.setText("Follow");
+                    followers.setText(Utility.processCount(user.getFollowers()));
+                }
+            }
+        });
         chat = findViewById(R.id.view_user_chat);
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,8 +120,27 @@ public class ViewUser extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                final Dialog ratingDialog = new Dialog(ViewUser.this, R.style.FullHeightDialog);
+                ratingDialog.setContentView(R.layout.rating_dialog);
+                ratingDialog.setCancelable(true);
+                final RatingBar ratingBar = (RatingBar)ratingDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(Float.parseFloat(user.getRating()+""));
+
+                TextView text = (TextView) ratingDialog.findViewById(R.id.rank_dialog_text1);
+                text.setText(user.getFullname());
+
+                Button updateButton = (Button) ratingDialog.findViewById(R.id.rank_dialog_button);
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        user.addRating(Account.getUsername(), (int)ratingBar.getRating());
+                        rating.setText(user.getRating()+"");
+                        Utility.rate(user);
+                        ratingDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                ratingDialog.show();
             }
         });
     }
@@ -93,35 +150,45 @@ public class ViewUser extends AppCompatActivity {
         if (!getString("Image").isEmpty())
             Picasso.get().load(Uri.parse(getString("Image"))).error(R.drawable.avatar_boy).fit().into(imageView);
         expertiseView.setText(getString("AccountType"));
-
-        Map<String, Object> addressMap = (Map<String, Object>) userData.get("Address");
-        String address = "";
-        if (addressMap.containsKey("HouseNo"))
-            address += addressMap.get("HouseNo") + " ";
-        if (addressMap.containsKey("Street"))
-            address += " " + addressMap.get("Street");
-        if (addressMap.containsKey("Barangay"))
-            address += ", " + addressMap.get("Barangay");
-        if (addressMap.containsKey("City"))
-            address += ", " + addressMap.get("City");
-        if (addressMap.containsKey("District"))
-            address += ", " + addressMap.get("District");
-        if (addressMap.containsKey("Province"))
-            address += ", " + addressMap.get("Province");
-        if (addressMap.containsKey("Country"))
-            address += ", " + addressMap.get("Country");
-        if (addressMap.containsKey("ZipCode"))
-            address += ", " + addressMap.get("ZipCode");
-        if (address.length()>1 && address.charAt(0)==',')
-            address = address.substring(1);
-        address.replaceAll("\\s", " ");
-        userData.put("Address", address.trim());
+        if (Account.me.isFollowing(user.getUsername())) {
+            follow.setText("Unfollow");
+        }
+        followers.setText(Utility.processCount(user.getFollowers()));
+        following.setText(Utility.processCount(user.getFollowing()));
+        rating.setText(user.getRating()+"");
+        try {
+            Map<String, Object> addressMap = (Map<String, Object>) userData.get("Address");
+            String address = "";
+            if (addressMap.containsKey("HouseNo"))
+                address += addressMap.get("HouseNo") + " ";
+            if (addressMap.containsKey("Street"))
+                address += " " + addressMap.get("Street");
+            if (addressMap.containsKey("Barangay"))
+                address += ", " + addressMap.get("Barangay");
+            if (addressMap.containsKey("City"))
+                address += ", " + addressMap.get("City");
+            if (addressMap.containsKey("District"))
+                address += ", " + addressMap.get("District");
+            if (addressMap.containsKey("Province"))
+                address += ", " + addressMap.get("Province");
+            if (addressMap.containsKey("Country"))
+                address += ", " + addressMap.get("Country");
+            if (addressMap.containsKey("ZipCode"))
+                address += ", " + addressMap.get("ZipCode");
+            if (address.length() > 1 && address.charAt(0) == ',')
+                address = address.substring(1);
+            address.replaceAll("\\s", " ");
+            userData.put("Address", address.trim());
+        } catch (Exception e) {
+            userData.put("Address", "");
+        }
 
         addressOutput.setText(getString("Address"));
         birthdateOutput.setText(Utility.getStringFromDate((Timestamp)userData.get("Birthday")));
         religionOutput.setText(getString("Religion"));
         citizenshipOutput.setText(getString("Citizenship"));
         maritalStatusOutput.setText(getString("MaritalStatus"));
+        aboutMe.setVisibility(View.VISIBLE);
     }
 
     private String getString(String key) {
@@ -173,5 +240,14 @@ public class ViewUser extends AppCompatActivity {
                     }
                 }
             });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                this.finish();
+        }
+        return true;
     }
 }

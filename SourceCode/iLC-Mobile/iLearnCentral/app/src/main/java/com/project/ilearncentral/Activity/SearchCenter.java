@@ -1,38 +1,30 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.util.Log;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.project.ilearncentral.Adapter.SearchUserAdapter;
+import com.project.ilearncentral.Adapter.SearchCenterAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
-import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
 
-public class SearchUser extends AppCompatActivity {
+public class SearchCenter extends AppCompatActivity {
 
-    private List<User> retrievedUsers;
-    private List<User> users;
+    private List<LearningCenter> retrieved;
+    private List<LearningCenter> centers;
 
-    private SearchUserAdapter adapter;
+    private SearchCenterAdapter adapter;
     private RecyclerView recyclerView;
     private SearchView searchView;
     private ObservableBoolean show;
@@ -42,7 +34,7 @@ public class SearchUser extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_user);
 
-        users = new ArrayList<>();
+        centers = new ArrayList<>();
         recyclerView = findViewById(R.id.search_user_recyclerview);
         searchView = findViewById(R.id.search_user_view);
         show = new ObservableBoolean();
@@ -50,8 +42,8 @@ public class SearchUser extends AppCompatActivity {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 if (newValue) {
-                    users.clear();
-                    users.addAll(retrievedUsers);
+                    centers.clear();
+                    centers.addAll(retrieved);
                     adapter.notifyDataSetChanged();
                 }
             }
@@ -59,7 +51,7 @@ public class SearchUser extends AppCompatActivity {
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                searchFullnames(query);
+                searchBusinessName(query);
                 return false;
             }
 
@@ -76,25 +68,25 @@ public class SearchUser extends AppCompatActivity {
             }
         });
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(SearchUser.this));
-        adapter = new SearchUserAdapter(this, users);
+        recyclerView.setLayoutManager(new LinearLayoutManager(SearchCenter.this));
+        adapter = new SearchCenterAdapter(this, centers);
         recyclerView.setAdapter(adapter);
-        retrievedUsers = User.getRetrievedUsers();
-        if (retrievedUsers.size()>0) show.set(true);
+        retrieved = LearningCenter.getRetrieved();
+        if (retrieved.size()>0) show.set(true);
     }
 
-    public void searchFullnames(String text) {
-        users.clear();
+    public void searchBusinessName(String text) {
+        centers.clear();
         text = text.toLowerCase();
 
-        for(User user: retrievedUsers) {
-            if (user.getFullname().toLowerCase().contains(text) ||
-                    user.getType().toLowerCase().contains(text))
-                users.add(user);
+        for(LearningCenter center: retrieved) {
+            if (center.getBusinessName().toLowerCase().contains(text) ||
+                    center.getServiceType().toLowerCase().contains(text))
+                centers.add(center);
         }
-        Collections.sort(users, new Comparator<User>() {
-            public int compare(User o1, User o2) {
-                return o2.getFullname().compareTo(o1.getFullname());
+        Collections.sort(centers, new Comparator<LearningCenter>() {
+            public int compare(LearningCenter o1, LearningCenter o2) {
+                return o1.getBusinessName().compareTo(o2.getBusinessName());
             }
         });
         adapter.notifyDataSetChanged();

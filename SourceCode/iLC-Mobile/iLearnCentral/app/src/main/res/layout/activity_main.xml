@@ -23,6 +23,13 @@
             android:gravity="center"
             android:orientation="vertical">
 
+            <ImageView
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:layout_gravity="center"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/logo_icon" />
+
             <ProgressBar
                 android:id="@+id/loading_circle"
                 android:layout_width="wrap_content"
@@ -74,9 +81,7 @@
                     android:id="@+id/view_user_image"
                     android:layout_width="@dimen/dp_diameter"
                     android:layout_height="@dimen/dp_diameter"
-                    android:background="@drawable/ic_account_circle_black_24dp"
                     android:clickable="true"
-                    android:src="@drawable/avatar_boy"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
                     app:layout_collapseMode="none" />
@@ -133,6 +138,16 @@
                         android:background="@drawable/find_user_icon"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toEndOf="@id/main_subscription_button"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/main_center_list_button"
+                        android:layout_width="@dimen/nav_icon_lw"
+                        android:layout_height="@dimen/nav_icon_lw"
+                        android:layout_marginLeft="16dp"
+                        android:background="@drawable/icons8_school"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/main_find_user_button"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <Button

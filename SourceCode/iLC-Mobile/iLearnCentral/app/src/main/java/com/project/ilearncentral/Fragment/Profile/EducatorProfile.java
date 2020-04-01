@@ -25,6 +25,7 @@ import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.Model.ResumeItem;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -32,7 +33,7 @@ import java.util.List;
 public class EducatorProfile extends Fragment {
 
     private int UPDATE_RESUME = 15;
-    private TextView email, contactNo, centerName, careerObjective;
+    private TextView email, contactNo, centerName, careerObjective, followers, following, rating;
     private LinearLayout centerLayout, resumeDetails, educationalLayout, employmentLayout, skillsLayout, awardsLayout;
     private CardView objective, qualitiesLayout, interestLayout, referencesLayout;
     private RecyclerView educationalBackgroundRecyclerView, employmentHistoryRecyclerView,
@@ -68,6 +69,9 @@ public class EducatorProfile extends Fragment {
         centerName = view.findViewById(R.id.educator_profile_center);
         centerLayout = view.findViewById(R.id.educator_profile_center_layout);
         careerObjective = view.findViewById(R.id.educator_career_objective);
+        followers = view.findViewById(R.id.educator_followers);
+        following = view.findViewById(R.id.educator_following);
+        rating = view.findViewById(R.id.educator_rating);
         resumeDetails = view.findViewById(R.id.educator_profile_resume_details);
         updateResume = view.findViewById(R.id.educator_profile_update_resume_button);
         objective = view.findViewById(R.id.educator_profile_objective);
@@ -147,6 +151,9 @@ public class EducatorProfile extends Fragment {
                     if (Account.getStringData("centerId").isEmpty()) {
                         centerLayout.setVisibility(View.GONE);
                     } else {
+                        followers.setText(Utility.processCount(Account.me.getFollowers()));
+                        following.setText(Utility.processCount(Account.me.getFollowing()));
+                        rating.setText(Account.me.getRating()+"");
                         centerLayout.setVisibility(View.VISIBLE);
                         centerName.setText(Account.getBusinessName());
                     }
@@ -224,5 +231,13 @@ public class EducatorProfile extends Fragment {
         referencesAdapter = new ResumeReferenceAdapter(getContext(), references);
         referencesRecyclerView.setAdapter(referencesAdapter);
 
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        followers.setText(Utility.processCount(Account.me.getFollowers()));
+        following.setText(Utility.processCount(Account.me.getFollowing()));
+        rating.setText(Account.me.getRating()+"");
     }
 }

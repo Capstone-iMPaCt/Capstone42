@@ -2,18 +2,10 @@ package com.project.ilearncentral.MyClass;
 
 import android.net.Uri;
 
-import androidx.annotation.NonNull;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.auth.FirebaseAuth;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Model.User;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,8 +19,9 @@ public class Account {
     private static Type type;
     private static Map<String, Object> data = new HashMap<>();
     private static List<Map<String, Object>> accounts = new ArrayList<>();
+    public static User me = new User();
     public static List<ObservableBoolean> updateObservables = new ArrayList<>();
-    public static boolean userSet, profileSet, businessSet = false;
+    public static boolean userSet, profileSet, businessSet = false, openCenter = false;
 
     public enum Type {LearningCenter, Educator, Student}
 
@@ -71,6 +64,16 @@ public class Account {
             for (int i = 0; i < oldKeys.length; i++) {
                 setValidatedData(oldKeys[i], userData, newKeys[i]);
             }
+            me.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            me.setUsername(getUsername());
+            me.setType(userData.get("AccountType").toString());
+            me.setImage(userData.get("Image").toString());
+            if (userData.containsKey("Followers"))
+                me.getFollowers().addAll((List<String>) userData.get("Followers"));
+            if (userData.containsKey("Following"))
+                me.getFollowing().addAll((List<String>) userData.get("Following"));
+            if (userData.containsKey("Ratings"))
+                me.getRatings().putAll(((Map<String, Integer>) userData.get("Ratings")));
             userSet = true;
         }
     }
@@ -314,6 +317,7 @@ public class Account {
         status = "";
         data.clear();
         accounts.clear();
+        me = null;
     }
 
     public static Map<String, Object> getData() {
@@ -355,7 +359,7 @@ public class Account {
     }
 
     public static boolean isType(String accountType) {
-        return (type + "").equals(accountType);
+        return (type + "").equalsIgnoreCase(accountType);
     }
 
     public static void setType(Type type) {

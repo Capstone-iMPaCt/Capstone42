@@ -51,6 +51,7 @@ public class Resume {
         qualities.clear();
         references.clear();
         skills.clear();
+        resumeChange = true;
     }
 
     public static String getId() {

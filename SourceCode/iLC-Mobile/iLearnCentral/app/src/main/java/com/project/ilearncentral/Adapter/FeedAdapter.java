@@ -21,9 +21,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
+import com.project.ilearncentral.Activity.Login;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
+import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.MyClass.Utility;
@@ -110,12 +113,23 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
             public void onClick(View v) {
                 Posts.setCurPost(Posts.getIdOfPost(post.getPostSender(), post.getContent()));
                 if (Posts.hasCurrent()) {
-                    Intent i = new Intent(context, AddEditFeed.class);
-                    i.putExtra("postId", post.getPostId());
-                    context.startActivity(i);
+                    User user = User.getUserByUsername(post.getPostSender());
+                    if (user.getType().equalsIgnoreCase("educator")) {
+                        Intent i = new Intent(context, AddEditFeed.class);
+                        intent.putExtra("USERNAME", post.getPostSender());
+                        intent.putExtra("TYPE", user.getType());
+                        intent.putExtra("FULL_NAME", post.getFullname());
+                        context.startActivity(i);
+                    }
                 }
             }
         });
+    }
+
+    private void viewPoster(Post post) {
+        Intent i = new Intent(context, AddEditFeed.class);
+        i.putExtra("postId", post.getPostId());
+        context.startActivity(i);
     }
 
     @Override
