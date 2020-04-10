@@ -6,10 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Fragment.Feed">
+    tools:context=".Fragment.SubSystem.EnrolmentSystem">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/feed_app_bar"
+        android:id="@+id/enrolment_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -23,7 +23,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/feed_searchview"
+                android:id="@+id/enrolment_searchview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -37,7 +37,7 @@
                 app:contentInsetStart="0dp" />
 
             <View
-                android:id="@+id/feed_searchview_line_divider"
+                android:id="@+id/enrolment_searchview_line_divider"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginTop="3dp"
@@ -52,19 +52,19 @@
                 android:layout_margin="5dp">
 
                 <TextView
-                    android:id="@+id/feed_toggle_view"
+                    android:id="@+id/enrolment_toggle_view"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_selected_day_rounded"
                     android:gravity="center"
-                    android:text="All"
+                    android:text="Open"
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold"
                     android:visibility="gone"/>
 
                 <ImageButton
-                    android:id="@+id/feed_toggle_recommend"
+                    android:id="@+id/enrolment_toggle_recommend"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/disable_recommend_icon"
@@ -75,13 +75,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/feed_pullToRefresh"
+        android:id="@+id/enrolment_pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/feed_recylerview"
+            android:id="@+id/enrolment_recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="bottom"
@@ -90,7 +90,7 @@
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/feed_add_fab"
+        android:id="@+id/enrolment_add_fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

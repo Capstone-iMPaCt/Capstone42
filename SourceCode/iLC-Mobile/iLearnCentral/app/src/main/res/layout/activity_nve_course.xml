@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_linear"
+    android:focusable="false"
+    tools:context=".Activity.NveCourse">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_transparent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <Spinner
+                android:id="@+id/course_nve_type_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:entries="@array/course_type"
+                android:layout_gravity="center"
+                android:background="@drawable/input_white_bg_rounded"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="15dp"/>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/course_nve_type_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/course_nve_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:hint="Course Type"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/course_nve_fee_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/course_nve_fee"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:hint="Course Fee"
+                    android:inputType="numberDecimal"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/bg_transparent_rounded"
+                android:padding="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/course_nve_schedule_header"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Schedule"
+                    android:layout_alignParentTop="true"
+                    android:textColor="@color/colorPrimary"/>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/course_nve_from_schedule_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/course_nve_from_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_white_bg_rounded"
+                        android:drawablePadding="20dp"
+                        android:focusable="true"
+                        android:hint="From"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHighlight="@color/mint_blue"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textColorLink="@color/light_blue" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/course_nve_to_schedule_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_toEndOf="@+id/course_nve_from_schedule_layout"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/course_nve_to_schedule"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_white_bg_rounded"
+                        android:drawablePadding="20dp"
+                        android:focusable="true"
+                        android:hint="To"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHighlight="@color/mint_blue"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textColorLink="@color/light_blue" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/course_schedule_days"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/course_nve_from_schedule_layout"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_sun"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Sun"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_mon"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Mon"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_tue"
+                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_sun"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_tue"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Tue"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_wed"
+                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_mon"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_wed"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Wed"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_thu"
+                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_tue"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_thu"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Thu"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_fri"
+                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_wed"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_fri"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Fri"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_sat"
+                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_thu"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/lc_profile_op_day_sat"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/bg_unselected_day_rounded"
+                        android:gravity="center"
+                        android:text="Sat"
+                        android:textAllCaps="false"
+                        android:textColor="@android:color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </RelativeLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/course_nve_name_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/course_nve_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:hint="Course Name"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/course_nve_description_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/course_nve_description"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:gravity="start"
+                    android:hint="Content"
+                    android:inputType="textCapSentences|textMultiLine"
+                    android:minLines="5"
+                    android:padding="10dp"
+                    android:textAlignment="gravity"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/course_nve_instructor_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/course_nve_instructor"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="true"
+                    android:hint="Instructor"
+                    android:inputType="textCapWords"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/course_nve_button"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/button_color_primary"
+                android:text="Post"
+                android:textColor="@color/text_view_background" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
