@@ -102,9 +102,9 @@ public class EnrolmentSystem extends Fragment {
         });
 
         course = new ArrayList<>();
-        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
-        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
-        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new CourseAdapter(getContext(), editOrView, course);
