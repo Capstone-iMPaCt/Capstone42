@@ -70,7 +70,8 @@ public class Account {
             me.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
             me.setUsername(getUsername());
             me.setType(userData.get("AccountType").toString());
-            me.setImage(userData.get("Image").toString());
+            if (userData.get("Image")!=null)
+                me.setImage(userData.get("Image").toString());
             if (userData.containsKey("Followers"))
                 me.getFollowers().addAll((List<String>) userData.get("Followers"));
             if (userData.containsKey("Following"))
@@ -92,7 +93,10 @@ public class Account {
             userData.put("Email", getStringData("email"));
             userData.put("ContactNo", getStringData("contactNo"));
             userData.put("Username", getStringData("username"));
-            userData.put("Image", data.get("image"));
+            if (hasKey("image"))
+                userData.put("Image", data.get("image"));
+            else
+                userData.put("Image", "");
             userData.put("Question", getStringData("question"));
             userData.put("Answer", getStringData("answer"));
         } catch (Exception e) {

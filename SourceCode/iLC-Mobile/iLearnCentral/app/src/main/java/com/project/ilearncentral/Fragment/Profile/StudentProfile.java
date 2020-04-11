@@ -52,6 +52,7 @@ public class StudentProfile extends Fragment {
         followers = view.findViewById(R.id.student_followers);
         following = view.findViewById(R.id.student_following);
         rating = view.findViewById(R.id.student_rating);
+        enrolmentHistory = new ArrayList<>();
 
         email.setText(FirebaseAuth.getInstance().getCurrentUser().getEmail());
         ObservableBoolean update = new ObservableBoolean();
@@ -78,7 +79,6 @@ public class StudentProfile extends Fragment {
         if (Account.profileSet) update.set(true);
 
         // Adding Enrolment History
-        enrolmentHistory = new ArrayList<>();
 //        enrolmentHistory.add(new Enrolment("Learning Center Name","Course Enrolled","Date Enrolled"));
 //        enrolmentHistory.add(new Enrolment("Learning Center Name","Course Enrolled","Date Enrolled"));
 //        enrolmentHistory.add(new Enrolment("Learning Center Name","Course Enrolled","Date Enrolled"));

@@ -32,7 +32,7 @@ import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
-import com.project.ilearncentral.Fragment.UserActivitySchedules;
+//import com.project.ilearncentral.Fragment.UserActivitySchedules;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
