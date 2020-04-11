@@ -75,7 +75,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public class CourseViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout containerLayout;
-        private TextView courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor;
+        private TextView courseStatus, courseType, courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor;
 
         CourseViewHolder(View itemView) {
             super(itemView);

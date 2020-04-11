@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.NveCourse;
@@ -27,6 +28,7 @@ import com.project.ilearncentral.Model.CourseOffered;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
+import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -68,9 +70,6 @@ public class EnrolmentSystem extends Fragment {
         disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
 
         searchOption = view.findViewById(R.id.enrolment_toggle_view);
-        toggleRecommend = view.findViewById(R.id.enrolment_toggle_recommend);
-        toggleRecommend.setBackground(disableRecommend);
-
 
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,17 +80,12 @@ public class EnrolmentSystem extends Fragment {
         });
 
         toggleView = view.findViewById(R.id.enrolment_toggle_view);
-        if (Account.isType("LearningCenter")) {
-            toggleView.setVisibility(View.VISIBLE);
-            addNewCourseBtn.setVisibility(View.VISIBLE);
-            searchOption.setVisibility(View.VISIBLE);
-            searchOption.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                }
-            });
-        }
+        toggleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setToggleView();
+            }
+        });
 
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.enrolment_pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -108,6 +102,9 @@ public class EnrolmentSystem extends Fragment {
         });
 
         course = new ArrayList<>();
+        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new CourseOffered("Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new CourseAdapter(getContext(), editOrView, course);
@@ -116,18 +113,18 @@ public class EnrolmentSystem extends Fragment {
     }
 
     private void setToggleView() {
-        if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+        if (toggleView.getText().toString().equalsIgnoreCase("Open")) {
+            toggleView.setText("Closed");
             toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-            toggleView.setText("Open");
-            course.clear();
-//            course.addAll(CourseOffered.searchText(""));
-            adapter.notifyDataSetChanged();
+//            course.clear();
+//            course.addAll(Posts.myPosts());
+//            adapter.notifyDataSetChanged();
         } else {
             toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-            toggleView.setText("Closed");
-            course.clear();
-//            course.addAll(CourseOffered.searchText(""));
-            adapter.notifyDataSetChanged();
+            toggleView.setText("Open");
+//            course.clear();
+//            course.addAll(Posts.searchText(""));
+//            adapter.notifyDataSetChanged();
         }
     }
 }

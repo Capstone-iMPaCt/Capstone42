@@ -130,6 +130,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new LearningCenterProfile(), "Center");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
+            adapter.addFragment(new EnrolmentSystem(), "Enrolment");
         } else if (Account.isType("Educator")) {
             adapter.addFragment(new EducatorProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
@@ -138,7 +139,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
         }
-//        adapter.addFragment(new EnrolmentSystem(), "Enrolment");
         adapter.addFragment(new SchedulingSystem(), "My Activies");
 
         viewPager.setAdapter(adapter);

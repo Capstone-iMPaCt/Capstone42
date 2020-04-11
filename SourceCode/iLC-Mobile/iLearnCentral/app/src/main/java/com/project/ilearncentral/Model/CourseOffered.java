@@ -1,6 +1,7 @@
 package com.project.ilearncentral.Model;
 
 public class CourseOffered {
+    private String courseStatus;
     private String courseType;
     private double courseFee;
     private String courseName;
@@ -9,7 +10,8 @@ public class CourseOffered {
     private String classScheduleTo;
     private String classScheduleDays;
 
-    public CourseOffered(String courseType, double courseFee, String courseName, String courseDescription, String classFromSchedule, String classToSchedule, String classDaysSchedule) {
+    public CourseOffered(String courseStatus, String courseType, double courseFee, String courseName, String courseDescription, String classFromSchedule, String classToSchedule, String classDaysSchedule) {
+        this.courseStatus = courseStatus;
         this.courseType = courseType;
         this.courseFee = courseFee;
         this.courseName = courseName;
@@ -17,6 +19,14 @@ public class CourseOffered {
         this.classScheduleFrom = classFromSchedule;
         this.classScheduleTo = classToSchedule;
         this.classScheduleDays = classDaysSchedule;
+    }
+
+    public String getCourseStatus() {
+        return courseStatus;
+    }
+
+    public void setCourseStatus(String courseStatus) {
+        this.courseStatus = courseStatus;
     }
 
     public String getCourseType() {
