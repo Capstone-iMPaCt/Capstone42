@@ -40,10 +40,10 @@ import androidx.annotation.NonNull;
 
 public class Utility {
 
-    private static FirebaseAuth mAuth = FirebaseAuth.getInstance();
-    private static FirebaseUser user = mAuth.getCurrentUser();
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    public static FirebaseUser user = mAuth.getCurrentUser();
+    public static FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
 
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");

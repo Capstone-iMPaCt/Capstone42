@@ -1,9 +1,12 @@
 package com.project.ilearncentral.MyClass;
 
+import android.content.Intent;
 import android.net.Uri;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
+import com.project.ilearncentral.Activity.Main;
+import com.project.ilearncentral.Activity.SplashScreen;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.Model.User;
 
@@ -317,7 +320,7 @@ public class Account {
         status = "";
         data.clear();
         accounts.clear();
-        me = null;
+        me = new User();
     }
 
     public static Map<String, Object> getData() {

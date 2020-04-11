@@ -261,9 +261,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void loggedIn() {
-        startActivity(new Intent(getApplicationContext(), Main.class));
-        Toast.makeText(getApplicationContext(), "You are Logged In", Toast.LENGTH_SHORT).show();
-        Log.d(TAG, "Logged in.");
+        startActivity(new Intent(getApplicationContext(), SplashScreen.class));
         finish();
     }
 

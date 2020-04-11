@@ -3,14 +3,40 @@ package com.project.ilearncentral.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.FirebaseStorage;
+import com.project.ilearncentral.Activity.SignUp.CreateUser;
+import com.project.ilearncentral.Activity.Update.UpdateAccount;
+import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
+import com.project.ilearncentral.Activity.Update.UpdateProfile;
+import com.project.ilearncentral.Adapter.MainAdapter;
+import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Fragment.Feed;
+import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
+import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
+import com.project.ilearncentral.Fragment.Profile.StudentProfile;
+import com.project.ilearncentral.Fragment.UserActivitySchedules;
+import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Connection;
+import com.project.ilearncentral.MyClass.Resume;
+import com.project.ilearncentral.MyClass.Utility;
+import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,57 +45,12 @@ import androidx.appcompat.view.menu.MenuBuilder;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.appbar.AppBarLayout;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.ilearncentral.Activity.SignUp.CreateUser;
-import com.project.ilearncentral.Activity.Update.UpdateAccount;
-import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
-import com.project.ilearncentral.Activity.Update.UpdateProfile;
-import com.project.ilearncentral.Adapter.MainAdapter;
-import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
-import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
-import com.project.ilearncentral.Fragment.Feed;
-import com.project.ilearncentral.Fragment.JobPost;
-import com.project.ilearncentral.Fragment.UserActivitySchedules;
-import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
-import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
-import com.project.ilearncentral.Fragment.Profile.StudentProfile;
-import com.project.ilearncentral.Model.LearningCenter;
-import com.project.ilearncentral.Model.User;
-import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.Resume;
-import com.project.ilearncentral.MyClass.Connection;
-import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "MAIN";
     private FirebaseUser user;
-    private FirebaseFirestore db;
-    private StorageReference storageRef;
-    private ObservableBoolean accountSet, authProfileSet,
-            userSet, profileSet, centerSet;
     private boolean tabGenerate;
 
     private Toolbar toolbar;
@@ -82,7 +63,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private CollapsingToolbarLayout toolbarLayout;
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
-    private LinearLayout profileView;
     private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14, UPDATE_RESUME = 15;
 
     @Override
@@ -91,22 +71,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
-        db = FirebaseFirestore.getInstance();
-        storageRef = FirebaseStorage.getInstance().getReference();
         tabGenerate = true;
 
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setPersistenceEnabled(true)
-                .build();
-        db.setFirestoreSettings(settings);
-
-        Account.clear();
-        if (user == null) {
-            startActivity(new Intent(this, Login.class));
-            finish();
-        } else {
-            setAccount();
-        }
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.view_user_image);
         featuresButton = (Button) findViewById(R.id.main_subscription_button);
@@ -135,8 +101,23 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        setObservableListeners();
+        System.out.println("~~~~~~~Tab Reset "+ tabGenerate);
+        if (tabGenerate)
+            generateTabs();
+        setDetails(1);
 
+    }
+
+    private void setDetails(int code) {
+        if (code != 3) {
+            changeProfileImage();
+            usernameDisplay.setText(Account.getName());
+            if (Account.getType() == Account.Type.LearningCenter) {
+                fieldDisplay.setText(Account.getType().toString() + " | " + Utility
+                        .caps(Account.getStringData("accessLevel")));
+            } else
+                fieldDisplay.setText(Account.getType().toString());
+        }
     }
 
     private void generateTabs() {
@@ -192,83 +173,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         });
     }
 
-    private void setObservableListeners() {
-        userSet = new ObservableBoolean();
-        userSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-                    if(tabGenerate) generateTabs();
-                    new Thread(new Runnable() {
-                        public void run() {
-                            User.retrieveUsersFromDB();
-                            LearningCenter.retrieveLearningCentersFromDB();
-                        }
-                    }).start();
-                } else {
-
-                }
-            }
-        });
-        profileSet = new ObservableBoolean();
-        profileSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-                } else {
-
-                }
-            }
-        });
-        centerSet = new ObservableBoolean();
-        centerSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-
-                } else {
-
-                }
-            }
-        });
-        accountSet = new ObservableBoolean();
-        accountSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-                    Account.activateObservables(success);
-                    if (user.getDisplayName() == null || user.getDisplayName().equals("")) {
-                        Utility.updateProfileWithImage(TAG, authProfileSet);
-                    } else {
-                        authProfileSet.set(true);
-                        //SETUP all methods that need Account static to be completely loaded here.
-                    }
-                }
-            }
-        });
-        authProfileSet = new ObservableBoolean();
-        authProfileSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean success) {
-                if (success) {
-                    changeProfileImage();
-                    usernameDisplay
-                            .setText(Account.getName());
-                    if (Account.getType() == Account.Type.LearningCenter) {
-                        fieldDisplay.setText(Account.getType().toString() + " | " + Utility
-                                .caps(Account.getStringData("accessLevel")));
-                    } else
-                        fieldDisplay.setText(Account.getType().toString());
-                    loadingPage.setVisibility(View.GONE);
-                    appBarLayout.setVisibility(View.VISIBLE);
-                    viewPager.setVisibility(View.VISIBLE);
-                } else {
-
-                }
-            }
-        });
-    }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -282,7 +186,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
-                setAccount();
                 break;
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
@@ -290,92 +193,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-    private void setAccount() {
-        DocumentReference userRef = db.collection("User").document(user.getUid());
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Account.setUserData(document.getData());
-                        userSet.set(true);
-                        Log.d(TAG, "User - DocumentSnapshot data: " + document.getData());
 
-                        setProfileDetails();
-                    } else {
-                        userSet.set(false);
-                        Log.d(TAG, "User - No such document");
-                    }
-                } else {
-                    Log.d(TAG, "User - get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    private void setProfileDetails() {
-
-        String collection = "";
-        if (Account.getType() == Account.Type.LearningCenter) {
-            collection = "LearningCenterStaff";
-            Account.setType(Account.Type.LearningCenter);
-        } else if (Account.getType() == Account.Type.Educator) {
-            collection = "Educator";
-            Account.setType(Account.Type.Educator);
-        } else if (Account.getType() == Account.Type.Student) {
-            collection = "Student";
-            Account.setType(Account.Type.Student);
-        }
-        db.collection(collection)
-                .whereEqualTo("Username", Account.getUsername())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Account.setProfileData(document.getData());
-                                profileSet.set(true);
-                                if (Account.getType() == Account.Type.LearningCenter || !Account.getStringData("centerId").isEmpty()) {
-                                    setLearningCenterDetails();
-                                    Log.d(TAG, document.getId() + " => " + document.getData());
-                                } else {
-                                    accountSet.set(true);
-                                }
-                            }
-                        } else {
-                            profileSet.set(false);
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                    }
-                });
-    }
-
-    private void setLearningCenterDetails() {
-        DocumentReference docRef = db.collection("LearningCenter")
-                .document(Account.getStringData("centerId"));
-        docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        Account.setBusinessData(document.getData());
-                        accountSet.set(true);
-                        centerSet.set(true);
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
-                    } else {
-                        centerSet.set(false);
-                        accountSet.set(false);
-                        Log.d(TAG, "No such document in Learning Center");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -449,7 +267,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         runOnUiThread(new Runnable() {
             public void run() {
                 if (user.getPhotoUrl() != null) {
-                    storageRef.child("images").child(Account.getUsername()).getDownloadUrl()
+                    FirebaseStorage.getInstance().getReference().child("images").child(Account.getUsername()).getDownloadUrl()
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
@@ -472,17 +290,21 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         setResult(RESULT_OK);
+
+        Intent intent = new Intent(this, SplashScreen.class);
+        intent.putExtra("update", true);
+        int code = 0;
         if (requestCode == UPDATE_ACCOUNT && resultCode == RESULT_OK) {
-            setAccount();
-            accountSet.set(true);
+            code = 1;
         } else if (requestCode == UPDATE_PROFILE && resultCode == RESULT_OK) {
-            setProfileDetails();
-            accountSet.set(true);
+            code = 2;
         } else if (requestCode == UPDATE_CENTER && resultCode == RESULT_OK) {
-            setLearningCenterDetails();
-            accountSet.set(true);
+            code = 3;
         } else if (requestCode == UPDATE_RESUME && resultCode == RESULT_OK) {
-            accountSet.set(true);
+            code = 0;
         }
+        intent.putExtra("type", code);
+        setDetails(code);
+        startActivity(intent);
     }
 }
