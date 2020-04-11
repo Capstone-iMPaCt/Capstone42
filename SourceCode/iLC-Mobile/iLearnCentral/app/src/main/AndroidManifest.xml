@@ -22,6 +22,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter></activity>
+        <activity android:name=".Activity.NveCourse"></activity>
+        <activity android:name=".Fragment.SubSystem.EnrolmentSystem" />
         <activity
             android:name=".Activity.ViewLearningCenter"
             android:configChanges="orientation|screenSize" />

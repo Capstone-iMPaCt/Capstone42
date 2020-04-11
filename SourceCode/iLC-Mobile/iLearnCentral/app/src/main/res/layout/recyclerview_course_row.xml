@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/course_container"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    android:background="@android:color/white"
+    android:padding="5dp">
+
+    <TextView
+        android:id="@+id/course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/post_user_image_lw"
+        android:layout_alignParentStart="true"
+        android:layout_marginEnd="10dp"
+        android:layout_toStartOf="@+id/course_edit_link"
+        android:gravity="start|center"
+        android:text=""
+        android:textColor="@color/colorPrimaryDark"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/course_edit_link"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:text="Edit"
+        android:textColor="@color/colorPrimary"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/course_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_name"
+        android:layout_alignParentStart="true"
+        android:paddingVertical="10dp"
+        android:text=""
+        android:textColor="@color/colorPrimary" />
+
+    <TextView
+        android:id="@+id/course_schedule_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_description"
+        android:layout_alignParentStart="true"
+        android:paddingVertical="10dp"
+        android:text="Class Time:"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <LinearLayout
+        android:id="@+id/course_schedule_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_description"
+        android:layout_toEndOf="@+id/course_schedule_label"
+        android:orientation="horizontal"
+        android:layout_marginStart="10dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/course_schedule_from"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="From"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/course_schedule_dash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text=" - "
+            android:textColor="@color/colorPrimaryDark" />
+
+        <TextView
+            android:id="@+id/course_schedule_to"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:text="To"
+            android:textColor="@color/colorPrimaryDark" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/course_schedule_days_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_schedule_container"
+        android:layout_alignParentStart="true"
+        android:paddingVertical="10dp"
+        android:text="Class Days:"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/course_schedule_days"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_schedule_container"
+        android:layout_toEndOf="@+id/course_schedule_days_label"
+        android:layout_marginStart="10dp">
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_sun"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Sun"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_mon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Mon"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_tue"
+            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_sun"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_tue"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Tue"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_wed"
+            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_mon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_wed"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Wed"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_thu"
+            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_tue"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_thu"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Thu"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_fri"
+            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_wed"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_fri"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Fri"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_sat"
+            app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_thu"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lc_profile_op_day_sat"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_unselected_day_rounded"
+            android:gravity="center"
+            android:text="Sat"
+            android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/course_instructor_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_schedule_days_label"
+        android:layout_alignParentStart="true"
+        android:paddingVertical="10dp"
+        android:text="Instructor:"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <TextView
+        android:id="@+id/course_instructor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/course_schedule_days_label"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/course_instructor_label"
+        android:paddingVertical="10dp"
+        android:text=""
+        android:textColor="@color/colorPrimaryDark" />
+</RelativeLayout>

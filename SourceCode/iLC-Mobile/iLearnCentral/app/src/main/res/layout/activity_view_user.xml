@@ -49,21 +49,20 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
-                    android:id="@+id/view_user_chat"
+                    android:id="@+id/view_user_follow"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="20dp"
-                    android:text="Chat"
-                    android:background="@drawable/button_color_mint"
-                    android:textColor="@android:color/white"
+                    android:text="Follow"
+                    android:background="@drawable/button_with_border"
+                    android:textColor="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/view_user_image"
                     app:layout_constraintTop_toTopOf="parent" />
 
-
                 <Button
-                    android:id="@+id/view_user_follow"
+                    android:id="@+id/view_user_chat"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
@@ -71,9 +70,9 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="20dp"
                     android:layout_toEndOf="@id/view_user_image"
-                    android:background="@drawable/button_color_mint"
-                    android:text="Follow"
-                    android:textColor="@android:color/white"
+                    android:background="@drawable/button_with_border"
+                    android:text="Chat"
+                    android:textColor="@color/colorAccent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/view_user_image"
                     app:layout_constraintTop_toTopOf="parent" />

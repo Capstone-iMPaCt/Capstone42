@@ -131,5 +131,15 @@
     <string name="username_email">Username / Email</string>
     <string name="title_activity_view_user">ViewUserActivity</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Spinner Values -->
+    <string-array name="course_type">
+        <item>- Select Course Type -</item>
+        <item>Academic</item>
+        <item>Arts</item>
+        <item>Language</item>
+        <item>Technical</item>
+        <item>Others</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

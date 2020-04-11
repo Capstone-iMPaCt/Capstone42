@@ -1,4 +1,4 @@
-package com.project.ilearncentral.Fragment;
+package com.project.ilearncentral.Fragment.SubSystem;
 
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -14,9 +14,9 @@ import com.project.ilearncentral.R;
 
 import java.util.Calendar;
 
-public class UserActivitySchedules extends Fragment {
+public class SchedulingSystem extends Fragment {
 
-    public UserActivitySchedules() {
+    public SchedulingSystem() {
         // Required empty public constructor
     }
 
@@ -29,7 +29,7 @@ public class UserActivitySchedules extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_user_activity_schedules, container, false);
+        View view = inflater.inflate(R.layout.fragment_subsystem_scheduling, container, false);
 
         setRetainInstance(true);
 

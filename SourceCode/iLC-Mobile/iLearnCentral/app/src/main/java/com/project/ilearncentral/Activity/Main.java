@@ -27,6 +27,8 @@ import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
+import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
@@ -136,7 +138,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
         }
-        adapter.addFragment(new UserActivitySchedules(), "My Activies");
+//        adapter.addFragment(new EnrolmentSystem(), "Enrolment");
+        adapter.addFragment(new SchedulingSystem(), "My Activies");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
