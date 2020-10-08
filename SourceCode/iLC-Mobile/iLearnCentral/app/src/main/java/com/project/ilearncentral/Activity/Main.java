@@ -196,8 +196,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 

@@ -114,7 +114,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
                 Posts.setCurPost(Posts.getIdOfPost(post.getPostSender(), post.getContent()));
                 if (Posts.hasCurrent()) {
                     User user = User.getUserByUsername(post.getPostSender());
-                    if (user.getType().equalsIgnoreCase("educator")) {
+                    if (user.getType().equalsIgnoreCase("educator") || user.getType().equalsIgnoreCase("learningcenter")) {
                         Intent i = new Intent(context, AddEditFeed.class);
                         intent.putExtra("USERNAME", post.getPostSender());
                         intent.putExtra("TYPE", user.getType());

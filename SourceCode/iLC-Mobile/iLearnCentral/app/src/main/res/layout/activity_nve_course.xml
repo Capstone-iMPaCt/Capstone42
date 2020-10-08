@@ -113,7 +113,7 @@
                     android:textColor="@color/colorPrimary"/>
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/course_nve_from_schedule_layout"
+                    android:id="@+id/course_nve_schedule_start_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -123,14 +123,15 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/course_nve_from_schedule"
+                        android:id="@+id/course_nve_schedule_start"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:background="@drawable/input_white_bg_rounded"
                         android:drawablePadding="20dp"
-                        android:focusable="true"
-                        android:hint="From"
+                        android:focusable="false"
+                        android:hint="Start"
+                        android:inputType="none"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/text_color"
@@ -140,12 +141,23 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
+                <TextView
+                    android:id="@+id/course_nve_time_dash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_toRightOf="@+id/course_nve_schedule_start_layout"
+                    android:text="-"/>
+
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/course_nve_to_schedule_layout"
+                    android:id="@+id/course_nve_schedule_end_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/course_nve_schedule_header"
-                    android:layout_toEndOf="@+id/course_nve_from_schedule_layout"
+                    android:layout_toEndOf="@+id/course_nve_time_dash"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
@@ -153,14 +165,14 @@
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/course_nve_to_schedule"
-                        android:layout_width="match_parent"
+                        android:id="@+id/course_nve_schedule_end"
+                        android:layout_width="wrap_content"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:background="@drawable/input_white_bg_rounded"
                         android:drawablePadding="20dp"
-                        android:focusable="true"
-                        android:hint="To"
+                        android:focusable="false"
+                        android:hint="End"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/text_color"
@@ -174,16 +186,17 @@
                     android:id="@+id/course_schedule_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/course_nve_from_schedule_layout"
+                    android:layout_below="@+id/course_nve_schedule_start_layout"
                     android:layout_alignParentStart="true">
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_sun"
+                        android:id="@+id/course_sched_day_sun"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
                         android:gravity="center"
                         android:text="Sun"
+                        android:clickable="true"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -191,7 +204,7 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_mon"
+                        android:id="@+id/course_sched_day_mon"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
@@ -200,12 +213,12 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_tue"
-                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_sun"
+                        app:layout_constraintEnd_toStartOf="@id/course_sched_day_tue"
+                        app:layout_constraintStart_toEndOf="@+id/course_sched_day_sun"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_tue"
+                        android:id="@+id/course_sched_day_tue"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
@@ -214,12 +227,12 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_wed"
-                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_mon"
+                        app:layout_constraintEnd_toStartOf="@id/course_sched_day_wed"
+                        app:layout_constraintStart_toEndOf="@+id/course_sched_day_mon"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_wed"
+                        android:id="@+id/course_sched_day_wed"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
@@ -228,12 +241,12 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_thu"
-                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_tue"
+                        app:layout_constraintEnd_toStartOf="@id/course_sched_day_thu"
+                        app:layout_constraintStart_toEndOf="@+id/course_sched_day_tue"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_thu"
+                        android:id="@+id/course_sched_day_thu"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
@@ -242,12 +255,12 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_fri"
-                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_wed"
+                        app:layout_constraintEnd_toStartOf="@id/course_sched_day_fri"
+                        app:layout_constraintStart_toEndOf="@+id/course_sched_day_wed"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_fri"
+                        android:id="@+id/course_sched_day_fri"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
@@ -256,12 +269,12 @@
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/lc_profile_op_day_sat"
-                        app:layout_constraintStart_toEndOf="@+id/lc_profile_op_day_thu"
+                        app:layout_constraintEnd_toStartOf="@id/course_sched_day_sat"
+                        app:layout_constraintStart_toEndOf="@+id/course_sched_day_thu"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/lc_profile_op_day_sat"
+                        android:id="@+id/course_sched_day_sat"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"

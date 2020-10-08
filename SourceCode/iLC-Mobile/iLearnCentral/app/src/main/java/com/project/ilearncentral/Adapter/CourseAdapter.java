@@ -1,43 +1,29 @@
 package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
-import com.project.ilearncentral.Model.CourseOffered;
-import com.project.ilearncentral.Model.JobVacancy;
-import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.JobPosts;
-import com.project.ilearncentral.MyClass.Utility;
+import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.R;
 
 import java.util.List;
-import java.util.Map;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
     private Context context;
     private ObservableString edit;
-    private List<CourseOffered> courses;
+    private List<Course> courses;
 
-    public CourseAdapter(Context context, ObservableString edit, List<CourseOffered> courses) {
+    public CourseAdapter(Context context, ObservableString edit, List<Course> courses) {
         this.context = context;
         this.edit = edit;
         this.courses = courses;
@@ -56,7 +42,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     @Override
     public void onBindViewHolder(@NonNull final CourseViewHolder holder, final int position) {
 
-        final CourseOffered course = courses.get(position);
+        final Course course = courses.get(position);
 
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
@@ -81,7 +67,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             super(itemView);
 
             containerLayout = itemView.findViewById(R.id.course_container);
-            courseName = itemView.findViewById(R.id.course_name);
+            courseName = itemView.findViewById(R.id.course_title);
             courseDescription = itemView.findViewById(R.id.course_description);
             classScheduleFrom = itemView.findViewById(R.id.course_schedule_from);
             classScheduleTo = itemView.findViewById(R.id.course_schedule_to);

@@ -52,6 +52,7 @@ public class Subscription extends AppCompatActivity implements View.OnClickListe
 //                        .setAction("Action", null).show();
 //            }
 //        });
+
     }
 
     @Override

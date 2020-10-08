@@ -1,6 +1,5 @@
 package com.project.ilearncentral.Fragment.SubSystem;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,20 +14,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.NveCourse;
-import com.project.ilearncentral.Activity.NveJobPost;
 import com.project.ilearncentral.Adapter.CourseAdapter;
-import com.project.ilearncentral.Adapter.JobPostAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.Model.CourseOffered;
-import com.project.ilearncentral.Model.JobVacancy;
-import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.JobPosts;
-import com.project.ilearncentral.MyClass.Posts;
+import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -37,7 +29,7 @@ public class EnrolmentSystem extends Fragment {
 
     private CourseAdapter adapter;
     private RecyclerView recyclerView;
-    private ArrayList<CourseOffered> course;
+    private ArrayList<Course> course;
 
     private ObservableBoolean done;
     private ObservableString editOrView;
@@ -91,20 +83,20 @@ public class EnrolmentSystem extends Fragment {
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                if (!searchView.isIconified()) {
-                    searchView.setQuery("", false);
-                    searchView.setIconified(true);
-                }
-                searchView.clearFocus();
-                JobPosts.retrievePostsFromDB(done);
+//                if (!searchView.isIconified()) {
+//                    searchView.setQuery("", false);
+//                    searchView.setIconified(true);
+//                }
+//                searchView.clearFocus();
+//                JobPosts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
             }
         });
 
         course = new ArrayList<>();
-        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
-        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
-        course.add(new CourseOffered("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new Course("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new Course("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
+        course.add(new Course("Open", "Type",3000,"Name","Description","8:00 AM","5:00 PM",""));
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new CourseAdapter(getContext(), editOrView, course);

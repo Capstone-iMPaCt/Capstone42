@@ -43,13 +43,13 @@ public class LearningCenterProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_learning_center, container, false);
 
-        sunday = view.findViewById(R.id.lc_profile_op_day_sun);
-        monday = view.findViewById(R.id.lc_profile_op_day_mon);
-        tuesday = view.findViewById(R.id.lc_profile_op_day_tue);
-        wednesday = view.findViewById(R.id.lc_profile_op_day_wed);
-        thursday = view.findViewById(R.id.lc_profile_op_day_thu);
-        friday = view.findViewById(R.id.lc_profile_op_day_fri);
-        saturday = view.findViewById(R.id.lc_profile_op_day_sat);
+        sunday = view.findViewById(R.id.course_sched_day_sun);
+        monday = view.findViewById(R.id.course_sched_day_mon);
+        tuesday = view.findViewById(R.id.course_sched_day_tue);
+        wednesday = view.findViewById(R.id.course_sched_day_wed);
+        thursday = view.findViewById(R.id.course_sched_day_thu);
+        friday = view.findViewById(R.id.course_sched_day_fri);
+        saturday = view.findViewById(R.id.course_sched_day_sat);
         businessName = view.findViewById(R.id.learning_center_name);
         serviceType = view.findViewById(R.id.learningcenter_type);
         businessAddress = view.findViewById(R.id.learning_center_address);
