@@ -31,8 +31,10 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center">
+                android:layout_gravity="center|bottom"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                app:layout_collapseMode="parallax">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/view_user_image"
@@ -42,7 +44,6 @@
                     android:layout_alignParentEnd="true"
                     app:civ_border_color="@android:color/white"
                     app:civ_border_width="3dp"
-                    app:layout_collapseMode="none"
                     app:layout_constraintBottom_toTopOf="@id/view_user_full_name"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -51,12 +52,12 @@
                 <Button
                     android:id="@+id/view_user_follow"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_centerVertical="true"
                     android:layout_marginEnd="20dp"
                     android:text="Follow"
                     android:background="@drawable/button_with_border"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/view_user_image"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -64,7 +65,7 @@
                 <Button
                     android:id="@+id/view_user_chat"
                     android:layout_width="100dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:layout_alignParentEnd="true"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
@@ -72,7 +73,7 @@
                     android:layout_toEndOf="@id/view_user_image"
                     android:background="@drawable/button_with_border"
                     android:text="Chat"
-                    android:textColor="@color/colorAccent"
+                    android:textColor="@android:color/white"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/view_user_image"
                     app:layout_constraintTop_toTopOf="parent" />

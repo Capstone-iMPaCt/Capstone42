@@ -4,6 +4,9 @@
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02c2496bc680dcf632a668184a9b3797/jetified-expandable-cardview-0.6/AndroidManifest.xml" />
       <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02c2496bc680dcf632a668184a9b3797/jetified-expandable-cardview-0.6/jars/classes.jar!/" />
       <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/02c2496bc680dcf632a668184a9b3797/jetified-expandable-cardview-0.6/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d236059149b74da8307dcc10f14dd84/jetified-expandable-cardview-0.6/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d236059149b74da8307dcc10f14dd84/jetified-expandable-cardview-0.6/AndroidManifest.xml" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/3d236059149b74da8307dcc10f14dd84/jetified-expandable-cardview-0.6/res" />
     </CLASSES>
     <JAVADOC>
       <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.alespero/expandable-cardview/0.6/b36709c78fd98611e5c68a9cff32c75ad7d503ee/expandable-cardview-0.6-javadoc.jar!/" />
