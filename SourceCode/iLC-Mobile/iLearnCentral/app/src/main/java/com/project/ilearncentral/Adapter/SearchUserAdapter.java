@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.project.ilearncentral.Activity.ViewUser;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.R;
@@ -45,10 +46,10 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
 
         holder.type.setText(user.getStringType());
         holder.username.setText(user.getFullname());
-        if (!user.getImage().isEmpty())
-            if (holder.image.getBackground() == null)
-                Picasso.get().load(Uri.parse(user.getImage())).error(R.drawable.user).fit()
-                        .into(holder.image);
+//        if (!user.getImage().isEmpty())
+        if (holder.image.getBackground() == null)
+//            Picasso.get().load(Uri.parse(user.getImage())).error(R.drawable.user).fit().into(holder.image);
+            Glide.with(context).load(user.getImage()).error(R.drawable.user).fitCenter().into(holder.image);
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

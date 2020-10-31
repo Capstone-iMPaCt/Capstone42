@@ -12,8 +12,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
+        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <androidx.cardview.widget.CardView
@@ -133,62 +132,57 @@
 
         </androidx.cardview.widget.CardView>
 
- <!--       <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_linear">
+        <!--       <androidx.cardview.widget.CardView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:background="@drawable/bg_linear">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                   <LinearLayout
+                       android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:orientation="vertical">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/colorAccent"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    android:text="About Me"
-                    android:textColor="@android:color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
+                       <TextView
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:background="@color/colorAccent"
+                           android:gravity="center"
+                           android:padding="5dp"
+                           android:text="About Me"
+                           android:textColor="@android:color/white"
+                           android:textSize="14sp"
+                           android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/student_about_me"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="The big brown fox jumps over the lazy dog under the mango tree. Ang relo ni Liroy Libat. Ang kwarta ko sa kwarto kwatro."
-                    android:textAlignment="center"
-                    android:textColor="@color/colorPrimaryDark"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>-->
+                       <TextView
+                           android:id="@+id/student_about_me"
+                           android:layout_width="match_parent"
+                           android:layout_height="wrap_content"
+                           android:padding="10dp"
+                           android:text="The big brown fox jumps over the lazy dog under the mango tree. Ang relo ni Liroy Libat. Ang kwarta ko sa kwarto kwatro."
+                           android:textAlignment="center"
+                           android:textColor="@color/colorPrimaryDark"
+                           android:textSize="14sp" />
+                   </LinearLayout>
+               </androidx.cardview.widget.CardView>-->
 
         <fragment
             android:id="@+id/educator_profile_aboutme_fragment_container"
             android:name="com.project.ilearncentral.Fragment.Profile.UserAboutMe"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             tools:layout="@layout/fragment_personal_information" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_linear">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/darker_gray" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -239,13 +233,6 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginRight="5dp"
-                    android:background="@android:color/darker_gray" />
-
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
@@ -253,6 +240,7 @@
             android:id="@+id/student_profile_enrolment_history_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:background="@drawable/bg_linear">
 
             <LinearLayout

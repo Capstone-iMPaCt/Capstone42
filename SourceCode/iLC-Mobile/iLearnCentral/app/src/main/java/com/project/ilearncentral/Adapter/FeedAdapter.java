@@ -10,6 +10,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -115,11 +116,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
                 if (Posts.hasCurrent()) {
                     User user = User.getUserByUsername(post.getPostSender());
                     if (user.getType().equalsIgnoreCase("educator") || user.getType().equalsIgnoreCase("learningcenter")) {
-                        Intent i = new Intent(context, AddEditFeed.class);
-                        intent.putExtra("USERNAME", post.getPostSender());
+                        intent = new Intent(context, AddEditFeed.class);
+//                        intent.putExtra("USERNAME", post.getPostSender());
+                        intent.putExtra("postId", post.getPostId());
                         intent.putExtra("TYPE", user.getType());
                         intent.putExtra("FULL_NAME", post.getFullname());
-                        context.startActivity(i);
+                        context.startActivity(intent);
                     }
                 }
             }

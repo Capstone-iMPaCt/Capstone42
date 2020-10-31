@@ -6,6 +6,8 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.Button;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -22,11 +24,10 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.Model.LearningCenter;
-import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.Model.User;
 
 import java.text.ParseException;
@@ -36,14 +37,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-
 public class Utility {
 
     public static FirebaseAuth mAuth = FirebaseAuth.getInstance();
     public static FirebaseUser user = mAuth.getCurrentUser();
     public static FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static StorageReference storageRef = FirebaseStorage.getInstance().getReference();
+    public static int screenWidth, screenHeight;
 
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
@@ -258,11 +258,13 @@ public class Utility {
         return timeFormat.format(value.toDate());
     }
 
+    // convert integer to pixel
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
     }
 
+    // convert pixel to integer
     public static int pxToDp(Context context, int px) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
         return Math.round(px / (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
@@ -356,5 +358,21 @@ public class Utility {
 
     public static void rate(User u) {
         db.collection("User").document(u.getUserId()).update("Ratings", u.getRatings());
+    }
+
+    public static int getScreenWidth() {
+        return screenWidth;
+    }
+
+    public static void setScreenWidth(int screenWidth) {
+        Utility.screenWidth = screenWidth;
+    }
+
+    public static int getScreenHeight() {
+        return screenHeight;
+    }
+
+    public static void setScreenHeight(int screenHeight) {
+        Utility.screenHeight = screenHeight;
     }
 }

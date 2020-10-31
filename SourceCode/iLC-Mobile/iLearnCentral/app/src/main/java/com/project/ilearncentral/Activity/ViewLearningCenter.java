@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
@@ -29,6 +30,7 @@ public class ViewLearningCenter extends AppCompatActivity {
     Button message, follow, courses;
     LearningCenter lc;
     TextView name, followers, following, rating;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +49,7 @@ public class ViewLearningCenter extends AppCompatActivity {
 
         lc = LearningCenter.getLCById(Account.getStringData("openLC"));
 
-        if (lc==null) {
+        if (lc == null) {
             setResult(RESULT_CANCELED);
             this.finish();
         }
@@ -76,10 +78,10 @@ public class ViewLearningCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 List<Map<String, String>> acc = lc.getAccounts();
-                for (int i=0;i<acc.size();i++) {
-                    Map <String, String> data = acc.get(i);
+                for (int i = 0; i < acc.size(); i++) {
+                    Map<String, String> data = acc.get(i);
                     if (data.get("AccessLevel").equalsIgnoreCase("administrator") &&
-                    data.get("Status").equalsIgnoreCase("active")) {
+                            data.get("Status").equalsIgnoreCase("active")) {
                         Intent intent = new Intent(ViewLearningCenter.this, Messages.class);
                         intent.putExtra("USER_NAME", data.get("Username"));
                         intent.putExtra("FULL_NAME", User.getFullnameByUsername(data.get("Username")));
@@ -97,7 +99,9 @@ public class ViewLearningCenter extends AppCompatActivity {
         });
 
         if (!lc.getLogo().isEmpty())
-            Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon).fitCenter().into(logo);
+            Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
+                    .apply(new RequestOptions().override(Utility.getScreenWidth(),
+                            Utility.dpToPx(this,256))).centerCrop().into(logo);
         name.setText(lc.getBusinessName());
     }
 

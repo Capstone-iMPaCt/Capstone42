@@ -28,87 +28,78 @@
             app:titleEnabled="false"
             app:toolbarId="@+id/view_user_toolbar">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <Button
+                android:id="@+id/view_user_follow"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center"
+                android:layout_marginEnd="120dp"
+                android:background="@drawable/button_with_border"
+                android:stateListAnimator="@android:anim/fade_out"
+                android:text="Follow"
+                android:textColor="@android:color/white"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/view_user_image"
+                android:layout_width="@dimen/dp_diameter"
+                android:layout_height="@dimen/dp_diameter"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                app:civ_border_color="@android:color/white"
+                app:civ_border_width="3dp"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6" />
+
+            <Button
+                android:id="@+id/view_user_chat"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_gravity="center"
+                android:layout_marginStart="120dp"
+                android:layout_toEndOf="@id/view_user_image"
+                android:background="@drawable/button_with_border"
+                android:stateListAnimator="@android:anim/fade_out"
+                android:text="Chat"
+                android:textColor="@android:color/white"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="?attr/actionBarSize"
                 android:layout_gravity="center|bottom"
-                android:layout_marginBottom="20dp"
+                android:elevation="1dp"
                 android:gravity="center"
-                app:layout_collapseMode="parallax">
-
-                <de.hdodenhof.circleimageview.CircleImageView
-                    android:id="@+id/view_user_image"
-                    android:layout_width="@dimen/dp_diameter"
-                    android:layout_height="@dimen/dp_diameter"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentEnd="true"
-                    app:civ_border_color="@android:color/white"
-                    app:civ_border_width="3dp"
-                    app:layout_constraintBottom_toTopOf="@id/view_user_full_name"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/view_user_follow"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_centerVertical="true"
-                    android:layout_marginEnd="20dp"
-                    android:text="Follow"
-                    android:background="@drawable/button_with_border"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/view_user_image"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <Button
-                    android:id="@+id/view_user_chat"
-                    android:layout_width="100dp"
-                    android:layout_height="30dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:layout_marginStart="20dp"
-                    android:layout_toEndOf="@id/view_user_image"
-                    android:background="@drawable/button_with_border"
-                    android:text="Chat"
-                    android:textColor="@android:color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/view_user_image"
-                    app:layout_constraintTop_toTopOf="parent" />
+                android:keepScreenOn="false"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/view_user_full_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view_user_image"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:text="User Name"
+                    android:shadowColor="#FFFFFF"
+                    android:shadowDx = "-2"
+                    android:shadowDy = "-2"
+                    android:shadowRadius = "1"
                     android:textColor="@color/colorAccent"
                     android:textSize="20sp"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_user_image" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/view_user_expertise"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/view_user_full_name"
-                    android:layout_centerHorizontal="true"
                     android:layout_gravity="center"
                     android:text="Field of Expertise"
                     android:textColor="@android:color/white"
-                    android:textSize="12sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/view_user_full_name" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                    android:textSize="12sp" />
+            </LinearLayout>
 
             <androidx.appcompat.widget.Toolbar
                 android:id="@+id/view_user_toolbar"
@@ -117,7 +108,10 @@
                 android:layout_gravity="top"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:title="" />
+                app:title="">
+
+
+            </androidx.appcompat.widget.Toolbar>
 
         </com.google.android.material.appbar.CollapsingToolbarLayout>
     </com.google.android.material.appbar.AppBarLayout>

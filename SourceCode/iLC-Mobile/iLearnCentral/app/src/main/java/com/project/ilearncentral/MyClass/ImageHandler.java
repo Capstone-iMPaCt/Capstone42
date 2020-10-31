@@ -19,6 +19,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCanceledListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +45,7 @@ import java.util.Locale;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.core.app.ActivityCompat;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -75,7 +77,7 @@ public class ImageHandler {
     public void selectImage() {
         try {
             if (checkPermission()) {
-                final CharSequence[] options = {"Take Photo", "Choose From Gallery","Cancel"};
+                final CharSequence[] options = {"Take Photo", "Choose From Gallery", "Cancel"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle("Select Option");
                 builder.setItems(options, new DialogInterface.OnClickListener() {
@@ -117,20 +119,21 @@ public class ImageHandler {
 
     protected void makeRequest() {
         ActivityCompat.requestPermissions(activity,
-        new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
-        PICK_IMAGE_CAMERA);
+                new String[]{Manifest.permission.CAMERA, Manifest.permission.READ_EXTERNAL_STORAGE},
+                PICK_IMAGE_CAMERA);
     }
 
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         if (requestCode == PICK_IMAGE_CAMERA) {
             boolean requestGranted = true;
-            for (int i=0; i<grantResults.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_DENIED )
+            for (int i = 0; i < grantResults.length; i++) {
+                if (grantResults[i] == PackageManager.PERMISSION_DENIED)
                     requestGranted = false;
             }
             if (requestGranted) selectImage();
         }
     }
+
     public boolean onActivityResult(int requestCode, int resultCode, Intent data, CircleImageView circleImageView, ImageView imageView, String saveKey) {
         boolean withImage = false;
         if (requestCode == PICK_IMAGE_CAMERA && resultCode == RESULT_OK) {
@@ -138,12 +141,11 @@ public class ImageHandler {
                 filePath = data.getData();
                 bitmap = (Bitmap) data.getExtras().get("data");
                 bitmapBytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-
-                Log.e("Activity", "Pick from Camera::>>> ");
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+                bitmap = Bitmap.createScaledBitmap(bitmap, 560, 420, true);
 
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
-                destination = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/", "IMG_" + timeStamp + ".jpg");
+                destination = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/", "IMG_" + timeStamp + ".png");
                 FileOutputStream fo;
                 try {
                     destination.createNewFile();
@@ -155,27 +157,31 @@ public class ImageHandler {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                //filePath = Uri.parse(destination.getAbsolutePath());
+//                filePath = Uri.parse(destination.getAbsolutePath());
+//                BitmapFactory.Options options = new BitmapFactory.Options();
+//                options.inSampleSize = 2;
+//                bitmap = BitmapFactory.decodeFile(filePath.toString(), options);
+//                Toast.makeText(context, filePath.toString(), Toast.LENGTH_LONG).show();
 
-                if (circleImageView!=null)
+                if (circleImageView != null)
                     circleImageView.setImageBitmap(bitmap);
                 else
                     imageView.setImageBitmap(bitmap);
                 if (!saveKey.isEmpty()) {
                     Account.addData(saveKey, filePath.toString());
-                    Account.addData(saveKey+"Bitmap", bitmap);
-                    Account.addData(saveKey+"BitmapBytes", bitmapBytes);
+                    Account.addData(saveKey + "Bitmap", bitmap);
+                    Account.addData(saveKey + "BitmapBytes", bitmapBytes);
                 }
                 withImage = true;
 
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if(requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
-                && data != null && data.getData() != null ) {
+        } else if (requestCode == PICK_IMAGE_GALLERY && resultCode == RESULT_OK
+                && data != null && data.getData() != null) {
             filePath = data.getData();
             try {
-                String[] filePathColumn = { MediaStore.Images.Media.DATA };
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
 
                 Cursor cursor = context.getContentResolver().query(filePath,
                         filePathColumn, null, null, null);
@@ -185,22 +191,27 @@ public class ImageHandler {
                 String picturePath = cursor.getString(columnIndex);
                 cursor.close();
 
-                bitmap = BitmapFactory.decodeFile(picturePath);
-                bitmapBytes = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+                BitmapFactory.Options options = new BitmapFactory.Options();
+                options.inSampleSize = 2;
+                bitmap = BitmapFactory.decodeFile(picturePath, options);
+//                bitmap = BitmapFactory.decodeFile(picturePath);
+//                bitmapBytes = new ByteArrayOutputStream();
+//                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bitmapBytes);
+//                Bitmap resized = Bitmap.createScaledBitmap(bitmap, 256, 256, true);
+//                bitmap = Bitmap.createScaledBitmap(bitmap, 500, 500, true);
 
                 bitmap = getImageResized(context, filePath);
                 int rotation = getRotation(context, filePath, false);
                 bitmap = rotate(bitmap, rotation);
 
-                if (circleImageView!=null)
+                if (circleImageView != null)
                     circleImageView.setImageBitmap(bitmap);
                 else
                     imageView.setImageBitmap(bitmap);
                 if (!saveKey.isEmpty()) {
                     Account.addData(saveKey, filePath.toString());
-                    Account.addData(saveKey+"Bitmap", bitmap);
-                    Account.addData(saveKey+"BitmapBytes", bitmapBytes);
+                    Account.addData(saveKey + "Bitmap", bitmap);
+                    Account.addData(saveKey + "BitmapBytes", bitmapBytes);
                 }
                 withImage = true;
             } catch (Exception e) {
@@ -212,18 +223,17 @@ public class ImageHandler {
 
     public void uploadBitmapBytes(String saveKey, String pathName, String fileName, final ObservableString uriString) {
         changedBytes = true;
-        bitmapBytes = (ByteArrayOutputStream)Account.get(saveKey);
+        bitmapBytes = (ByteArrayOutputStream) Account.get(saveKey);
         uploadImage(pathName, fileName, uriString);
     }
 
-    public void uploadImage(String pathName, String fileName, final ObservableString uriString){
-        if(filePath != null)
-        {
+    public void uploadImage(String pathName, String fileName, final ObservableString uriString) {
+        if (filePath != null) {
             final ProgressDialog progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
             byte[] data = bitmapBytes.toByteArray();
-            final StorageReference ref = storageRef.child(pathName+ "/" + fileName);
+            final StorageReference ref = storageRef.child(pathName + "/" + fileName);
             StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putBytes(data)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
@@ -267,15 +277,14 @@ public class ImageHandler {
         }
     }
 
-    public void showAlert(String Message, String label)
-    {
+    public void showAlert(String Message, String label) {
         //set alert for executing the task
         AlertDialog.Builder alert = new AlertDialog.Builder(context);
-        alert.setTitle(""+label);
-        alert.setMessage(""+Message);
+        alert.setTitle("" + label);
+        alert.setMessage("" + Message);
 
         alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            public void onClick (DialogInterface dialog, int id){
+            public void onClick(DialogInterface dialog, int id) {
                 dialog.cancel();
             }
         });
@@ -316,28 +325,29 @@ public class ImageHandler {
 
     public void setImage(String pathname, String filename, final ImageView view) {
         storageRef.child(pathname).child(filename).getDownloadUrl()
-            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
-                    .into(view);
-                }
-            });
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
+                                .into(view);
+                    }
+                });
     }
+
     public void setImage(String pathname, String filename, final CircleImageView view) {
         storageRef.child(pathname).child(filename).getDownloadUrl()
-            .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
-                    .into(view);
-                }
-            });
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Picasso.get().load(uri.toString()).error(R.drawable.user).fit()
+                                .into(view);
+                    }
+                });
     }
 
     public void setImage(String saveKey, ImageView imageView) {
         Bitmap b = (Bitmap) Account.get(saveKey + "Bitmap");
-            imageView.setImageBitmap(b);
+        imageView.setImageBitmap(b);
     }
 
     public static Bitmap decodeBitmap(Context context, Uri theUri, int sampleSize) {

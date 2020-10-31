@@ -2,6 +2,7 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
@@ -74,6 +75,11 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
         signUpLink = (TextView) findViewById(R.id.signUpLink);
         forgotPasswordLink = (TextView) findViewById(R.id.forgotPasswordLink);
         logInButton = (Button) findViewById(R.id.logInButton);
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Utility.setScreenHeight(displayMetrics.heightPixels);
+        Utility.setScreenWidth(displayMetrics.widthPixels);
 
         signUpLink.setOnClickListener(this);
         forgotPasswordLink.setOnClickListener(this);

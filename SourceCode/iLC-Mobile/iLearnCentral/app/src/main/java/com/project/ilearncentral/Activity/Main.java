@@ -3,12 +3,14 @@ package com.project.ilearncentral.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,6 +35,7 @@ import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 //import com.project.ilearncentral.Fragment.UserActivitySchedules;
+import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
@@ -99,6 +102,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         messageButton.setOnClickListener(this);
         userImage.setOnClickListener(this);
 
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        Utility.setScreenHeight(displayMetrics.heightPixels);
+        Utility.setScreenWidth(displayMetrics.widthPixels);
+
         viewPager = (ViewPager) findViewById(R.id.htab_viewpager);
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
@@ -107,7 +115,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (tabGenerate)
             generateTabs();
         setDetails(1);
-
     }
 
     private void setDetails(int code) {
