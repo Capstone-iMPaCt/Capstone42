@@ -16,6 +16,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.project.ilearncentral.Activity.Enrollees;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
@@ -38,7 +39,7 @@ public class EnrolmentSystem extends Fragment {
     private final int NEW_COURSE = 1, UPDATE_COURSE = 2;
 
     private SearchView searchView;
-    private TextView toggleView, searchOption;
+    private TextView toggleView, searchOption, enrollees;
     private ImageButton toggleRecommend;
 
     private Drawable enableRecommend, disableRecommend;
@@ -62,6 +63,7 @@ public class EnrolmentSystem extends Fragment {
         disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
 
         searchOption = view.findViewById(R.id.enrolment_toggle_view);
+        enrollees = view.findViewById(R.id.enrolment_enrollees);
 
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +78,13 @@ public class EnrolmentSystem extends Fragment {
             @Override
             public void onClick(View v) {
                 setToggleView();
+            }
+        });
+
+        enrollees.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(), Enrollees.class));
             }
         });
 
@@ -97,6 +106,8 @@ public class EnrolmentSystem extends Fragment {
         course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
         course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
         course.add(new Course("Open", "Type",3000.25,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new CourseAdapter(getContext(), editOrView, course);

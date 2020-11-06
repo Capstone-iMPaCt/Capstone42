@@ -16,17 +16,18 @@
         android:background="@drawable/searchview_white_bg_rounded"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/enrolment_searchview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/enrolment_app_bar_vertical_line_divider"
+                android:clickable="true"
                 android:contentInsetStart="0dp"
                 android:contentInsetLeft="0dp"
                 android:contentInsetEnd="0dp"
@@ -37,25 +38,96 @@
                 app:contentInsetStart="0dp" />
 
             <View
-                android:id="@+id/enrolment_searchview_line_divider"
+                android:id="@+id/enrolment_app_bar_vertical_line_divider"
                 android:layout_width="1dp"
-                android:layout_height="match_parent"
+                android:layout_height="44dp"
                 android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
+                android:layout_toStartOf="@id/enrolment_toggle_view"
                 android:background="@android:color/darker_gray" />
 
             <TextView
                 android:id="@+id/enrolment_toggle_view"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_margin="5dp"
+                android:layout_alignBottom="@+id/enrolment_searchview"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
                 android:background="@drawable/bg_selected_day_rounded"
+                android:clickable="true"
                 android:gravity="center"
                 android:text="Open"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />
-        </LinearLayout>
+
+            <View
+                android:id="@+id/enrolment_app_bar_horizontal_line_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/enrolment_searchview"
+                android:layout_marginHorizontal="3dp"
+                android:background="@android:color/darker_gray" />
+
+            <LinearLayout
+                android:id="@+id/enrolment_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/enrolment_app_bar_horizontal_line_divider"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/enrolment_enrollees"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="ENROLLEES"
+                    android:textColor="@color/colorAccent" />
+
+                <View
+                    android:id="@+id/enrolment_option_line_divider_1"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:layout_toStartOf="@id/enrolment_toggle_view"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/enrolment_option_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="OPTION" />
+
+                <View
+                    android:id="@+id/enrolment_option_line_divider_2"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:layout_toStartOf="@id/enrolment_toggle_view"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/enrolment_option_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="OPTION" />
+            </LinearLayout>
+
+        </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -68,9 +140,9 @@
             android:id="@+id/enrolment_recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingBottom="100dp"
+            android:backgroundTint="@color/bg_recyclerview"
             android:clipToPadding="false"
-            android:backgroundTint="@color/bg_recyclerview" />
+            android:paddingBottom="100dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
@@ -80,5 +152,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
         app:srcCompat="@drawable/add_icon" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

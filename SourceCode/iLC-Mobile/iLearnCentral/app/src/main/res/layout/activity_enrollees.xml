@@ -7,23 +7,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_transparent"
     android:orientation="vertical"
-    tools:context=".Activity.SearchUser">
+    tools:context=".Activity.Enrollees">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/search_user_app_bar"
+        android:id="@+id/enrollees_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/search_user_toolbar"
+            android:id="@+id/enrollees_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bg_toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_user_view"
+                android:id="@+id/enrollees_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -32,7 +32,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_user_recyclerview"
+        android:id="@+id/enrollees_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"

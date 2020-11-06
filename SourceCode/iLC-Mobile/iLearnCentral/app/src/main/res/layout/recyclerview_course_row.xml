@@ -294,8 +294,8 @@
             android:minWidth="0dp"
             android:minHeight="0dp"
             android:padding="3dp"
-            android:text="ENROL"
+            android:text="ENROLL"
             android:textColor="@android:color/white"
-            android:textSize="12dp" />
+            android:textSize="10dp" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>
