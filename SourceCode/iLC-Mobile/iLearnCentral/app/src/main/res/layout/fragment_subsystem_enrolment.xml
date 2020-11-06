@@ -12,7 +12,7 @@
         android:id="@+id/enrolment_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
+        android:layout_margin="10dp"
         android:background="@drawable/searchview_white_bg_rounded"
         android:fitsSystemWindows="true">
 
@@ -68,7 +68,8 @@
             android:id="@+id/enrolment_recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="bottom"
+            android:paddingBottom="100dp"
+            android:clipToPadding="false"
             android:backgroundTint="@color/bg_recyclerview" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

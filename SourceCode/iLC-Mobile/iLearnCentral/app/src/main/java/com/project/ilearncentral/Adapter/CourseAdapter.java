@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -13,9 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
+import java.text.NumberFormat;
+import java.util.Currency;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseViewHolder> {
 
@@ -45,12 +54,14 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         final Course course = courses.get(position);
 
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
+        holder.courseFeeLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_270));
 
         holder.courseName.setText(course.getCourseName());
         holder.courseDescription.setText(course.getCourseDescription());
         holder.classScheduleFrom.setText(course.getClassScheduleFrom());
         holder.classScheduleTo.setText(course.getClassScheduleTo());
-        holder.instructor.setText(course.getCourseName());
+        holder.instructor.setText(course.getCourseInstructor());
+        holder.courseFee.setText(Utility.showPriceInPHP(course.getCourseFee()));
     }
 
     @Override
@@ -61,17 +72,23 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public class CourseViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout containerLayout;
-        private TextView courseStatus, courseType, courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor;
+        private LinearLayout courseFeeLayout;
+        private CircleImageView userImage;
+        private TextView courseStatus, courseType, courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor, courseFeeLabel, courseFee;
 
         CourseViewHolder(View itemView) {
             super(itemView);
 
             containerLayout = itemView.findViewById(R.id.course_container);
+            courseFeeLayout = itemView.findViewById(R.id.course_fee_layout);
+            userImage = itemView.findViewById(R.id.course_user_display_image);
             courseName = itemView.findViewById(R.id.course_title);
             courseDescription = itemView.findViewById(R.id.course_description);
             classScheduleFrom = itemView.findViewById(R.id.course_schedule_from);
             classScheduleTo = itemView.findViewById(R.id.course_schedule_to);
             instructor = itemView.findViewById(R.id.course_instructor);
+            courseFeeLabel = itemView.findViewById(R.id.course_fee_label);
+            courseFee = itemView.findViewById(R.id.course_fee);
         }
     }
 }

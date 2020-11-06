@@ -205,8 +205,8 @@ public class JobPost extends Fragment {
 
     private void setToggleView() {
         if (toggleView.getText().toString().equalsIgnoreCase("All")) {
-            toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             toggleView.setText("Mine");
+            toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             jobs.clear();
             jobs.addAll(JobPosts.searchText(""));
             adapter.notifyDataSetChanged();

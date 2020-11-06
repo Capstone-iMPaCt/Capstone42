@@ -1,5 +1,7 @@
 package com.project.ilearncentral.Model;
 
+import com.project.ilearncentral.MyClass.Utility;
+
 public class Course {
     private String courseStatus;
     private String courseType;
@@ -9,16 +11,18 @@ public class Course {
     private String classScheduleFrom;
     private String classScheduleTo;
     private String classScheduleDays;
+    private String courseInstructor;
 
-    public Course(String courseStatus, String courseType, double courseFee, String courseName, String courseDescription, String classFromSchedule, String classToSchedule, String classDaysSchedule) {
+    public Course(String courseStatus, String courseType, double courseFee, String courseName, String courseDescription, String classScheduleFrom, String classScheduleTo, String classScheduleDays, String courseInstructor) {
         this.courseStatus = courseStatus;
         this.courseType = courseType;
         this.courseFee = courseFee;
         this.courseName = courseName;
         this.courseDescription = courseDescription;
-        this.classScheduleFrom = classFromSchedule;
-        this.classScheduleTo = classToSchedule;
-        this.classScheduleDays = classDaysSchedule;
+        this.classScheduleFrom = classScheduleFrom;
+        this.classScheduleTo = classScheduleTo;
+        this.classScheduleDays = classScheduleDays;
+        this.courseInstructor = courseInstructor;
     }
 
     public String getCourseStatus() {
@@ -83,5 +87,13 @@ public class Course {
 
     public void setClassScheduleDays(String classScheduleDays) {
         this.classScheduleDays = classScheduleDays;
+    }
+
+    public String getCourseInstructor() {
+        return courseInstructor;
+    }
+
+    public void setCourseInstructor(String courseInstructor) {
+        this.courseInstructor = courseInstructor;
     }
 }
