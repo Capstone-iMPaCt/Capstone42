@@ -12,6 +12,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -95,6 +97,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         setSupportActionBar(toolbar);
 
+//        if (Account.isType("learningcenter")){
+//            userImage.getLayoutParams().width = Utility.getScreenWidth();
+//            userImage.getLayoutParams().height = Utility.dpToPx(this,256);
+//        }
+
         featuresButton.setOnClickListener(this);
         findUserButton.setOnClickListener(this);
         findCenterButton.setOnClickListener(this);
@@ -145,6 +152,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } else if (Account.isType("Student")) {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
+            adapter.addFragment(new EnrolmentSystem(), "Enrolment");
         }
         adapter.addFragment(new SchedulingSystem(), "My Activies");
 
@@ -162,13 +170,14 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                         break;
                     case 1:
-                    case 2:
-                    case 3:
-                    case 4:
+                        if (Account.isType("learningcenter")){
+                            appBarLayout.setExpanded(true);
+                            ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
+                            break;
+                        }
+                    default:
                         appBarLayout.setExpanded(false);
                         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(false);
-                        break;
-                    default:
                         break;
                 }
             }

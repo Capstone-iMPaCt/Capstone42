@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.haozhang.lib.SlantedTextView;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Utility;
@@ -54,7 +56,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         final Course course = courses.get(position);
 
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
-        holder.courseFeeLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_270));
+        lastPosition = position;
+//        holder.courseFeeLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.rotate_270));
 
         holder.courseName.setText(course.getCourseName());
         holder.courseDescription.setText(course.getCourseDescription());
@@ -74,7 +77,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private RelativeLayout containerLayout;
         private LinearLayout courseFeeLayout;
         private CircleImageView userImage;
-        private TextView courseStatus, courseType, courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor, courseFeeLabel, courseFee;
+        private SlantedTextView courseFeeLabel, courseFee;
+        private TextView courseStatus, courseType, courseName, courseDescription, classScheduleFrom, classScheduleTo, instructor;
 
         CourseViewHolder(View itemView) {
             super(itemView);
@@ -87,7 +91,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             classScheduleFrom = itemView.findViewById(R.id.course_schedule_from);
             classScheduleTo = itemView.findViewById(R.id.course_schedule_to);
             instructor = itemView.findViewById(R.id.course_instructor);
-            courseFeeLabel = itemView.findViewById(R.id.course_fee_label);
+//            courseFeeLabel = itemView.findViewById(R.id.course_fee_label);
             courseFee = itemView.findViewById(R.id.course_fee);
         }
     }

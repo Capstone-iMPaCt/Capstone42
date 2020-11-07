@@ -11,11 +11,11 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo_icon"
-        android:label="iLearnCentral"
+        android:label="@string/app_name"
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Enrollees"></activity>
+        <activity android:name=".Activity.Enrollees" />
         <activity
             android:name=".Activity.SplashScreen"
             android:configChanges="orientation|screenSize">
@@ -26,7 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".Activity.NveCourse" />
-        <activity android:name=".Fragment.SubSystem.EnrolmentSystem" />
+<!--        <activity android:name=".Fragment.SubSystem.EnrolmentSystem" />-->
         <activity
             android:name=".Activity.ViewLearningCenter"
             android:configChanges="orientation|screenSize" />
@@ -70,7 +70,7 @@
         <activity
             android:name=".Activity.Messages"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Fragment.JobPost" />
+<!--        <activity android:name=".Fragment.JobPost" />-->
         <activity
             android:name=".Activity.Chat"
             android:configChanges="orientation|screenSize" />
@@ -92,10 +92,10 @@
         <activity
             android:name=".Activity.Subscription"
             android:label="@string/title_activity_home" />
-        <activity android:name=".Fragment.Feed" />
+<!--        <activity android:name=".Fragment.Feed" />-->
         <activity
             android:name=".Activity.Main"
-            android:configChanges="orientation|screenSize"></activity>
+            android:configChanges="orientation|screenSize" />
         <activity
             android:name=".Activity.SignUp.SignUpLearningCenter"
             android:configChanges="orientation|screenSize" />

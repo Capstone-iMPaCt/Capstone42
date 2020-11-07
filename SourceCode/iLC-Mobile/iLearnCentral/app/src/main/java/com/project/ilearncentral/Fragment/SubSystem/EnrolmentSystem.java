@@ -22,6 +22,7 @@ import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
@@ -58,6 +59,13 @@ public class EnrolmentSystem extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_subsystem_enrolment, container, false);
         super.onCreate(savedInstanceState);
+
+        if (Account.isType("Student")){
+            view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_toggle_view).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_horizontal_line_divider).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_options_layout).setVisibility(View.GONE);
+        }
 
         enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
         disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
@@ -103,9 +111,29 @@ public class EnrolmentSystem extends Fragment {
         });
 
         course = new ArrayList<>();
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
         course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
+        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
+        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
+        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
+        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
         course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
         course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
@@ -116,15 +144,15 @@ public class EnrolmentSystem extends Fragment {
     }
 
     private void setToggleView() {
-        if (toggleView.getText().toString().equalsIgnoreCase("Open")) {
-            toggleView.setText("Closed");
+        if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+            toggleView.setText("Mine");
             toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
 //            course.clear();
 //            course.addAll(Posts.myPosts());
 //            adapter.notifyDataSetChanged();
         } else {
             toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-            toggleView.setText("Open");
+            toggleView.setText("All");
 //            course.clear();
 //            course.addAll(Posts.searchText(""));
 //            adapter.notifyDataSetChanged();

@@ -59,7 +59,7 @@
                 android:background="@drawable/bg_selected_day_rounded"
                 android:clickable="true"
                 android:gravity="center"
-                android:text="Open"
+                android:text="All"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"
                 android:textStyle="bold" />

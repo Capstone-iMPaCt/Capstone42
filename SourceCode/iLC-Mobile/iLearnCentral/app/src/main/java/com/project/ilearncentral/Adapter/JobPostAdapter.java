@@ -1,24 +1,35 @@
 package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.Messages;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
@@ -27,13 +38,13 @@ import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
 
 public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostViewHolder> {
 
+    private static final String TAG = "Job Post Adapter Log: ";
     private Context context;
     private ObservableString edit;
     private List<JobVacancy> jobs;
@@ -104,15 +115,29 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 }
             }
         });
-        holder.containerLayout.setOnClickListener(new View.OnClickListener() {
+//        holder.containerLayout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                JobPosts.setCurPost(JobPosts.getJobPostById(job.getJobId()));
+//                if (JobPosts.hasCurrent()) {
+//                    edit.set("n" + job.getJobId());
+//                }
+//            }
+//        });
+        holder.chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                JobPosts.setCurPost(JobPosts.getJobPostById(job.getJobId()));
+            public void onClick(View view) {
                 if (JobPosts.hasCurrent()) {
-                    edit.set("n" + job.getJobId());
+                    Intent intent = new Intent(context, Messages.class);
+                    intent.putExtra("USER_NAME", job.getUsername());
+                    intent.putExtra("FULL_NAME", job.getBusinessData().get("BusinessName"));
+                    context.startActivity(intent);
                 }
             }
         });
+    }
+
+    private void getBusinessName(String centerID) {
     }
 
     @Override
@@ -136,6 +161,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         private RelativeLayout headerLayout;
         private ImageView logoImageView;
         private TextView businessNameTextView, positionTextView, dateTextView, timeTextView, descriptionTextView, editTextView;
+        private Button applyButton, chatButton;
 
         JobPostViewHolder(View itemView) {
             super(itemView);
@@ -144,11 +170,13 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             logoImageView = itemView.findViewById(R.id.job_post_center_logo);
             businessNameTextView = itemView.findViewById(R.id.job_post_business_name);
             positionTextView = itemView.findViewById(R.id.job_post_position_title);
-            headerLayout = itemView.findViewById(R.id.job_post_timestamp_container);
+            headerLayout = itemView.findViewById(R.id.job_post_header);
             dateTextView = itemView.findViewById(R.id.job_post_date);
             timeTextView = itemView.findViewById(R.id.job_post_time);
             descriptionTextView = itemView.findViewById(R.id.job_post_description);
-            editTextView = itemView.findViewById(R.id.job_post_edit_link);
+            editTextView = itemView.findViewById(R.id.job_post_edit_icon);
+            applyButton = itemView.findViewById(R.id.job_post_apply_button);
+            chatButton = itemView.findViewById(R.id.job_post_chat_button);
         }
     }
 }

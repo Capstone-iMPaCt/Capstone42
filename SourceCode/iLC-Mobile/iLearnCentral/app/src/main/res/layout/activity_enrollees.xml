@@ -23,7 +23,7 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/enrollees_view"
+                android:id="@+id/enrollees_search_view"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_margin="10dp"
@@ -31,10 +31,16 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/enrollees_recyclerview"
+    <GridView
+        android:id="@+id/enrollees_gridview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:columnWidth="150dp"
+        android:gravity="center"
+        android:horizontalSpacing="10dp"
+        android:numColumns="auto_fit"
         android:padding="10dp"
-        android:backgroundTint="@color/bg_recyclerview" />
+        android:stretchMode="columnWidth"
+        android:verticalSpacing="10dp" />
 </LinearLayout>

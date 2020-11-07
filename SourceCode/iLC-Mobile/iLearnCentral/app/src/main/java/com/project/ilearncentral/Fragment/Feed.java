@@ -56,7 +56,7 @@ public class Feed extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        if (!Account.isType("Student")){
+        if (!Account.isType("Student")) {
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
             view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
             view.findViewById(R.id.feed_toggle_view).setVisibility(View.VISIBLE);
@@ -89,7 +89,6 @@ public class Feed extends Fragment {
                 return false;
             }
         });
-
         toggleView = view.findViewById(R.id.feed_toggle_view);
         toggleView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,7 +104,6 @@ public class Feed extends Fragment {
                 startActivityForResult(new Intent(getContext(), AddEditFeed.class), NEW_POST);
             }
         });
-
         done = new ObservableBoolean();
         done.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -134,7 +132,6 @@ public class Feed extends Fragment {
                 pullToRefresh.setRefreshing(false);
             }
         });
-
         // set up the RecyclerView
         post = new ArrayList<>();
         recyclerView = view.findViewById(R.id.feed_recylerview);

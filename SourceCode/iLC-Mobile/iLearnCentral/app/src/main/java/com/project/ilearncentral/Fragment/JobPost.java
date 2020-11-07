@@ -3,12 +3,16 @@ package com.project.ilearncentral.Fragment;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -16,24 +20,36 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.Activity.Messages;
 import com.project.ilearncentral.Activity.NveJobPost;
+import com.project.ilearncentral.Activity.ViewUser;
 import com.project.ilearncentral.Adapter.JobPostAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.JobVacancy;
+import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
 public class JobPost extends Fragment {
 
+    private final String TAG = "Chat job post user";
     private JobPostAdapter adapter;
     private RecyclerView recyclerView;
     private ArrayList<JobVacancy> jobs;
@@ -73,25 +89,6 @@ public class JobPost extends Fragment {
 
 //        searchOption.setBackgroundResource();
 
-        editOrView = new ObservableString();
-        editOrView.setOnStringChangeListener(new OnStringChangeListener() {
-            @Override
-            public void onStringChanged(String newValue) {
-                if (!newValue.isEmpty()) {
-                    Intent i = new Intent(getContext(), NveJobPost.class);
-                    if (newValue.charAt(0) == 'y') {
-                        i.putExtra("jobId", newValue.substring(1));
-                        startActivityForResult(i, UPDATE_POST);
-                    } else {
-                        i.putExtra("jobId", newValue.substring(1));
-                        i.putExtra("View", true);
-                        startActivity(i);
-                    }
-                }
-
-            }
-        });
-
         searchView = view.findViewById(R.id.feed_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -114,7 +111,24 @@ public class JobPost extends Fragment {
                 return false;
             }
         });
+        editOrView = new ObservableString();
+        editOrView.setOnStringChangeListener(new OnStringChangeListener() {
+            @Override
+            public void onStringChanged(String newValue) {
+                if (!newValue.isEmpty()) {
+                    Intent i = new Intent(getContext(), NveJobPost.class);
+                    if (newValue.charAt(0) == 'y') {
+                        i.putExtra("jobId", newValue.substring(1));
+                        startActivityForResult(i, UPDATE_POST);
+                    } else {
+                        i.putExtra("jobId", newValue.substring(1));
+                        i.putExtra("View", true);
+                        startActivity(i);
+                    }
+                }
 
+            }
+        });
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
