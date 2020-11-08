@@ -222,7 +222,7 @@ public class JobPost extends Fragment {
             toggleView.setText("Mine");
             toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             jobs.clear();
-            jobs.addAll(JobPosts.searchText(""));
+            jobs.addAll(JobPosts.searchText(Account.getStringData("centerId")));
             adapter.notifyDataSetChanged();
         } else {
             toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);

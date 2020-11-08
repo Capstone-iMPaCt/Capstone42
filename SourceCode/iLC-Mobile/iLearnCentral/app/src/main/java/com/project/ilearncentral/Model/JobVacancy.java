@@ -46,8 +46,10 @@ public class JobVacancy {
 
     public void setJobVacancy(String jobId, Map<String, Object> data) {
         this.jobId = jobId;
-        businessData = new HashMap<>();
         centerId = data.get("CenterID").toString();
+        businessData = new HashMap<>();
+        LearningCenter lc = LearningCenter.getLCById(data.get("CenterID").toString());
+        businessData.put("BusinessName", lc.getBusinessName());
         username = data.get("Username").toString();
         jobDescription = data.get("JobDescription").toString();
         position = data.get("Position").toString();

@@ -241,7 +241,8 @@ public class JobPosts {
             if (
                 job.getBusinessData().get("BusinessName").toLowerCase().contains(text) ||
                 job.getJobDescription().toLowerCase().contains(text) ||
-                job.getPosition().toLowerCase().contains(text)
+                job.getPosition().toLowerCase().contains(text) ||
+                job.getCenterId().toLowerCase().contains(text)
             ) {
                 jobs.add(job);
             }
