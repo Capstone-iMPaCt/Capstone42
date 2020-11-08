@@ -40,6 +40,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         this.courses = courses;
     }
 
+    public CourseAdapter(Context context, List<Course> courses) {
+        this.context = context;
+        this.courses = courses;
+    }
+
     @NonNull
     @Override
     public CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

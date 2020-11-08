@@ -1,16 +1,16 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -19,7 +19,6 @@ import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 import java.util.Map;
@@ -41,11 +40,11 @@ public class ViewLearningCenter extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        logo = findViewById(R.id.view_center_image);
-        follow = findViewById(R.id.view_center_follow_button);
-        message = findViewById(R.id.view_center_message_button);
-        courses = findViewById(R.id.view_center_courses_button);
-        name = findViewById(R.id.view_center_full_name);
+        logo = (ImageView) findViewById(R.id.view_center_image);
+        follow = (Button) findViewById(R.id.view_center_follow_button);
+        message = (Button) findViewById(R.id.view_center_message_button);
+        courses = (Button) findViewById(R.id.view_center_courses_button);
+        name = (TextView) findViewById(R.id.view_center_full_name);
 
         lc = LearningCenter.getLCById(Account.getStringData("openLC"));
 
@@ -53,6 +52,7 @@ public class ViewLearningCenter extends AppCompatActivity {
             setResult(RESULT_CANCELED);
             this.finish();
         }
+
         follow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +74,12 @@ public class ViewLearningCenter extends AppCompatActivity {
                 }
             }
         });
+        courses.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(ViewLearningCenter.this, Courses.class));
+            }
+        });
         message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,17 +97,10 @@ public class ViewLearningCenter extends AppCompatActivity {
             }
         });
 
-        courses.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-
         if (!lc.getLogo().isEmpty())
             Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
                     .apply(new RequestOptions().override(Utility.getScreenWidth(),
-                            Utility.dpToPx(this,256))).centerCrop().into(logo);
+                            Utility.dpToPx(this, 256))).centerCrop().into(logo);
         name.setText(lc.getBusinessName());
     }
 

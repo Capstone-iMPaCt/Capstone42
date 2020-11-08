@@ -15,6 +15,7 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.Courses"></activity>
         <activity android:name=".Activity.Enrollees" />
         <activity
             android:name=".Activity.SplashScreen"
@@ -25,8 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activity.NveCourse" />
-<!--        <activity android:name=".Fragment.SubSystem.EnrolmentSystem" />-->
+        <activity android:name=".Activity.NveCourse" /> <!-- <activity android:name=".Fragment.SubSystem.EnrolmentSystem" /> -->
         <activity
             android:name=".Activity.ViewLearningCenter"
             android:configChanges="orientation|screenSize" />
@@ -69,8 +69,7 @@
             android:label="@string/title_activity_account_settings" />
         <activity
             android:name=".Activity.Messages"
-            android:configChanges="orientation|screenSize" />
-<!--        <activity android:name=".Fragment.JobPost" />-->
+            android:configChanges="orientation|screenSize" /> <!-- <activity android:name=".Fragment.JobPost" /> -->
         <activity
             android:name=".Activity.Chat"
             android:configChanges="orientation|screenSize" />
@@ -91,8 +90,7 @@
 
         <activity
             android:name=".Activity.Subscription"
-            android:label="@string/title_activity_home" />
-<!--        <activity android:name=".Fragment.Feed" />-->
+            android:label="@string/title_activity_home" /> <!-- <activity android:name=".Fragment.Feed" /> -->
         <activity
             android:name=".Activity.Main"
             android:configChanges="orientation|screenSize" />
