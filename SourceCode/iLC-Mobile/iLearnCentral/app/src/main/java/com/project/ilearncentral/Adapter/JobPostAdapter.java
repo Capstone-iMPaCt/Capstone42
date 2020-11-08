@@ -85,7 +85,6 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 job.setBusinessData(businessDetails);
             }
         });
-        System.out.println("~~~~~CenterId Name " + job.getCenterId());
         if (job.getBusinessData().isEmpty()) {
             Utility.getBusinessName(job.getCenterId(), businessDetails);
         } else {
@@ -102,9 +101,12 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 //view learning center
             }
         });
-        if (Account.isType("LearningCenter") && Account.getStringData("centerId")
-                .equals(job.getCenterId())) {
-            holder.editTextView.setVisibility(View.VISIBLE);
+        if (Account.isType("LearningCenter")) {
+            holder.applyButton.setVisibility(View.INVISIBLE);
+            if (Account.getStringData("centerId")
+                    .equals(job.getCenterId())){
+                holder.editTextView.setVisibility(View.VISIBLE);
+            }
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override

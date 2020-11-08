@@ -63,6 +63,7 @@ public class JobPost extends Fragment {
     private SearchView searchView;
     private TextView toggleView, searchOption;
     private ImageButton toggleRecommend;
+    private boolean isAll;
 
     private Drawable enableRecommend, disableRecommend;
 
@@ -86,6 +87,7 @@ public class JobPost extends Fragment {
         searchOption = view.findViewById(R.id.feed_toggle_view);
         toggleRecommend = view.findViewById(R.id.feed_toggle_recommend);
         toggleRecommend.setBackground(disableRecommend);
+        isAll = true;
 
 //        searchOption.setBackgroundResource();
 
@@ -94,7 +96,7 @@ public class JobPost extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 jobs.clear();
-                jobs.addAll(JobPosts.searchText(query));
+                jobs.addAll(JobPosts.searchText(query, isAll));
                 adapter.notifyDataSetChanged();
                 return false;
             }
@@ -178,7 +180,7 @@ public class JobPost extends Fragment {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 jobs.clear();
-                jobs.addAll(JobPosts.getJobPosts());
+                jobs.addAll(JobPosts.searchText("", isAll));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -209,7 +211,6 @@ public class JobPost extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        System.out.println(requestCode + " ");
         if (requestCode == NEW_POST && resultCode == RESULT_OK) {
             JobPosts.retrievePostFromDB(data.getStringExtra("jobId"), done);
         } else if (requestCode == UPDATE_POST && resultCode == RESULT_OK) {
@@ -219,17 +220,17 @@ public class JobPost extends Fragment {
 
     private void setToggleView() {
         if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+            isAll = false;
             toggleView.setText("Mine");
             toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-            jobs.clear();
-            jobs.addAll(JobPosts.searchText(Account.getStringData("centerId")));
-            adapter.notifyDataSetChanged();
         } else {
+            isAll = true;
             toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
             toggleView.setText("All");
-            jobs.clear();
-            jobs.addAll(JobPosts.searchText(""));
-            adapter.notifyDataSetChanged();
         }
+        jobs.clear();
+        jobs.addAll(JobPosts.searchText("", isAll));
+        adapter.notifyDataSetChanged();
+        searchView.clearFocus();
     }
 }

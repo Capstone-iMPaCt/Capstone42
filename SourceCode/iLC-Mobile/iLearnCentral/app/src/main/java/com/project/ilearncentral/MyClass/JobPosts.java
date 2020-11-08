@@ -233,16 +233,16 @@ public class JobPosts {
         return null;
     }
 
-    public static List<JobVacancy> searchText(String text) {
+    public static List<JobVacancy> searchText(String text, boolean isAll) {
         text = text.toLowerCase();
         List<JobVacancy> jobs = new ArrayList<>();
 
+
         for(JobVacancy job:jobPosts) {
-            if (
-                job.getBusinessData().get("BusinessName").toLowerCase().contains(text) ||
-                job.getJobDescription().toLowerCase().contains(text) ||
-                job.getPosition().toLowerCase().contains(text) ||
-                job.getCenterId().toLowerCase().contains(text)
+            if ((job.getBusinessData().get("BusinessName").toLowerCase().contains(text) ||
+                    job.getJobDescription().toLowerCase().contains(text) ||
+                    job.getPosition().toLowerCase().contains(text)) &&
+                (isAll || (!isAll && job.getCenterId().contains(Account.getCenterId())))
             ) {
                 jobs.add(job);
             }

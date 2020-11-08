@@ -46,6 +46,10 @@ public class Account {
         return data.get("bName").toString();
     }
 
+    public static String getCenterId() {
+        return data.get("centerId").toString();
+    }
+
     public static String getUsername() {
         return getStringData("username");
     }
