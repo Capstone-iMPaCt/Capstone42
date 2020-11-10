@@ -362,6 +362,7 @@ public class LearningCenter {
         }
         return -1;
     }
+
     public static LearningCenter getLCById(String centerId) {
         for (int i=0; i<retrieved.size();i++) {
             if (retrieved.get(i).getCenterId().equals(centerId))

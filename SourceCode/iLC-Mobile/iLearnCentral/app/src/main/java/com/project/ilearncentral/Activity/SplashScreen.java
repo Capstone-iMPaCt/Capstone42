@@ -58,7 +58,6 @@ public class SplashScreen extends AppCompatActivity {
         setObservableListeners();
 
         if (update) {
-            System.out.println(updateType + " type");
             switch (updateType) {
                 case 0:
                 case 1:setAccount();

@@ -28,6 +28,7 @@ public class LearningCenterProfile extends Fragment {
     private CardView aboutUsLayout;
     private List<String> operatingDays;
     private ObservableBoolean update;
+    private LearningCenter lc;
 
     public LearningCenterProfile() {
         // Required empty public constructor
@@ -44,6 +45,7 @@ public class LearningCenterProfile extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_profile_learning_center, container, false);
 
+        lc = new LearningCenter();
         sunday = view.findViewById(R.id.course_sched_day_sun);
         monday = view.findViewById(R.id.course_sched_day_mon);
         tuesday = view.findViewById(R.id.course_sched_day_tue);
@@ -71,98 +73,60 @@ public class LearningCenterProfile extends Fragment {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 if (newValue) {
-                    businessName.setText(Account.getBusinessName());
-                    businessAddress.setText(Account.getBusinessAddress());
-                    serviceType.setText(Account.getStringData("bServiceType"));
-                    openingTime.setText(Utility
-                            .getStringFromTime(Account.getTimeStampData("bOpeningTime")));
-                    closingTime.setText(Utility
-                            .getStringFromTime(Account.getTimeStampData("bClosingTime")));
-                    operatingDays.clear();
-                    operatingDays.addAll((List<String>) Account.get("bOperatingDays"));
-                    checkDay("Mon", monday);
-                    checkDay("Tue", tuesday);
-                    checkDay("Wed", wednesday);
-                    checkDay("Thu", thursday);
-                    checkDay("Fri", friday);
-                    checkDay("Sat", saturday);
-                    checkDay("Sun", sunday);
+                    if (Account.hasKey("openLC")) {
+                        lc = LearningCenter.getLCById(Account.getStringData("openLC"));
+                    } else {
+                        lc = LearningCenter.getLCById(Account.getCenterId());
+                    }
+                    if (!Account.getCenterId().isEmpty() || Account.hasKey("openLC")) {
+                        businessName.setText(lc.getBusinessName());
+                        businessAddress.setText(lc.getBusinessAddress());
+                        serviceType.setText(lc.getServiceType());
+                        openingTime.setText(Utility
+                                .getStringFromTime(lc.getOpen()));
+                        closingTime.setText(Utility
+                                .getStringFromTime(lc.getClose()));
+                        operatingDays.clear();
+                        operatingDays.addAll((List<String>) lc.getOperatingDays());
+                        checkDay("Mon", monday);
+                        checkDay("Tue", tuesday);
+                        checkDay("Wed", wednesday);
+                        checkDay("Thu", thursday);
+                        checkDay("Fri", friday);
+                        checkDay("Sat", saturday);
+                        checkDay("Sun", sunday);
 
-                    if (Account.getStringData("bEmail").isEmpty()) {
-                        emailLayout.setVisibility(View.GONE);
-                    } else {
-                        emailLayout.setVisibility(View.VISIBLE);
-                        email.setText(Account.getStringData("bEmail"));
+                        if (lc.getContactEmail().isEmpty()) {
+                            emailLayout.setVisibility(View.GONE);
+                        } else {
+                            emailLayout.setVisibility(View.VISIBLE);
+                            email.setText(lc.getContactEmail());
+                        }
+                        if (lc.getContactNumber().isEmpty()) {
+                            contactLayout.setVisibility(View.GONE);
+                        } else {
+                            contactLayout.setVisibility(View.VISIBLE);
+                            contact.setText(lc.getContactNumber());
+                        }
+                        if (lc.getCompanyWebsite().isEmpty()) {
+                            websiteLayout.setVisibility(View.GONE);
+                        } else {
+                            websiteLayout.setVisibility(View.VISIBLE);
+                            website.setText(lc.getCompanyWebsite());
+                        }
+                        if (lc.getDescription().isEmpty()) {
+                            aboutUsLayout.setVisibility(View.GONE);
+                        } else {
+                            aboutUsLayout.setVisibility(View.VISIBLE);
+                            aboutUs.setText(lc.getDescription());
+                        }
+                        Account.businessSet = false;
                     }
-                    if (Account.getStringData("bContactNumber").isEmpty()) {
-                        contactLayout.setVisibility(View.GONE);
-                    } else {
-                        contactLayout.setVisibility(View.VISIBLE);
-                        contact.setText(Account.getStringData("bContactNumber"));
-                    }
-                    if (Account.getStringData("bWebsite").isEmpty()) {
-                        websiteLayout.setVisibility(View.GONE);
-                    } else {
-                        websiteLayout.setVisibility(View.VISIBLE);
-                        website.setText(Account.getStringData("bWebsite"));
-                    }
-                    if (Account.getStringData("bDescription").isEmpty()) {
-                        aboutUsLayout.setVisibility(View.GONE);
-                    } else {
-                        aboutUsLayout.setVisibility(View.VISIBLE);
-                        aboutUs.setText(Account.getStringData("bDescription"));
-                    }
-                    Account.businessSet = false;
                 }
             }
         });
         Account.updateObservables.add(update);
         if (Account.businessSet) update.set(true);
-        if (Account.openCenter) {
-            LearningCenter lc = LearningCenter.getLCById(Account.getStringData("openLC"));
-            businessName.setText(lc.getBusinessName());
-            businessAddress.setText(lc.getBusinessAddress());
-            serviceType.setText(lc.getServiceType());
-            openingTime.setText(Utility
-                    .getStringFromTime(lc.getOpen()));
-            closingTime.setText(Utility
-                    .getStringFromTime(lc.getClose()));
-            operatingDays.clear();
-            operatingDays.addAll((List<String>) lc.getOperatingDays());
-            checkDay("Mon", monday);
-            checkDay("Tue", tuesday);
-            checkDay("Wed", wednesday);
-            checkDay("Thu", thursday);
-            checkDay("Fri", friday);
-            checkDay("Sat", saturday);
-            checkDay("Sun", sunday);
-
-            if (lc.getContactEmail().isEmpty()) {
-                emailLayout.setVisibility(View.GONE);
-            } else {
-                emailLayout.setVisibility(View.VISIBLE);
-                email.setText(lc.getContactEmail());
-            }
-            if (lc.getContactNumber().isEmpty()) {
-                contactLayout.setVisibility(View.GONE);
-            } else {
-                contactLayout.setVisibility(View.VISIBLE);
-                contact.setText(lc.getContactNumber());
-            }
-            if (lc.getCompanyWebsite().isEmpty()) {
-                websiteLayout.setVisibility(View.GONE);
-            } else {
-                websiteLayout.setVisibility(View.VISIBLE);
-                website.setText(lc.getCompanyWebsite());
-            }
-            if (lc.getDescription().isEmpty()) {
-                aboutUsLayout.setVisibility(View.GONE);
-            } else {
-                aboutUsLayout.setVisibility(View.VISIBLE);
-                aboutUs.setText(lc.getDescription());
-            }
-            Account.openCenter = false;
-        }
         return view;
     }
 

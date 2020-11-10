@@ -97,7 +97,7 @@ public class ViewLearningCenter extends AppCompatActivity {
             }
         });
 
-        if (!lc.getLogo().isEmpty())
+        if (lc.getLogo() != null && !lc.getLogo().isEmpty())
             Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
                     .apply(new RequestOptions().override(Utility.getScreenWidth(),
                             Utility.dpToPx(this, 256))).centerCrop().into(logo);
@@ -111,5 +111,11 @@ public class ViewLearningCenter extends AppCompatActivity {
                 this.finish();
         }
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Account.removeData("openLC");
     }
 }

@@ -61,7 +61,6 @@ public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapte
             public void onClick(View v) {
                 Intent intent = new Intent(context, ViewLearningCenter.class);
                 Account.addData("openLC", center.getCenterId());
-                Account.openCenter = true;
                 context.startActivity(intent);
             }
         });

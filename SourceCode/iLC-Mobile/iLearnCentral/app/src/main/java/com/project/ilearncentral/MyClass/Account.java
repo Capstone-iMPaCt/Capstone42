@@ -24,7 +24,7 @@ public class Account {
     private static List<Map<String, Object>> accounts = new ArrayList<>();
     public static User me = new User();
     public static List<ObservableBoolean> updateObservables = new ArrayList<>();
-    public static boolean userSet, profileSet, businessSet = false, openCenter = false;
+    public static boolean userSet, profileSet, businessSet = false;
 
     public enum Type {LearningCenter, Educator, Student}
 
@@ -262,6 +262,10 @@ public class Account {
 
     public static void addData(String key, Object value) {
         data.put(key, value);
+    }
+
+    public static void removeData(String key) {
+        data.remove(key);
     }
 
     public static boolean hasKey(String key) {

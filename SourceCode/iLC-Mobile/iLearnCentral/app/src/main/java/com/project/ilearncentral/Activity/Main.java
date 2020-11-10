@@ -118,7 +118,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
 //        tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-        System.out.println("~~~~~~~Tab Reset "+ tabGenerate);
         if (tabGenerate)
             generateTabs();
         setDetails(1);
