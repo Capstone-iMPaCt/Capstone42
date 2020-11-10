@@ -27,6 +27,7 @@ public class LearningCenterProfile extends Fragment {
     private LinearLayout emailLayout, contactLayout, websiteLayout;
     private CardView aboutUsLayout;
     private List<String> operatingDays;
+    private ObservableBoolean update;
 
     public LearningCenterProfile() {
         // Required empty public constructor
@@ -65,7 +66,7 @@ public class LearningCenterProfile extends Fragment {
         aboutUsLayout = view.findViewById(R.id.learning_center_about_us_layout);
         operatingDays = new ArrayList<>();
 
-        ObservableBoolean update = new ObservableBoolean();
+        update = new ObservableBoolean();
         update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean newValue) {
@@ -168,5 +169,11 @@ public class LearningCenterProfile extends Fragment {
     private void checkDay(String text, View v) {
         if (operatingDays.contains(text))
             v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        update.set(true);
     }
 }

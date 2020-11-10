@@ -222,15 +222,19 @@ public class Posts {
         return postViews;
     }
 
-    public static ArrayList<Post> searchText(String text) {
+    public static ArrayList<Post> searchText(String text, boolean isAll) {
         text = text.toLowerCase();
         ArrayList<Post> postViews = new ArrayList<>();
         for (Map.Entry postEntry : posts.entrySet()) {
             Map<String, Object> post = (Map<String, Object>)postEntry.getValue();
             if (post.get("Title").toString().toLowerCase().contains(text) ||
                 post.get("Content").toString().toLowerCase().contains(text) ||
-                post.get("FullName").toString().toLowerCase().contains(text))
-                    postViews.add(setPostToView(postEntry.getKey().toString()));
+                post.get("Username").toString().equalsIgnoreCase(text) &&
+            (isAll || (!isAll && post.get("Username").toString().equalsIgnoreCase(Account.getStringData("username"))))
+        )
+            {
+                postViews.add(setPostToView(postEntry.getKey().toString()));
+            }
         }
         Collections.sort(postViews, new Comparator<Post>() {
             public int compare(Post o1, Post o2) {
@@ -244,7 +248,7 @@ public class Posts {
         ArrayList<Post> postViews = new ArrayList<>();
         for (Map.Entry postEntry : posts.entrySet()) {
             Map<String, Object> post = (Map<String, Object>)postEntry.getValue();
-            if (post.get("Username").toString().toLowerCase().contains(Account.getStringData("username")))
+            if (post.get("Username").toString().equalsIgnoreCase(Account.getStringData("username")))
                     postViews.add(setPostToView(postEntry.getKey().toString()));
         }
         Collections.sort(postViews, new Comparator<Post>() {

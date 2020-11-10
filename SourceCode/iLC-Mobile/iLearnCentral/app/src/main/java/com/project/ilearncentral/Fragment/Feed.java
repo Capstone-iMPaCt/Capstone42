@@ -21,6 +21,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Post;
+import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.R;
 
@@ -41,6 +42,7 @@ public class Feed extends Fragment {
 
     private SearchView searchView;
     private TextView toggleView;
+    private boolean isAll;
 
     public Feed() {
         // Required empty public constructor
@@ -67,13 +69,8 @@ public class Feed extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 post.clear();
-                post.addAll(Posts.searchText(query));
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        adapter.notifyDataSetChanged();
-                    }
-                });
+                post.addAll(Posts.searchText(query, isAll));
+                adapter.notifyDataSetChanged();
                 return false;
             }
 
@@ -96,6 +93,7 @@ public class Feed extends Fragment {
                 setToggleView();
             }
         });
+        isAll = true;
 
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +107,7 @@ public class Feed extends Fragment {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 post.clear();
-                post.addAll(Posts.setPostsToView());
+                post.addAll(Posts.searchText("", isAll));
                 adapter.notifyDataSetChanged();
             }
         });
@@ -123,12 +121,10 @@ public class Feed extends Fragment {
                     searchView.setQuery("", false);
                     searchView.setIconified(true);
                 }
+                isAll = true;
+                toggleView.setText("All");
                 searchView.clearFocus();
-                if (toggleView.getText().toString().equalsIgnoreCase("Mine")) {
-                    setToggleView();
-                } else {
-                    Posts.retrievePostsFromDB(done);
-                }
+                Posts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -150,18 +146,19 @@ public class Feed extends Fragment {
     }
 
     private void setToggleView() {
+        post.clear();
         if (toggleView.getText().toString().equalsIgnoreCase("All")) {
+            isAll = false;
             toggleView.setText("Mine");
             toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-            post.clear();
             post.addAll(Posts.myPosts());
-            adapter.notifyDataSetChanged();
         } else {
+            isAll = true;
             toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
             toggleView.setText("All");
-            post.clear();
-            post.addAll(Posts.searchText(""));
-            adapter.notifyDataSetChanged();
+            post.addAll(Posts.searchText("", isAll));
         }
+        adapter.notifyDataSetChanged();
+        searchView.clearFocus();
     }
 }

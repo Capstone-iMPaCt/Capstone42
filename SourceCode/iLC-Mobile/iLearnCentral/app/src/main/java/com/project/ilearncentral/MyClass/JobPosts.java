@@ -237,7 +237,6 @@ public class JobPosts {
         text = text.toLowerCase();
         List<JobVacancy> jobs = new ArrayList<>();
 
-
         for(JobVacancy job:jobPosts) {
             if ((job.getBusinessData().get("BusinessName").toLowerCase().contains(text) ||
                     job.getJobDescription().toLowerCase().contains(text) ||
