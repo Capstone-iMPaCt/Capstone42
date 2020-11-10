@@ -89,7 +89,7 @@ public class ViewUser extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (follow.getText().toString().equalsIgnoreCase("Follow")) {
-                    user.addFollower(Account.getUsername());
+                    user.addFollower(Account.me.getUsername());
                     Account.me.addFollowing(username);
                     User.getUserByUsername(Account.getUsername()).addFollowing(username);
                     Utility.follow(user);
@@ -97,8 +97,8 @@ public class ViewUser extends AppCompatActivity {
                     followers.setText(Utility.processCount(user.getFollowers()));
 
                 } else {
-                    user.getFollowers().remove(Account.getUsername());
-                    User.getUserByUsername(Account.getUsername()).getFollowing().remove(username);
+                    user.getFollowers().remove(Account.me.getUsername());
+                    User.getUserByUsername(Account.me.getUsername()).getFollowing().remove(username);
                     Account.me.getFollowing().remove(username);
                     Utility.unfollow(user);
                     follow.setText("Follow");

@@ -335,20 +335,20 @@ public class Utility {
             db.collection("User").document(user.getUid()).update("Following", Account.me.getFollowing());
         }
         if (u.getFollowers().size() > 0)
-            db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayUnion(Account.getUsername()));
+            db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayUnion(Account.me.getUsername()));
         else {
             db.collection("User").document(u.getUserId()).update("Followers", u.getFollowers());
         }
     }
 
-    public static void followLC(LearningCenter lc) {
+    public static void follow(LearningCenter lc) {
         if (Account.me.getFollowing().size() > 0)
             db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayUnion(lc.getCenterId()));
         else {
             db.collection("User").document(user.getUid()).update("Following", Account.me.getFollowing());
         }
         if (lc.getFollowers().size() > 0)
-            db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayUnion(Account.getUsername()));
+            db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayUnion(Account.me.getUsername()));
         else {
             db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", lc.getFollowers());
         }
@@ -356,17 +356,22 @@ public class Utility {
 
     public static void unfollow(User u) {
         db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayRemove(u.getUsername()));
-        db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayRemove(Account.getUsername()));
+        db.collection("User").document(u.getUserId()).update("Followers", FieldValue.arrayRemove(Account.me.getUsername()));
     }
 
-    public static void unfollowLC(LearningCenter lc) {
+    public static void unfollow(LearningCenter lc) {
         db.collection("User").document(user.getUid()).update("Following", FieldValue.arrayRemove(lc.getCenterId()));
-        db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayRemove(Account.getUsername()));
+        db.collection("LearningCenter").document(lc.getCenterId()).update("Followers", FieldValue.arrayRemove(Account.me.getUsername()));
     }
 
     public static void rate(User u) {
         db.collection("User").document(u.getUserId()).update("Ratings", u.getRatings());
     }
+
+    public static void rate(LearningCenter lc) {
+        db.collection("LearningCenter").document(lc.getCenterId()).update("Ratings", lc.getRatings());
+    }
+
 
     public static int getScreenWidth() {
         return screenWidth;

@@ -1,11 +1,13 @@
 package com.project.ilearncentral.Activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,6 +16,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
@@ -45,6 +48,9 @@ public class ViewLearningCenter extends AppCompatActivity {
         message = (Button) findViewById(R.id.view_center_message_button);
         courses = (Button) findViewById(R.id.view_center_courses_button);
         name = (TextView) findViewById(R.id.view_center_full_name);
+        followers = (TextView) findViewById(R.id.learning_center_followers);
+        following = (TextView) findViewById(R.id.learning_center_following);
+        rating = (TextView) findViewById(R.id.learning_center_rating);
 
         lc = LearningCenter.getLCById(Account.getStringData("openLC"));
 
@@ -57,20 +63,21 @@ public class ViewLearningCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (follow.getText().toString().equalsIgnoreCase("Follow")) {
-//                    user.addFollower(Account.getUsername());
-//                    Account.me.addFollowing(username);
-//                    User.getUserByUsername(Account.getUsername()).addFollowing(username);
-//                    Utility.follow(user);
-//                    followers.setText(Utility.processCount(user.getFollowers()));
-//                    follow.setText("Unfollow");
+                    System.out.println(Account.me.getUsername() + " follows " + lc.getCenterId());
+                    lc.addFollower(Account.me.getUsername());
+                    Account.me.addFollowing(lc.getCenterId());
+                    User.getUserByUsername(Account.getUsername()).addFollowing(lc.getCenterId());
+                    Utility.follow(lc);
+                    follow.setText("Unfollow");
+                    followers.setText(Utility.processCount(lc.getFollowers()));
 
-//                } else {
-//                    user.getFollowers().remove(Account.getUsername());
-//                    User.getUserByUsername(Account.getUsername()).getFollowing().remove(username);
-//                    Account.me.getFollowing().remove(username);
-//                    Utility.unfollow(user);
-//                    follow.setText("Follow");
-//                    followers.setText(Utility.processCount(user.getFollowers()));
+                } else {
+                    lc.getFollowers().remove(Account.me.getUsername());
+                    User.getUserByUsername(Account.me.getUsername()).getFollowing().remove(lc.getCenterId());
+                    Account.me.getFollowing().remove(lc.getCenterId());
+                    Utility.unfollow(lc);
+                    follow.setText("Follow");
+                    followers.setText(Utility.processCount(lc.getFollowers()));
                 }
             }
         });
@@ -94,6 +101,34 @@ public class ViewLearningCenter extends AppCompatActivity {
                         startActivity(intent);
                     }
                 }
+            }
+        });
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.view_center_rating_fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog ratingDialog = new Dialog(ViewLearningCenter.this, R.style.FullHeightDialog);
+                ratingDialog.setContentView(R.layout.rating_dialog);
+                ratingDialog.setCancelable(true);
+                final RatingBar ratingBar = (RatingBar)ratingDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(Float.parseFloat(lc.getRating()+""));
+
+                TextView text = (TextView) ratingDialog.findViewById(R.id.rank_dialog_text1);
+                text.setText(lc.getBusinessName());
+
+                Button updateButton = (Button) ratingDialog.findViewById(R.id.rank_dialog_button);
+                updateButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        lc.addRating(Account.getUsername(), (int)ratingBar.getRating());
+                        rating.setText(lc.getRating()+"");
+                        Utility.rate(lc);
+                        ratingDialog.dismiss();
+                    }
+                });
+                //now that the dialog is set up, it's time to show it
+                ratingDialog.show();
             }
         });
 

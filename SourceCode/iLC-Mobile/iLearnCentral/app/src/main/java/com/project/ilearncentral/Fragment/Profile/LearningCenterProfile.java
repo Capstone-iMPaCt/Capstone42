@@ -23,7 +23,8 @@ import java.util.List;
 public class LearningCenterProfile extends Fragment {
 
     private TextView sunday, monday, tuesday, wednesday, thursday, friday, saturday;
-    private TextView businessName, serviceType, businessAddress, openingTime, closingTime, email, contact, website, aboutUs;
+    private TextView businessName, serviceType, businessAddress, openingTime, closingTime, email, contact, website, aboutUs,
+                    following, followers, rating;
     private LinearLayout emailLayout, contactLayout, websiteLayout;
     private CardView aboutUsLayout;
     private List<String> operatingDays;
@@ -67,6 +68,9 @@ public class LearningCenterProfile extends Fragment {
         websiteLayout = view.findViewById(R.id.learningcenter_profile_website_layout);
         aboutUsLayout = view.findViewById(R.id.learning_center_about_us_layout);
         operatingDays = new ArrayList<>();
+        followers = view.findViewById(R.id.learning_center_followers);
+        following = view.findViewById(R.id.learning_center_following);
+        rating = view.findViewById(R.id.learning_center_rating);
 
         update = new ObservableBoolean();
         update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
@@ -120,6 +124,11 @@ public class LearningCenterProfile extends Fragment {
                             aboutUsLayout.setVisibility(View.VISIBLE);
                             aboutUs.setText(lc.getDescription());
                         }
+
+                        followers.setText(Utility.processCount(lc.getFollowers()));
+                        following.setText(Utility.processCount(lc.getFollowing()));
+                        rating.setText(lc.getRating()+"");
+
                         Account.businessSet = false;
                     }
                 }

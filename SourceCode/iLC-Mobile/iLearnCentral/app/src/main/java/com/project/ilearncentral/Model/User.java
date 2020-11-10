@@ -179,6 +179,7 @@ public class User {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (final QueryDocumentSnapshot doc : task.getResult()) {
+                        final String realUserId = doc.getId();
                         String collection = "";
                         if (doc.get("AccountType").equals("learningcenter")) {
                             collection = "LearningCenterStaff";
@@ -200,7 +201,7 @@ public class User {
 
                                                 String fullname = Utility.formatFullName(nameDB.get("FirstName"), nameDB.get("MiddleName"), nameDB.get("LastName"));
                                                 int pos = getUserPositionByUsername(document.getString("Username"));
-                                                User curUser = new User(document.getId(), document.getString("Username"), fullname, userData.get("AccountType")+"", userData.get("Image").toString());
+                                                User curUser = new User(realUserId, document.getString("Username"), fullname, userData.get("AccountType")+"", userData.get("Image").toString());
                                                 if(doc.contains("Following")) {
                                                     curUser.addFollowing((List<String> ) doc.get("Following"));
                                                 }
@@ -261,6 +262,7 @@ public class User {
     }
 
     public double getRating() {
+        setRating();
         return rating;
     }
 

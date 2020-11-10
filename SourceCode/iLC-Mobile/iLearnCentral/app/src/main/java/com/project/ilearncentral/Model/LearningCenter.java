@@ -220,6 +220,7 @@ public class LearningCenter {
 
 
     public double getRating() {
+        setRating();
         return rating;
     }
 
@@ -342,6 +343,14 @@ public class LearningCenter {
                                 address.replaceAll("\\s", " ");
                                 lc.setBusinessAddress(address);
                                 int pos = getLCPositionById(document.getId());
+                                if(document.contains("Following")) {
+                                    lc.addFollowing((List<String> ) document.get("Following"));
+                                }
+                                if(document.contains("Followers")) {
+                                    lc.addFollower((List<String>) document.get("Followers"));
+                                }
+                                if(document.contains("Ratings"))
+                                    lc.addRating((Map<String, Integer>) document.get("Ratings"));
                                 if (pos == -1) {
                                     retrieved.add(lc);
                                 } else {
