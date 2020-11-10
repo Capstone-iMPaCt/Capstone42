@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -194,6 +195,7 @@ public class ImageHandler {
                 BitmapFactory.Options options = new BitmapFactory.Options();
                 options.inSampleSize = 2;
                 bitmap = BitmapFactory.decodeFile(picturePath, options);
+                bitmapBytes = new ByteArrayOutputStream();
 //                bitmap = BitmapFactory.decodeFile(picturePath);
 //                bitmapBytes = new ByteArrayOutputStream();
 //                bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bitmapBytes);
@@ -221,20 +223,27 @@ public class ImageHandler {
         return withImage;
     }
 
-    public void uploadBitmapBytes(String saveKey, String pathName, String fileName, final ObservableString uriString) {
+    public void uploadBitmapBytes(String saveKey, String pathName, String fileName, ImageView imageView, final ObservableString uriString) {
         changedBytes = true;
         bitmapBytes = (ByteArrayOutputStream) Account.get(saveKey);
-        uploadImage(pathName, fileName, uriString);
+        uploadImage(pathName, fileName, imageView, uriString);
     }
 
-    public void uploadImage(String pathName, String fileName, final ObservableString uriString) {
-        if (filePath != null) {
+    public void uploadImage(String pathName, String fileName, ImageView imageView, final ObservableString uriString) {
+        if (bitmapBytes != null) {
             final ProgressDialog progressDialog = new ProgressDialog(context);
             progressDialog.setTitle("Uploading...");
             progressDialog.show();
-            byte[] data = bitmapBytes.toByteArray();
+
+            imageView.setDrawingCacheEnabled(true);
+            imageView.buildDrawingCache();
+            Bitmap nBitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] data = baos.toByteArray();
+
             final StorageReference ref = storageRef.child(pathName + "/" + fileName);
-            StorageTask<UploadTask.TaskSnapshot> taskSnapshotStorageTask = ref.putBytes(data)
+            UploadTask uploadTask  = (UploadTask) ref.putBytes(data)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

@@ -134,7 +134,7 @@ public class UpdateLearningCenter extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void aVoid) {
                             if(withImage) {
-                                imageHandler.uploadImage("images", Account.getStringData("centerId"), imageDone);
+                                imageHandler.uploadImage("images", Account.getStringData("centerId"), logo, imageDone);
                             } else {
                                 updated = true;
                                 Toast.makeText(getApplicationContext(), "Updated!", Toast.LENGTH_SHORT)

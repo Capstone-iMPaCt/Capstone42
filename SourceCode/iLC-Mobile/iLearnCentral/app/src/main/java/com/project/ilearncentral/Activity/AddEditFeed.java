@@ -81,7 +81,7 @@ public class AddEditFeed extends AppCompatActivity {
             public void onStringChanged(String id) {
                  postId = id;
                 if(withImage) {
-                    imageHandler.uploadImage("posts", postId, imageDone);
+                    imageHandler.uploadImage("posts", postId, image, imageDone);
                 } else {
                     finishPost();
                 }

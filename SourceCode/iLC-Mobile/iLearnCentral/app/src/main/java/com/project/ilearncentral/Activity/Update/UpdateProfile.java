@@ -175,7 +175,7 @@ public class UpdateProfile extends AppCompatActivity {
                                     });
                         } else {
                             imageHandler.uploadImage("images", Account
-                                    .getUsername(), imageDone);
+                                    .getUsername(), image, imageDone);
                         }
                     }
                 }
