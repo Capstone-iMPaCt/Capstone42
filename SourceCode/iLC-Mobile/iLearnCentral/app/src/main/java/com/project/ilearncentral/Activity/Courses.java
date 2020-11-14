@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.opengl.Visibility;
 import android.os.Bundle;
 import android.view.View;
 
@@ -61,9 +60,9 @@ public class Courses extends AppCompatActivity {
 
     private void disableFunctions() {
         findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
-        findViewById(R.id.enrolment_toggle_view).setVisibility(View.GONE);
+        findViewById(R.id.enrolment_app_bar_toggle_view).setVisibility(View.GONE);
         findViewById(R.id.enrolment_app_bar_horizontal_line_divider).setVisibility(View.GONE);
-        findViewById(R.id.enrolment_options_layout).setVisibility(View.GONE);
+        findViewById(R.id.enrolment_app_bar_options_layout).setVisibility(View.GONE);
         findViewById(R.id.enrolment_add_fab).setVisibility(View.GONE);
     }
 }

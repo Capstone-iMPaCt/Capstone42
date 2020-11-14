@@ -73,6 +73,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         final JobVacancy job = jobs.get(position);
 
         holder.editTextView.setVisibility(View.GONE);
+        holder.closePostButton.setVisibility(View.GONE);
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         getImage(holder.logoImageView, "images/", job.getCenterId());
@@ -106,6 +107,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             if (Account.getStringData("centerId")
                     .equals(job.getCenterId())){
                 holder.editTextView.setVisibility(View.VISIBLE);
+                holder.closePostButton.setVisibility(View.VISIBLE);
             }
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
@@ -163,7 +165,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         private RelativeLayout headerLayout;
         private ImageView logoImageView;
         private TextView businessNameTextView, positionTextView, dateTextView, timeTextView, descriptionTextView, editTextView;
-        private Button applyButton, chatButton;
+        private Button closePostButton, applyButton, chatButton;
 
         JobPostViewHolder(View itemView) {
             super(itemView);
@@ -177,6 +179,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             timeTextView = itemView.findViewById(R.id.job_post_time);
             descriptionTextView = itemView.findViewById(R.id.job_post_description);
             editTextView = itemView.findViewById(R.id.job_post_edit_icon);
+            closePostButton = itemView.findViewById(R.id.job_post_close_button);
             applyButton = itemView.findViewById(R.id.job_post_apply_button);
             chatButton = itemView.findViewById(R.id.job_post_chat_button);
         }

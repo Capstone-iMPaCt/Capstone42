@@ -21,7 +21,6 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.Model.Post;
-import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Posts;
 import com.project.ilearncentral.R;
 
@@ -60,11 +59,11 @@ public class Feed extends Fragment {
 
         if (!Account.isType("Student")) {
             view.findViewById(R.id.feed_add_fab).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
-            view.findViewById(R.id.feed_toggle_view).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.feed_app_bar_vertical_line_divider).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.feed_app_bar_toggle_view).setVisibility(View.VISIBLE);
         }
 
-        searchView = view.findViewById(R.id.feed_searchview);
+        searchView = view.findViewById(R.id.feed_app_bar_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -86,7 +85,7 @@ public class Feed extends Fragment {
                 return false;
             }
         });
-        toggleView = view.findViewById(R.id.feed_toggle_view);
+        toggleView = view.findViewById(R.id.feed_app_bar_toggle_view);
         toggleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

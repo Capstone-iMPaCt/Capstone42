@@ -62,16 +62,16 @@ public class EnrolmentSystem extends Fragment {
 
         if (Account.isType("Student")){
             view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
-            view.findViewById(R.id.enrolment_toggle_view).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_toggle_view).setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_horizontal_line_divider).setVisibility(View.GONE);
-            view.findViewById(R.id.enrolment_options_layout).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_options_layout).setVisibility(View.GONE);
         }
 
         enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
         disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
 
-        searchOption = view.findViewById(R.id.enrolment_toggle_view);
-        enrollees = view.findViewById(R.id.enrolment_enrollees);
+        searchOption = view.findViewById(R.id.enrolment_app_bar_toggle_view);
+        enrollees = view.findViewById(R.id.enrolment_app_bar_option_enrollees);
 
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class EnrolmentSystem extends Fragment {
             }
         });
 
-        toggleView = view.findViewById(R.id.enrolment_toggle_view);
+        toggleView = view.findViewById(R.id.enrolment_app_bar_toggle_view);
         toggleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

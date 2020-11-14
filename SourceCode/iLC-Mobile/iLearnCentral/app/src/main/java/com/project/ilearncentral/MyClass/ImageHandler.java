@@ -142,8 +142,8 @@ public class ImageHandler {
                 filePath = data.getData();
                 bitmap = (Bitmap) data.getExtras().get("data");
                 bitmapBytes = new ByteArrayOutputStream();
-//                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 560, 420, true);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, bitmapBytes);
+//                bitmap = Bitmap.createScaledBitmap(bitmap, 560, 420, true);
 
                 String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
                 destination = new File(activity.getExternalFilesDir(Environment.DIRECTORY_PICTURES) + "/", "IMG_" + timeStamp + ".png");

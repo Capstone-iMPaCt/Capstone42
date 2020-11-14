@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="10dp"
@@ -38,9 +39,7 @@
                 android:layout_toStartOf="@+id/job_post_date"
                 android:layout_toEndOf="@+id/job_post_center_logo"
                 android:gravity="start|center"
-                android:text=""
                 android:textColor="@color/colorPrimaryDark"
-                android:textSize="16sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -76,9 +75,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text=""
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/job_post_header" />
 
@@ -87,7 +84,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingVertical="10dp"
-            android:text=""
             android:textColor="@color/colorPrimaryDark"
             app:layout_constraintTop_toBottomOf="@+id/job_post_position_title" />
 
@@ -95,31 +91,46 @@
             android:id="@+id/job_post_horizontal_line_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            app:layout_constraintTop_toBottomOf="@+id/job_post_description"
             android:layout_marginVertical="3dp"
             android:layout_toEndOf="@+id/course_user_display_image"
-            android:background="@android:color/darker_gray" />
+            android:background="@android:color/darker_gray"
+            app:layout_constraintTop_toBottomOf="@+id/job_post_description" />
+
+        <Button
+            android:id="@+id/job_post_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="0dp"
+            android:minHeight="0dp"
+            android:text="CLOSE THIS POST"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/job_post_horizontal_line_divider" />
 
         <LinearLayout
+            android:id="@+id/linearLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center|end"
             android:layout_marginVertical="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/job_post_horizontal_line_divider">
+            android:gravity="center|end"
+            app:layout_constraintTop_toBottomOf="@+id/job_post_horizontal_line_divider"
+            tools:layout_editor_absoluteX="5dp">
 
             <Button
                 android:id="@+id/job_post_apply_button"
                 android:layout_width="@dimen/nav_icon_lw"
                 android:layout_height="@dimen/nav_icon_lw"
-                android:background="@drawable/submit_resume"
-                android:layout_marginEnd="10dp"/>
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/submit_resume" />
 
             <Button
                 android:id="@+id/job_post_chat_button"
                 android:layout_width="@dimen/nav_icon_lw"
                 android:layout_height="@dimen/nav_icon_lw"
-                android:background="@drawable/chat"
-                android:layout_marginEnd="10dp"/>
+                android:background="@drawable/chat" />
 
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

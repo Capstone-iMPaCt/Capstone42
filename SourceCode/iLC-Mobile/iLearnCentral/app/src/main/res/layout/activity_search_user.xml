@@ -35,6 +35,7 @@
         android:id="@+id/search_user_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:backgroundTint="@color/bg_recyclerview" />
+        android:backgroundTint="@color/bg_recyclerview"
+        android:clipToPadding="false"
+        android:padding="10dp" />
 </LinearLayout>

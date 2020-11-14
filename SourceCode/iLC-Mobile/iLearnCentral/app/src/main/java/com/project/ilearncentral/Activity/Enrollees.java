@@ -17,14 +17,14 @@ public class Enrollees extends AppCompatActivity {
 
     private ArrayList<Enrollee> enrollee;
     private GridView gridView;
-    EnrolleeAdapter adapter;
+    private EnrolleeAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enrollees);
 
-        enrollee = new ArrayList<Enrollee>();
+        enrollee = new ArrayList<>();
         gridView = findViewById(R.id.enrollees_gridview);
         enrollee.add(new Enrollee("User NameUser NameUser Name","Course Title"));
         enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));

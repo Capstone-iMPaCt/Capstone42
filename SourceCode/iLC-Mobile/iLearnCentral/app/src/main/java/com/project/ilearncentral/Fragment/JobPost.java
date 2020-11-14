@@ -1,18 +1,18 @@
 package com.project.ilearncentral.Fragment;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
@@ -20,30 +20,20 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
-import com.project.ilearncentral.Activity.Messages;
+import com.project.ilearncentral.Activity.Applicants;
 import com.project.ilearncentral.Activity.NveJobPost;
-import com.project.ilearncentral.Activity.ViewUser;
 import com.project.ilearncentral.Adapter.JobPostAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.JobVacancy;
-import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
-import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -60,8 +50,11 @@ public class JobPost extends Fragment {
     private FloatingActionButton addNewPostBtn;
     private final int NEW_POST = 1, UPDATE_POST = 2;
 
+    private SwipeRefreshLayout pullToRefresh;
     private SearchView searchView;
-    private TextView toggleView, searchOption;
+    private TextView toggleView, searchOption, applicants, closed;
+    private View horizontalDivider;
+    private LinearLayout options;
     private ImageButton toggleRecommend;
     private boolean isAll;
 
@@ -76,22 +69,15 @@ public class JobPost extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_feed, container, false);
 
-        enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
-        disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
-
-        searchOption = view.findViewById(R.id.feed_toggle_view);
-        toggleRecommend = view.findViewById(R.id.feed_toggle_recommend);
-        toggleRecommend.setBackground(disableRecommend);
+        bindLayout(view);
         isAll = true;
 
-//        searchOption.setBackgroundResource();
-
-        searchView = view.findViewById(R.id.feed_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -113,6 +99,37 @@ public class JobPost extends Fragment {
                 return false;
             }
         });
+//        applicants.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getContext(), Applicants.class));
+//            }
+//        });
+        applicants.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    applicants.setTextColor(Color.CYAN);
+                    startActivity(new Intent(getContext(), Applicants.class));
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    applicants.setTextColor(Color.GRAY);
+                }
+                return false;
+            }
+        });
+        closed.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    closed.setTextColor(Color.CYAN);
+                    // TODO:  codes to change view job posts to closed job posts here...
+
+                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                    closed.setTextColor(Color.GRAY);
+                }
+                return false;
+            }
+        });
         editOrView = new ObservableString();
         editOrView.setOnStringChangeListener(new OnStringChangeListener() {
             @Override
@@ -131,7 +148,6 @@ public class JobPost extends Fragment {
 
             }
         });
-        addNewPostBtn = view.findViewById(R.id.feed_add_fab);
         addNewPostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -139,9 +155,9 @@ public class JobPost extends Fragment {
             }
         });
 
-        toggleView = view.findViewById(R.id.feed_toggle_view);
-        if (!Account.isType("Student")){
-            view.findViewById(R.id.feed_searchview_line_divider).setVisibility(View.VISIBLE);
+        toggleView = view.findViewById(R.id.feed_app_bar_toggle_view);
+        if (!Account.isType("Student")) {
+            view.findViewById(R.id.feed_app_bar_vertical_line_divider).setVisibility(View.VISIBLE);
         }
         if (Account.isType("LearningCenter")) {
             addNewPostBtn.setVisibility(View.VISIBLE);
@@ -153,7 +169,7 @@ public class JobPost extends Fragment {
                 }
             });
         }
-        if (Account.isType("Educator")){
+        if (Account.isType("Educator")) {
             addNewPostBtn.setVisibility(View.GONE);
             toggleView.setVisibility(View.GONE);
             toggleRecommend.setVisibility(View.VISIBLE);
@@ -166,7 +182,9 @@ public class JobPost extends Fragment {
                         toggleRecommend.setBackground(disableRecommend);
                 }
             });
-        } else {
+        } else if (Account.isType("LearningCenter")) {
+            horizontalDivider.setVisibility(View.VISIBLE);
+            options.setVisibility(View.VISIBLE);
             toggleView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -186,7 +204,6 @@ public class JobPost extends Fragment {
         });
         JobPosts.retrievePostsFromDB(done);
 
-        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.feed_pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -201,11 +218,26 @@ public class JobPost extends Fragment {
         });
 
         jobs = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.feed_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new JobPostAdapter(getContext(), editOrView, jobs);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    private void bindLayout(View view) {
+        searchView = view.findViewById(R.id.feed_app_bar_searchview);
+        pullToRefresh = view.findViewById(R.id.feed_pullToRefresh);
+        searchOption = view.findViewById(R.id.feed_app_bar_toggle_view);
+        toggleRecommend = view.findViewById(R.id.feed_app_bar_toggle_recommend);
+        horizontalDivider = view.findViewById(R.id.feed_app_bar_horizontal_line_divider);
+        options = view.findViewById(R.id.feed_app_bar_options_layout);
+        applicants = view.findViewById(R.id.feed_app_bar_option_applicants);
+        closed = view.findViewById(R.id.feed_app_bar_option_closed_posts);
+        recyclerView = view.findViewById(R.id.feed_recylerview);
+
+        addNewPostBtn = view.findViewById(R.id.feed_add_fab);
+
+//        searchOption.setBackgroundResource();
     }
 
     @Override

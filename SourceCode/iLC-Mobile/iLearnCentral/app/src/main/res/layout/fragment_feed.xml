@@ -2,7 +2,7 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/root_layout"
+    android:id="@+id/feed_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -16,17 +16,18 @@
         android:background="@drawable/searchview_white_bg_rounded"
         android:fitsSystemWindows="true">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/feed_searchview"
+                android:id="@+id/feed_app_bar_searchview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:layout_weight="1"
+                android:layout_alignParentStart="true"
+                android:layout_toStartOf="@+id/feed_app_bar_vertical_line_divider"
+                android:clickable="true"
                 android:contentInsetStart="0dp"
                 android:contentInsetLeft="0dp"
                 android:contentInsetEnd="0dp"
@@ -37,22 +38,30 @@
                 app:contentInsetStart="0dp" />
 
             <View
-                android:id="@+id/feed_searchview_line_divider"
+                android:id="@+id/feed_app_bar_vertical_line_divider"
                 android:layout_width="1dp"
-                android:layout_height="match_parent"
+                android:layout_height="44dp"
                 android:layout_marginTop="3dp"
-                android:layout_marginBottom="3dp"
+                android:layout_toStartOf="@id/feed_app_bar_toggel_buttons_layout"
                 android:background="@android:color/darker_gray"
                 android:visibility="gone" />
 
             <FrameLayout
+                android:id="@+id/feed_app_bar_toggel_buttons_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/enrolment_app_bar_searchview"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_gravity="center"
-                android:layout_margin="5dp">
+                android:layout_margin="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
-                    android:id="@+id/feed_toggle_view"
+                    android:id="@+id/feed_app_bar_toggle_view"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/bg_selected_day_rounded"
@@ -61,17 +70,64 @@
                     android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <ImageButton
-                    android:id="@+id/feed_toggle_recommend"
+                    android:id="@+id/feed_app_bar_toggle_recommend"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:background="@drawable/disable_recommend_icon"
                     android:gravity="center"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
             </FrameLayout>
-        </LinearLayout>
+
+            <View
+                android:id="@+id/feed_app_bar_horizontal_line_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/feed_app_bar_searchview"
+                android:layout_marginHorizontal="3dp"
+                android:background="@android:color/darker_gray"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/feed_app_bar_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/feed_app_bar_horizontal_line_divider"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/feed_app_bar_option_applicants"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="APPLICANTS"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:id="@+id/feed_app_bar_option_vertical_line_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/feed_app_bar_option_closed_posts"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="CLOSED POSTS"
+                    android:textColor="@color/dark_gray" />
+            </LinearLayout>
+        </RelativeLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -84,9 +140,9 @@
             android:id="@+id/feed_recylerview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="100dp"
+            android:backgroundTint="@color/bg_recyclerview"
             android:clipToPadding="false"
-            android:backgroundTint="@color/bg_recyclerview" />
+            android:paddingBottom="100dp" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

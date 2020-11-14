@@ -60,17 +60,29 @@
                     android:layout_marginBottom="20dp"
                     android:contentDescription="@string/iLC_logo_description"
                     android:src="@drawable/no_image_available"
-                    android:scaleType="centerInside"
-                    app:layout_constraintDimensionRatio="3:2"
+                    android:background="@drawable/bg_transparent"
+                    android:scaleType="fitCenter"
+                    app:layout_constraintDimensionRatio="1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/feed_add_orient_image"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:padding="5dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@drawable/ic_image_orientation_black_50px"
+                    app:layout_constraintTop_toTopOf="@+id/feed_add_image"
+                    app:layout_constraintEnd_toEndOf="@+id/feed_add_image" />
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/feed_add_change_image"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginBottom="10dp"
                     android:src="@drawable/ic_camera_alt_black_24dp"
                     app:layout_constraintBottom_toBottomOf="@+id/feed_add_image"

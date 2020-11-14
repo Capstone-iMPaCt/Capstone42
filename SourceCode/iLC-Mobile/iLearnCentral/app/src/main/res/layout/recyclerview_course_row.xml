@@ -242,6 +242,8 @@
             android:layout_below="@+id/course_schedule_days_label"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/course_instructor_label"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:padding="5dp"
             android:textColor="@color/colorPrimaryDark" />
 
@@ -249,19 +251,20 @@
             android:id="@+id/course_fee_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_toStartOf="@id/course_description"
+            android:layout_toEndOf="@+id/course_instructor_label"
             android:orientation="vertical">
 
             <com.haozhang.lib.SlantedTextView
                 android:id="@+id/course_fee"
-                android:layout_width="@dimen/post_user_image_lw"
-                android:layout_height="@dimen/post_user_image_lw"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
                 app:slantedBackgroundColor="@android:color/holo_red_dark"
-                app:slantedLength="20dp"
+                app:slantedLength="30dp"
                 app:slantedMode="left_bottom"
                 app:slantedTextColor="@android:color/white"
-                app:slantedTextSize="8sp" />
+                app:slantedTextSize="10sp" />
         </LinearLayout>
 
         <View
@@ -269,24 +272,22 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_below="@+id/course_instructor"
-            android:layout_marginVertical="3dp"
             android:layout_marginLeft="10dp"
+            android:layout_marginTop="3dp"
             android:layout_toEndOf="@+id/course_user_display_image"
             android:background="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/course_enrol_button"
-            android:layout_width="@dimen/post_user_image_lw"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/course_horizontal_line_divider"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/bg_button_rounded_corners"
-            android:ellipsize="start"
-            android:minWidth="0dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="@android:color/holo_green_dark"
             android:minHeight="0dp"
-            android:padding="5dp"
-            android:text="ENROLL"
-            android:textColor="@android:color/white"
-            android:textSize="10sp" />
+            android:paddingVertical="10dp"
+            android:text="ENROLL NOW"
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

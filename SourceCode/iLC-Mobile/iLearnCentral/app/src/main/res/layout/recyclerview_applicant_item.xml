@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="5dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/applicant_view_user_profile"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentStart="true"
+            android:layout_margin="3dp"
+            android:background="@drawable/ic_profile_50px" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/applicant_user_image"
+            android:layout_width="@dimen/post_user_image_lw"
+            android:layout_height="@dimen/post_user_image_lw"
+            android:layout_alignParentTop="true"
+            android:layout_centerInParent="true"
+            android:layout_marginBottom="5dp"
+            android:src="@drawable/ic_account_circle_black_24dp" />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/applicant_star_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="3dp"
+            android:background="@drawable/ic_star_50px" />
+
+        <TextView
+            android:id="@+id/applicant_user_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/applicant_user_image"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="1"
+            android:text="Full Name" />
+
+        <View
+            android:id="@+id/applicant_horizontal_divider_1"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/applicant_user_name"
+            android:layout_marginVertical="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/applicant_position_applied"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_below="@id/applicant_horizontal_divider_1"
+            android:background="@drawable/bg_transparent"
+            android:ellipsize="end"
+            android:gravity="center"
+            android:maxLines="2"
+            android:text="Position Applied"
+            android:textColor="@color/colorAccent" />
+
+        <View
+            android:id="@+id/applicant_horizontal_divider_2"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/applicant_position_applied"
+            android:layout_marginVertical="2dp"
+            android:background="@android:color/darker_gray" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/applicant_horizontal_divider_2"
+            android:layout_marginTop="3dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/applicant_hire_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_rounded_corners"
+                android:backgroundTint="@android:color/holo_green_dark"
+                android:clickable="true"
+                android:minHeight="0dp"
+                android:paddingVertical="5dp"
+                android:text="HIRE"
+                android:textColor="@android:color/white" />
+
+            <Button
+                android:id="@+id/applicant_reject_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_button_rounded_corners"
+                android:backgroundTint="@android:color/holo_red_dark"
+                android:clickable="true"
+                android:minHeight="0dp"
+                android:paddingVertical="5dp"
+                android:text="REJECT"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -41,7 +41,7 @@ public class EnrolleeAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int i, View view, ViewGroup viewGroup) {
-        view = LayoutInflater.from(context).inflate(R.layout.recyclerview_enrollees_cell_item, viewGroup, false);
+        view = LayoutInflater.from(context).inflate(R.layout.recyclerview_enrollee_item, viewGroup, false);
 
         Enrollee enrollee = enrollees.get(i);
 
