@@ -25,5 +25,6 @@
     <color name="following_count_color">#2196F3</color>
     <color name="rating_count_color">#E91E63</color>
     <color name="bg_recyclerview">#EEEEEE</color>
+    <color name="yellow">#FFEB3B</color>
 
 </resources>

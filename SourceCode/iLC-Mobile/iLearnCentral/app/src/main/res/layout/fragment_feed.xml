@@ -91,7 +91,7 @@
                 android:visibility="gone" />
 
             <LinearLayout
-                android:id="@+id/feed_app_bar_options_layout"
+                android:id="@+id/feed_app_bar_lc_options_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/feed_app_bar_horizontal_line_divider"
@@ -99,7 +99,7 @@
                 android:visibility="gone">
 
                 <TextView
-                    android:id="@+id/feed_app_bar_option_applicants"
+                    android:id="@+id/feed_app_bar_lc_option_applicants"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -110,14 +110,14 @@
                     android:textColor="@color/dark_gray" />
 
                 <View
-                    android:id="@+id/feed_app_bar_option_vertical_line_divider"
+                    android:id="@+id/feed_app_bar_lc_option_vertical_line_divider"
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:layout_marginVertical="3dp"
                     android:background="@android:color/darker_gray" />
 
                 <TextView
-                    android:id="@+id/feed_app_bar_option_closed_posts"
+                    android:id="@+id/feed_app_bar_lc_option_closed_posts"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginVertical="5dp"
@@ -125,6 +125,44 @@
                     android:clickable="true"
                     android:gravity="center"
                     android:text="CLOSED POSTS"
+                    android:textColor="@color/dark_gray" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/feed_app_bar_edu_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/feed_app_bar_horizontal_line_divider"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/feed_app_bar_edu_option_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="ALL"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:id="@+id/feed_app_bar_edu_option_vertical_line_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/feed_app_bar_edu_option_applied"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="APPLIED"
                     android:textColor="@color/dark_gray" />
             </LinearLayout>
         </RelativeLayout>

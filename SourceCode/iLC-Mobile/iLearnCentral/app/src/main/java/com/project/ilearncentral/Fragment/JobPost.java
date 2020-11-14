@@ -1,9 +1,8 @@
 package com.project.ilearncentral.Fragment;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -13,8 +12,10 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -52,13 +54,12 @@ public class JobPost extends Fragment {
 
     private SwipeRefreshLayout pullToRefresh;
     private SearchView searchView;
-    private TextView toggleView, searchOption, applicants, closed;
+    private TextView toggleView, searchOption, applicants, closed, all, applied;
     private View horizontalDivider;
     private LinearLayout options;
     private ImageButton toggleRecommend;
-    private boolean isAll;
+    private boolean isAll, recommend = false;
 
-    private Drawable enableRecommend, disableRecommend;
 
     public JobPost() {
         // Required empty public constructor
@@ -69,7 +70,6 @@ public class JobPost extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    @SuppressLint("ClickableViewAccessibility")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
@@ -77,6 +77,12 @@ public class JobPost extends Fragment {
 
         bindLayout(view);
         isAll = true;
+        all.setTextColor(Color.CYAN);
+
+        if (Account.isType("Educator")) {
+            view.findViewById(R.id.feed_app_bar_horizontal_line_divider).setVisibility(View.VISIBLE);
+            view.findViewById(R.id.feed_app_bar_edu_options_layout).setVisibility(View.VISIBLE);
+        }
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -110,6 +116,7 @@ public class JobPost extends Fragment {
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
                     applicants.setTextColor(Color.CYAN);
+                    closed.setTextColor(Color.GRAY);
                     startActivity(new Intent(getContext(), Applicants.class));
                 } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
                     applicants.setTextColor(Color.GRAY);
@@ -117,17 +124,31 @@ public class JobPost extends Fragment {
                 return false;
             }
         });
-        closed.setOnTouchListener(new View.OnTouchListener() {
+        closed.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
-                    closed.setTextColor(Color.CYAN);
-                    // TODO:  codes to change view job posts to closed job posts here...
+            public void onClick(View view) {
+                closed.setTextColor(Color.CYAN);
+                applicants.setTextColor(Color.GRAY);
 
-                } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
-                    closed.setTextColor(Color.GRAY);
-                }
-                return false;
+                // TODO:  codes to change view job posts to closed job posts here...
+            }
+        });
+        all.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                all.setTextColor(Color.CYAN);
+                applied.setTextColor(Color.GRAY);
+
+                // TODO:  codes to change view job posts to closed job posts here...
+            }
+        });
+        applied.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                applied.setTextColor(Color.CYAN);
+                all.setTextColor(Color.GRAY);
+
+                // TODO:  codes to change view job posts to closed job posts here...
             }
         });
         editOrView = new ObservableString();
@@ -176,10 +197,13 @@ public class JobPost extends Fragment {
             toggleRecommend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (toggleRecommend.getBackground().equals(disableRecommend))
-                        toggleRecommend.setBackground(enableRecommend);
-                    else
-                        toggleRecommend.setBackground(disableRecommend);
+                    if (recommend) {
+                        toggleRecommend.setBackgroundTintList(null);
+                        recommend = false;
+                    } else {
+                        toggleRecommend.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,235,59)));
+                        recommend = true;
+                    }
                 }
             });
         } else if (Account.isType("LearningCenter")) {
@@ -230,9 +254,11 @@ public class JobPost extends Fragment {
         searchOption = view.findViewById(R.id.feed_app_bar_toggle_view);
         toggleRecommend = view.findViewById(R.id.feed_app_bar_toggle_recommend);
         horizontalDivider = view.findViewById(R.id.feed_app_bar_horizontal_line_divider);
-        options = view.findViewById(R.id.feed_app_bar_options_layout);
-        applicants = view.findViewById(R.id.feed_app_bar_option_applicants);
-        closed = view.findViewById(R.id.feed_app_bar_option_closed_posts);
+        options = view.findViewById(R.id.feed_app_bar_lc_options_layout);
+        applicants = view.findViewById(R.id.feed_app_bar_lc_option_applicants);
+        closed = view.findViewById(R.id.feed_app_bar_lc_option_closed_posts);
+        all = view.findViewById(R.id.feed_app_bar_edu_option_all);
+        applied = view.findViewById(R.id.feed_app_bar_edu_option_applied);
         recyclerView = view.findViewById(R.id.feed_recylerview);
 
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
