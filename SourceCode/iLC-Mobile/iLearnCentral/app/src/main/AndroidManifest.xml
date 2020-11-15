@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.ViewCourses"></activity>
+        <activity android:name=".Activity.Applicants"></activity>
         <activity android:name=".Activity.Enrollees" />
         <activity
             android:name=".Activity.SplashScreen"

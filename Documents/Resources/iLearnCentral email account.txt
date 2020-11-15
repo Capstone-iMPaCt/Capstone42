@@ -1,4 +1,12 @@
-ilearncentral@gmail.com
+GMAIL
+Email: ilearncentral@gmail.com
 pass: !LearnCentra1
 pass: changed to --> !Le@rnCentr@1
 pass: changed to --> !L3arnC3ntra1
+
+
+PAYMAYA
+Email: ilearncentral@gmail.com
+pass: !L3arnC3ntra1
+Legal Name: iLearnCentral
+Last Name: iMPaCt
