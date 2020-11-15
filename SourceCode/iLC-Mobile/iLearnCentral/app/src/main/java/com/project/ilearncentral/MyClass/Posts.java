@@ -81,7 +81,6 @@ public class Posts {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 posts.put(document.getId(), (Map<String, Object>) document
                                         .getData());
-                                Log.d(TAG, document.getId() + " => " + document.getData());
                             }
                             if (done!=null) done.set(true);
                         } else {
@@ -102,7 +101,6 @@ public class Posts {
                     if (document.exists()) {
                         posts.put(document.getId(), document.getData());
                         if (done!=null) done.set(true);
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         if (done!=null) done.set(false);
                         Log.d(TAG, "No such document");
@@ -186,7 +184,6 @@ public class Posts {
                         post.putAll(document.getData());
 
                         if (done!=null) done.set(true);
-                        Log.d(TAG, "DocumentSnapshot data: " + document.getData());
                     } else {
                         if (done!=null) done.set(false);
                         Log.d(TAG, "No such document");

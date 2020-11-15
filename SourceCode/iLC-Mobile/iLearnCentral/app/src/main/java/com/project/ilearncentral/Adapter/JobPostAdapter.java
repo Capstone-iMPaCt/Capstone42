@@ -30,6 +30,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.Messages;
+import com.project.ilearncentral.Activity.NveJobPost;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
@@ -139,9 +140,15 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 }
             }
         });
-    }
-
-    private void getBusinessName(String centerID) {
+        holder.applyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NveJobPost.class);
+                intent.putExtra("jobId", job.getJobId());
+                intent.putExtra("View", true);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

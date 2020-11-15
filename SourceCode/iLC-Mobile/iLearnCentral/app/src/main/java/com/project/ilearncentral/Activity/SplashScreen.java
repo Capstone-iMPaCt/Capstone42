@@ -22,6 +22,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
@@ -90,6 +91,7 @@ public class SplashScreen extends AppCompatActivity {
                         public void run() {
                             User.retrieveUsersFromDB();
                             LearningCenter.retrieveLearningCentersFromDB();
+                            Course.retrieveCoursesFromDB();
                         }
                     }).start();
                 } else {

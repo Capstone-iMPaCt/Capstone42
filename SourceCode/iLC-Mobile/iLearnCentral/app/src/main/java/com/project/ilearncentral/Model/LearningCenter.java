@@ -256,7 +256,6 @@ public class LearningCenter {
                 rating += Double.valueOf(entry.getValue()+"");
             }
             rating /= ratings.size();
-            System.out.println("Rating set " + rating + " " + ratings.size());
         }
     }
     public void setLearningCenter(LearningCenter lc) {
@@ -358,7 +357,7 @@ public class LearningCenter {
                                 }
                             }
                         } else {
-                            Log.d("getUsers", "Error getting documents: ", task.getException());
+                            Log.d("getLearningCenters", "Error getting documents: ", task.getException());
                         }
                     }
                 });

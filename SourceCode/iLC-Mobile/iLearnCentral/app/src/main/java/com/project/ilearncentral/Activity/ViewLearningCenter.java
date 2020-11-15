@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -84,7 +83,7 @@ public class ViewLearningCenter extends AppCompatActivity {
         courses.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ViewLearningCenter.this, Courses.class));
+                startActivity(new Intent(ViewLearningCenter.this, ViewCourses.class));
             }
         });
         message.setOnClickListener(new View.OnClickListener() {

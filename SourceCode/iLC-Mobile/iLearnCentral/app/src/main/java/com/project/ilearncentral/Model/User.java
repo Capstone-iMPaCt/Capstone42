@@ -298,7 +298,6 @@ public class User {
                 rating += Double.valueOf(entry.getValue()+"");
             }
             rating /= ratings.size();
-            System.out.println("Rating set " + rating + " " + ratings.size());
         }
     }
 

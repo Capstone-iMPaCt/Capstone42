@@ -15,7 +15,7 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.Courses"></activity>
+        <activity android:name=".Activity.ViewCourses"></activity>
         <activity android:name=".Activity.Enrollees" />
         <activity
             android:name=".Activity.SplashScreen"

@@ -15,32 +15,35 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.common.internal.AccountType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.Enrollees;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EnrolmentSystem extends Fragment {
 
     private CourseAdapter adapter;
     private RecyclerView recyclerView;
-    private ArrayList<Course> course;
+    private List<Course> course;
+    private List<Course> retrieved;
 
-    private ObservableBoolean done;
-    private ObservableString editOrView;
+    private ObservableBoolean show;
 
     private FloatingActionButton addNewCourseBtn;
     private final int NEW_COURSE = 1, UPDATE_COURSE = 2;
 
     private SearchView searchView;
-    private TextView toggleView, searchOption, enrollees;
+    private TextView toggleView, searchOption, enrollees, noCoursesText;
     private ImageButton toggleRecommend;
 
     private Drawable enableRecommend, disableRecommend;
@@ -66,6 +69,9 @@ public class EnrolmentSystem extends Fragment {
             view.findViewById(R.id.enrolment_app_bar_horizontal_line_divider).setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_options_layout).setVisibility(View.GONE);
         }
+
+        course = new ArrayList<>();
+        noCoursesText = view.findViewById(R.id.fragment_courses_none);
 
         enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
         disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
@@ -110,37 +116,51 @@ public class EnrolmentSystem extends Fragment {
             }
         });
 
-        course = new ArrayList<>();
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
-        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
-        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
-        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
-        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",5000.00,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name Instructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor NameInstructor Name"));
-        course.add(new Course("Open", "Type",4000.0,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",3000.25,"Course Title","Description Description Description Description Description Description Description Description Description ","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",2000,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
-        course.add(new Course("Open", "Type",500,"Course Title","Description ...","8:00 AM","5:00 PM","", "Instructor Name"));
+        show = new ObservableBoolean();
+        show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean newValue) {
+                if (newValue) {
+                    course.clear();
+                    course.addAll(retrieved);
+                    if (course.isEmpty()) {
+                        noCoursesText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCoursesText.setVisibility(View.GONE);
+                    }
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                    System.out.println("~~~~~~~~~~~Adapter item count after datachanged " + adapter.getItemCount());
+                }
+            }
+        });
+
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CourseAdapter(getContext(), editOrView, course);
+        adapter = new CourseAdapter(getContext(), course);
         recyclerView.setAdapter(adapter);
+        System.out.println("~~~~~~~~~~~Adapter item count " + adapter.getItemCount());
+        retrieveCourses();
+
         return view;
+    }
+
+    private void retrieveCourses() {
+        retrieved = Course.getRetrieved();
+        if (Account.getType()== Account.Type.Student) {
+            retrieved = Course.filterCourses(retrieved, "status", "open");
+        } else if (Account.getType()== Account.Type.Educator) {
+            retrieved = Course.filterCourses(retrieved, "instructor", Account.getName());
+        } else {
+            retrieved = Course.getCoursesByCenterId(Account.getCenterId());
+        }
+        show.set(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        retrieveCourses();
     }
 
     private void setToggleView() {

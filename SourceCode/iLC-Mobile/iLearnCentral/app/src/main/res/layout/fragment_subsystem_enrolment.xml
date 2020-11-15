@@ -136,6 +136,16 @@
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <TextView
+            android:id="@+id/fragment_courses_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:visibility="gone"
+            android:text="@string/no_courses" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/enrolment_recylerview"
             android:layout_width="match_parent"
