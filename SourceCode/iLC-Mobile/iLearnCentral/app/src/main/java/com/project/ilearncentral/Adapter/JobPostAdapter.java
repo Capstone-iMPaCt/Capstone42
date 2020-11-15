@@ -109,6 +109,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                     .equals(job.getCenterId())){
                 holder.editTextView.setVisibility(View.VISIBLE);
                 holder.closePostButton.setVisibility(View.VISIBLE);
+                holder.chatButton.setVisibility(View.GONE);
             }
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {

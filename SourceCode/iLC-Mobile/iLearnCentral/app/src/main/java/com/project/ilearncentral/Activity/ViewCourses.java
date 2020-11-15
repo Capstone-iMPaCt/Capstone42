@@ -39,8 +39,8 @@ public class ViewCourses extends AppCompatActivity {
 
         lc = LearningCenter.getLCById(Account.getStringData("openLC"));
         courses = new ArrayList<Course>();
-        recyclerView = findViewById(R.id.courses_recyclerview);
-        searchView = findViewById(R.id.courses_search_view);
+        recyclerView = findViewById(R.id.view_courses_recyclerview);
+        searchView = findViewById(R.id.view_courses_search_view);
         noCoursesText = findViewById(R.id.view_courses_none);
         show = new ObservableBoolean();
         show.setOnBooleanChangeListener(new OnBooleanChangeListener() {

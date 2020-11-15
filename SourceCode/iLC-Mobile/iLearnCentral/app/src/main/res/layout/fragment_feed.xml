@@ -50,7 +50,6 @@
                 android:id="@+id/feed_app_bar_toggel_buttons_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/enrolment_app_bar_searchview"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_gravity="center"

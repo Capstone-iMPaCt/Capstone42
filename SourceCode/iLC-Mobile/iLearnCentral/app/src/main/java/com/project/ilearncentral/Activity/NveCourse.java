@@ -2,26 +2,28 @@ package com.project.ilearncentral.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.project.ilearncentral.R;
 
-import java.text.Format;
 import java.util.Calendar;
 
 public class NveCourse extends AppCompatActivity implements View.OnClickListener{
 
-    private TextInputEditText timeStart, timeEnd;
-    private TimePickerDialog timePicker;
-    private  Calendar currentTime;
+    private TextInputEditText timeStart, timeEnd, dateStart, dateEnd;
+    private TimePickerDialog timePickerDialog;
+    private DatePickerDialog datePickerDialog;
+    private Calendar currentTime, currentDate;
 
     private TextView sun, mon, tue, wed, thu, fri, sat;
     private boolean sunSelected, monSelected, tueSelected, wedSelected, thuSelected, friSelected, satSelected;
@@ -31,18 +33,7 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nve_course);
 
-        timeStart = findViewById(R.id.course_nve_schedule_start);
-        timeStart.setInputType(InputType.TYPE_NULL);
-        timeEnd = findViewById(R.id.course_nve_schedule_end);
-        timeEnd.setInputType(InputType.TYPE_NULL);
-        currentTime = Calendar.getInstance();
-        sun = findViewById(R.id.course_sched_day_sun);
-        mon = findViewById(R.id.course_sched_day_mon);
-        tue = findViewById(R.id.course_sched_day_tue);
-        wed = findViewById(R.id.course_sched_day_wed);
-        thu = findViewById(R.id.course_sched_day_thu);
-        fri = findViewById(R.id.course_sched_day_fri);
-        sat = findViewById(R.id.course_sched_day_sat);
+        bindLayout();
 
         timeStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,7 +41,7 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
                 hideKeyboard();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
-                timePicker = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
+                timePickerDialog = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String am_pm ;
@@ -64,18 +55,17 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
                         timeStart.setError(null);
                     }
                 }, hour, minute, false);
-                timePicker.setTitle("Select Time Start");
-                timePicker.show();
+                timePickerDialog.setTitle("Select Time Start");
+                timePickerDialog.show();
             }
         });
-
         timeEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 hideKeyboard();
                 int hour = currentTime.get(Calendar.HOUR_OF_DAY);
                 int minute = currentTime.get(Calendar.MINUTE);
-                timePicker = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
+                timePickerDialog = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
                         String am_pm ;
@@ -89,8 +79,42 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
                         timeEnd.setError(null);
                     }
                 }, hour, minute, false);
-                timePicker.setTitle("Select Time End");
-                timePicker.show();
+                timePickerDialog.setTitle("Select Time End");
+                timePickerDialog.show();
+            }
+        });
+        dateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+                int year = currentDate.get(Calendar.YEAR);
+                int month = currentDate.get(Calendar.MONTH);
+                int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(NveCourse.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        dateStart.setText(month + "/" + dayOfMonth + "/" + year);
+                    }
+                }, year, month, day);
+                datePickerDialog.setTitle("Select Date Start");
+                datePickerDialog.show();
+            }
+        });
+        dateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                hideKeyboard();
+                int year = currentDate.get(Calendar.YEAR);
+                int month = currentDate.get(Calendar.MONTH);
+                int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                datePickerDialog = new DatePickerDialog(NveCourse.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
+                        dateEnd.setText(month + "/" + dayOfMonth + "/" + year);
+                    }
+                }, year, month, day);
+                datePickerDialog.setTitle("Select Date End");
+                datePickerDialog.show();
             }
         });
 
@@ -108,6 +132,26 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
         thu.setOnClickListener(this);
         fri.setOnClickListener(this);
         sat.setOnClickListener(this);
+    }
+
+    private void bindLayout() {
+        timeStart = findViewById(R.id.course_nve_schedule_time_start);
+        timeStart.setInputType(InputType.TYPE_NULL);
+        timeEnd = findViewById(R.id.course_nve_schedule_time_end);
+        timeEnd.setInputType(InputType.TYPE_NULL);
+        dateStart = findViewById(R.id.course_nve_schedule_date_start);
+        dateStart.setInputType(InputType.TYPE_NULL);
+        dateEnd = findViewById(R.id.course_nve_schedule_date_end);
+        dateEnd.setInputType(InputType.TYPE_NULL);
+        currentTime = Calendar.getInstance();
+        currentDate = Calendar.getInstance();
+        sun = findViewById(R.id.course_sched_day_sun);
+        mon = findViewById(R.id.course_sched_day_mon);
+        tue = findViewById(R.id.course_sched_day_tue);
+        wed = findViewById(R.id.course_sched_day_wed);
+        thu = findViewById(R.id.course_sched_day_thu);
+        fri = findViewById(R.id.course_sched_day_fri);
+        sat = findViewById(R.id.course_sched_day_sat);
     }
 
     @Override

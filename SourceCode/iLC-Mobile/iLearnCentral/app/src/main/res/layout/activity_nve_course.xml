@@ -20,24 +20,14 @@
             android:padding="20dp">
 
             <Spinner
-                android:id="@+id/course_nve_status_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                android:entries="@array/course_status"
-                android:layout_gravity="center"
-                android:background="@drawable/input_white_bg_rounded"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="15dp"/>
-
-            <Spinner
                 android:id="@+id/course_nve_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:entries="@array/course_type"
                 android:layout_gravity="center"
-                android:background="@drawable/input_white_bg_rounded"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="15dp"/>
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/input_white_bg_rounded"
+                android:entries="@array/course_type" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/course_nve_type_layout"
@@ -101,36 +91,37 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/bg_transparent_rounded"
-                android:padding="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/course_nve_schedule_header"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Schedule"
                     android:layout_alignParentTop="true"
-                    android:textColor="@color/colorPrimary"/>
+                    android:text="Schedule"
+                    android:textColor="@color/colorPrimary" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/course_nve_schedule_start_layout"
+                    android:id="@+id/course_nve_schedule_time_start_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/course_nve_schedule_date_start_layout"
+                    android:layout_alignParentStart="true"
                     android:layout_gravity="center"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_toStartOf="@+id/course_nve_time_dash"
                     app:errorEnabled="true"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/course_nve_schedule_start"
+                        android:id="@+id/course_nve_schedule_time_start"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:background="@drawable/input_white_bg_rounded"
                         android:drawablePadding="20dp"
                         android:focusable="false"
-                        android:hint="Start"
+                        android:hint="Time Start"
                         android:inputType="none"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -145,34 +136,33 @@
                     android:id="@+id/course_nve_time_dash"
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
-                    android:gravity="center"
+                    android:layout_below="@id/course_nve_schedule_date_start_layout"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_below="@id/course_nve_schedule_header"
-                    android:layout_toRightOf="@+id/course_nve_schedule_start_layout"
-                    android:text="-"/>
+                    android:gravity="center"
+                    android:text="-" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/course_nve_schedule_end_layout"
+                    android:id="@+id/course_nve_schedule_time_end_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/course_nve_schedule_header"
-                    android:layout_toEndOf="@+id/course_nve_time_dash"
+                    android:layout_below="@id/course_nve_schedule_date_end_layout"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/course_nve_time_dash"
                     app:errorEnabled="true"
                     app:hintEnabled="false">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/course_nve_schedule_end"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/course_nve_schedule_time_end"
+                        android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:layout_gravity="center"
                         android:background="@drawable/input_white_bg_rounded"
                         android:drawablePadding="20dp"
                         android:focusable="false"
-                        android:hint="End"
+                        android:hint="Time End"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:textColor="@color/text_color"
@@ -186,17 +176,18 @@
                     android:id="@+id/course_schedule_days"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/course_nve_schedule_start_layout"
-                    android:layout_alignParentStart="true">
+                    android:layout_below="@+id/course_nve_schedule_time_start_layout"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="5dp">
 
                     <TextView
                         android:id="@+id/course_sched_day_sun"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:background="@drawable/bg_unselected_day_rounded"
+                        android:clickable="true"
                         android:gravity="center"
                         android:text="Sun"
-                        android:clickable="true"
                         android:textAllCaps="false"
                         android:textColor="@android:color/white"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -286,6 +277,79 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/course_nve_schedule_date_start_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_gravity="center"
+                    android:layout_toStartOf="@+id/course_nve_date_dash"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginTop="10dp"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/course_nve_schedule_date_start"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_white_bg_rounded"
+                        android:drawablePadding="20dp"
+                        android:focusable="false"
+                        android:hint="Date Start"
+                        android:inputType="none"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHighlight="@color/mint_blue"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textColorLink="@color/light_blue" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/course_nve_date_dash"
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:text="-" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/course_nve_schedule_date_end_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_toEndOf="@+id/course_nve_time_dash"
+                    android:layout_alignParentEnd="true"
+                    app:errorEnabled="true"
+                    app:hintEnabled="false">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/course_nve_schedule_date_end"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/input_white_bg_rounded"
+                        android:drawablePadding="20dp"
+                        android:focusable="false"
+                        android:hint="Date End"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:textColor="@color/text_color"
+                        android:textColorHighlight="@color/mint_blue"
+                        android:textColorHint="@color/text_hint_color"
+                        android:textColorLink="@color/light_blue" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
             </RelativeLayout>
 

@@ -107,7 +107,7 @@
     <string name="create_educator_account_title">Create an <u><b>Educator</b></u> account</string>
     <string name="create_student_account_title">Create a <u><b>Student</b></u> account</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="no_courses">Sorry, No Courses Available</string>
+    <string name="no_courses">Sorry, No Courses Available.</string>
     <string name="forgot_password_text">It\'s okay, it happens to the best of us.\n \nGive your username and answer the security question. \n\nWe will send you a link in the associated email to reset your password.</string>
 
     -- Spinner items --

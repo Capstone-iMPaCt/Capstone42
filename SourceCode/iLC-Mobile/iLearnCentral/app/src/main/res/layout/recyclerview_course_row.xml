@@ -76,15 +76,15 @@
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/course_schedule_from"
+                android:id="@+id/course_schedule_time_start"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="From"
+                android:text="Time Start"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/course_schedule_dash"
+                android:id="@+id/course_schedule_time_dash"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" - "
@@ -92,34 +92,24 @@
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
-                android:id="@+id/course_schedule_to"
+                android:id="@+id/course_schedule_time_end"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="To"
+                android:text="Time End"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/course_schedule_days_label"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_below="@+id/course_schedule_container"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
-            android:background="@drawable/operating_days_icon"
-            android:textColor="@color/colorPrimaryDark" />
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/course_schedule_days"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/course_instructor"
             android:layout_below="@+id/course_schedule_container"
             android:layout_marginVertical="0dp"
             android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/course_schedule_days_label">
+            android:layout_toEndOf="@+id/course_schedule_label"
+            android:paddingBottom="5dp">
 
             <TextView
                 android:id="@+id/course_sched_day_sun"
@@ -226,10 +216,60 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
+            android:id="@+id/course_schedule_date_label"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@+id/course_schedule_days"
+            android:layout_marginHorizontal="5dp"
+            android:layout_toEndOf="@+id/course_user_display_image"
+            android:background="@drawable/operating_days_icon"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <LinearLayout
+            android:id="@+id/course_schedule_date_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/course_instructor"
+            android:layout_below="@+id/course_schedule_days"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/course_schedule_date_label"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:orientation="horizontal"
+            android:padding="5dp"
+            android:textColor="@color/colorPrimaryDark">
+
+            <TextView
+                android:id="@+id/course_schedule_date_start"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date Start"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/course_schedule_date_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" - "
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/course_schedule_date_end"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Date End"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <TextView
             android:id="@+id/course_instructor_label"
             android:layout_width="32dp"
             android:layout_height="32dp"
-            android:layout_below="@+id/course_schedule_days_label"
+            android:layout_below="@+id/course_schedule_date_label"
             android:layout_marginHorizontal="5dp"
             android:layout_toEndOf="@+id/course_user_display_image"
             android:background="@drawable/teacher_icon"
@@ -239,7 +279,7 @@
             android:id="@+id/course_instructor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/course_schedule_days_label"
+            android:layout_below="@+id/course_schedule_date_label"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/course_instructor_label"
             android:ellipsize="end"
@@ -282,12 +322,23 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/course_horizontal_line_divider"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
+            android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/holo_green_dark"
             android:minHeight="0dp"
             android:paddingVertical="10dp"
-            android:text="ENROLL NOW"
+            android:text="ENROLL"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/course_close_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/course_horizontal_line_divider"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/holo_red_dark"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
+            android:text="CLOSE"
             android:textColor="@android:color/white" />
     </RelativeLayout>
 </androidx.cardview.widget.CardView>

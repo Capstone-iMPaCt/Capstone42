@@ -15,13 +15,11 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.google.android.gms.common.internal.AccountType;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.project.ilearncentral.Activity.Enrollees;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
-import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
@@ -43,10 +41,8 @@ public class EnrolmentSystem extends Fragment {
     private final int NEW_COURSE = 1, UPDATE_COURSE = 2;
 
     private SearchView searchView;
-    private TextView toggleView, searchOption, enrollees, noCoursesText;
-    private ImageButton toggleRecommend;
-
-    private Drawable enableRecommend, disableRecommend;
+    private TextView noCoursesText;
+    private ImageButton searchOption;
 
     public EnrolmentSystem() {
         // Required empty public constructor
@@ -65,40 +61,19 @@ public class EnrolmentSystem extends Fragment {
 
         if (Account.isType("Student")){
             view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
-            view.findViewById(R.id.enrolment_app_bar_toggle_view).setVisibility(View.GONE);
-            view.findViewById(R.id.enrolment_app_bar_horizontal_line_divider).setVisibility(View.GONE);
-            view.findViewById(R.id.enrolment_app_bar_options_layout).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_option_button).setVisibility(View.GONE);
         }
 
         course = new ArrayList<>();
         noCoursesText = view.findViewById(R.id.fragment_courses_none);
 
-        enableRecommend = getResources().getDrawable(R.drawable.enable_recommend_icon);
-        disableRecommend = getResources().getDrawable(R.drawable.disable_recommend_icon);
-
-        searchOption = view.findViewById(R.id.enrolment_app_bar_toggle_view);
-        enrollees = view.findViewById(R.id.enrolment_app_bar_option_enrollees);
+        searchOption = view.findViewById(R.id.enrolment_app_bar_option_button);
 
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivityForResult(new Intent(getContext(), NveCourse.class), NEW_COURSE);
-            }
-        });
-
-        toggleView = view.findViewById(R.id.enrolment_app_bar_toggle_view);
-        toggleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setToggleView();
-            }
-        });
-
-        enrollees.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), Enrollees.class));
             }
         });
 
@@ -115,7 +90,6 @@ public class EnrolmentSystem extends Fragment {
                 pullToRefresh.setRefreshing(false);
             }
         });
-
         show = new ObservableBoolean();
         show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -161,21 +135,5 @@ public class EnrolmentSystem extends Fragment {
     public void onResume() {
         super.onResume();
         retrieveCourses();
-    }
-
-    private void setToggleView() {
-        if (toggleView.getText().toString().equalsIgnoreCase("All")) {
-            toggleView.setText("Mine");
-            toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
-//            course.clear();
-//            course.addAll(Posts.myPosts());
-//            adapter.notifyDataSetChanged();
-        } else {
-            toggleView.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-            toggleView.setText("All");
-//            course.clear();
-//            course.addAll(Posts.searchText(""));
-//            adapter.notifyDataSetChanged();
-        }
     }
 }
