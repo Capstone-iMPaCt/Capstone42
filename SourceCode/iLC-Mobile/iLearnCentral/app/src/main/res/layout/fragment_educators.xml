@@ -2,14 +2,14 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/enrolment_root_layout"
+    android:id="@+id/lc_educators_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".Fragment.SubSystem.EnrolmentSystem">
+    tools:context=".Fragment.LCEducators">
 
     <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/enrolment_app_bar"
+        android:id="@+id/lc_educators_app_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -23,7 +23,7 @@
             app:layout_scrollFlags="scroll|enterAlways">
 
             <androidx.appcompat.widget.SearchView
-                android:id="@+id/enrolment_app_bar_searchview"
+                android:id="@+id/lc_educators_app_bar_searchview"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -38,15 +38,15 @@
                 app:contentInsetStart="0dp" />
 
             <View
-                android:id="@+id/enrolment_app_bar_vertical_line_divider"
+                android:id="@+id/lc_educators_app_bar_vertical_line_divider"
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_marginVertical="3dp"
-                android:layout_toStartOf="@id/enrolment_app_bar_option_button"
+                android:layout_toStartOf="@id/lc_educators_app_bar_option_button"
                 android:background="@android:color/darker_gray" />
 
             <ImageButton
-                android:id="@+id/enrolment_app_bar_option_button"
+                android:id="@+id/lc_educators_app_bar_option_button"
                 android:layout_width="50dp"
                 android:layout_height="match_parent"
                 android:backgroundTint="@android:color/white"
@@ -57,37 +57,30 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
-        android:id="@+id/enrolment_courses_none"
+        android:id="@+id/lc_educators_none"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="@dimen/fab_margin"
         android:gravity="center"
-        android:text="@string/no_courses"
+        android:text="@string/no_educators"
         android:textSize="20sp"
         android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/enrolment_pullToRefresh"
+        android:id="@+id/lc_educators_pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/enrolment_recylerview"
+            android:id="@+id/lc_educators_recylerview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:backgroundTint="@color/bg_recyclerview"
             android:clipToPadding="false"
-            android:paddingBottom="100dp" />
+            android:padding="5dp"
+            android:paddingBottom="100dp"
+            android:scrollbars="none" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/enrolment_add_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:clickable="true"
-        app:srcCompat="@drawable/add_icon" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

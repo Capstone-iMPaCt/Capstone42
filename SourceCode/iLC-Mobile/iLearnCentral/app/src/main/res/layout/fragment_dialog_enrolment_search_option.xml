@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/enrolment_search_option_enrollees"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:gravity="center"
+        android:paddingVertical="5dp"
+        android:text="ENROLLEES"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <Button
+        android:id="@+id/enrolment_search_option_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:gravity="center"
+        android:paddingVertical="5dp"
+        android:text="*OPTION*"
+        android:textColor="@color/colorPrimaryDark" />
+
+    <Button
+        android:id="@+id/enrolment_search_option_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@android:color/white"
+        android:gravity="center"
+        android:paddingVertical="5dp"
+        android:text="*OPTION*"
+        android:textColor="@color/colorPrimaryDark" />
+</LinearLayout>

@@ -10,10 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -28,7 +25,7 @@ import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Fragment.LCEducators;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
@@ -37,7 +34,6 @@ import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 //import com.project.ilearncentral.Fragment.UserActivitySchedules;
-import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
@@ -144,7 +140,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
             adapter.addFragment(new EnrolmentSystem(), "Enrolment");
-        } else if (Account.isType("Educator")) {
+            adapter.addFragment(new LCEducators(), "LCEducators");
+        } else if (Account.isType("LCEducator")) {
             adapter.addFragment(new EducatorProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");

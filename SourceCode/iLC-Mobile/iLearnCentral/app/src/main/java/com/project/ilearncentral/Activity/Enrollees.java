@@ -1,12 +1,10 @@
 package com.project.ilearncentral.Activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.os.Bundle;
 import android.widget.GridView;
 
-import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.Adapter.EnrolleeAdapter;
 import com.project.ilearncentral.Model.Enrollee;
 import com.project.ilearncentral.R;
@@ -15,7 +13,7 @@ import java.util.ArrayList;
 
 public class Enrollees extends AppCompatActivity {
 
-    private ArrayList<Enrollee> enrollee;
+    private ArrayList<Enrollee> enrollees;
     private GridView gridView;
     private EnrolleeAdapter adapter;
 
@@ -24,54 +22,54 @@ public class Enrollees extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enrollees);
 
-        enrollee = new ArrayList<>();
+        enrollees = new ArrayList<>();
         gridView = findViewById(R.id.enrollees_gridview);
-        enrollee.add(new Enrollee("User NameUser NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
-        enrollee.add(new Enrollee("User NameUser Name","Course Title"));
-        enrollee.add(new Enrollee("User Name User Name User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title Course Title"));
-        enrollee.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
-        adapter = new EnrolleeAdapter(this, enrollee);
+        enrollees.add(new Enrollee("User NameUser NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
+        enrollees.add(new Enrollee("User NameUser Name","Course Title"));
+        enrollees.add(new Enrollee("User Name User Name User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title Course Title"));
+        enrollees.add(new Enrollee("User Name","Course Title CourseTitle Course Title"));
+        adapter = new EnrolleeAdapter(this, enrollees);
         gridView.setAdapter(adapter);
     }
 }

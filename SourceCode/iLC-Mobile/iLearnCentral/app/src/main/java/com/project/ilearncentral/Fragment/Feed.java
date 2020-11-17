@@ -63,7 +63,7 @@ public class Feed extends Fragment {
             view.findViewById(R.id.feed_app_bar_toggle_view).setVisibility(View.VISIBLE);
         }
 
-        searchView = view.findViewById(R.id.feed_app_bar_searchview);
+        searchView = view.findViewById(R.id.educator_tab_app_bar_searchview);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -112,7 +112,7 @@ public class Feed extends Fragment {
         });
         Posts.retrievePostsFromDB(done);
 
-        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.feed_pullToRefresh);
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.educator_tab_pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -129,7 +129,7 @@ public class Feed extends Fragment {
         });
         // set up the RecyclerView
         post = new ArrayList<>();
-        recyclerView = view.findViewById(R.id.feed_recylerview);
+        recyclerView = view.findViewById(R.id.educator_tab_recylerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new FeedAdapter(getContext(), post);
         recyclerView.setAdapter(adapter);

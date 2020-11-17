@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RadioGroup
+        android:id="@+id/lc_educators_search_option_status_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/lc_educators_search_option_status_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="STATUS" />
+
+        <RadioButton
+            android:id="@+id/lc_educators_search_option_active"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Active" />
+
+        <RadioButton
+            android:id="@+id/lc_educators_search_option_inactive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Inactive" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/lc_educators_search_option_employment_type_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/lc_educators_search_option_employment_type_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="EMPLOYMENT TYPE" />
+
+        <RadioButton
+            android:id="@+id/lc_educators_search_option_fullTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Full time" />
+
+        <RadioButton
+            android:id="@+id/lc_educators_search_option_partTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Part time" />
+
+        <RadioButton
+            android:id="@+id/lc_educators_search_option_contractual"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Contractual" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/lc_educators_search_option_ok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:backgroundTint="@color/colorAccent"
+        android:gravity="center"
+        android:text="OK"
+        android:textColor="@android:color/white"/>
+</LinearLayout>

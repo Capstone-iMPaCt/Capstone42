@@ -12,10 +12,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorRes;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -35,7 +33,6 @@ import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -79,8 +76,8 @@ public class JobPost extends Fragment {
         isAll = true;
         all.setTextColor(Color.CYAN);
 
-        if (Account.isType("Educator")) {
-            view.findViewById(R.id.feed_app_bar_horizontal_line_divider).setVisibility(View.VISIBLE);
+        if (Account.isType("LCEducator")) {
+            view.findViewById(R.id.educator_tab_app_bar_horizontal_line_divider).setVisibility(View.VISIBLE);
             view.findViewById(R.id.feed_app_bar_edu_options_layout).setVisibility(View.VISIBLE);
         }
 
@@ -190,7 +187,7 @@ public class JobPost extends Fragment {
                 }
             });
         }
-        if (Account.isType("Educator")) {
+        if (Account.isType("LCEducator")) {
             addNewPostBtn.setVisibility(View.GONE);
             toggleView.setVisibility(View.GONE);
             toggleRecommend.setVisibility(View.VISIBLE);
@@ -249,17 +246,17 @@ public class JobPost extends Fragment {
     }
 
     private void bindLayout(View view) {
-        searchView = view.findViewById(R.id.feed_app_bar_searchview);
-        pullToRefresh = view.findViewById(R.id.feed_pullToRefresh);
+        searchView = view.findViewById(R.id.educator_tab_app_bar_searchview);
+        pullToRefresh = view.findViewById(R.id.educator_tab_pullToRefresh);
         searchOption = view.findViewById(R.id.feed_app_bar_toggle_view);
-        toggleRecommend = view.findViewById(R.id.feed_app_bar_toggle_recommend);
-        horizontalDivider = view.findViewById(R.id.feed_app_bar_horizontal_line_divider);
+        toggleRecommend = view.findViewById(R.id.educator_tab_app_bar_toggle_recommend);
+        horizontalDivider = view.findViewById(R.id.educator_tab_app_bar_horizontal_line_divider);
         options = view.findViewById(R.id.feed_app_bar_lc_options_layout);
         applicants = view.findViewById(R.id.feed_app_bar_lc_option_applicants);
         closed = view.findViewById(R.id.feed_app_bar_lc_option_closed_posts);
         all = view.findViewById(R.id.feed_app_bar_edu_option_all);
         applied = view.findViewById(R.id.feed_app_bar_edu_option_applied);
-        recyclerView = view.findViewById(R.id.feed_recylerview);
+        recyclerView = view.findViewById(R.id.educator_tab_recylerview);
 
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
 

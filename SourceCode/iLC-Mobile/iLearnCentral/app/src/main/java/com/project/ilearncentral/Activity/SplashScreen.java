@@ -182,7 +182,7 @@ public class SplashScreen extends AppCompatActivity {
             collection = "LearningCenterStaff";
             Account.setType(Account.Type.LearningCenter);
         } else if (Account.getType() == Account.Type.Educator) {
-            collection = "Educator";
+            collection = "LCEducator";
             Account.setType(Account.Type.Educator);
         } else if (Account.getType() == Account.Type.Student) {
             collection = "Student";

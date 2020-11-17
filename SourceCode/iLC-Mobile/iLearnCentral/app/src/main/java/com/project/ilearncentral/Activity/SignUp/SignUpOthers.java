@@ -169,7 +169,7 @@ public class SignUpOthers extends AppCompatActivity {
                                         if (Account.getType() == Account.Type.Student)
                                             db.collection("Student").document(user.getUid()).set(Account.getProfileData());
                                         else if(Account.getType() == Account.Type.Educator)
-                                            db.collection("Educator").document(user.getUid()).set(Account.getProfileData());
+                                            db.collection("LCEducator").document(user.getUid()).set(Account.getProfileData());
                                         else {
                                             db.collection("LearningCenter").add(Account.getBusinessData())
                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

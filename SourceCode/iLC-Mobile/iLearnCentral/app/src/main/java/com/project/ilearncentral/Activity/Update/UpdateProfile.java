@@ -153,7 +153,7 @@ public class UpdateProfile extends AppCompatActivity {
                             db.collection("Student").document(user.getUid())
                                     .set(Account.getProfileData());
                         else if (Account.getType() == Account.Type.Educator)
-                            db.collection("Educator").document(user.getUid())
+                            db.collection("LCEducator").document(user.getUid())
                                     .set(Account.getProfileData());
                         else
                             db.collection("LearningCenterStaff").document(user.getUid())

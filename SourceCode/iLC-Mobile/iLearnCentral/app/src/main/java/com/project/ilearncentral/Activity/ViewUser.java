@@ -210,7 +210,7 @@ public class ViewUser extends AppCompatActivity {
                             if (document.get("AccountType").equals("learningcenter")) {
                                 collection = "LearningCenterStaff";
                             } else if (document.get("AccountType").equals("educator")) {
-                                collection = "Educator";
+                                collection = "LCEducator";
                             } else if (document.get("AccountType").equals("student")) {
                                 collection = "Student";
                             }
