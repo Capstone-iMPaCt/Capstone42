@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -148,7 +149,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         } else if (Account.isType("Student")) {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
-            adapter.addFragment(new EnrolmentSystem(), "Enrolment");
+            adapter.addFragment(new EnrolmentSystem(), "Courses");
         }
         adapter.addFragment(new SchedulingSystem(), "My Activies");
 
@@ -213,10 +214,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
 
-        if (menu instanceof MenuBuilder) {
-            MenuBuilder m = (MenuBuilder) menu;
-            m.setOptionalIconsVisible(true);
-        }
+//        if (menu instanceof MenuBuilder) {
+//            MenuBuilder m = (MenuBuilder) menu;
+//            m.setOptionalIconsVisible(true);
+//        }
 
         return true;
 //        getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
@@ -284,9 +285,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         .addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                Picasso.get().load(uri.toString()).fit().error(R.drawable.ic_account_circle_black_24dp)
-                                        .into(userImage);
-
+//                                Picasso.get().load(uri.toString()).centerCrop().into(userImage);
+                                Glide.with(getApplicationContext()).load(uri.toString()).fitCenter().into(userImage);
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override

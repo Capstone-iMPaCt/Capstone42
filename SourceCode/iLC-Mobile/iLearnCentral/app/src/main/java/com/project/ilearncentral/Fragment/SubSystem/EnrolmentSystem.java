@@ -47,7 +47,7 @@ public class EnrolmentSystem extends Fragment {
     private SearchView searchView;
     private Dialog dialog;
     private TextView noCoursesText;
-    private Button enrollees;
+    private Button enrollees, enroll;
     private ImageButton enrolmentViewOption;
 
     public EnrolmentSystem() {
@@ -75,6 +75,13 @@ public class EnrolmentSystem extends Fragment {
         if (Account.isType("Student")) {
             view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_option_button).setVisibility(View.GONE);
+            addNewCourseBtn.setVisibility(View.GONE);
+            enroll.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
         }
 
         enrolmentViewOption.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +172,7 @@ public class EnrolmentSystem extends Fragment {
         noCoursesText = view.findViewById(R.id.enrolment_courses_none);
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
+        enroll = view.findViewById(R.id.course_enroll_button);
 
         // Search Menu
         enrollees = dialog.findViewById(R.id.enrolment_search_option_enrollees);

@@ -1,6 +1,5 @@
 package com.project.ilearncentral.Adapter;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -194,7 +193,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             friday = itemView.findViewById(R.id.course_sched_day_fri);
             saturday = itemView.findViewById(R.id.course_sched_day_sat);
             sunday = itemView.findViewById(R.id.course_sched_day_sun);
-            enrollButton = itemView.findViewById(R.id.course_enrol_button);
+            enrollButton = itemView.findViewById(R.id.course_enroll_button);
             closeCourseButton = itemView.findViewById(R.id.course_close_button);
         }
     }
