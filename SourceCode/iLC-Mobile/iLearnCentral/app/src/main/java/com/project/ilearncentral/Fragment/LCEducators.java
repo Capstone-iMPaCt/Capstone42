@@ -1,6 +1,7 @@
 package com.project.ilearncentral.Fragment;
 
 import android.app.Dialog;
+import android.content.res.Configuration;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
@@ -9,6 +10,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.GridView;
@@ -19,6 +21,7 @@ import android.widget.RadioGroup;
 import android.widget.Space;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -79,7 +82,8 @@ public class LCEducators extends Fragment {
         educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
         educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
+        int spanCount = Utility.getScreenWidth() / Utility.dpToPx(getContext(), 150);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
         recyclerView.setLayoutManager(layoutManager);
         adapter = new LCEducatorAdapter(getContext(), educators);
         recyclerView.setAdapter(adapter);
@@ -116,6 +120,22 @@ public class LCEducators extends Fragment {
         });
 
         return view;
+    }
+
+    @Override
+    public void onConfigurationChanged(@NonNull Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            int spanCount = Utility.getScreenHeight() / Utility.dpToPx(getContext(), 150);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+            recyclerView.setLayoutManager(layoutManager);
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            int spanCount = Utility.getScreenWidth() / Utility.dpToPx(getContext(), 150);
+            RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);
+            recyclerView.setLayoutManager(layoutManager);
+        }
     }
 
     private void bindLayout() {

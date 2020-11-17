@@ -140,7 +140,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
             adapter.addFragment(new EnrolmentSystem(), "Enrolment");
-            adapter.addFragment(new LCEducators(), "LCEducators");
+            adapter.addFragment(new LCEducators(), "Educators");
         } else if (Account.isType("LCEducator")) {
             adapter.addFragment(new EducatorProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");

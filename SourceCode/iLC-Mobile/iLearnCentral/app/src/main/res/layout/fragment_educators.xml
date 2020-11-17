@@ -78,7 +78,8 @@
             android:layout_height="match_parent"
             android:backgroundTint="@color/bg_recyclerview"
             android:clipToPadding="false"
-            android:padding="5dp"
+            android:paddingTop="5dp"
+            android:paddingHorizontal="5dp"
             android:paddingBottom="100dp"
             android:scrollbars="none" />
 
