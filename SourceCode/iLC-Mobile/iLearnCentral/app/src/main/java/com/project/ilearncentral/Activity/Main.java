@@ -155,6 +155,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.bell_icon);
 //        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL|TabLayout.GRAVITY_CENTER);
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
