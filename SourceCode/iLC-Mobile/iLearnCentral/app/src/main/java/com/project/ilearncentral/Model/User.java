@@ -184,7 +184,7 @@ public class User {
                         if (doc.get("AccountType").equals("learningcenter")) {
                             collection = "LearningCenterStaff";
                         } else if (doc.get("AccountType").equals("educator")) {
-                            collection = "LCEducator";
+                            collection = "Educator";
                         } else if (doc.get("AccountType").equals("student")) {
                             collection = "Student";
                         }

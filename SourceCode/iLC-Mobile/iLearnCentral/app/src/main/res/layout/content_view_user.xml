@@ -510,7 +510,7 @@
         </LinearLayout>
         <!--    Learning Center Fields Container End    -->
 
-        <!--    LCEducator Fields Container Start    -->
+        <!--    Educator Fields Container Start    -->
         <LinearLayout
             android:id="@+id/view_user_educator_details_container"
             android:layout_width="match_parent"
@@ -838,7 +838,7 @@
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
         </LinearLayout>
-        <!--    LCEducator Fields Container End    -->
+        <!--    Educator Fields Container End    -->
 
         <!--    Student Fields Container Start    -->
         <LinearLayout
