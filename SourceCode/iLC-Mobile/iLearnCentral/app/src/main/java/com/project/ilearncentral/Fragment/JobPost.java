@@ -76,7 +76,7 @@ public class JobPost extends Fragment {
         isAll = true;
         all.setTextColor(Color.CYAN);
 
-        if (Account.isType("LCEducator")) {
+        if (Account.isType("Educator")) {
             view.findViewById(R.id.educator_tab_app_bar_horizontal_line_divider).setVisibility(View.VISIBLE);
             view.findViewById(R.id.feed_app_bar_edu_options_layout).setVisibility(View.VISIBLE);
         }
@@ -187,7 +187,7 @@ public class JobPost extends Fragment {
                 }
             });
         }
-        if (Account.isType("LCEducator")) {
+        if (Account.isType("Educator")) {
             addNewPostBtn.setVisibility(View.GONE);
             toggleView.setVisibility(View.GONE);
             toggleRecommend.setVisibility(View.VISIBLE);
