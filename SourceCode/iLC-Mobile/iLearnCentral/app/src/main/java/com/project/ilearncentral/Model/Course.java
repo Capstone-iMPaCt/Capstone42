@@ -260,8 +260,7 @@ public class Course {
         for (Course course:courses) {
             switch (filterBy.toLowerCase()) {
                 case "status":
-                    if ((filterValue.equalsIgnoreCase("open") && course.getCourseStatus().equalsIgnoreCase("open"))
-                        || filterValue.equalsIgnoreCase("open") && course.getCourseStatus().equalsIgnoreCase("open")){
+                    if (filterValue.equalsIgnoreCase(course.getCourseStatus())) {
                         filteredCourse.add(course);
                     }
                     break;

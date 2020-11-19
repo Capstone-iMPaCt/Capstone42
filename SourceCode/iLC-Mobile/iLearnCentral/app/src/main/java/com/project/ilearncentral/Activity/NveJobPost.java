@@ -5,12 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -28,13 +35,17 @@ import com.project.ilearncentral.Adapter.JobPostSingleListAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.Model.ResumeItem;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -64,7 +75,7 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
     private LinearLayout educEdit, qualEdit, respEdit, skillEdit, appmEdit;
     private List<Map<String, Object>> educList;
     private List<String> qualList, respList, skillList, appmList;
-    private Button confirm;
+    private Button confirm, apply;
     private Switch status;
 
 
@@ -110,6 +121,7 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
         email = findViewById(R.id.job_post_nve_email);
         contact = findViewById(R.id.job_post_nve_number);
         confirm = findViewById(R.id.job_post_nve_confirm);
+        apply = findViewById(R.id.job_post_nve_apply);
         position = findViewById(R.id.job_post_nve_position);
         description = findViewById(R.id.job_post_nve_description);
         full = findViewById(R.id.job_post_nve_fulltime);
@@ -228,6 +240,10 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
                 respEdit.setVisibility(View.GONE);
                 appmEdit.setVisibility(View.GONE);
                 confirm.setVisibility(View.GONE);
+                if (Account.isType("Educator")) {
+                    apply.setVisibility(View.VISIBLE);
+                    apply.setOnClickListener(this);
+                }
             } else {
                 if(job.getStatus().isEmpty())
                     status.setChecked(true);
@@ -356,6 +372,38 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
                         JobPosts.updatePostToDB(jobId, job, doneUpload);
                     }
                 }
+                break;
+            case R.id.job_post_nve_apply:
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(true);
+                builder.setTitle("Apply Job Post");
+
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                input.setLines(5);
+                input.setPadding(20, 0, 20,0);
+                input.setTextSize(16);
+                input.setHint(R.string.type_message);
+                input.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                builder.setView(input);
+
+                builder.setPositiveButton("Apply Now", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        apply.setText("APPLICATION SENT");
+                        apply.setClickable(false);
+                        apply.setBackgroundColor(Color.GRAY);
+                        JobApplication.sendResume(jobId, Account.getUsername(), input.getText().toString());
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
                 break;
         }
     }

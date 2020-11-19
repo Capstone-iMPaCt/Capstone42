@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -36,6 +37,8 @@ import com.project.ilearncentral.Activity.NveJobPost;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
+import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
@@ -113,6 +116,15 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 holder.closePostButton.setVisibility(View.VISIBLE);
                 holder.chatButton.setVisibility(View.GONE);
             }
+        } else if (Account.isType("Educator")) {
+            if (JobApplication.isApplicant(job.getJobId(), Account.getUsername())) {
+                holder.applyButton.setVisibility(View.GONE);
+            }
+        }
+        if (job.getStatus().equalsIgnoreCase("close")) {
+            holder.closePostButton.setBackgroundColor(Color.GRAY);
+            holder.closePostButton.setClickable(false);
+            holder.closePostButton.setText("CLOSED");
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +162,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 intent.putExtra("jobId", job.getJobId());
                 intent.putExtra("View", true);
                 context.startActivity(intent);
+                JobPost.applying = true;
             }
         });
         holder.closePostButton.setOnClickListener(new View.OnClickListener() {
@@ -158,14 +171,16 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 builder.setTitle("Closing Job Post");
-                builder.setMessage("Are you sure you want to close this Job Post?");
+                builder.setMessage("Are you sure you want to close this Job Post?\nNote: All ongoing applications will be closed.");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        // TODO: codes here..
+                        JobPosts.closeVacancy(job.getJobId());
+                        holder.closePostButton.setBackgroundColor(Color.GRAY);
+                        holder.closePostButton.setClickable(false);
+                        holder.closePostButton.setText("CLOSED");
 
-                        Toast.makeText(context, "Clicked YES", Toast.LENGTH_SHORT).show();
                         dialogInterface.dismiss();
                     }
                 });

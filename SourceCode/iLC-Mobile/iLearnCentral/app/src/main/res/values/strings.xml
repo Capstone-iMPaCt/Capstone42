@@ -22,6 +22,7 @@
     <string name="log_in">Log In</string>
     <string name="_continue">Continue</string>
     <string name="confirm">Confirm</string>
+    <string name="apply">Apply</string>
 
     -- Hints --
     <string name="email">Email</string>
