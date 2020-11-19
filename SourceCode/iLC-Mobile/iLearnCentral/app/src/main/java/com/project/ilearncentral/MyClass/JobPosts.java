@@ -16,6 +16,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.Model.Post;
 
@@ -89,6 +90,14 @@ public class JobPosts {
                 list.add(job);
         }
         return list;
+    }
+
+    public static JobVacancy getJobPostsById(String vacancyId) {
+        for (JobVacancy job:jobPosts) {
+            if (job.getJobId().equals(vacancyId))
+                return  job;
+        }
+        return null;
     }
 
     public static List<JobVacancy> getJobPosts() {
@@ -262,4 +271,31 @@ public class JobPosts {
         return curPost!=null;
     }
 
+    public static List<JobVacancy> eduAppliedTo(List<JobVacancy> jobPosts, String eduUsername) {
+        List<JobVacancy> vacancies = new ArrayList<>();
+        List<String> appliedTo = JobApplication.eduAppliedTo(JobApplication.getRetrieved(), eduUsername);
+        for (JobVacancy vacancy: jobPosts) {
+            if (appliedTo.contains(vacancy.getJobId())) {
+                vacancies.add(vacancy);
+            }
+        }
+        return vacancies;
+    }
+
+    public static List<JobVacancy> getClosedJobVacancies(List<JobVacancy> jobPosts, String centerId) {
+        List<JobVacancy> vacancies = new ArrayList<>();
+        for (JobVacancy vacancy:jobPosts) {
+            if (vacancy.getCenterId().equalsIgnoreCase(centerId)
+              &&  vacancy.getStatus().equalsIgnoreCase("close")) {
+                vacancies.add(vacancy);
+            }
+        }
+        return vacancies;
+    }
+
+    public static void closeVacancy(String vacancyId) {
+        getJobPostById(vacancyId).setStatus("close");
+        db.collection("JobVacancies").document(vacancyId).update("Status", "close");
+        JobApplication.closeApplication(vacancyId);
+    }
 }

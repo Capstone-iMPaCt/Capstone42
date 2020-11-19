@@ -191,4 +191,5 @@ public class JobVacancy {
     public void setEducationalRequirements(List<Map<String, Object>> educationalRequirements) {
         this.educationalRequirements = educationalRequirements;
     }
+
 }

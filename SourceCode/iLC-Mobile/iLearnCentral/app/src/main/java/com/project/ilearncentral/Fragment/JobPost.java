@@ -27,12 +27,14 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
+import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,7 +43,7 @@ public class JobPost extends Fragment {
     private final String TAG = "Chat job post user";
     private JobPostAdapter adapter;
     private RecyclerView recyclerView;
-    private ArrayList<JobVacancy> jobs;
+    private List<JobVacancy> jobs;
 
     private ObservableBoolean done;
     private ObservableString editOrView;
@@ -56,6 +58,7 @@ public class JobPost extends Fragment {
     private LinearLayout options;
     private ImageButton toggleRecommend;
     private boolean isAll, recommend = false;
+    public static boolean applying;
 
 
     public JobPost() {
@@ -74,6 +77,7 @@ public class JobPost extends Fragment {
 
         bindLayout(view);
         isAll = true;
+        applying = false;
         all.setTextColor(Color.CYAN);
 
         if (Account.isType("Educator")) {
@@ -127,7 +131,12 @@ public class JobPost extends Fragment {
                 closed.setTextColor(Color.CYAN);
                 applicants.setTextColor(Color.GRAY);
 
-                // TODO:  codes to change view job posts to closed job posts here...
+                isAll = false;
+                jobs.clear();
+                jobs.addAll(JobPosts.getClosedJobVacancies(JobPosts.getJobPosts(), Account.getCenterId()));
+                adapter.notifyDataSetChanged();
+                toggleView.setText("Mine");
+                toggleView.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             }
         });
         all.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +145,10 @@ public class JobPost extends Fragment {
                 all.setTextColor(Color.CYAN);
                 applied.setTextColor(Color.GRAY);
 
-                // TODO:  codes to change view job posts to closed job posts here...
+                isAll = true;
+                jobs.clear();
+                jobs.addAll(JobPosts.searchText("", isAll));
+                adapter.notifyDataSetChanged();
             }
         });
         applied.setOnClickListener(new View.OnClickListener() {
@@ -145,7 +157,10 @@ public class JobPost extends Fragment {
                 applied.setTextColor(Color.CYAN);
                 all.setTextColor(Color.GRAY);
 
-                // TODO:  codes to change view job posts to closed job posts here...
+                isAll = false;
+                jobs.clear();
+                jobs.addAll(JobPosts.eduAppliedTo(JobPosts.getJobPosts(), Account.getUsername()));
+                adapter.notifyDataSetChanged();
             }
         });
         editOrView = new ObservableString();
@@ -287,5 +302,16 @@ public class JobPost extends Fragment {
         jobs.addAll(JobPosts.searchText("", isAll));
         adapter.notifyDataSetChanged();
         searchView.clearFocus();
+        closed.setTextColor(Color.GRAY);
+        applicants.setTextColor(Color.GRAY);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (applying) {
+            applying = false;
+            JobPosts.retrievePostsFromDB(done);
+        }
     }
 }
