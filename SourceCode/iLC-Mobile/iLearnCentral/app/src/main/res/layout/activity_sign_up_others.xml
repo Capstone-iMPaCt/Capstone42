@@ -10,7 +10,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/bg_transparent"
+        android:background="@drawable/bg_transparent_80"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical"
@@ -26,8 +26,8 @@
                 android:layout_height="150dp"
                 android:layout_gravity="center"
                 android:layout_marginBottom="20dp"
-                android:src="@drawable/avatar_boy"
                 android:scaleType="centerCrop"
+                android:src="@drawable/avatar_boy"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -70,6 +70,7 @@
                 android:id="@+id/sign_up_first_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/firstname"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -85,6 +86,7 @@
                 android:id="@+id/sign_up_middle_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/middle_name"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -100,6 +102,7 @@
                 android:id="@+id/sign_up_last_name_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/last_name"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -116,12 +119,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_extension_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/name_extention"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -132,8 +137,10 @@
             <Spinner
                 android:id="@+id/sign_up_marital_status_educator"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_gravity="center|center_vertical"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/spinner_bg_rounded"
                 android:entries="@array/marital_status" />
@@ -144,11 +151,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/bg_textinputlayout_border_rounded_corner"
             android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -183,6 +192,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
 
@@ -212,12 +222,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_citizenship_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/citizenship"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -228,12 +240,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_religion_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/religion"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -272,6 +286,7 @@
                 android:id="@+id/sign_up_house_no_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/house_number"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -287,12 +302,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_street_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/street"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -303,12 +320,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_barangay_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/barangay"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -326,6 +345,7 @@
                 android:id="@+id/sign_up_city_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/city"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -341,6 +361,7 @@
                 android:id="@+id/sign_up_province_educator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                 android:hint="@string/province"
                 android:inputType="textCapWords"
                 android:paddingLeft="20dp"
@@ -356,12 +377,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_zip_code_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/zip_cocde"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
@@ -372,12 +395,14 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
                 android:layout_weight="1">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/sign_up_district_educator"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:hint="@string/district"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"

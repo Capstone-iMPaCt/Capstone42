@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_above="@id/message_typer"
         android:layout_alignParentTop="true"
-        android:background="@drawable/bg_transparent"
+        android:background="@drawable/bg_transparent_80"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">

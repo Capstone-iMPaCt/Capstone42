@@ -21,7 +21,7 @@
         android:backgroundTint="@android:color/white"
         android:gravity="center"
         android:paddingVertical="5dp"
-        android:text="*OPTION*"
+        android:text="PENDING ENROLLEES"
         android:textColor="@color/colorPrimaryDark" />
 
     <Button

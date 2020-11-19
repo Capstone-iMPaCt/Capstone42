@@ -5,7 +5,7 @@
     android:id="@+id/root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_transparent"
+    android:background="@drawable/bg_transparent_80"
     android:orientation="vertical"
     tools:context=".Activity.ViewCourses">
 

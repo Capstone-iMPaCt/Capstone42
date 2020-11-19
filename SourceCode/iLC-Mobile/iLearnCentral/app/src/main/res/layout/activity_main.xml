@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_transparent"
+    android:background="@drawable/bg_transparent_80"
     android:fitsSystemWindows="true"
     tools:context=".Activity.Main">
 
@@ -147,6 +147,7 @@
                 android:layout_height="40dp"
                 android:layout_gravity="bottom|center"
                 android:background="@drawable/bg_white_transparent_10"
+                app:tabIndicatorHeight="40dp"
                 app:tabGravity="center"
                 app:tabMode="scrollable"
                 app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1" />

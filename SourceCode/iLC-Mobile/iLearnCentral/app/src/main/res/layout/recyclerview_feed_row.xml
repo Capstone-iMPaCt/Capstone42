@@ -83,7 +83,7 @@
             android:id="@+id/item_post_content_image"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/bg_transparent"
+            android:background="@drawable/bg_transparent_80"
             android:scaleType="centerInside"
             app:layout_constraintHeight_max="350dp"
             app:layout_constraintTop_toBottomOf="@id/item_post_title" />

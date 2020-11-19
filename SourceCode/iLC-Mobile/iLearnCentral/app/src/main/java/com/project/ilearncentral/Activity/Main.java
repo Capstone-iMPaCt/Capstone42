@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Activity;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,6 +11,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -26,36 +35,29 @@ import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
-import com.project.ilearncentral.Fragment.LCEducators;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
-import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
-import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
+import com.project.ilearncentral.Fragment.LCEducators;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
-//import com.project.ilearncentral.Fragment.UserActivitySchedules;
+import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
+import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.view.menu.MenuBuilder;
-import androidx.appcompat.widget.Toolbar;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.viewpager.widget.ViewPager;
 import de.hdodenhof.circleimageview.CircleImageView;
+
+//import com.project.ilearncentral.Fragment.UserActivitySchedules;
 
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "MAIN";
     private FirebaseUser user;
-    private boolean tabGenerate;
+    private boolean tabGenerate, exit;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -70,12 +72,36 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14, UPDATE_RESUME = 15;
 
     @Override
+    public void onBackPressed() {
+//        if (!exit) {
+//            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
+//            exit = true;
+//        } else
+//            super.onBackPressed();
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(true).setTitle("Exit").setMessage("Do you want to exit iLearnCentral?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                }).show();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         tabGenerate = true;
+        exit = false;
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.view_user_image);
@@ -118,6 +144,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (tabGenerate)
             generateTabs();
         setDetails(1);
+
+
     }
 
     private void setDetails(int code) {
@@ -168,7 +196,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                         break;
                     case 1:
-                        if (Account.isType("learningcenter")){
+                        if (Account.isType("learningcenter")) {
                             appBarLayout.setExpanded(true);
                             ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                             break;
@@ -283,17 +311,17 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             public void run() {
                 if (user.getPhotoUrl() != null) {
                     FirebaseStorage.getInstance().getReference().child("images").child(Account.getUsername()).getDownloadUrl()
-                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
+                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
 //                                Picasso.get().load(uri.toString()).centerCrop().into(userImage);
-                                Glide.with(getApplicationContext()).load(uri.toString()).fitCenter().into(userImage);
-                            }
-                        }).addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                            }
-                        });
+                                    Glide.with(getApplicationContext()).load(uri.toString()).fitCenter().into(userImage);
+                                }
+                            }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                        }
+                    });
                 } else {
                 }
             }

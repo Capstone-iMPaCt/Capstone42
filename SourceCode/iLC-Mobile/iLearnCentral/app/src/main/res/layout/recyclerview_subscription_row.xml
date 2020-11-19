@@ -4,31 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context=".Activity.Subscription" >
+    tools:context=".Activity.Subscription">
 
     <RelativeLayout
         android:id="@+id/item_post_container"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_home_height"
-        android:layout_marginTop="5dp"
+        android:background="@drawable/bg_item_recyclerview"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:background="@drawable/bg_item_recyclerview" >
+        android:paddingRight="10dp">
 
         <TextView
             android:id="@+id/addon_title_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/addon_subscribe_button"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/addon_subscribe_button"
-            android:layout_alignBottom="@id/addon_subscribe_button"
+            android:gravity="start|center"
             android:text="Addon Title"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:gravity="start|center"/>
+            android:textStyle="bold" />
 
         <Button
             android:id="@+id/addon_subscribe_button"
@@ -36,9 +37,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
+            android:backgroundTint="@color/colorAccent"
             android:text="SUBSCRIBE"
-            android:textColor="@android:color/white"
-            android:backgroundTint="@color/colorAccent" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/addon_description_textview"
@@ -78,9 +79,9 @@
             android:id="@+id/subscription_expiry_countdown_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/subscription_ends_textview"
             android:layout_alignParentBottom="true"
             android:layout_marginBottom="5dp"
+            android:layout_toEndOf="@id/subscription_ends_textview"
             android:text="000 days"
             android:textSize="10sp" />
 

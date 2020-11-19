@@ -405,4 +405,65 @@ public class Utility {
         php.setCurrency(Currency.getInstance("PHP"));
         return php.format(price);
     }
+
+    // Card number checker
+    // Return true if the card number is valid
+    public static boolean isValidCardNumber(String cardNumber) {
+        if (cardNumber.isEmpty())
+            return false;
+        else {
+            long cnumber = Long.parseLong(cardNumber.toString().replaceAll("[\\D.]", ""));
+            return (getSize(cnumber) >= 13 && getSize(cnumber) <= 16) && (prefixMatch(cnumber, 4)
+                    || prefixMatch(cnumber, 5) || prefixMatch(cnumber, 37) || prefixMatch(cnumber, 6))
+                    && ((sumDoubleEven(cnumber) + sumOdd(cnumber)) % 10 == 0);
+        }
+    }
+
+    // Get the result from Step 2
+    private static int sumDoubleEven(long cardNumber) {
+        int sum = 0;
+        String num = cardNumber + "";
+        for (int i = getSize(cardNumber) - 2; i >= 0; i -= 2)
+            sum += getDigit(Integer.parseInt(num.charAt(i) + "") * 2);
+        return sum;
+    }
+
+    // Return this cardNumber if it is a single digit, otherwise,
+    // return the sum of the two digits
+    private static int getDigit(int cardNumber) {
+        if (cardNumber < 9)
+            return cardNumber;
+        return cardNumber / 10 + cardNumber % 10;
+    }
+
+    // Return sum of odd-place digits in cardNumber
+    private static int sumOdd(long cardNumber) {
+        int sum = 0;
+        String num = cardNumber + "";
+        for (int i = getSize(cardNumber) - 1; i >= 0; i -= 2)
+            sum += Integer.parseInt(num.charAt(i) + "");
+        return sum;
+    }
+
+    // Return true if the digit d is a prefix for cardNumber
+    private static boolean prefixMatch(long cardNumber, int digit) {
+        return getPrefix(cardNumber, getSize(digit)) == digit;
+    }
+
+    // Return the number of digits in digit
+    private static int getSize(long digit) {
+        String num = digit + "";
+        return num.length();
+    }
+
+    // Return the first i number of digits from
+    // number. If the number of digits in number
+    // is less than i, return number.
+    private static long getPrefix(long cardNumber, int i) {
+        if (getSize(cardNumber) > i) {
+            String num = cardNumber + "";
+            return Long.parseLong(num.substring(0, i));
+        }
+        return cardNumber;
+    }
 }

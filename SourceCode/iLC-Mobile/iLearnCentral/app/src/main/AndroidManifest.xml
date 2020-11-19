@@ -15,8 +15,8 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.ViewCourses"></activity>
-        <activity android:name=".Activity.Applicants"></activity>
+        <activity android:name=".Activity.ViewCourses" />
+        <activity android:name=".Activity.Applicants" />
         <activity android:name=".Activity.Enrollees" />
         <activity
             android:name=".Activity.SplashScreen"
@@ -88,6 +88,12 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+        <!--
+ Google Pay API
+        -->
+        <meta-data
+            android:name="com.google.android.gms.wallet.api.enabled"
+            android:value="true" />
 
         <activity
             android:name=".Activity.Subscription"

@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="36dp"
             android:layout_below="@id/applicant_horizontal_divider_1"
-            android:background="@drawable/bg_transparent"
+            android:background="@drawable/bg_transparent_80"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="20dp"
-        android:background="@drawable/bg_transparent">
+        android:background="@drawable/bg_transparent_80">
 
         <ImageView
             android:id="@+id/job_post_nve_logo"
