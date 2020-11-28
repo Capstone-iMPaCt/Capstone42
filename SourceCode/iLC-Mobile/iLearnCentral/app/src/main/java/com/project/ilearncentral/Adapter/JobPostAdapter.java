@@ -171,7 +171,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 builder.setTitle("Closing Job Post");
-                builder.setMessage("Are you sure you want to close this Job Post?\nNote: All ongoing applications will be closed.");
+                builder.setMessage("Are you sure you want to close this Job Post?\n\nNote: All ongoing applications will be closed.");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

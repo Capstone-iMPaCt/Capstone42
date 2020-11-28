@@ -33,7 +33,7 @@
             android:layout_height="wrap_content">
 
             <LinearLayout
-                android:id="@+id/payment_card"
+                android:id="@+id/payment_card_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
@@ -41,153 +41,59 @@
                 tools:ignore="MissingClass">
 
                 <com.braintreepayments.cardform.view.CardForm
-                    android:id="@+id/card_form"
+                    android:id="@+id/paymentt_card_form"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
 
                 <Button
-                    android:id="@+id/btnBuy"
+                    android:id="@+id/payment_card_pay_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:padding="15dp"
-                    android:text="Confirm Payment"
-                    android:background="@color/colorAccent"
-                    android:textColor="@android:color/white" />
+                    android:text="NOT YET AVAILABLE"
+                    android:enabled="false"
+                    android:clickable="false"
+                    android:background="@color/light_gray"
+                    android:textColor="@color/dark_gray" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/payment_cash"
+                android:id="@+id/payment_cash_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 android:padding="5dp">
 
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/payment_card_number_inputlayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:hintTextColor="@color/colorAccent"
-                    app:startIconDrawable="@drawable/bank_card_24px">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/payment_card_number"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/bg_textinputlayout_border_rounded_corner"
-                        android:hint="Card number"
-                        android:inputType="phone"
-                        android:maxLength="19" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <LinearLayout
-                    android:id="@+id/payment_card_validity_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:visibility="gone"
-                    android:orientation="horizontal">
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/payment_card_expiry_date_inputlayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:hintTextColor="@color/colorAccent"
-                        app:startIconDrawable="@drawable/card_expiry">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/payment_card_expiry_date"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/bg_textinputlayout_border_rounded_corner"
-                            android:hint="MM/YYYY"
-                            android:focusable="false"
-                            android:inputType="none"
-                            android:maxLength="7" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/payment_card_security_inputlayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1"
-                        app:hintTextColor="@color/colorAccent"
-                        app:startIconDrawable="@drawable/card_csc">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/payment_card_security"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_margin="5dp"
-                            android:background="@drawable/bg_textinputlayout_border_rounded_corner"
-                            android:hint="CSC"
-                            android:inputType="number"
-                            android:maxLength="3" />
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/payment_card_name_inputlayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    app:hintTextColor="@color/colorAccent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/payment_card_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/bg_textinputlayout_border_rounded_corner"
-                        android:hint="Name" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/payment_card_postal_code_inputlayout"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:visibility="gone"
-                    app:hintTextColor="@color/colorAccent">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/payment_card_postal_code"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:background="@drawable/bg_textinputlayout_border_rounded_corner"
-                        android:hint="Postal Code"
-                        android:inputType="number" />
-                </com.google.android.material.textfield.TextInputLayout>
-
                 <Button
-                    android:id="@+id/payment_card_save_button"
+                    android:id="@+id/payment_cash_pay_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentBottom="true"
                     android:layout_margin="5dp"
                     android:background="@drawable/bg_textinputlayout_border_rounded_corner"
                     android:backgroundTint="@color/colorAccent"
-                    android:text="SAVE"
-                    android:textColor="@android:color/white"
-                    android:visibility="gone" />
+                    android:text="Confirm Request"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/payment_others"
+                android:id="@+id/payment_others_layout"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:background="@drawable/no_image_available"
-                android:padding="10dp">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
 
-                <TextView
+                <Button
+                    android:id="@+id/payment_others_pay_button"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:text="OTHERS" />
+                    android:layout_alignParentBottom="true"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/bg_textinputlayout_border_rounded_corner"
+                    android:backgroundTint="@color/colorAccent"
+                    android:text="Confirm Request"
+                    android:textColor="@android:color/white" />
             </LinearLayout>
         </FrameLayout>
     </LinearLayout>

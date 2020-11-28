@@ -406,7 +406,11 @@ public class Utility {
         return php.format(price);
     }
 
-    // Card number checker
+    /**
+     * Credit/Debit Card number checker.
+     * @param cardNumber String
+     * @return boolean
+     */
     // Return true if the card number is valid
     public static boolean isValidCardNumber(String cardNumber) {
         if (cardNumber.isEmpty())
