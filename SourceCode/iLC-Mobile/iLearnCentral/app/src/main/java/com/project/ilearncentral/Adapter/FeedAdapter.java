@@ -10,7 +10,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -22,10 +21,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.AddEditFeed;
-import com.project.ilearncentral.Activity.Login;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Model.Post;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
@@ -166,7 +163,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         PostViewHolder(View itemView) {
             super(itemView);
 
-            containerLayout = itemView.findViewById(R.id.item_post_container);
+            containerLayout = itemView.findViewById(R.id.subscription_item_post_container);
             userImageView = itemView.findViewById(R.id.item_post_user_display_image);
             fullnameTextView = itemView.findViewById(R.id.item_post_user_fullname);
             titleTextView = itemView.findViewById(R.id.item_post_title);

@@ -19,40 +19,55 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_scrollFlags="scroll|enterAlways">
+            android:orientation="vertical">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/enrolment_app_bar_searchview"
+            <TextView
+                android:id="@+id/enrolment_subscription_status"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_weight="1"
-                android:clickable="true"
-                android:contentInsetStart="0dp"
-                android:contentInsetLeft="0dp"
-                android:contentInsetEnd="0dp"
-                android:contentInsetRight="0dp"
-                app:contentInsetEnd="0dp"
-                app:contentInsetLeft="0dp"
-                app:contentInsetRight="0dp"
-                app:contentInsetStart="0dp" />
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorAccent"
+                android:gravity="center"/>
 
-            <View
-                android:id="@+id/enrolment_app_bar_vertical_line_divider"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginVertical="3dp"
-                android:layout_toStartOf="@id/enrolment_app_bar_option_button"
-                android:background="@android:color/darker_gray" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="scroll|enterAlways">
 
-            <ImageButton
-                android:id="@+id/enrolment_app_bar_option_button"
-                android:layout_width="50dp"
-                android:layout_height="match_parent"
-                android:backgroundTint="@android:color/white"
-                android:clickable="true"
-                android:gravity="center"
-                android:src="@drawable/ic_searchbar_menu_40px" />
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/enrolment_app_bar_searchview"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:contentInsetStart="0dp"
+                    android:contentInsetLeft="0dp"
+                    android:contentInsetEnd="0dp"
+                    android:contentInsetRight="0dp"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetStart="0dp" />
+
+                <View
+                    android:id="@+id/enrolment_app_bar_vertical_line_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:layout_toStartOf="@id/enrolment_app_bar_option_button"
+                    android:background="@android:color/darker_gray" />
+
+                <ImageButton
+                    android:id="@+id/enrolment_app_bar_option_button"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@android:color/white"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:src="@drawable/ic_searchbar_menu_40px" />
+            </LinearLayout>
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 

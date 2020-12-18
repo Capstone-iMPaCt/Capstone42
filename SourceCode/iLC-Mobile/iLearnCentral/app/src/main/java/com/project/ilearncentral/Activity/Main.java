@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -194,11 +195,13 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                     case 0:
                         appBarLayout.setExpanded(true);
                         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
+                        userImage.setVisibility(View.VISIBLE);
                         break;
                     case 1:
                         if (Account.isType("learningcenter")) {
                             appBarLayout.setExpanded(true);
                             ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
+                            userImage.setVisibility(View.GONE);
                             break;
                         }
                     default:
@@ -222,7 +225,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_subscription_button:
-                startActivity(new Intent(getApplicationContext(), Subscription.class));
+                Intent intent = new Intent(getApplicationContext(), Subscription.class);
+                intent.putExtra("userPhotoUrl", user.getPhotoUrl().toString());
+                startActivity(intent);
                 break;
             case R.id.main_find_user_button:
                 startActivity(new Intent(getApplicationContext(), SearchUser.class));

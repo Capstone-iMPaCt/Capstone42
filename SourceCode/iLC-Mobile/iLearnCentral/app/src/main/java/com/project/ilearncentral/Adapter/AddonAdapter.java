@@ -1,44 +1,49 @@
 package com.project.ilearncentral.Adapter;
 
-import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
-import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.braintreepayments.cardform.view.CardForm;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.haozhang.lib.SlantedTextView;
+import com.project.ilearncentral.Activity.Payment;
 import com.project.ilearncentral.Model.Addon;
+import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHolder> {
 
+    private static final String TAG = "AddonAdapter";
     private Context context;
-    private List<Addon> addon;
-    private Intent intent;
+    private List<Addon> addons;
+    private Subscription subscription;
 
-    private DatePickerDialog datePickerDialog;
-    private Calendar currentDate;
+    private FirebaseFirestore db;
 
     public AddonAdapter(Context context, List<Addon> addon) {
         this.context = context;
-        this.addon = addon;
+        this.addons = addon;
     }
 
     @NonNull
@@ -49,163 +54,86 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddonViewHolder holder, int position) {
-        holder.addonContainerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+    public void onBindViewHolder(@NonNull final AddonViewHolder holder, int position) {
+        final Addon addon = addons.get(position);
+        subscription = new Subscription();
+        db = FirebaseFirestore.getInstance();
 
-        holder.titleTextView.setText(addon.get(position).getTitle());
-        holder.descriptionTextView.setText(addon.get(position).getDescription());
-        holder.countdownTextView.setText(addon.get(position).getCountdown());
+        holder.addonContainerLayout.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+        holder.titleTextView.setText(addon.getTitle());
+        holder.descriptionTextView.setText(addon.getDescription());
+        holder.countdownTextView.setText("Subscription ends on " + addon.getCountdown());
+        holder.fee.setText(Utility.showPriceInPHP(addon.getFee()));
 
         holder.subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder;
-                final AlertDialog alertDialog;
+                Intent intent = new Intent(context, Payment.class);
+                intent.putExtra("fee", addon.getFee());
+                intent.putExtra("title", addon.getTitle());
+                context.startActivity(intent);
+            }
+        });
 
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                View layout = inflater.inflate(R.layout.fragment_payment_scheme, (ViewGroup) view.findViewById(R.id.payment_tabhost));
-                final TabHost tabHost = layout.findViewById(R.id.payment_tabhost);
-                tabHost.setup();
-                tabHost.addTab(tabHost.newTabSpec("Card").setContent(R.id.payment_card_layout).setIndicator("Card"));
-                tabHost.addTab(tabHost.newTabSpec("Cash").setContent(R.id.payment_cash_layout).setIndicator("Cash"));
-                tabHost.addTab(tabHost.newTabSpec("Others").setContent(R.id.payment_others_layout).setIndicator("Others"));
-                tabHost.setCurrentTab(2);
-                ((TextView) tabHost.getTabWidget().getChildAt(2).findViewById(android.R.id.title)).setTextColor(Color.WHITE);
-                tabHost.getCurrentTabView().setBackground(context.getDrawable(R.color.colorPrimary));
-                tabHost.setOnTabChangedListener(new TabHost.OnTabChangeListener() {
-                    @Override
-                    public void onTabChanged(String s) {
-                        for (int i = 0; i < tabHost.getTabWidget().getTabCount(); i++) {
-                            TextView textView = (TextView) tabHost.getTabWidget().getChildAt(i).findViewById(android.R.id.title);
-                            tabHost.getTabWidget().getChildAt(i).setBackground(context.getDrawable(R.drawable.bg_transparent_80));
-                            textView.setTextColor(context.getResources().getColor(R.color.dark_gray));
-                            if (textView.getText() == s) {
-                                tabHost.getCurrentTabView().setBackground(context.getDrawable(R.color.colorPrimary));
-                                textView.setTextColor(Color.WHITE);
+        db.collection("Subscription")
+                .document(Account.getUsername())
+                .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    String systemName = addon.getTitle().replaceAll("\\s+", "");
+                    if (document.exists()) {
+                        if (document.getData().containsKey(systemName)) {
+                            Map<String, Object> data = (Map<String, Object>) document.get(systemName);
+                            Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
+                            Log.d(TAG, document.getData().get(systemName) + "");
+                            Date dateNow = new Date();
+                            if (dateNow.compareTo(timestamp.toDate()) < 0) {
+                                // If dateNow occurs before SubscriptionExpiry
+                                holder.countdownTextView.setText("Expires on: " + timestamp.toDate().toString());
+                                setSubscribeButton(holder);
                             }
                         }
                     }
-                });
-                builder = new AlertDialog.Builder(context);
-                builder.setCancelable(true).setView(layout);
-                alertDialog = builder.create();
-                alertDialog.show();
-//                final TextInputEditText cardNumber = alertDialog.findViewById(R.id.payment_card_number);
-//                final LinearLayout validity = alertDialog.findViewById(R.id.payment_card_validity_layout);
-//                cardNumber.addTextChangedListener(new TextWatcher() {
-//                    private static final char space = ' ';
-//                    boolean checkerIsOn = false;
-//
-//                    @Override
-//                    public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                    }
-//
-//                    @Override
-//                    public void onTextChanged(CharSequence s, int i, int i1, int i2) {
-//                        if (s.length() == 19)
-//                            checkerIsOn = true;
-//                        if (checkerIsOn && !s.toString().isEmpty()) {
-//                            if (Utility.isValidCardNumber(s.toString()) && s.toString().length() == 19) {
-//                                validity.setVisibility(View.VISIBLE);
-//                                cardNumber.setError(null);
-//                            } else {
-//                                validity.setVisibility(View.GONE);
-//                                cardNumber.setError("CARD NUMBER IS INVALID");
-////                                Toast.makeText(context, "CARD IS INVALID", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } else {
-//                            validity.setVisibility(View.GONE);
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void afterTextChanged(Editable s) {
-//                        if (!s.toString().isEmpty()) {
-//                            // Remove all spacing char
-//                            int pos = 0;
-//                            while (true) {
-//                                if (pos >= s.length()) break;
-//                                if (space == s.charAt(pos) && (((pos + 1) % 5) != 0 || pos + 1 == s.length())) {
-//                                    s.delete(pos, pos + 1);
-//                                } else {
-//                                    pos++;
-//                                }
-//                            }
-//                            // Insert char where needed.
-//                            pos = 4;
-//                            while (true) {
-//                                if (pos >= s.length()) break;
-//                                final char c = s.charAt(pos);
-//                                // Only if its a digit where there should be a space we insert a space
-//                                if ("0123456789".indexOf(c) >= 0) {
-//                                    s.insert(pos, "" + space);
-//                                }
-//                                pos += 5;
-//                            }
-//                        }
-//                    }
-//                });
-//                final TextInputEditText cardExpiry = alertDialog.findViewById(R.id.payment_card_expiry_date);
-//                cardExpiry.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        currentDate = Calendar.getInstance();
-//                        int year = currentDate.get(Calendar.YEAR);
-//                        int month = currentDate.get(Calendar.MONTH);
-//                        int day = currentDate.get(Calendar.DAY_OF_MONTH);
-//                        datePickerDialog = new DatePickerDialog(alertDialog.getContext(), new DatePickerDialog.OnDateSetListener() {
-//                            @Override
-//                            public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-//                                cardExpiry.setText((month+1) + "/" + year);
-//                            }
-//                        }, year, month, day);
-//                        datePickerDialog.show();
-//                    }
-//                });
-//                final TextInputEditText cardSecurity = alertDialog.findViewById(R.id.payment_card_security);
-
-                // CASH TAB
-                CardForm cardForm = alertDialog.findViewById(R.id.paymentt_card_form);
-                Button cardPay = alertDialog.findViewById(R.id.payment_card_pay_button);
-                cardForm.cardRequired(true)
-                        .expirationRequired(true)
-                        .cvvRequired(true)
-                        .saveCardCheckBoxVisible(true)
-                        .cardholderName(CardForm.FIELD_REQUIRED)
-                        .setup((AppCompatActivity) context);
-                cardForm.getCvvEditText().setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_PASSWORD);
-                cardPay.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        // Under research...
-                    }
-                });
+                }
             }
         });
     }
 
+    private void setSubscribeButton(AddonViewHolder holder) {
+        holder.subscribeButton.setText("Subscribed");
+        holder.subscribeButton.setEnabled(false);
+        holder.subscribeButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
+        holder.horizontalLine.setVisibility(View.VISIBLE);
+        holder.countdownTextView.setVisibility(View.VISIBLE);
+    }
+
     @Override
     public int getItemCount() {
-        return addon.size();
+        return addons.size();
     }
 
     public class AddonViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout addonContainerLayout;
+        private View horizontalLine;
         private TextView titleTextView, descriptionTextView,
                 subscriptionLabelTextView, endLabelTextView, countdownTextView;
         private Button subscribeButton;
+        private SlantedTextView fee;
 
         AddonViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            addonContainerLayout = (RelativeLayout) itemView.findViewById(R.id.item_post_container);
-            titleTextView = (TextView) itemView.findViewById(R.id.addon_title_textview);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.addon_description_textview);
-            subscriptionLabelTextView = (TextView) itemView.findViewById(R.id.addon_subscribe_button);
-            endLabelTextView = (TextView) itemView.findViewById(R.id.subscription_ends_textview);
+            addonContainerLayout = (RelativeLayout) itemView.findViewById(R.id.subscription_item_post_container);
+            titleTextView = (TextView) itemView.findViewById(R.id.subscription_title_textview);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.subscription_description_textview);
+            subscriptionLabelTextView = (TextView) itemView.findViewById(R.id.subscription_subscribe_button);
             countdownTextView = (TextView) itemView.findViewById(R.id.subscription_expiry_countdown_textview);
-            subscribeButton = (Button) itemView.findViewById(R.id.addon_subscribe_button);
+            subscribeButton = (Button) itemView.findViewById(R.id.subscription_subscribe_button);
+            horizontalLine = itemView.findViewById(R.id.subscription_horizontal_line_divider);
+            fee = (SlantedTextView) itemView.findViewById(R.id.subscription_fee);
         }
     }
 }

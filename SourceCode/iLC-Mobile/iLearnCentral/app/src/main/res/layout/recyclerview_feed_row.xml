@@ -7,7 +7,7 @@
     android:layout_marginTop="10dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/item_post_container"
+        android:id="@+id/subscription_item_post_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@android:color/white">

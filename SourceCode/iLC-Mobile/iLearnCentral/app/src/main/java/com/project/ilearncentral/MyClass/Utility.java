@@ -1,5 +1,6 @@
 package com.project.ilearncentral.MyClass;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.Uri;
 import android.util.DisplayMetrics;
@@ -12,6 +13,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
+import com.google.android.gms.wallet.WalletConstants;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -24,11 +28,16 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.Payment;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -39,6 +48,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 public class Utility {
 
@@ -399,11 +409,13 @@ public class Utility {
     }
 
     public static String showPriceInPHP(double price) {
-        NumberFormat php = NumberFormat.getCurrencyInstance();
-        php.setMinimumFractionDigits(0);
-        php.setMaximumFractionDigits(2);
-        php.setCurrency(Currency.getInstance("PHP"));
-        return php.format(price);
+//        NumberFormat php = NumberFormat.getCurrencyInstance();
+//        php.setMinimumFractionDigits(0);
+//        php.setMaximumFractionDigits(2);
+//        php.setCurrency(Currency.getInstance("PHP"));
+        Locale philippines = new Locale("en", "PH");
+        NumberFormat phpFormat = NumberFormat.getCurrencyInstance(philippines);
+        return phpFormat.format(price);
     }
 
     /**

@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/payment_tabhost"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -15,11 +13,11 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="PAY PHP XXX.XX"
+            android:background="@color/colorAccent"
             android:gravity="center"
             android:padding="15dp"
-            android:textColor="@android:color/white"
-            android:background="@color/colorAccent"/>
+            android:text="PAY PHP XXX.XX"
+            android:textColor="@android:color/white" />
 
         <TabWidget
             android:id="@android:id/tabs"
@@ -37,25 +35,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:padding="10dp"
-                tools:ignore="MissingClass">
+                android:padding="10dp">
 
-                <com.braintreepayments.cardform.view.CardForm
-                    android:id="@+id/paymentt_card_form"
+                <ImageButton
+                    android:id="@+id/payment_card_googlepay_button"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
-
-                <Button
-                    android:id="@+id/payment_card_pay_button"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
                     android:layout_marginTop="20dp"
-                    android:padding="15dp"
-                    android:text="NOT YET AVAILABLE"
-                    android:enabled="false"
-                    android:clickable="false"
-                    android:background="@color/light_gray"
-                    android:textColor="@color/dark_gray" />
+                    android:background="@drawable/googlepay_button_background"
+                    android:padding="10dp"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/googlepay_button_content" />
             </LinearLayout>
 
             <LinearLayout

@@ -135,6 +135,15 @@
     <string name="title_activity_view_user">ViewUserActivity</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Payment notification -->
+    <string name="channel_name">Payment Channel</string>
+    <string name="notification_text">Your account balance in close to zero. Top it up now.</string>
+
+    <!-- Checkout -->
+    <string name="googlepay_status_unavailable">Unfortunately, Google Pay is not available on this device.</string>
+    <string name="payments_show_name">Successfully received payment data for %s!</string>
+    <string name="gateway_replace_name_example">"Gateway name set to \"example\" - please modify Constants.java and replace it with your own gateway."</string>
+
     <!-- Spinner Values -->
     <string-array name="course_type">
         <item>- Select Course Type -</item>

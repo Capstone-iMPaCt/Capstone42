@@ -21,6 +21,7 @@ import com.haozhang.lib.SlantedTextView;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -84,6 +85,20 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.editLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (!Subscription.isEnrolmentSubscribed()){
+                        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                        alertDialog.setTitle("Please subscribe");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                        return;
+                    }
                     Intent intent = new Intent(context, NveCourse.class);
                     intent.putExtra("courseId", course.getCourseId());
                     intent.putExtra("type", "edit");
@@ -126,6 +141,20 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.closeCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!Subscription.isEnrolmentSubscribed()){
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setCancelable(true);
                 builder.setTitle("Closing Course");
