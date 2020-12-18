@@ -9,9 +9,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +22,7 @@ import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -44,6 +45,7 @@ import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
 import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
+import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
@@ -59,9 +61,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "MAIN";
     private FirebaseUser user;
     private boolean tabGenerate, exit;
+    private LearningCenter lc;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
+    private ImageView lcLogo;
     private ViewPager viewPager;
     private TabLayout tabLayout;
     private Button featuresButton, findUserButton, findCenterButton, notificationButton, messageButton;
@@ -106,6 +110,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.view_user_image);
+        lcLogo = (ImageView) findViewById(R.id.user_learning_center_logo);
         featuresButton = (Button) findViewById(R.id.main_subscription_button);
         findUserButton = (Button) findViewById(R.id.main_find_user_button);
         findCenterButton = (Button) findViewById(R.id.main_center_list_button);
@@ -146,7 +151,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             generateTabs();
         setDetails(1);
 
-
+        lc = LearningCenter.getLCById(Account.getCenterId());
+        if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
+            Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
+                    .apply(new RequestOptions().override(Utility.getScreenWidth(),
+                            Utility.dpToPx(this, 256))).centerCrop().into(lcLogo);
+        }
     }
 
     private void setDetails(int code) {
@@ -196,12 +206,14 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                         appBarLayout.setExpanded(true);
                         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                         userImage.setVisibility(View.VISIBLE);
+                        lcLogo.setVisibility(View.GONE);
                         break;
                     case 1:
                         if (Account.isType("learningcenter")) {
                             appBarLayout.setExpanded(true);
                             ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                             userImage.setVisibility(View.GONE);
+                            lcLogo.setVisibility(View.VISIBLE);
                             break;
                         }
                     default:
