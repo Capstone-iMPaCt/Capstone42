@@ -150,22 +150,21 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (tabGenerate)
             generateTabs();
         setDetails(1);
-
-        lc = LearningCenter.getLCById(Account.getCenterId());
-        if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
-            Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
-                    .apply(new RequestOptions().override(Utility.getScreenWidth(),
-                            Utility.dpToPx(this, 256))).centerCrop().into(lcLogo);
-        }
     }
 
     private void setDetails(int code) {
+        lc = LearningCenter.getLCById(Account.getCenterId());
         if (code != 3) {
             changeProfileImage();
             usernameDisplay.setText(Account.getName());
             if (Account.getType() == Account.Type.LearningCenter) {
                 fieldDisplay.setText(Account.getType().toString() + " | " + Utility
                         .caps(Account.getStringData("accessLevel")));
+                if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
+                    Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
+                            .apply(new RequestOptions().override(Utility.getScreenWidth(),
+                                    Utility.dpToPx(this, 256))).centerCrop().into(lcLogo);
+                }
             } else
                 fieldDisplay.setText(Account.getType().toString());
         }

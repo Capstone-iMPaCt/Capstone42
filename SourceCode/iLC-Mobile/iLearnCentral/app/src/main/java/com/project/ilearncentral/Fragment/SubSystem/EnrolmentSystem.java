@@ -60,7 +60,7 @@ public class EnrolmentSystem extends Fragment {
     private SearchView searchView;
     private Dialog dialog;
     private TextView noCoursesText, subscriptionExpiry;
-    private Button enrollees, enroll;
+    private Button enrollees;
     private ImageButton enrolmentViewOption;
 
     private FirebaseFirestore db;
@@ -88,65 +88,78 @@ public class EnrolmentSystem extends Fragment {
         course = new ArrayList<>();
 
         if (Account.isType("Student")) {
+            subscriptionExpiry.setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_option_button).setVisibility(View.GONE);
             addNewCourseBtn.setVisibility(View.GONE);
-            enroll.setOnClickListener(new View.OnClickListener() {
+        } else if (Account.isType("LearningCenter")) {
+            enrolmentViewOption.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    if (!isSubscribed) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setTitle("Please subscribe");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                        return;
+                    }
+                    dialog.setCancelable(true);
+                    dialog.show();
+                    enrollees.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getActivity(), Enrollees.class));
+                            dialog.dismiss();
+                        }
+                    });
+                }
+            });
+            addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!isSubscribed) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                        alertDialog.setTitle("Please subscribe");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                        return;
+                    }
+                    startActivityForResult(new Intent(getContext(), NveCourse.class), NEW_COURSE);
+                }
+            });
+            show = new ObservableBoolean();
+            show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+                @Override
+                public void onBooleanChanged(boolean newValue) {
+                    if (newValue) {
+                        course.clear();
+                        course.addAll(retrieved);
+                        if (course.isEmpty()) {
+                            noCoursesText.setVisibility(View.VISIBLE);
+                        } else {
+                            noCoursesText.setVisibility(View.GONE);
+                        }
+                        recyclerView.setAdapter(adapter);
+                        adapter.notifyDataSetChanged();
+                        System.out.println("~~~~~~~~~~~Adapter item count after datachanged " + adapter.getItemCount());
+                    }
                 }
             });
         }
-
-        enrolmentViewOption.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isSubscribed) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Please subscribe");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-                dialog.setCancelable(true);
-                dialog.show();
-                enrollees.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(new Intent(getActivity(), Enrollees.class));
-                        dialog.dismiss();
-                    }
-                });
-            }
-        });
-        addNewCourseBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!isSubscribed) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Please subscribe");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-                startActivityForResult(new Intent(getContext(), NveCourse.class), NEW_COURSE);
-            }
-        });
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.enrolment_pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -158,24 +171,6 @@ public class EnrolmentSystem extends Fragment {
 //                searchView.clearFocus();
 //                JobPosts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
-            }
-        });
-        show = new ObservableBoolean();
-        show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean newValue) {
-                if (newValue) {
-                    course.clear();
-                    course.addAll(retrieved);
-                    if (course.isEmpty()) {
-                        noCoursesText.setVisibility(View.VISIBLE);
-                    } else {
-                        noCoursesText.setVisibility(View.GONE);
-                    }
-                    recyclerView.setAdapter(adapter);
-                    adapter.notifyDataSetChanged();
-                    System.out.println("~~~~~~~~~~~Adapter item count after datachanged " + adapter.getItemCount());
-                }
             }
         });
 
@@ -195,7 +190,6 @@ public class EnrolmentSystem extends Fragment {
         noCoursesText = view.findViewById(R.id.enrolment_courses_none);
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
-        enroll = view.findViewById(R.id.course_enroll_button);
 
         // Search Menu
         enrollees = dialog.findViewById(R.id.enrolment_search_option_enrollees);
