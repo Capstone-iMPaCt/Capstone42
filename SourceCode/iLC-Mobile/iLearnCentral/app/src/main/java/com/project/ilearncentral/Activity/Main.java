@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -237,7 +236,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_subscription_button:
-                if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0){
+                if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0) {
                     android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                     alertDialog.setTitle("Access denied!");
                     alertDialog.setCancelable(true);
@@ -252,7 +251,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                     break;
                 }
                 Intent intent = new Intent(getApplicationContext(), Subscription.class);
-                intent.putExtra("userPhotoUrl", user.getPhotoUrl().toString());
+                if (user.getPhotoUrl() != null)
+                    intent.putExtra("userPhotoUrl", user.getPhotoUrl().toString());
                 startActivity(intent);
                 break;
             case R.id.main_find_user_button:
