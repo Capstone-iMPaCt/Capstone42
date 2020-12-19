@@ -219,7 +219,7 @@ public class EnrolmentSystem extends Fragment {
     private void setSubscriptionStatus() {
         subscriptionExpiry.setText("Subscribe to enable this feature.");
         db.collection("Subscription")
-                .document(Account.getUsername())
+                .document(Account.getCenterId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
