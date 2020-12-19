@@ -25,7 +25,7 @@ public class Subscription {
     private static void setRef() {
         db = FirebaseFirestore.getInstance();
         ref = db.collection("Subscription")
-                .document(Account.getUsername());
+                .document(Account.getCenterId());
     }
 
     public static boolean isEnrolmentSubscribed() {
@@ -58,7 +58,7 @@ public class Subscription {
         subscription.put(systemName, system);
 
         db.collection("Subscription")
-                .document(Account.getUsername())
+                .document(Account.getCenterId())
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -76,7 +76,7 @@ public class Subscription {
                 });
 
         Map<String, Object> sale = new HashMap<>();
-        sale.put("Username", Account.getUsername());
+        sale.put("CenterID", Account.getCenterId());
         sale.put("Date", new Date());
         sale.put("SubscriptionTitle", title);
         sale.put("Fee", fee);

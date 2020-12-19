@@ -76,7 +76,7 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
         });
 
         db.collection("Subscription")
-                .document(Account.getUsername())
+                .document(Account.getCenterId())
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {

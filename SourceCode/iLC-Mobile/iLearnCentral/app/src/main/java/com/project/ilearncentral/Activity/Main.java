@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -236,6 +237,20 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_subscription_button:
+                if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0){
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
+                    alertDialog.setTitle("Access denied!");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("Only administrator accounts have access to this feature.");
+                    alertDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    break;
+                }
                 Intent intent = new Intent(getApplicationContext(), Subscription.class);
                 intent.putExtra("userPhotoUrl", user.getPhotoUrl().toString());
                 startActivity(intent);
