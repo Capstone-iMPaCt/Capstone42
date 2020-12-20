@@ -40,7 +40,7 @@ public class LCEducators extends Fragment {
     private RadioGroup status, employmentType;
     private RadioButton active, inActive, fullTime, partTime, contractual;
     private ImageButton educatorsViewOption;
-    private Button ok;
+    private Button ok, clear;
 
     public LCEducators() {
         // Required empty public constructor
@@ -93,7 +93,21 @@ public class LCEducators extends Fragment {
                         } else if (employmentType.getCheckedRadioButtonId() == contractual.getId()) {
                             msg += "Contractual";
                         }
+                        educators.clear();
+                        educators.addAll(Educator.getFilteredEducators(Account.getCenterId(), status.getCheckedRadioButtonId(), employmentType.getCheckedRadioButtonId()));
+                        adapter.notifyDataSetChanged();
                         Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0,0);
+                        toast.show();
+                        dialog.dismiss();
+                    }
+                });
+                clear.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        status.clearCheck();
+                        employmentType.clearCheck();
+                        Toast toast = Toast.makeText(getContext(), "Cleared filters", Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0,0);
                         toast.show();
                         dialog.dismiss();
@@ -132,5 +146,6 @@ public class LCEducators extends Fragment {
         partTime = dialog.findViewById(R.id.lc_educators_search_option_partTime);
         contractual = dialog.findViewById(R.id.lc_educators_search_option_contractual);
         ok = dialog.findViewById(R.id.lc_educators_search_option_ok);
+        clear = dialog.findViewById(R.id.lc_educators_search_option_clear);
     }
 }

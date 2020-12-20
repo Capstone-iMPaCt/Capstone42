@@ -5,29 +5,34 @@ import android.util.Log;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 public class Educator extends User {
-    private String eduId, centerId, username, employmentStatus, employmentType, position;
+    private String eduId, centerId, username, employmentStatus, position;
     private String fullname, firstName, lastName, middleName, extension;
     private String address, citizenship, gender, martitalStatus, religion;
+    private List<String> employmentType;
     private Timestamp birthday, employmentDate;
     private static List<Educator> retrieved = new ArrayList<>();
 
     public Educator() {
         super();
-        eduId = centerId = username = employmentStatus = employmentType = position = "";
+        eduId = centerId = username = employmentStatus = position = "";
         fullname = firstName = lastName = middleName = extension = "";
         address = citizenship = gender = martitalStatus = religion = "";
+        employmentType = new ArrayList<>();
         birthday = Timestamp.now();
         employmentDate = null;
     }
@@ -85,7 +90,7 @@ public class Educator extends User {
     }
 
     public void setExtension(String extension) {
-        this.employmentType = extension;
+        this.extension = extension;
     }
 
     @Override
@@ -162,14 +167,6 @@ public class Educator extends User {
         this.position = position;
     }
 
-    public String getEmploymentType() {
-        return employmentType;
-    }
-
-    public void setEmploymentType(String employmentType) {
-        this.employmentType = employmentType;
-    }
-
     public Timestamp getEmploymentDate() {
         return employmentDate;
     }
@@ -217,7 +214,6 @@ public class Educator extends User {
                         edu.setUsername(document.getString("Username"));
                         edu.setPosition(document.getString("Position"));
                         edu.setEmploymentStatus(document.getString("EmploymentStatus"));
-                        edu.setEmploymentType(document.getString("EmploymentType"));
                         edu.setCitizenship(document.getString("Citizenship"));
                         edu.setGender(document.getString("Gender"));
                         edu.setMartitalStatus(document.getString("MaritalStatus"));
@@ -248,6 +244,12 @@ public class Educator extends User {
                         name = name.replaceAll("\\s", " ").trim();
                         edu.setFullname(name);
 
+                        List<String> types = (List<String>) document.get("EmploymentType");
+                        if (types !=null) {
+                            for (int i = 0; i < types.size(); i++) {
+                                edu.addEmploymentType(types.get(i));
+                            }
+                        }
                         Map<String, String> addressData = ((Map<String, String>) document.get("Address"));
                         String address = "";
                         if (!addressData.get("HouseNo").isEmpty())
@@ -291,6 +293,11 @@ public class Educator extends User {
             });
     }
 
+    private void addEmploymentType(String type) {
+        if (employmentType!=null)
+            employmentType.add(type);
+    }
+
     public static void setUsers() {
         for (Educator educator:retrieved) {
             User user = User.getUserByUsername(educator.getUsername());
@@ -329,6 +336,22 @@ public class Educator extends User {
         return educators;
     }
 
+    public static List<Educator> getFilteredEducators(String centerId, int statusChecked, int typeChecked) {
+        List<Educator> educators = new ArrayList<>();
+        for (Educator educator:retrieved) {
+            if (educator.getCenterId().equalsIgnoreCase(centerId)) {
+                if ((statusChecked == R.id.lc_educators_search_option_active && educator.getEmploymentStatus().equalsIgnoreCase("Active")) ||
+                (statusChecked == R.id.lc_educators_search_option_inactive && educator.getEmploymentStatus().equalsIgnoreCase("Inactive")) ||
+                (typeChecked == R.id.lc_educators_search_option_fullTime && educator.getEmploymentType().contains("Full Time")) ||
+                (typeChecked == R.id.lc_educators_search_option_partTime && educator.getEmploymentType().contains("Part Time")) ||
+                (typeChecked == R.id.lc_educators_search_option_contractual && educator.getEmploymentType().contains("Contractual")) ||
+                        (statusChecked == -1 && typeChecked == -1))
+                    educators.add(educator);
+            }
+        }
+        return educators;
+    }
+
     public static List<Educator> getEducatorsByCenterId(String centerId) {
         List<Educator> educators = new ArrayList<>();
         for (Educator educator:retrieved) {
@@ -339,4 +362,27 @@ public class Educator extends User {
         return educators;
     }
 
+    public static void hireEducator(Educator educator, String centerId, List<String> types, String position) {
+        educator.setCenterId(centerId);
+        educator.setEmploymentStatus("Active");
+        educator.setEmploymentDate(Timestamp.now());
+        educator.setEmploymentType(types);
+        educator.setPosition(position);
+        Map<String,Object> updates = new HashMap<>();
+        updates.put("CenterID", educator.getCenterId());
+        updates.put("EmploymentDate", educator.getEmploymentDate());
+        updates.put("EmploymentStatus", educator.getEmploymentStatus());
+        updates.put("EmploymentType", educator.getEmploymentType());
+        updates.put("Position", educator.getPosition());
+        FirebaseFirestore.getInstance().collection("Educator").document(educator.getEduId())
+                .update(updates);
+    }
+
+    public List<String> getEmploymentType() {
+        return employmentType;
+    }
+
+    public void setEmploymentType(List<String> employmentType) {
+        this.employmentType = employmentType;
+    }
 }

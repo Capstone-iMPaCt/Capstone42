@@ -16,7 +16,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.ilearncentral.Activity.ViewResume;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 import java.util.List;
@@ -128,6 +130,7 @@ public class ApplicantAdapter extends BaseAdapter {
                                         updateList.set(true);
                                     }
                                 });
+                                Educator.hireEducator(applicant.getEducator(), Account.getCenterId(), applicant.getJobVacancy().getJobTypes(), applicant.getJobVacancy().getPosition());
                             }
                                 break;
 

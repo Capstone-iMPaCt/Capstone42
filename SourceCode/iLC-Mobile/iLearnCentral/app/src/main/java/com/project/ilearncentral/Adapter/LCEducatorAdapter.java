@@ -1,17 +1,20 @@
 package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.project.ilearncentral.Activity.ViewUser;
 import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
@@ -66,6 +69,16 @@ public class LCEducatorAdapter extends RecyclerView.Adapter<LCEducatorAdapter.LC
                 Toast.makeText(context, "Position: " + (position+1), Toast.LENGTH_SHORT).show();
             }
         });
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewUser.class);
+                intent.putExtra("USERNAME", educator.getUsername());
+                intent.putExtra("TYPE", educator.getType());
+                intent.putExtra("FULL_NAME", educator.getFullname());
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
@@ -77,10 +90,12 @@ public class LCEducatorAdapter extends RecyclerView.Adapter<LCEducatorAdapter.LC
 
         private CircleImageView userImage;
         private TextView name, position, dateEmployed, status;
+        private LinearLayout layout;
 
         LCEducatorHolder(View itemView) {
             super(itemView);
 
+            layout = itemView.findViewById(R.id.lc_educator_layout);
             userImage = itemView.findViewById(R.id.lc_educator_user_image);
             name = itemView.findViewById(R.id.lc_educator_user_name);
             position = itemView.findViewById(R.id.lc_educator_position);

@@ -145,6 +145,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
                                     FirebaseFirestore.getInstance().collection("JobApplication").document(applicant.getJobApplicationId())
                                             .update("ApplicationStatus", JobApplication.HIRED);
                                     setStatus(JobApplication.HIRED);
+                                    Educator.hireEducator(edu, Account.getCenterId(), applicant.getJobVacancy().getJobTypes(), applicant.getJobVacancy().getPosition());
                                 }
                                 break;
 
