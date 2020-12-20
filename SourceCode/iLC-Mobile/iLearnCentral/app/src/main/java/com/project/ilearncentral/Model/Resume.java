@@ -1,4 +1,4 @@
-package com.project.ilearncentral.MyClass;
+package com.project.ilearncentral.Model;
 
 import android.util.Log;
 
@@ -12,7 +12,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
-import com.project.ilearncentral.Model.ResumeItem;
+import com.project.ilearncentral.MyClass.Account;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -22,156 +22,171 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 public class Resume {
+    private static String TAG = "Resume";
 
-    private static final String TAG = "Resume";
-    private static FirebaseFirestore db = FirebaseFirestore.getInstance();
-
-    private static String id = "";
-    private static String objective = "";
-    private static List<ResumeItem> awards = new ArrayList<>();
-    private static List<ResumeItem> educationalBackground = new ArrayList<>();
-    private static List<ResumeItem> employmentHistory = new ArrayList<>();
-    private static List<ResumeItem> interest = new ArrayList<>();
-    private static List<ResumeItem> qualities = new ArrayList<>();
-    private static List<ResumeItem> references = new ArrayList<>();
-    private static List<ResumeItem> skills = new ArrayList<>();
-    public static boolean resumeChange = true;
+    private String username;
+    private String resumeId;
+    private String objective;
+    private List<ResumeItem> awards;
+    private List<ResumeItem> educationalBackground;
+    private List<ResumeItem> employmentHistory;
+    private List<ResumeItem> interest;
+    private List<ResumeItem> qualities;
+    private List<ResumeItem> references;
+    private List<ResumeItem> skills;
 
     public enum ResumeItemType {Award, Education, Employment, Interest, Qualities, Reference, Skill};
 
-    public static void clearAll() {
-        id = "";
+    public Resume() {
+        username = "";
+        reset();
+    }
+    public Resume(String username) {
+        this.username = username;
+        reset();
+    }
+
+    public void reset() {
+        resumeId = "";
         objective = "";
-        awards.clear();
-        educationalBackground.clear();
-        employmentHistory.clear();
-        interest.clear();
-        qualities.clear();
-        references.clear();
-        skills.clear();
-        resumeChange = true;
+        if (awards==null) awards = new ArrayList<>();
+        else awards.clear();
+        if (educationalBackground==null) educationalBackground = new ArrayList<>();
+        else educationalBackground.clear();
+        if (employmentHistory==null) employmentHistory = new ArrayList<>();
+        else employmentHistory.clear();
+        if (interest==null) interest = new ArrayList<>();
+        else interest.clear();
+        if (qualities==null) qualities = new ArrayList<>();
+        else qualities.clear();
+        if (references==null) references = new ArrayList<>();
+        else references.clear();
+        if (skills==null) skills = new ArrayList<>();
+        else skills.clear();
     }
 
-    public static String getId() {
-        return id;
+    public String getResumeId() {
+        return resumeId;
     }
 
-    public static void setId(String id) {
-        Resume.id = id;
+    public void setId(String id) {
+        this.resumeId = id;
     }
 
-    public static String getObjective() {
+    public String getObjective() {
         return objective;
     }
 
-    public static void setObjective(String objective) {
-        Resume.objective = objective;
+    public void setObjective(String objective) {
+        this.objective = objective;
     }
 
-    public static List<ResumeItem> getEducationalBackground() {
+    public List<ResumeItem> getEducationalBackground() {
         return educationalBackground;
     }
 
-    public static void setEducationalBackground(List<ResumeItem> educationalBackground) {
-        Resume.educationalBackground = educationalBackground;
+    public void setEducationalBackground(List<ResumeItem> educationalBackground) {
+        this.educationalBackground = educationalBackground;
     }
 
-    public static List<ResumeItem> getEmploymentHistory() {
+    public List<ResumeItem> getEmploymentHistory() {
         return employmentHistory;
     }
 
-    public static void setEmploymentHistory(List<ResumeItem> employmentHistory) {
-        Resume.employmentHistory = employmentHistory;
+    public void setEmploymentHistory(List<ResumeItem> employmentHistory) {
+        this.employmentHistory = employmentHistory;
     }
 
-    public static List<ResumeItem> getInterest() {
+    public List<ResumeItem> getInterest() {
         return interest;
     }
 
-    public static void setInterest(List<ResumeItem> interest) {
-        Resume.interest = interest;
+    public void setInterest(List<ResumeItem> interest) {
+        this.interest = interest;
     }
 
-    public static List<ResumeItem> getQualities() {
+    public List<ResumeItem> getQualities() {
         return qualities;
     }
 
-    public static void setQualities(List<ResumeItem> qualities) {
-        Resume.qualities = qualities;
+    public void setQualities(List<ResumeItem> qualities) {
+        this.qualities = qualities;
     }
 
-    public static List<ResumeItem> getReferences() {
+    public List<ResumeItem> getReferences() {
         return references;
     }
 
-    public static void setReferences(List<ResumeItem> references) {
-        Resume.references = references;
+    public void setReferences(List<ResumeItem> references) {
+        this.references = references;
     }
 
-    public static List<ResumeItem> getSkills() {
+    public List<ResumeItem> getSkills() {
         return skills;
     }
 
-    public static void setSkills(List<ResumeItem> skills) {
-        Resume.skills = skills;
+    public void setSkills(List<ResumeItem> skills) {
+        this.skills = skills;
     }
 
-    public static List<ResumeItem> getAwards() {
+    public List<ResumeItem> getAwards() {
         return awards;
     }
 
-    public static void setAwards(List<ResumeItem> awards) {
-        Resume.awards = awards;
+    public void setAwards(List<ResumeItem> awards) {
+        this.awards = awards;
     }
 
-    public static void getResumeFromDB(String username, final ObservableBoolean done) {
+    public static Resume getResumeFromDB(String username, final ObservableBoolean done) {
         if (username == null || username.isEmpty())
             username = Account.getUsername();
-        db.collection("Resume").whereEqualTo("Username", username)
+        final Resume resume = new Resume(username);
+        FirebaseFirestore.getInstance().collection("Resume").whereEqualTo("Username", username)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if (task.isSuccessful()) {
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        setData(document.getData());
-                        id = document.getId();
-                        done.set(true);
+                        resume.setId(document.getId());
+                        setData(resume, document.getData());
+                        if (done!=null) done.set(true);
                         Log.d(TAG, document.getId() + " => " + document.getData());
                     }
                 } else {
-                    done.set(false);
+                    if (done!=null) done.set(false);
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }
         });
+        return resume;
     }
 
-    public static void addResume(final ObservableString done) {
-        db.collection("Resume")
-                .add(getData())
+    public void addResume(final ObservableString done) {
+        FirebaseFirestore.getInstance().collection("Resume")
+                .add(this.getData())
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         if (done != null) done.set(documentReference.getId());
-                        id = documentReference.getId();
+                        resumeId = documentReference.getId();
                         Log.d(TAG, "DocumentSnapshot written with ID: " + documentReference.getId());
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        id = "";
+                        resumeId = "";
                         if (done != null) done.set("");
                         Log.w(TAG, "Error adding document", e);
                     }
                 });
     }
 
-    public static void updateResume(String givenId, final ObservableString done) {
-        if (givenId == null || givenId.isEmpty()) givenId = id;
-        else id = givenId;
-        db.collection("Resume").document(givenId)
-                .set(getData())
+    public void updateResume(String givenId, final ObservableString done) {
+        if (givenId == null || givenId.isEmpty()) givenId = resumeId;
+        else resumeId = givenId;
+        FirebaseFirestore.getInstance().collection("Resume").document(givenId)
+                .set(this.getData())
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -196,7 +211,7 @@ public class Resume {
         return data;
     }
 
-    public static Map<String, Object> getData() {
+    public Map<String, Object> getData() {
         Map<String, Object> data = new HashMap<>();
 
         data.put("Awards", mapDataFromResumeItem(awards, ResumeItemType.Award));
@@ -207,7 +222,7 @@ public class Resume {
         data.put("Qualities", mapDataFromResumeItem(qualities, ResumeItemType.Qualities));
         data.put("References", mapDataFromResumeItem(references, ResumeItemType.Reference));
         data.put("Skills", mapDataFromResumeItem(skills, ResumeItemType.Skill));
-        data.put("Username", Account.getUsername());
+        data.put("Username", username);
         return data;
     }
 
@@ -257,14 +272,14 @@ public class Resume {
         return "";
     }
 
-    public static void setData(Map<String, Object> data) {
-        objective = data.get("CareerObjective").toString();
-        awards = mapDataToResumeItem((List<Object>) data.get("Awards"), ResumeItemType.Award);
-        educationalBackground = mapDataToResumeItem((List<Object>) data.get("EducationalBackground"), ResumeItemType.Education);
-        employmentHistory = mapDataToResumeItem((List<Object>) data.get("EmploymentHistory"), ResumeItemType.Employment);
-        interest = mapDataToResumeItem((List<Object>) data.get("Interests"), ResumeItemType.Interest);
-        qualities = mapDataToResumeItem((List<Object>) data.get("Qualities"), ResumeItemType.Qualities);
-        references = mapDataToResumeItem((List<Object>) data.get("References"), ResumeItemType.Reference);
-        skills = mapDataToResumeItem((List<Object>) data.get("Skills"), ResumeItemType.Skill);
+    public static void setData(Resume resume, Map<String, Object> data) {
+        resume.setObjective(data.get("CareerObjective").toString());
+        resume.setAwards(mapDataToResumeItem((List<Object>) data.get("Awards"), ResumeItemType.Award));
+        resume.setEducationalBackground(mapDataToResumeItem((List<Object>) data.get("EducationalBackground"), ResumeItemType.Education));
+        resume.setEmploymentHistory(mapDataToResumeItem((List<Object>) data.get("EmploymentHistory"), ResumeItemType.Employment));
+        resume.setInterest(mapDataToResumeItem((List<Object>) data.get("Interests"), ResumeItemType.Interest));
+        resume.setQualities(mapDataToResumeItem((List<Object>) data.get("Qualities"), ResumeItemType.Qualities));
+        resume.setReferences(mapDataToResumeItem((List<Object>) data.get("References"), ResumeItemType.Reference));
+        resume.setSkills(mapDataToResumeItem((List<Object>) data.get("Skills"), ResumeItemType.Skill));
     }
 }

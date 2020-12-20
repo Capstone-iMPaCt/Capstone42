@@ -1,6 +1,8 @@
 package com.project.ilearncentral.Model;
 
 import com.google.firebase.Timestamp;
+import com.project.ilearncentral.Fragment.JobPost;
+import com.project.ilearncentral.MyClass.JobPosts;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -44,12 +46,29 @@ public class JobVacancy {
         setJobVacancy(jobId, data);
     }
 
-    public void setJobVacancy(String jobId, Map<String, Object> data) {
+    public void setJobVacancy(String jobId,  final Map<String, Object> data) {
         this.jobId = jobId;
         centerId = data.get("CenterID").toString();
         businessData = new HashMap<>();
-        LearningCenter lc = LearningCenter.getLCById(data.get("CenterID").toString());
-        businessData.put("BusinessName", lc.getBusinessName());
+        businessData.put("BusinessName", "");
+        Thread thread = new Thread(){
+            public void run(){
+                LearningCenter lc;
+                do {
+                    lc = LearningCenter.getLCById(data.get("CenterID").toString());
+                    if (lc!=null)
+                        businessData.put("BusinessName", lc.getBusinessName());
+                    else {
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } while (lc==null);
+            }
+        };
+        thread.start();
         username = data.get("Username").toString();
         jobDescription = data.get("JobDescription").toString();
         position = data.get("Position").toString();

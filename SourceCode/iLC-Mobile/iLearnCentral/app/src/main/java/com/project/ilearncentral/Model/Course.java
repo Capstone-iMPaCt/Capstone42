@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +170,7 @@ public class Course {
         retrieved = otherRetrieved;
     }
 
-    public static void retrieveCoursesFromDB() {
+    public static void retrieveCoursesFromDB(final ObservableBoolean done) {
         FirebaseFirestore.getInstance().collection("Course")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -213,7 +214,9 @@ public class Course {
                                             .getMessage());
                                 }
                             }
+                            if (done!=null) done.set(true);
                         } else {
+                            if (done!=null) done.set(false);
                             Log.d("getCourses", "Error getting documents: ", task.getException());
                         }
                     }

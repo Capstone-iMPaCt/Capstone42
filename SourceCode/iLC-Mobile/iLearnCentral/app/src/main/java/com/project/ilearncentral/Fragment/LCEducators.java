@@ -2,41 +2,35 @@ package com.project.ilearncentral.Fragment;
 
 import android.app.Dialog;
 import android.content.res.Configuration;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.Spanned;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.Space;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.project.ilearncentral.Adapter.LCEducatorAdapter;
-import com.project.ilearncentral.Model.LCEducator;
+import com.project.ilearncentral.Model.Educator;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class LCEducators extends Fragment {
 
-    private ArrayList<LCEducator> educators;
+    private List<Educator> educators;
     private RecyclerView recyclerView;
     private LCEducatorAdapter adapter;
 
@@ -69,18 +63,7 @@ public class LCEducators extends Fragment {
 
         bindLayout();
 
-        educators = new ArrayList<>();
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","ACTIVE"));
-        educators.add(new LCEducator("Educator Full Name","01/01/2020","INACTIVE"));
+        educators = Educator.getEducatorsByEmployment(true, Account.getCenterId());
 
         int spanCount = Utility.getScreenWidth() / Utility.dpToPx(getContext(), 150);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), spanCount);

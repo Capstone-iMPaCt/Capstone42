@@ -1,7 +1,5 @@
 package com.project.ilearncentral.Model;
 
-import com.project.ilearncentral.MyClass.Resume;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,6 +91,34 @@ public class ResumeItem {
     }
 
     public Object getData(Resume.ResumeItemType type) {
+        Map<String, Object> data = new HashMap<>();
+        switch (type) {
+            case Award:
+            case Interest:
+            case Qualities:
+            case Skill:
+                return detail;
+            case Education:
+                data.put("SchoolName", header);
+                data.put("SchoolAddress", address);
+                data.put("SchoolYear", datePeriod);
+                break;
+            case Employment:
+                data.put("CompanyName", header);
+                data.put("CompanyAddress", address);
+                data.put("DatePeriod", datePeriod);
+                break;
+            case Reference:
+                data.put("ReferenceName", personName);
+                data.put("Affiliation", companyName);
+                data.put("Position", jobTitle);
+                data.put("ContactNo", contactNumber);
+                break;
+        }
+        return data;
+    }
+
+    public Object getData(com.project.ilearncentral.MyClass.Resume.ResumeItemType type) {
         Map<String, Object> data = new HashMap<>();
         switch (type) {
             case Award:

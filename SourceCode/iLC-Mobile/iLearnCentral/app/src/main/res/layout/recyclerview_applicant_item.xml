@@ -27,14 +27,6 @@
             android:layout_marginBottom="5dp"
             android:src="@drawable/ic_account_circle_black_24dp" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/applicant_star_button"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentEnd="true"
-            android:layout_margin="3dp"
-            android:background="@drawable/ic_star_50px" />
-
         <TextView
             android:id="@+id/applicant_user_name"
             android:layout_width="match_parent"

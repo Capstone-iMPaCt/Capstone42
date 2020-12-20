@@ -76,7 +76,7 @@
                         android:background="@android:color/white" />
 
                     <TextView
-                        android:id="@+id/applicants_option_starred"
+                        android:id="@+id/applicants_option_hired"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -85,7 +85,7 @@
                         android:focusableInTouchMode="true"
                         android:gravity="center"
                         android:paddingVertical="5dp"
-                        android:text="STARRED"
+                        android:text="HIRED"
                         android:textColor="@android:color/white" />
 
                     <View
@@ -112,6 +112,16 @@
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
+    <TextView
+        android:id="@+id/applicants_no_items"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="No Applicants Found."
+        android:gravity="center"
+        android:textSize="@dimen/suggestion_body_text_size"
+        android:layout_marginTop="@dimen/fab_margin"
+        android:visibility="gone"/>
+
     <GridView
         android:id="@+id/applicants_gridview"
         android:layout_width="match_parent"
@@ -125,4 +135,5 @@
         android:scrollbars="none"
         android:stretchMode="columnWidth"
         android:verticalSpacing="10dp" />
+
 </LinearLayout>

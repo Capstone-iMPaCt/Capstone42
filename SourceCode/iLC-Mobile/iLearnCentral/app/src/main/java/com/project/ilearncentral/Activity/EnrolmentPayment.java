@@ -11,6 +11,6 @@ public class EnrolmentPayment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enrolment_payment);
+        //setContentView(R.layout.activity_enrolment_payment);
     }
 }

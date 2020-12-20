@@ -17,6 +17,7 @@ import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.WalletConstants;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.ilearncentral.MyClass.Constants;
@@ -110,14 +111,15 @@ public class Payment extends AppCompatActivity {
         });
     }
 
-    /**
+/**
      * PaymentData response object contains the payment information, as well as any additional
      * requested information, such as billing and shipping address.
      *
      * @param paymentData A response object returned by Google after a payer approves payment.
      * @see <a href="https://developers.google.com/pay/api/android/reference/
-     * object#PaymentData">PaymentData</a>
-     */
+     * object#PaymentData">PaymentData</a>*/
+
+
     private void handlePaymentSuccess(PaymentData paymentData) {
 
         // Token will be null if PaymentDataRequest was not constructed using fromJson(String).
@@ -160,15 +162,16 @@ public class Payment extends AppCompatActivity {
         }
     }
 
-    /**
+/**
      * At this stage, the user has already seen a popup informing them an error occurred. Normally,
      * only logging is required.
      *
      * @param statusCode will hold the value of any constant from CommonStatusCode or one of the
      *                   WalletConstants.ERROR_CODE_* constants.
      * @see <a href="https://developers.google.com/android/reference/com/google/android/gms/wallet/
-     * WalletConstants#constant-summary">Wallet Constants Library</a>
-     */
+     * WalletConstants#constant-summary">Wallet Constants Library</a>*/
+
+
     private void handleError(int statusCode) {
         Log.e("loadPaymentData failed", String.format("Error code: %d", statusCode));
     }

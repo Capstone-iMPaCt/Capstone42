@@ -53,7 +53,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public void onBindViewHolder(@NonNull final CourseViewHolder holder, final int position) {
 
         final Course course = courses.get(position);
-        System.out.println("!!!!!!Course size " + position);
 
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
         lastPosition = position;

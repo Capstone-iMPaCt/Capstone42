@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -18,15 +17,17 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomBehavior.ObservableInteger;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.CustomInterface.OnIntegerChangeListener;
 import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -83,6 +84,62 @@ public class SplashScreen extends AppCompatActivity {
     }
 
     private void setObservableListeners() {
+        final ObservableInteger allLoaded = new ObservableInteger();
+        allLoaded.set(0);
+        allLoaded.setOnIntegerChangeListener(new OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int value) {
+                if (value == 6) {
+                    finish();
+                }
+            }
+        });
+        final ObservableBoolean userRetrieved = new ObservableBoolean();
+        userRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                Educator.setUsers();
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+        final ObservableBoolean LCRetrieved = new ObservableBoolean();
+        userRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+        final ObservableBoolean educatorRetrieved = new ObservableBoolean();
+        educatorRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                JobApplication.setEducators();
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+        final ObservableBoolean courseRetrieved = new ObservableBoolean();
+        educatorRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+        final ObservableBoolean vacancyRetrieved = new ObservableBoolean();
+        vacancyRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                JobApplication.setJobVacancies();
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+        final ObservableBoolean applicationsRetrieved = new ObservableBoolean();
+        vacancyRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                allLoaded.set(allLoaded.get()+1);
+            }
+        });
+
         userSet = new ObservableBoolean();
         userSet.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -90,14 +147,15 @@ public class SplashScreen extends AppCompatActivity {
                 if (success) {
                     new Thread(new Runnable() {
                         public void run() {
-                            User.retrieveUsersFromDB();
-                            LearningCenter.retrieveLearningCentersFromDB();
-                            Course.retrieveCoursesFromDB();
-                            JobApplication.retrieveJobApplicationsFromDB();
+                            User.retrieveUsersFromDB(userRetrieved);
+                            LearningCenter.retrieveLearningCentersFromDB(LCRetrieved);
+                            Educator.retrieveEducatorsFromDB(educatorRetrieved);
+                            Course.retrieveCoursesFromDB(courseRetrieved);
+                            JobPosts.retrievePostsFromDB(vacancyRetrieved);
+                            JobApplication.retrieveJobApplicationsFromDB(applicationsRetrieved);
                         }
                     }).start();
                 } else {
-
                 }
             }
         });
@@ -146,7 +204,6 @@ public class SplashScreen extends AppCompatActivity {
                         Intent mainIntent = new Intent(SplashScreen.this, Main.class);
                         startActivity(mainIntent);
                     }
-                    finish();
                 } else {
 
                 }
