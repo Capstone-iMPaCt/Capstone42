@@ -1,16 +1,30 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Intent;
 import android.os.Bundle;
 
-import com.project.ilearncentral.R;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.project.ilearncentral.databinding.ActivityEnrolmentPaymentBinding;
 
 public class EnrolmentPayment extends AppCompatActivity {
+
+    private ActivityEnrolmentPaymentBinding layoutBinding;
+
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_enrolment_payment);
+        initialize();
+
+
+    }
+
+    private void initialize(){
+        layoutBinding = ActivityEnrolmentPaymentBinding.inflate(getLayoutInflater());
+        setContentView(layoutBinding.getRoot());
+
+//        intent = ;
     }
 }
