@@ -11,6 +11,9 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.MyClass.JobPosts;
+import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,7 +30,13 @@ public class JobApplication {
     private String message;
     private String applicationStatus;
     private Timestamp applicationDate;
+    private Educator educator;
+    private JobVacancy jobVacancy;
     private static List<JobApplication> retrieved = new ArrayList<>();
+
+    public static final String OPEN = "Open";
+    public static final String HIRED = "Hired";
+    public static final String REJECTED = "Rejected";
 
     public JobApplication() {
         this.jobApplicationId = "";
@@ -36,6 +45,8 @@ public class JobApplication {
         this.message = "";
         this.applicationStatus = "";
         this.applicationDate = Timestamp.now();
+        this.educator = null;
+        this.jobVacancy = null;
     }
 
     public String getJobApplicationId() {
@@ -94,16 +105,34 @@ public class JobApplication {
         JobApplication.retrieved = retrieved;
     }
 
+    public Educator getEducator() {
+        return educator;
+    }
+
+    public void setEducator(Educator educator) {
+        this.educator = educator;
+    }
+
+    public JobVacancy getJobVacancy() {
+        return jobVacancy;
+    }
+
+    public void setJobVacancy(JobVacancy jobVacancy) {
+        this.jobVacancy = jobVacancy;
+    }
+
     public void setJobApplication(JobApplication application) {
         this.jobApplicationId = application.getJobApplicationId();
         this.jobVacancyId = application.getJobVacancyId();
         this.eduUsername = application.getEduUsername();
         this.message = application.getMessage();
         this.applicationStatus = application.getApplicationStatus();
-        this.applicationDate = Timestamp.now();
+        this.applicationDate = application.getApplicationDate();
+        this.educator = application.getEducator();
+        this.jobVacancy = application.getJobVacancy();
     }
 
-    public static void retrieveJobApplicationsFromDB() {
+    public static void retrieveJobApplicationsFromDB(final ObservableBoolean done) {
         db.collection("JobApplication")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -120,6 +149,9 @@ public class JobApplication {
                                     application.setApplicationStatus(document.getString("ApplicationStatus"));
                                     application.setApplicationDate(document.getTimestamp("ApplicationDate"));
 
+                                    application.setEducator(Educator.getEduByUsername(application.getEduUsername()));
+                                    application.setJobVacancy(JobPosts.getJobVacancyById(application.getJobVacancyId()));
+
                                     int pos = getJAPositionById(document.getId());
                                     if (pos == -1) {
                                         retrieved.add(application);
@@ -133,7 +165,9 @@ public class JobApplication {
                                             .getMessage());
                                 }
                             }
+                            if (done!=null) done.set(true);
                         } else {
+                            if (done!=null) done.set(false);
                             Log.d("getJobApplication", "Error getting documents: ", task.getException());
                         }
                     }
@@ -145,7 +179,7 @@ public class JobApplication {
         data.put("VacancyID", jobVacancyId);
         data.put("Username", username);
         data.put("Message", message);
-        data.put("ApplicationStatus", "open");
+        data.put("ApplicationStatus", JobApplication.OPEN);
         data.put("ApplicationDate", Timestamp.now());
 
         db.collection("JobApplication")
@@ -153,7 +187,7 @@ public class JobApplication {
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
-                    retrieveJobApplicationsFromDB();
+                    retrieveJobApplicationsFromDB(null);
                     Log.d("JobApplication: ", "DocumentSnapshot written with ID: " + documentReference.getId());
                 }
             })
@@ -165,12 +199,67 @@ public class JobApplication {
             });
     }
 
+    public static void setEducators() {
+        for (JobApplication application:retrieved) {
+            Educator educator = Educator.getEduByUsername(application.getEduUsername());
+            if (educator!=null)
+                application.setEducator(educator);
+        }
+    }
+
+    public static void setJobVacancies() {
+        for (JobApplication application:retrieved) {
+            JobVacancy vacancy = JobPosts.getJobVacancyById(application.getJobVacancyId());
+            if (vacancy!=null)
+                application.setJobVacancy(vacancy);
+        }
+    }
+
     public static int getJAPositionById(String applicationId) {
         for (int i=0; i<retrieved.size();i++) {
             if (retrieved.get(i).getJobApplicationId().equals(applicationId))
                 return i;
         }
         return -1;
+    }
+
+    public static JobApplication getJAById(String applicationId) {
+        for (int i=0; i<retrieved.size();i++) {
+            if (retrieved.get(i).getJobApplicationId().equals(applicationId))
+                return retrieved.get(i);
+        }
+        return null;
+    }
+
+    public static List<JobApplication> getApplicantsByVacancyId(String jobVacancyId) {
+        List<JobApplication> applications = new ArrayList<>();
+        for (JobApplication application:retrieved) {
+            if (application.getJobVacancyId().equalsIgnoreCase(jobVacancyId)) {
+                applications.add(application);
+            }
+        }
+        return applications;
+    }
+
+    public static List<JobApplication> getAllApplicantsByCenterId(String centerId) {
+        List<JobApplication> applications = new ArrayList<>();
+        for (JobApplication application:retrieved) {
+            if (application.getJobVacancy().getCenterId().equalsIgnoreCase(centerId)) {
+                applications.add(application);
+            }
+        }
+        return applications;
+    }
+
+    public static List<JobApplication> getApplicantsByCenterId(String centerId, String status) {
+        List<JobApplication> applications = new ArrayList<>();
+        for (JobApplication application:retrieved) {
+            if (application.getJobVacancy().getCenterId().equalsIgnoreCase(centerId)) {
+                if (application.getApplicationStatus().equalsIgnoreCase(status))
+                    applications.add(application);
+            }
+        }
+        return applications;
     }
 
     public static List<JobApplication> filterCourses(List<JobApplication> jobApplications, String filterBy, String filterValue) {
@@ -218,7 +307,7 @@ public class JobApplication {
     public boolean hasApplicant(List<JobApplication> applications, String vacancyId) {
         for (JobApplication application:applications) {
             if (application.getJobVacancyId().equalsIgnoreCase(vacancyId)) {
-                if (application.getApplicationStatus().equalsIgnoreCase("open")) {
+                if (application.getApplicationStatus().equalsIgnoreCase(JobApplication.OPEN)) {
                     return true;
                 }
             }
@@ -238,10 +327,10 @@ public class JobApplication {
     public static void closeApplication(String jobVacancyId) {
         for (JobApplication application:retrieved) {
             if (application.getJobVacancyId().equalsIgnoreCase(jobVacancyId)) {
-                if (!application.getApplicationStatus().equalsIgnoreCase("Approved")) {
-                    application.setApplicationStatus("close");
+                if (!application.getApplicationStatus().equalsIgnoreCase(JobApplication.HIRED)) {
+                    application.setApplicationStatus(JobApplication.REJECTED);
                     db.collection("JobApplication").document(application.getJobApplicationId())
-                            .update("ApplicationStatus", "close");
+                            .update("ApplicationStatus", JobApplication.REJECTED);
                 }
             }
         }

@@ -8,6 +8,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -285,7 +286,7 @@ public class LearningCenter {
         LearningCenter.retrieved = retrieved;
     }
 
-    public static void retrieveLearningCentersFromDB() {
+    public static void retrieveLearningCentersFromDB(final ObservableBoolean done) {
         FirebaseFirestore.getInstance().collection("LearningCenter")
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -356,7 +357,9 @@ public class LearningCenter {
                                     retrieved.get(pos).setLearningCenter(lc);
                                 }
                             }
+                            if (done!=null) done.set(true);
                         } else {
+                            if (done!=null) done.set(false);
                             Log.d("getLearningCenters", "Error getting documents: ", task.getException());
                         }
                     }

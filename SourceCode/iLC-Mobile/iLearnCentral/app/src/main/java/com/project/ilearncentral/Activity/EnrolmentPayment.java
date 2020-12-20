@@ -26,5 +26,6 @@ public class EnrolmentPayment extends AppCompatActivity {
         setContentView(layoutBinding.getRoot());
 
 //        intent = ;
+        //setContentView(R.layout.activity_enrolment_payment);
     }
 }

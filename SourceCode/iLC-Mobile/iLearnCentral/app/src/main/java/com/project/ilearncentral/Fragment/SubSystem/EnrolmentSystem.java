@@ -155,7 +155,6 @@ public class EnrolmentSystem extends Fragment {
                         }
                         recyclerView.setAdapter(adapter);
                         adapter.notifyDataSetChanged();
-                        System.out.println("~~~~~~~~~~~Adapter item count after datachanged " + adapter.getItemCount());
                     }
                 }
             });
@@ -177,7 +176,6 @@ public class EnrolmentSystem extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new CourseAdapter(getContext(), course);
         recyclerView.setAdapter(adapter);
-        System.out.println("~~~~~~~~~~~Adapter item count " + adapter.getItemCount());
         retrieveCourses();
 
         return view;

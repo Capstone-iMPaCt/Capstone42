@@ -1,29 +1,36 @@
 package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.ilearncentral.Model.LCEducator;
+import com.project.ilearncentral.Activity.ViewUser;
+import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.R;
+import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class LCEducatorAdapter extends RecyclerView.Adapter<LCEducatorAdapter.LCEducatorHolder> {
 
     private Context context;
-    private ArrayList<LCEducator> educators;
+    private List<Educator> educators;
 
-    public LCEducatorAdapter(Context context, ArrayList<LCEducator> educators) {
+    public LCEducatorAdapter(Context context, List<Educator> educators) {
         this.context = context;
         this.educators = educators;
     }
@@ -37,21 +44,39 @@ public class LCEducatorAdapter extends RecyclerView.Adapter<LCEducatorAdapter.LC
 
     @Override
     public void onBindViewHolder(@NonNull LCEducatorHolder holder, final int position) {
-        final LCEducator educator = educators.get(position);
+        final Educator educator = educators.get(position);
 
-        holder.name.setText(educator.getEducatorName());
-        holder.dateEmployed.setText(educator.getEducatorDateEmployed());
-        holder.status.setText(educator.getEducatorStatus());
+        holder.name.setText(educator.getFullname());
+        if (educator.getEmploymentDate()!= null) {
+            DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+            holder.dateEmployed.setText(dateFormat.getInstance()
+                    .format(educator.getEmploymentDate().toDate()));
+        }
+        holder.status.setText(educator.getEmploymentStatus());
+        holder.position.setText(educator.getPosition());
 
-        if (holder.status.getText().equals("ACTIVE")) {
+        if (holder.status.getText().toString().equalsIgnoreCase("ACTIVE")) {
             holder.status.setTextColor(Color.GREEN);
         } else {
             holder.status.setTextColor(Color.RED);
         }
-         holder.userImage.setOnClickListener(new View.OnClickListener() {
+
+        if (holder.userImage.getBackground() == null)
+            Picasso.get().load(Uri.parse(educator.getImage())).error(R.drawable.user).fit().into(holder.userImage);
+        holder.userImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(context, "Position: " + (position+1), Toast.LENGTH_SHORT).show();
+            }
+        });
+        holder.layout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, ViewUser.class);
+                intent.putExtra("USERNAME", educator.getUsername());
+                intent.putExtra("TYPE", educator.getType());
+                intent.putExtra("FULL_NAME", educator.getFullname());
+                context.startActivity(intent);
             }
         });
     }
@@ -64,13 +89,16 @@ public class LCEducatorAdapter extends RecyclerView.Adapter<LCEducatorAdapter.LC
     public class LCEducatorHolder extends RecyclerView.ViewHolder {
 
         private CircleImageView userImage;
-        private TextView name, dateEmployed, status;
+        private TextView name, position, dateEmployed, status;
+        private LinearLayout layout;
 
         LCEducatorHolder(View itemView) {
             super(itemView);
 
+            layout = itemView.findViewById(R.id.lc_educator_layout);
             userImage = itemView.findViewById(R.id.lc_educator_user_image);
             name = itemView.findViewById(R.id.lc_educator_user_name);
+            position = itemView.findViewById(R.id.lc_educator_position);
             dateEmployed = itemView.findViewById(R.id.lc_educator_date_employed);
             status = itemView.findViewById(R.id.lc_educator_status);
         }

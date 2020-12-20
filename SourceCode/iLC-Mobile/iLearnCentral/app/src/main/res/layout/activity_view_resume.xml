@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_transparent_80"
+    android:fitsSystemWindows="true"
+    tools:context=".Activity.ViewResume">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/view_resume_app_bar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_bar_height"
+        android:background="@drawable/bg_toolbar"
+        android:fitsSystemWindows="true"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_behavior=".CustomBehavior.CustomAppBarLayoutBehavior">
+
+        <com.google.android.material.appbar.CollapsingToolbarLayout
+            android:id="@+id/view_resume_toolbar_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_linear_transparent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="@drawable/bg_toolbar"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:scrimAnimationDuration="500"
+            app:titleEnabled="false"
+            app:toolbarId="@+id/home_toolbar">
+
+            <LinearLayout
+                android:id="@+id/view_resume_profile_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center"
+                android:layout_marginBottom="45dp"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.6"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/view_resume_image"
+                    android:layout_width="@dimen/dp_diameter"
+                    android:layout_height="@dimen/dp_diameter"
+                    android:clickable="true"
+                    app:civ_border_color="@android:color/white"
+                    app:civ_border_width="3dp"/>
+
+                <TextView
+                    android:id="@+id/view_resume_full_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="3dp"
+                    android:text="User Name"
+                    android:shadowColor="#FFFFFF"
+                    android:shadowDx = "-2"
+                    android:shadowDy = "-2"
+                    android:shadowRadius = "1"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/view_resume_expertise"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="Field of Expertise"
+                    android:textColor="@android:color/white"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/view_resume_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_gravity="top"
+                android:layout_marginBottom="48dp"
+                android:paddingHorizontal="2dp"
+                app:layout_collapseMode="pin"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:title="">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_below="@+id/applicant_horizontal_divider_2"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/view_resume_hire_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_rounded_corners"
+                        android:backgroundTint="@android:color/holo_green_dark"
+                        android:clickable="true"
+                        android:minHeight="0dp"
+                        android:paddingVertical="5dp"
+                        android:text="HIRE"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/view_resume_reject_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_rounded_corners"
+                        android:backgroundTint="@android:color/holo_red_dark"
+                        android:clickable="true"
+                        android:minHeight="0dp"
+                        android:paddingVertical="5dp"
+                        android:text="REJECT"
+                        android:textColor="@android:color/white" />
+
+                    <Button
+                        android:id="@+id/view_resume_message_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:layout_marginEnd="3dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_button_rounded_corners"
+                        android:backgroundTint="@android:color/white"
+                        android:clickable="true"
+                        android:minHeight="0dp"
+                        android:paddingVertical="5dp"
+                        android:text="MESSAGE"
+                        android:textColor="@android:color/holo_blue_dark" />
+
+                </LinearLayout>
+            </androidx.appcompat.widget.Toolbar>
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/view_resume_sliding_tabs"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom|center"
+                android:background="@drawable/bg_white_transparent_10"
+                app:tabIndicatorHeight="40dp"
+                app:tabGravity="center"
+                app:tabMode="scrollable"
+                app:tabTextAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        </com.google.android.material.appbar.CollapsingToolbarLayout>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/view_resume_htab_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+    </androidx.viewpager.widget.ViewPager>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

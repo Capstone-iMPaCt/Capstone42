@@ -62,7 +62,6 @@ public class ViewLearningCenter extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (follow.getText().toString().equalsIgnoreCase("Follow")) {
-                    System.out.println(Account.me.getUsername() + " follows " + lc.getCenterId());
                     lc.addFollower(Account.me.getUsername());
                     Account.me.addFollowing(lc.getCenterId());
                     User.getUserByUsername(Account.getUsername()).addFollowing(lc.getCenterId());

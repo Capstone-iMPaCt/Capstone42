@@ -7,6 +7,7 @@
     app:cardCornerRadius="5dp">
 
     <LinearLayout
+        android:id="@+id/lc_educator_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
@@ -30,12 +31,12 @@
             android:text="Full Name" />
 
         <TextView
-            android:id="@+id/lc_educator_date_employed_label"
+            android:id="@+id/lc_educator_position"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/light_gray"
             android:gravity="center"
-            android:text="Date Employed"
+            android:text="Position"
             android:textColor="@color/colorPrimaryDark" />
 
         <TextView

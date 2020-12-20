@@ -115,6 +115,8 @@ public class Account {
             if (type == Type.Educator) {
                 setValidatedData("Position", profileData, "position");
                 setValidatedData("EmploymentStatus", profileData, "employmentStatus");
+                setValidatedData("EmploymentType", profileData, "employmentType");
+                setValidatedData("EmploymentDate", profileData, "employmentDate");
             } else if (type == Type.Student) {
                 setValidatedData("EnrolmentStatus", profileData, "enrolmentStatus");
             } else if (type == Type.LearningCenter) {
@@ -179,11 +181,19 @@ public class Account {
             if (hasKey("position"))
                 profileData.put("Position", getStringData("position"));
             else
-                profileData.put("Position", "none");
+                profileData.put("Position", "");
             if (hasKey("employmentStatus"))
                 profileData.put("EmploymentStatus", getStringData("employmentStatus"));
             else
                 profileData.put("EmploymentStatus", "none");
+            if (hasKey("employmentType"))
+                profileData.put("EmploymentType", getStringData("employmentType"));
+            else
+                profileData.put("EmploymentType", "");
+            if (hasKey("employmentDate"))
+                profileData.put("EmploymentDate", getStringData("employmentDate"));
+            else
+                profileData.put("EmploymentStatus", null);
         } else if (type == Type.Student) {
             if (hasKey("enrolmentStatus"))
                 profileData.put("EnrolmentStatus", getStringData("enrolmentStatus"));

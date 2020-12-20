@@ -5,13 +5,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,9 +28,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Adapter.AddUpdateResumeSingleListAdapter;
 import com.project.ilearncentral.Adapter.JobPostEducListAdapter;
@@ -77,7 +85,7 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
     private List<String> qualList, respList, skillList, appmList;
     private Button confirm, apply;
     private Switch status;
-
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +93,7 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
         setContentView(R.layout.activity_nve_job_post);
 
         bindLayout();
+        context = this;
 
         Intent i = getIntent();
         if (i.hasExtra("jobId")) {
@@ -374,36 +383,58 @@ public class NveJobPost extends AppCompatActivity implements View.OnClickListene
                 }
                 break;
             case R.id.job_post_nve_apply:
-                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setCancelable(true);
-                builder.setTitle("Apply Job Post");
-
-                final EditText input = new EditText(this);
-                input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
-                input.setLines(5);
-                input.setPadding(20, 0, 20,0);
-                input.setTextSize(16);
-                input.setHint(R.string.type_message);
-                input.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                builder.setView(input);
-
-                builder.setPositiveButton("Apply Now", new DialogInterface.OnClickListener() {
+                FirebaseFirestore.getInstance().collection("Resume")
+                        .whereEqualTo("Username", Account.getUsername())
+                        .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        apply.setText("APPLICATION SENT");
-                        apply.setClickable(false);
-                        apply.setBackgroundColor(Color.GRAY);
-                        JobApplication.sendResume(jobId, Account.getUsername(), input.getText().toString());
-                        dialogInterface.dismiss();
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful() && !task.getResult().isEmpty()) {
+
+                            final AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setCancelable(true);
+                            builder.setTitle("Apply Job Post");
+
+                            final EditText input = new EditText(context);
+                            input.setInputType(InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                            input.setLines(5);
+                            input.setPadding(20, 0, 20,0);
+                            input.setTextSize(16);
+                            input.setHint(R.string.type_message);
+                            input.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                            builder.setView(input);
+
+                            builder.setPositiveButton("Apply Now", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    apply.setText("APPLICATION SENT");
+                                    apply.setClickable(false);
+                                    apply.setBackgroundColor(Color.GRAY);
+                                    JobApplication.sendResume(jobId, Account.getUsername(), input.getText().toString());
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                            builder.create().show();
+                        } else {
+                            AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(context);
+                            dlgAlert.setMessage("You have no recorded resume, create one?");
+                            dlgAlert.setTitle("No Resume");
+                            dlgAlert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(context, AddUpdateResume.class));
+                                }
+                            });
+                            dlgAlert.setCancelable(true);
+                            dlgAlert.create().show();
+                        }
                     }
                 });
-                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                });
-                builder.create().show();
                 break;
         }
     }

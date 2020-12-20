@@ -201,13 +201,17 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
     }
 
     private void getImage(final ImageView imageView, String folderName, String filename) {
-        storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Glide.with(context).load(uri.toString()).error(R.drawable.white).fitCenter().into(imageView);
+        try {
+            storageRef.child(folderName).child(filename).getDownloadUrl()
+                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                        @Override
+                        public void onSuccess(Uri uri) {
+                            Glide.with(context).load(uri.toString()).error(R.drawable.white)
+                                    .fitCenter().into(imageView);
 //                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
-            }
-        });
+                        }
+                    });
+        }catch (Exception e){}
     }
 
     public class JobPostViewHolder extends RecyclerView.ViewHolder {

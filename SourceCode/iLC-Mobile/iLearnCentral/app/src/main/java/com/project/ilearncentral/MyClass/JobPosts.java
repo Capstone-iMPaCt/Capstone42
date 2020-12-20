@@ -18,6 +18,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
+import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.Post;
 
 import java.util.ArrayList;
@@ -122,9 +123,9 @@ public class JobPosts {
                             }
                             Log.d(TAG, document.getId() + " => " + document.getData());
                         }
-                        done.set(true);
+                        if (done!=null) done.set(true);
                     } else {
-                        done.set(false);
+                        if (done!=null) done.set(false);
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 }
@@ -239,6 +240,14 @@ public class JobPosts {
     public static JobVacancy getJobVacancyAt(int position) {
         if (position<jobPosts.size())
             return jobPosts.get(position);
+        return null;
+    }
+
+    public static JobVacancy getJobVacancyById(String jobVacancyId) {
+        for(JobVacancy job:jobPosts) {
+            if (job.getJobId().equalsIgnoreCase(jobVacancyId))
+                return job;
+        }
         return null;
     }
 
