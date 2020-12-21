@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.haozhang.lib.SlantedTextView;
+import com.project.ilearncentral.Activity.EnrolmentPayment;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
@@ -118,6 +119,16 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     intent.putExtra("courseId", course.getCourseId());
                     intent.putExtra("type", "edit");
                     context.startActivity(intent);*/
+                }
+            });
+            holder.enrollButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, EnrolmentPayment.class);
+                    intent.putExtra("Title", course.getCourseName());
+                    intent.putExtra("CourseID", course.getCourseId());
+                    intent.putExtra("Fee", course.getCourseFee());
+                    context.startActivity(intent);
                 }
             });
         } else if (Account.getStringData("centerId").equals(course.getCenterId())) {
