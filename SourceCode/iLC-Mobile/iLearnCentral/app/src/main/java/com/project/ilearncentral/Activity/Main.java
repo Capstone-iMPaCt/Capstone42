@@ -160,11 +160,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             if (Account.getType() == Account.Type.LearningCenter) {
                 fieldDisplay.setText(Account.getType().toString() + " | " + Utility
                         .caps(Account.getStringData("accessLevel")));
-                if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
-                    Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
-                            .apply(new RequestOptions().override(Utility.getScreenWidth(),
-                                    Utility.dpToPx(this, 256))).centerCrop().into(lcLogo);
-                }
             } else
                 fieldDisplay.setText(Account.getType().toString());
         }
@@ -213,6 +208,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
                             userImage.setVisibility(View.GONE);
                             lcLogo.setVisibility(View.VISIBLE);
+                            changeLCLogo();
                             break;
                         }
                     default:
@@ -357,6 +353,14 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 }
             }
         });
+    }
+
+    private void changeLCLogo() {
+        if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
+            Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
+                    .apply(new RequestOptions().override(Utility.getScreenWidth(),
+                            Utility.dpToPx(this, 256))).centerCrop().into(lcLogo);
+        }
     }
 
     @Override

@@ -1,39 +1,62 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.BankAccountDetail;
+import com.project.ilearncentral.MyClass.BankAccountList;
 import com.project.ilearncentral.R;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class NveCourse extends AppCompatActivity implements View.OnClickListener{
+public class NveCourse extends AppCompatActivity implements View.OnClickListener {
 
+    private static final String TAG = "NveCourse";
     private TextInputEditText timeStart, timeEnd, dateStart, dateEnd;
     private TimePickerDialog timePickerDialog;
     private DatePickerDialog datePickerDialog;
     private Calendar currentTime, currentDate;
 
-    private TextView sun, mon, tue, wed, thu, fri, sat;
+    private TextView sun, mon, tue, wed, thu, fri, sat, banksDetails;
     private boolean sunSelected, monSelected, tueSelected, wedSelected, thuSelected, friSelected, satSelected;
+    private Button addBankDetail, post;
+
+    public static List<BankAccountDetail> bankAccountList;
+    private BankAccountDetail bankAccountDetailRef;
+
+    private OnBooleanChangeListener bankDataListener;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // initialize bank account details
+        BankAccountList.data.clear();
+        bankAccountDetailRef.getDataFromDB(bankAccountList, bankDataListener);
+        setBankDetails();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nve_course);
 
-        bindLayout();
+        initialize();
 
         timeStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,8 +67,8 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
                 timePickerDialog = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String am_pm ;
-                        if(hourOfDay < 12) {
+                        String am_pm;
+                        if (hourOfDay < 12) {
                             am_pm = "AM";
                         } else {
                             hourOfDay -= 12;
@@ -68,8 +91,8 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
                 timePickerDialog = new TimePickerDialog(NveCourse.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String am_pm ;
-                        if(hourOfDay < 12) {
+                        String am_pm;
+                        if (hourOfDay < 12) {
                             am_pm = "AM";
                         } else {
                             hourOfDay -= 12;
@@ -132,9 +155,25 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
         thu.setOnClickListener(this);
         fri.setOnClickListener(this);
         sat.setOnClickListener(this);
+        addBankDetail.setOnClickListener(this);
     }
 
-    private void bindLayout() {
+    private void initialize() {
+        bankAccountDetailRef = new BankAccountDetail();
+        bankAccountList = new ArrayList<>();
+        bankDataListener = new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                if (value) {
+                    BankAccountList.data = bankAccountList;
+                    setBankDetails();
+                }
+            }
+        };
+
+        banksDetails = findViewById(R.id.course_nve_bank_account_details);
+        addBankDetail = findViewById(R.id.course_nve_add_bank_account);
+        post = findViewById(R.id.course_nve_button);
         timeStart = findViewById(R.id.course_nve_schedule_time_start);
         timeStart.setInputType(InputType.TYPE_NULL);
         timeEnd = findViewById(R.id.course_nve_schedule_time_end);
@@ -152,6 +191,20 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
         thu = findViewById(R.id.course_sched_day_thu);
         fri = findViewById(R.id.course_sched_day_fri);
         sat = findViewById(R.id.course_sched_day_sat);
+    }
+
+    private void setBankDetails() {
+        banksDetails.setText("");
+        if (bankAccountList.isEmpty())
+            banksDetails.setText("NONE");
+        else {
+            for (BankAccountDetail details : bankAccountList) {
+                if (banksDetails.getText().equals("NONE"))
+                    banksDetails.setText("* " + details.getBankName() + ": " + details.getBankAccountNumber() + "\n");
+                else
+                    banksDetails.append("* " + details.getBankName() + ": " + details.getBankAccountNumber() + "\n");
+            }
+        }
     }
 
     @Override
@@ -178,22 +231,24 @@ public class NveCourse extends AppCompatActivity implements View.OnClickListener
             case R.id.course_sched_day_sat:
                 satSelected = setSelection(sat, satSelected);
                 break;
+            case R.id.course_nve_add_bank_account:
+                startActivity(new Intent(getApplicationContext(), NveBankAccountDetail.class));
+                break;
         }
     }
 
-    private boolean setSelection(View view, boolean bool){
-        if (!bool){
+    private boolean setSelection(View view, boolean bool) {
+        if (!bool) {
             view.setBackgroundResource(R.drawable.bg_selected_day_rounded);
             return true;
-        }
-        else{
+        } else {
             view.setBackgroundResource(R.drawable.bg_unselected_day_rounded);
             return false;
         }
     }
 
-    private void hideKeyboard(){
-        InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+    private void hideKeyboard() {
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(timeStart.getWindowToken(), 0);
     }
 }

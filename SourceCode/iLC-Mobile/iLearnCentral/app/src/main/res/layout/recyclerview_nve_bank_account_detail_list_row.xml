@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nve_bank_account_detail_bank_name_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:counterEnabled="true"
+        app:counterMaxLength="20">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nve_bank_account_detail_bank_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_textinputlayout_border_rounded_corner"
+            android:hint="Bank Name"
+            android:inputType="textCapWords"
+            android:maxLength="20"
+            android:nextFocusDown="@id/nve_bank_account_detail_account_number"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nve_bank_account_detail_account_number_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginStart="10dp"
+        android:layout_weight="1"
+        app:counterEnabled="true"
+        app:counterMaxLength="20">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nve_bank_account_detail_account_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_textinputlayout_border_rounded_corner"
+            android:hint="Account #"
+            android:inputType="textCapWords|phone"
+            android:maxLength="20"
+            android:nextFocusDown="@id/nve_bank_account_detail_bank_name"
+            android:paddingHorizontal="10dp"
+            android:textSize="16sp" />
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

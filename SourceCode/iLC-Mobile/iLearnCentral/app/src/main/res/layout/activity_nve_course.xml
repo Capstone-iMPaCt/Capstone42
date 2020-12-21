@@ -19,12 +19,51 @@
             android:orientation="vertical"
             android:padding="20dp">
 
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/white"
+                app:cardCornerRadius="5dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/colorPrimary"
+                        android:text="Bank account details for enrolees payments:" />
+
+                    <TextView
+                        android:id="@+id/course_nve_bank_account_details"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingVertical="5dp"
+                        android:paddingHorizontal="20dp"
+                        android:textColor="@color/colorPrimary"
+                        android:text="NONE" />
+
+                    <Button
+                        android:id="@+id/course_nve_add_bank_account"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center|bottom"
+                        android:layout_marginTop="10dp"
+                        android:text="Add Bank Account Details"
+                        android:background="@color/colorAccent"
+                        android:textColor="@color/bt_white" />
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
             <Spinner
                 android:id="@+id/course_nve_type_spinner"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="25dp"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/input_white_bg_rounded"
                 android:entries="@array/course_type" />
@@ -283,10 +322,10 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/course_nve_schedule_header"
-                    android:layout_gravity="center"
-                    android:layout_toStartOf="@+id/course_nve_date_dash"
                     android:layout_alignParentStart="true"
+                    android:layout_gravity="center"
                     android:layout_marginTop="10dp"
+                    android:layout_toStartOf="@+id/course_nve_date_dash"
                     app:errorEnabled="true"
                     app:hintEnabled="false">
 
@@ -314,9 +353,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="45dp"
                     android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:layout_centerHorizontal="true"
                     android:gravity="center"
                     android:text="-" />
 
@@ -325,11 +364,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/course_nve_schedule_header"
+                    android:layout_alignParentEnd="true"
                     android:layout_gravity="center"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
                     android:layout_toEndOf="@+id/course_nve_time_dash"
-                    android:layout_alignParentEnd="true"
                     app:errorEnabled="true"
                     app:hintEnabled="false">
 
