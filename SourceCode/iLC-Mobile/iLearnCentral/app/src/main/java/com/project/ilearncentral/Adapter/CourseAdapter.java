@@ -85,7 +85,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             holder.editLink.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!Subscription.isEnrolmentSubscribed()){
+                    if (!Subscription.isEnrolmentSubscribed()) {
                         AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                         alertDialog.setTitle("Please subscribe");
                         alertDialog.setCancelable(true);
@@ -108,29 +108,9 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         } else {
             holder.editLink.setVisibility(View.GONE);
         }
-        if (Account.getType() == Account.Type.Student) {
+        if (Account.isType("Student")) {
             holder.enrollButton.setVisibility(View.VISIBLE);
             holder.closeCourseButton.setVisibility(View.GONE);
-            holder.enrollButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //Intent for opening enrol payment
-                    /*Intent intent = new Intent(context, NveCourse.class);
-                    intent.putExtra("courseId", course.getCourseId());
-                    intent.putExtra("type", "edit");
-                    context.startActivity(intent);*/
-                }
-            });
-            holder.enrollButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(context, EnrolmentPayment.class);
-                    intent.putExtra("Title", course.getCourseName());
-                    intent.putExtra("CourseID", course.getCourseId());
-                    intent.putExtra("Fee", course.getCourseFee());
-                    context.startActivity(intent);
-                }
-            });
         } else if (Account.getStringData("centerId").equals(course.getCenterId())) {
             holder.enrollButton.setVisibility(View.GONE);
             holder.closeCourseButton.setVisibility(View.VISIBLE);
@@ -143,15 +123,18 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.enrollButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                // TODO: codes here..
-
+                Intent intent = new Intent(context, EnrolmentPayment.class);
+                intent.putExtra("Title", course.getCourseName());
+                intent.putExtra("CourseID", course.getCourseId());
+                intent.putExtra("Fee", course.getCourseFee());
+//                course.getCenterName();
+                context.startActivity(intent);
             }
         });
         holder.closeCourseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Subscription.isEnrolmentSubscribed()){
+                if (!Subscription.isEnrolmentSubscribed()) {
                     AlertDialog alertDialog = new AlertDialog.Builder(context).create();
                     alertDialog.setTitle("Please subscribe");
                     alertDialog.setCancelable(true);

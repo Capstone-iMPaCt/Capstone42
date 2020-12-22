@@ -2,6 +2,7 @@ package com.project.ilearncentral.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +23,12 @@ public class EnrolmentPayment extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initialize();
 
-
+        layoutBinding.enrolmentPaymentCloseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     private void initialize(){
@@ -30,10 +36,9 @@ public class EnrolmentPayment extends AppCompatActivity {
         setContentView(layoutBinding.getRoot());
 
         intent = getIntent();
-        fee = Double.parseDouble(intent.getStringExtra("Fee"));
+        fee = Double.parseDouble(String.valueOf(intent.getDoubleExtra("Fee", 0)));
         courseID = intent.getStringExtra("CourseID");
         layoutBinding.enrolmentPaymentCourseTitle.setText(intent.getStringExtra("Title"));
         layoutBinding.enrolmentPaymentCourseFee.setText(Utility.showPriceInPHP(fee));
-        //setContentView(R.layout.activity_enrolment_payment);
     }
 }
