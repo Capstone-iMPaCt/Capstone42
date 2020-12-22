@@ -153,11 +153,11 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     }
 
     private void setDetails(int code) {
-        lc = LearningCenter.getLCById(Account.getCenterId());
         if (code != 3) {
             changeProfileImage();
             usernameDisplay.setText(Account.getName());
             if (Account.getType() == Account.Type.LearningCenter) {
+                lc = LearningCenter.getLCById(Account.getCenterId());
                 fieldDisplay.setText(Account.getType().toString() + " | " + Utility
                         .caps(Account.getStringData("accessLevel")));
             } else

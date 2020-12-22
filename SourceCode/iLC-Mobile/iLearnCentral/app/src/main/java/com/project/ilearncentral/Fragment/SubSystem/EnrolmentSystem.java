@@ -156,24 +156,24 @@ public class EnrolmentSystem extends Fragment {
                     startActivityForResult(new Intent(getContext(), NveCourse.class), NEW_COURSE);
                 }
             });
-            show = new ObservableBoolean();
-            show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-                @Override
-                public void onBooleanChanged(boolean newValue) {
-                    if (newValue) {
-                        course.clear();
-                        course.addAll(retrieved);
-                        if (course.isEmpty()) {
-                            noCoursesText.setVisibility(View.VISIBLE);
-                        } else {
-                            noCoursesText.setVisibility(View.GONE);
-                        }
-                        recyclerView.setAdapter(adapter);
-                        adapter.notifyDataSetChanged();
-                    }
-                }
-            });
         }
+        show = new ObservableBoolean();
+        show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean newValue) {
+                if (newValue) {
+                    course.clear();
+                    course.addAll(retrieved);
+                    if (course.isEmpty()) {
+                        noCoursesText.setVisibility(View.VISIBLE);
+                    } else {
+                        noCoursesText.setVisibility(View.GONE);
+                    }
+                    recyclerView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+        });
         final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.enrolment_pullToRefresh);
         pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -228,7 +228,8 @@ public class EnrolmentSystem extends Fragment {
     public void onResume() {
         super.onResume();
         retrieveCourses();
-        setSubscriptionStatus();
+        if (Account.isType("learningcenter"))
+            setSubscriptionStatus();
     }
 
     private void setSubscriptionStatus() {
