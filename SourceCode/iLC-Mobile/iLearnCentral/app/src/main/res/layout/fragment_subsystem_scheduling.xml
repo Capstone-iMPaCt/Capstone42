@@ -1,102 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/scheduling_root_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp"
-    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:fitsSystemWindows="true"
     tools:context=".Fragment.SubSystem.SchedulingSystem">
 
-    <LinearLayout
-        android:layout_width="wrap_content"
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/scheduling_app_bar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginBottom="5dp">
+        android:layout_margin="10dp"
+        android:background="@drawable/searchview_white_bg_rounded"
+        android:fitsSystemWindows="true">
 
-        <TextView
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Subscription ends in: "
-            android:textColor="@color/colorPrimary"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="free trial"
-            android:textStyle="italic"
-            android:textColor="@android:color/holo_red_light"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/scheduling_subscription_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textStyle="italic"
+                android:layout_marginBottom="5dp"
+                android:textColor="@color/colorAccent"
+                android:text="Subscription status here"
+                android:gravity="center"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_scrollFlags="scroll|enterAlways">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/scheduling_app_bar_searchview"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:contentInsetStart="0dp"
+                    android:contentInsetLeft="0dp"
+                    android:contentInsetEnd="0dp"
+                    android:contentInsetRight="0dp"
+                    app:contentInsetEnd="0dp"
+                    app:contentInsetLeft="0dp"
+                    app:contentInsetRight="0dp"
+                    app:contentInsetStart="0dp" />
+
+                <View
+                    android:id="@+id/scheduling_app_bar_vertical_line_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:layout_toStartOf="@id/scheduling_app_bar_option_button"
+                    android:background="@android:color/darker_gray" />
+
+                <ImageButton
+                    android:id="@+id/scheduling_app_bar_option_button"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:backgroundTint="@android:color/white"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:src="@drawable/ic_searchbar_menu_40px" />
+            </LinearLayout>
+        </LinearLayout>
+    </com.google.android.material.appbar.AppBarLayout>
 
     <TextView
+        android:id="@+id/scheduling_courses_none"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/fab_margin"
         android:gravity="center"
-        android:text="@string/my_activities_instruction"
-        android:layout_marginBottom="10dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Widget.PopupMenu.Small"
-        android:textColor="@color/colorAccent" />
+        android:text="No Classes"
+        android:textSize="20sp"
+        android:visibility="visible" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/dark_gray"
-        android:layout_marginVertical="5dp"/>
-
-    <LinearLayout
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/scheduling_pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="FROM:"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"/>
-
-        <EditText
-            android:id="@+id/user_activity_schedules_from"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/scheduling_recylerview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="hh:mm am/pm"
-            android:inputType="none"
-            android:focusable="false"
-            android:onClick="inputTime"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/bg_recyclerview"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TO:"
-            android:textColor="@color/colorPrimary"
-            android:textStyle="bold"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-        <EditText
-            android:id="@+id/user_activity_schedules_to"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="hh:mm am/pm"
-            android:inputType="none"
-            android:focusable="false"
-            android:onClick="inputTime"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"/>
-    </LinearLayout>
-
-    <Button
-        android:layout_width="match_parent"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scheduling_add_fab"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OPTIMIZE"
-        android:textColor="@android:color/white"
-        android:layout_marginVertical="10dp"
-        android:background="@drawable/button_color_primary"/>
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-</LinearLayout>
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        app:srcCompat="@drawable/add_icon" />
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -28,6 +28,7 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.ilearncentral.Activity.Enrollees;
+import com.project.ilearncentral.Activity.EnrolmentPaymentRecords;
 import com.project.ilearncentral.Activity.NveCourse;
 import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
@@ -60,7 +61,7 @@ public class EnrolmentSystem extends Fragment {
     private SearchView searchView;
     private Dialog dialog;
     private TextView noCoursesText, subscriptionExpiry;
-    private Button enrollees;
+    private Button enrollees, pendingEnrolees, paymentRecords;
     private ImageButton enrolmentViewOption;
 
     private FirebaseFirestore db;
@@ -116,6 +117,20 @@ public class EnrolmentSystem extends Fragment {
                         @Override
                         public void onClick(View view) {
                             startActivity(new Intent(getActivity(), Enrollees.class));
+                            dialog.dismiss();
+                        }
+                    });
+                    pendingEnrolees.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getActivity(), Enrollees.class));
+                            dialog.dismiss();
+                        }
+                    });
+                    paymentRecords.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(new Intent(getActivity(), EnrolmentPaymentRecords.class));
                             dialog.dismiss();
                         }
                     });
@@ -191,6 +206,8 @@ public class EnrolmentSystem extends Fragment {
 
         // Search Menu
         enrollees = dialog.findViewById(R.id.enrolment_search_option_enrollees);
+        pendingEnrolees = dialog.findViewById(R.id.enrolment_search_option_pending_enrolees);
+        paymentRecords = dialog.findViewById(R.id.enrolment_search_option_payment_records);
 
         db = FirebaseFirestore.getInstance();
     }

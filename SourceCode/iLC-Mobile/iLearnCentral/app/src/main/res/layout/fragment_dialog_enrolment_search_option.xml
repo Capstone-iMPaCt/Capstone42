@@ -15,7 +15,7 @@
         android:textColor="@color/colorPrimaryDark" />
 
     <Button
-        android:id="@+id/enrolment_search_option_1"
+        android:id="@+id/enrolment_search_option_pending_enrolees"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/white"
@@ -25,7 +25,7 @@
         android:textColor="@color/colorPrimaryDark" />
 
     <Button
-        android:id="@+id/enrolment_search_option_2"
+        android:id="@+id/enrolment_search_option_payment_records"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@android:color/white"

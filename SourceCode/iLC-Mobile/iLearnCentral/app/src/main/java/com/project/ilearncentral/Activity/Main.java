@@ -184,7 +184,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new EnrolmentSystem(), "Courses");
         }
-        adapter.addFragment(new SchedulingSystem(), "My Activies");
+        adapter.addFragment(new SchedulingSystem(), "Classes");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

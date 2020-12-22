@@ -15,8 +15,11 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.NveBankAccountDetail"/>
-        <activity android:name=".Activity.ViewResume"
+        <activity android:name=".Activity.EnrolmentPaymentRecords"></activity>
+        <activity android:name=".Activity.NveClass" />
+        <activity android:name=".Activity.NveBankAccountDetail" />
+        <activity
+            android:name=".Activity.ViewResume"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.EnrolmentPayment" />
         <activity
