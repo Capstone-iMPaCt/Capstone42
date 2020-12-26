@@ -98,12 +98,15 @@ public class Payment extends AppCompatActivity {
         layoutBinding.paymentGpayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(fee);
-                if (!paymentDataRequestJson.isPresent()) {
+//                Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(fee);
+                JSONObject paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(fee);
+                if (paymentDataRequestJson == null) {
                     return;
                 }
+//                PaymentDataRequest request =
+//                        PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
                 PaymentDataRequest request =
-                        PaymentDataRequest.fromJson(paymentDataRequestJson.get().toString());
+                        PaymentDataRequest.fromJson(paymentDataRequestJson.toString());
                 AutoResolveHelper.resolveTask(
                         paymentsClient.loadPaymentData(request),
                         Payment.this, LOAD_PAYMENT_DATA_REQUEST_CODE);

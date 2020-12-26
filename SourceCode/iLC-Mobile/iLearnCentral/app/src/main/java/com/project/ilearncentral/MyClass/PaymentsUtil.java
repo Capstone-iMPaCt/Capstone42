@@ -1,9 +1,6 @@
 package com.project.ilearncentral.MyClass;
 
 import android.app.Activity;
-import android.os.Build;
-
-import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
@@ -183,19 +180,18 @@ public class PaymentsUtil {
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#IsReadyToPayRequest">IsReadyToPayRequest</a>
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static Optional<JSONObject> getIsReadyToPayRequest() {
-        try {
-            JSONObject isReadyToPayRequest = getBaseRequest();
-            isReadyToPayRequest.put(
-                    "allowedPaymentMethods", new JSONArray().put(getBaseCardPaymentMethod()));
-
-            return Optional.of(isReadyToPayRequest);
-
-        } catch (JSONException e) {
-            return Optional.empty();
-        }
-    }
+//    public static Optional<JSONObject> getIsReadyToPayRequest() {
+//        try {
+//            JSONObject isReadyToPayRequest = getBaseRequest();
+//            isReadyToPayRequest.put(
+//                    "allowedPaymentMethods", new JSONArray().put(getBaseCardPaymentMethod()));
+//
+//            return Optional.of(isReadyToPayRequest);
+//
+//        } catch (JSONException e) {
+//            return Optional.empty();
+//        }
+//    }
 
     /**
      * Provide Google Pay API with a payment amount, currency, and amount status.
@@ -235,8 +231,8 @@ public class PaymentsUtil {
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#PaymentDataRequest">PaymentDataRequest</a>
      */
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    public static Optional<JSONObject> getPaymentDataRequest(double priceCents) {
+//    public static Optional<JSONObject> getPaymentDataRequest(double priceCents) {
+    public static JSONObject getPaymentDataRequest(double priceCents) {
 
         final String price = PaymentsUtil.centsToString(priceCents);
 
@@ -258,10 +254,12 @@ public class PaymentsUtil {
 //
 //            shippingAddressParameters.put("allowedCountryCodes", allowedCountryCodes);
 //            paymentDataRequest.put("shippingAddressParameters", shippingAddressParameters);
-            return Optional.of(paymentDataRequest);
+//            return Optional.of(isReadyToPayRequest);
+            return paymentDataRequest;
 
         } catch (JSONException e) {
-            return Optional.empty();
+//            return Optional.empty();
+            return null;
         }
     }
 
