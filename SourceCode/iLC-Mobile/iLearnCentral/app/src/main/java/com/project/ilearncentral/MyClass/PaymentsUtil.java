@@ -1,6 +1,9 @@
 package com.project.ilearncentral.MyClass;
 
 import android.app.Activity;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
@@ -180,6 +183,7 @@ public class PaymentsUtil {
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#IsReadyToPayRequest">IsReadyToPayRequest</a>
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Optional<JSONObject> getIsReadyToPayRequest() {
         try {
             JSONObject isReadyToPayRequest = getBaseRequest();
@@ -231,6 +235,7 @@ public class PaymentsUtil {
      * @see <a
      * href="https://developers.google.com/pay/api/android/reference/object#PaymentDataRequest">PaymentDataRequest</a>
      */
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static Optional<JSONObject> getPaymentDataRequest(double priceCents) {
 
         final String price = PaymentsUtil.centsToString(priceCents);

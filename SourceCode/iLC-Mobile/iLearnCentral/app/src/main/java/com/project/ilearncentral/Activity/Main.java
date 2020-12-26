@@ -232,6 +232,25 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_subscription_button:
+                if (!Account.isType("LearningCenter")) {
+                    String accountType = "";
+                    if (Account.isType("Educator"))
+                        accountType = "Educator";
+                    else
+                        accountType = "Student";
+                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
+                    alertDialog.setTitle("Access denied!");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("There are no subscription features for " + accountType + " accounts yet.");
+                    alertDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            });
+                    alertDialog.show();
+                    break;
+                }
                 if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0) {
                     android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                     alertDialog.setTitle("Access denied!");

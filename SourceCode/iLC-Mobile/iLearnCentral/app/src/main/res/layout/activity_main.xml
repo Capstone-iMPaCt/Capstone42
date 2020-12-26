@@ -25,18 +25,19 @@
             android:fitsSystemWindows="true"
             app:contentScrim="@drawable/bg_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:scrimAnimationDuration="500"
+            app:scrimAnimationDuration="300"
             app:titleEnabled="false"
             app:toolbarId="@+id/home_toolbar">
 
             <ImageView
                 android:id="@+id/user_learning_center_logo"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/transparent"
                 android:layout_marginTop="-30dp"
                 android:src="@drawable/logo_icon"
-                android:visibility="gone"/>
+                android:visibility="gone"
+                app:layout_collapseMode="parallax" />
 
             <LinearLayout
                 android:id="@+id/user_pages_profile_view"

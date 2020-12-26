@@ -19,17 +19,9 @@ import java.util.Map;
 
 public class BankAccountDetail {
     private final String TAG = "BankAccountDetail";
-
-    private FirebaseFirestore db;
-    private DocumentReference ref;
-
     private String bankName, bankAccountNumber;
 
     public BankAccountDetail() {
-        db = FirebaseFirestore.getInstance();
-        ref = db.collection("LearningCenter")
-                .document(Account.getCenterId());
-
         bankName = "";
         bankAccountNumber = "";
     }
@@ -55,9 +47,38 @@ public class BankAccountDetail {
         this.bankAccountNumber = bankAccountNumber;
     }
 
-    public void getDataFromDB(final List<BankAccountDetail> bankAccountDetailList, final OnBooleanChangeListener changeListener) {
+    public static void getDataFromDB(final List<BankAccountDetail> bankAccountDetailList, final OnBooleanChangeListener changeListener) {
         FirebaseFirestore.getInstance().collection("LearningCenter")
                 .document(Account.getCenterId())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            List<Map<String, String>> bankAccounts = (List<Map<String, String>>)
+                                    task.getResult().get("BankAccounts");
+                            if (bankAccounts != null) {
+                                for (Map<String, String> detail : bankAccounts) {
+                                    BankAccountDetail temp = new BankAccountDetail();
+                                    for (Map.Entry entry : detail.entrySet()) {
+                                        if (entry.getKey().equals("BankName")) {
+                                            temp.setBankName(entry.getValue().toString());
+                                        } else if (entry.getKey().equals("AccountNo")) {
+                                            temp.setBankAccountNumber(entry.getValue().toString());
+                                        }
+                                    }
+                                    bankAccountDetailList.add(temp);
+                                }
+                                changeListener.onBooleanChanged(true);
+                            }
+                        }
+                    }
+                });
+    }
+
+    public static void getDataByCenterID(String centerID, final List<BankAccountDetail> bankAccountDetailList, final OnBooleanChangeListener changeListener) {
+        FirebaseFirestore.getInstance().collection("LearningCenter")
+                .document(centerID)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
@@ -98,7 +119,9 @@ public class BankAccountDetail {
             bankAccount.put("BankAccounts", arrayMap);
         }
         Log.d(TAG, bankAccount.get("BankAccounts").toString());
-        ref.update(bankAccount);
+        FirebaseFirestore.getInstance().collection("LearningCenter")
+                .document(Account.getCenterId())
+                .update(bankAccount);
         return true;
     }
 }

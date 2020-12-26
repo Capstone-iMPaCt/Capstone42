@@ -13,35 +13,64 @@
         android:background="@android:color/white"
         android:padding="5dp">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/course_user_display_image"
-            android:layout_width="@dimen/post_user_image_lw"
-            android:layout_height="@dimen/post_user_image_lw"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/ic_account_circle_black_24dp" />
+        <LinearLayout
+            android:id="@+id/course_header_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:orientation="horizontal">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/course_user_display_image"
+                android:layout_width="@dimen/post_user_image_lw"
+                android:layout_height="@dimen/post_user_image_lw"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_account_circle_black_24dp" />
+
+            <TextView
+                android:id="@+id/course_user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="5dp"
+                android:gravity="start|center"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:text="Learning Center Name"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/course_edit_link"
+                android:layout_width="23dp"
+                android:layout_height="19dp"
+                android:background="@drawable/edit_icon"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/course_horizontal_line_top_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/course_header_layout"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
 
         <TextView
             android:id="@+id/course_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/course_horizontal_line_top_divider"
             android:layout_marginHorizontal="5dp"
-            android:layout_toStartOf="@+id/course_edit_link"
-            android:layout_toEndOf="@+id/course_user_display_image"
+            android:layout_marginStart="55dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
             android:gravity="start|center"
             android:padding="5dp"
             android:text="Course Title"
-            android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/course_edit_link"
-            android:layout_width="23dp"
-            android:layout_height="19dp"
-            android:layout_alignParentEnd="true"
-            android:background="@drawable/edit_icon"
             android:textColor="@color/colorPrimary"
-            android:textSize="16sp" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/course_description"
@@ -49,8 +78,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/course_title"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="55dp"
             android:padding="5dp"
             android:text="Course Description"
             android:textColor="@color/colorPrimary" />
@@ -60,9 +89,9 @@
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_below="@+id/course_description"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
-            android:background="@drawable/time_icon"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="55dp"
+            android:background="@drawable/operating_days_icon"
             android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
@@ -70,222 +99,38 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/course_description"
+            android:layout_alignTop="@+id/course_schedule_label"
+            android:layout_alignBottom="@+id/course_schedule_label"
             android:layout_marginStart="5dp"
             android:layout_toEndOf="@+id/course_schedule_label"
             android:orientation="horizontal"
             android:padding="5dp">
 
             <TextView
-                android:id="@+id/course_schedule_time_start"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time Start"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/course_schedule_time_dash"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" - "
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark" />
-
-            <TextView
-                android:id="@+id/course_schedule_time_end"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Time End"
-                android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark" />
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/course_schedule_days"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/course_schedule_container"
-            android:layout_marginVertical="0dp"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/course_schedule_label"
-            android:paddingBottom="5dp">
-
-            <TextView
-                android:id="@+id/course_sched_day_sun"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Sun"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_mon"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Mon"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/course_sched_day_tue"
-                app:layout_constraintStart_toEndOf="@+id/course_sched_day_sun"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_tue"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Tue"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/course_sched_day_wed"
-                app:layout_constraintStart_toEndOf="@+id/course_sched_day_mon"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_wed"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Wed"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/course_sched_day_thu"
-                app:layout_constraintStart_toEndOf="@+id/course_sched_day_tue"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_thu"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Thu"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/course_sched_day_fri"
-                app:layout_constraintStart_toEndOf="@+id/course_sched_day_wed"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_fri"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Fri"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/course_sched_day_sat"
-                app:layout_constraintStart_toEndOf="@+id/course_sched_day_thu"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/course_sched_day_sat"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:background="@drawable/bg_unselected_day_rounded"
-                android:gravity="center"
-                android:text="Sat"
-                android:textAllCaps="false"
-                android:textColor="@android:color/white"
-                android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-        <TextView
-            android:id="@+id/course_schedule_date_label"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_below="@+id/course_schedule_days"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
-            android:background="@drawable/operating_days_icon"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <LinearLayout
-            android:id="@+id/course_schedule_date_container"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/course_instructor"
-            android:layout_below="@+id/course_schedule_days"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/course_schedule_date_label"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:orientation="horizontal"
-            android:padding="5dp"
-            android:textColor="@color/colorPrimaryDark">
-
-            <TextView
                 android:id="@+id/course_schedule_date_start"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Date Start"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/course_schedule_date_dash"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text=" - "
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorPrimaryDark" />
 
             <TextView
                 android:id="@+id/course_schedule_date_end"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:text="Date End"
-                android:textAlignment="center"
+                android:gravity="center"
                 android:textColor="@color/colorPrimaryDark" />
 
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/course_instructor_label"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_below="@+id/course_schedule_date_label"
-            android:layout_marginHorizontal="5dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
-            android:background="@drawable/teacher_icon"
-            android:textColor="@color/colorPrimaryDark" />
-
-        <TextView
-            android:id="@+id/course_instructor"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/course_schedule_date_label"
-            android:layout_marginStart="5dp"
-            android:layout_toEndOf="@+id/course_instructor_label"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:padding="5dp"
-            android:textColor="@color/colorPrimaryDark" />
 
         <LinearLayout
             android:id="@+id/course_fee_layout"
@@ -293,7 +138,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
-            android:layout_toEndOf="@+id/course_instructor_label"
+            android:layout_toEndOf="@+id/course_schedule_container"
             android:orientation="vertical">
 
             <com.haozhang.lib.SlantedTextView
@@ -308,20 +153,19 @@
         </LinearLayout>
 
         <View
-            android:id="@+id/course_horizontal_line_divider"
+            android:id="@+id/course_horizontal_line_bottom_divider"
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_below="@+id/course_instructor"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="3dp"
-            android:layout_toEndOf="@+id/course_user_display_image"
+            android:layout_below="@+id/course_schedule_container"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="5dp"
             android:background="@android:color/darker_gray" />
 
         <Button
             android:id="@+id/course_enroll_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/course_horizontal_line_divider"
+            android:layout_below="@id/course_horizontal_line_bottom_divider"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/holo_green_dark"
             android:minHeight="0dp"
@@ -333,7 +177,7 @@
             android:id="@+id/course_close_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/course_horizontal_line_divider"
+            android:layout_below="@id/course_horizontal_line_bottom_divider"
             android:layout_alignParentEnd="true"
             android:backgroundTint="@android:color/holo_red_dark"
             android:minHeight="0dp"

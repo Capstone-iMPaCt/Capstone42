@@ -63,21 +63,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.CourseViewHo
         holder.courseDescription.setText(course.getCourseDescription());
         holder.scheduleFrom.setText(Utility.getStringFromDate(course.getScheduleFrom()));
         holder.scheduleTo.setText(Utility.getStringFromDate(course.getScheduleTo()));
-        if (course.getCourseInstructor().isEmpty()) {
-            holder.instructorLabel.setVisibility(View.GONE);
-            holder.instructor.setVisibility(View.GONE);
-        } else {
-            holder.instructorLabel.setVisibility(View.VISIBLE);
-            holder.instructor.setVisibility(View.VISIBLE);
-            holder.instructor.setText(course.getCourseInstructor());
-        }
-        checkDay(course, "Mon", holder.monday);
-        checkDay(course, "Tue", holder.tuesday);
-        checkDay(course, "Wed", holder.wednesday);
-        checkDay(course, "Thu", holder.thursday);
-        checkDay(course, "Fri", holder.friday);
-        checkDay(course, "Sat", holder.saturday);
-        checkDay(course, "Sun", holder.sunday);
         holder.courseFee.setText(Utility.showPriceInPHP(course.getCourseFee()));
         holder.userImage.setVisibility(View.INVISIBLE);
         if (Account.getCenterId().equalsIgnoreCase(course.getCenterId())) {
@@ -135,9 +120,12 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.CourseViewHo
             holder.enrollButton.setVisibility(View.GONE);
             holder.closeCourseButton.setVisibility(View.VISIBLE);
         } else if (Account.isType("LearningCenter")) {
-            holder.itemView.findViewById(R.id.course_horizontal_line_divider).setVisibility(View.GONE);
+            holder.itemView.findViewById(R.id.course_horizontal_line_bottom_divider).setVisibility(View.GONE);
             holder.enrollButton.setVisibility(View.GONE);
             holder.closeCourseButton.setVisibility(View.GONE);
+
+            holder.userImage.setVisibility(View.GONE);
+//            holder.
         }
 
         holder.enrollButton.setOnClickListener(new View.OnClickListener() {
@@ -190,11 +178,6 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.CourseViewHo
         });
     }
 
-    private void checkDay(Course c, String text, View v) {
-        if (c.getScheduleDays().contains(text))
-            v.setBackgroundResource(R.drawable.bg_selected_day_rounded);
-    }
-
     @Override
     public int getItemCount() {
         return courses.size();
@@ -219,11 +202,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.CourseViewHo
             editLink = itemView.findViewById(R.id.course_edit_link);
             courseName = itemView.findViewById(R.id.course_title);
             courseDescription = itemView.findViewById(R.id.course_description);
-            scheduleFrom = itemView.findViewById(R.id.course_schedule_time_start);
-            scheduleTo = itemView.findViewById(R.id.course_schedule_time_end);
-            instructor = itemView.findViewById(R.id.course_instructor);
-            instructorLabel = itemView.findViewById(R.id.course_instructor_label);
-//            courseFeeLabel = itemView.findViewById(R.id.course_fee_label);
+            scheduleFrom = itemView.findViewById(R.id.course_schedule_date_start);
+            scheduleTo = itemView.findViewById(R.id.course_schedule_date_end);
             courseFee = itemView.findViewById(R.id.course_fee);
             monday = itemView.findViewById(R.id.course_sched_day_mon);
             tuesday = itemView.findViewById(R.id.course_sched_day_tue);

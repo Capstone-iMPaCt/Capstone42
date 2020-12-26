@@ -21,8 +21,6 @@ public class NveBankAccountDetail extends AppCompatActivity {
     private AddUpdateBankAccountDetailListAdapter adapter;
     private BankAccountDetail data;
 
-    private FirebaseFirestore db;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +62,6 @@ public class NveBankAccountDetail extends AppCompatActivity {
     private void initialize() {
         layoutBinding = ActivityNveBankAccountDetailBinding.inflate(getLayoutInflater());
         setContentView(layoutBinding.getRoot());
-        db = FirebaseFirestore.getInstance();
         data = new BankAccountDetail();
 
         layoutBinding.nveBankAccountRecyclerview.setLayoutManager(new LinearLayoutManager(this));
