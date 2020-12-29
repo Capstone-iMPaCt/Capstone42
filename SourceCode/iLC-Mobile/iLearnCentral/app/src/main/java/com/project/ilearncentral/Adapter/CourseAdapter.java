@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -92,9 +93,24 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     intent.putExtra("BusinessName", course.getCenterName());
                     intent.putExtra("Title", course.getCourseName());
                     intent.putExtra("Fee", course.getCourseFee());
+                    intent.putExtra("CourseID", course.getCourseId());
+                    intent.putExtra("DateCourseStarts", course.getScheduleFrom().toDate().getTime());
+                    intent.putExtra("DateCourseEnds", course.getScheduleTo().toDate().getTime());
                     context.startActivity(intent);
                 }
             });
+            if (course.isPending()) {
+                holder.enrollButton.setText("PENDING");
+                holder.enrollButton.setEnabled(false);
+                holder.enrollButton.setTextColor(Color.YELLOW);
+                holder.enrollButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
+            }
+            if (course.isEnrolled()) {
+                holder.enrollButton.setText("ENROLLED");
+                holder.enrollButton.setEnabled(false);
+                holder.enrollButton.setTextColor(Color.GREEN);
+                holder.enrollButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
+            }
         } else if (Account.isType("Educator")) {
             getImage(holder.userImage, "images/", course.getCenterId());
             holder.userImage.setVisibility(View.VISIBLE);

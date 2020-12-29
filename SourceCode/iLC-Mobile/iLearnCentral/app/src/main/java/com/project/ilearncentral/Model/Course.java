@@ -36,6 +36,9 @@ public class Course {
     private Map<String, Object> course;
     private static List<Course> retrieved = new ArrayList<>();
 
+    private boolean enrolled = false;
+    private boolean pending = false;
+
     public Course() {
         this.course = new HashMap<>();
         this.courseId = "";
@@ -160,6 +163,22 @@ public class Course {
     public void setScheduleTo(Timestamp scheduleTo) {
         this.scheduleTo = scheduleTo;
         this.course.put("ScheduleTo", scheduleTo);
+    }
+
+    public boolean isEnrolled() {
+        return enrolled;
+    }
+
+    public void setEnrolled(boolean enrolled) {
+        this.enrolled = enrolled;
+    }
+
+    public boolean isPending() {
+        return pending;
+    }
+
+    public void setPending(boolean pending) {
+        this.pending = pending;
     }
 
     public static List<Course> getRetrieved() {

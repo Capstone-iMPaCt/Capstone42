@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.SearchView;
@@ -34,6 +36,7 @@ import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
@@ -49,10 +52,13 @@ public class EnrolmentSystem extends Fragment {
     private static final String TAG = "EnrolmentSystem";
     private CourseAdapter adapter;
     private RecyclerView recyclerView;
-    private List<Course> course;
-    private List<Course> retrieved;
+    private List<Course> courseList;
+    private List<Course> pendingCourseList;
+    private List<Course> enrolledCourseList;
+    private List<Course> retrievedList;
+    private List<Enrolment> enrolmentList;
 
-    private ObservableBoolean show;
+    private ObservableBoolean show, enrolmentStatusListener, courseListener;
     private boolean isSubscribed;
 
     private FloatingActionButton addNewCourseBtn;
@@ -60,6 +66,7 @@ public class EnrolmentSystem extends Fragment {
 
     private SearchView searchView;
     private Dialog dialog;
+    private TextView all, enrolled, pending;
     private TextView noCoursesText, subscriptionExpiry;
     private Button enrollees, pendingEnrolees, paymentRecords;
     private ImageButton enrolmentViewOption;
@@ -86,13 +93,41 @@ public class EnrolmentSystem extends Fragment {
         window.setLayout(Utility.dpToPx(getContext(), 300), LinearLayout.LayoutParams.WRAP_CONTENT);
 
         bindLayout(view);
-        course = new ArrayList<>();
 
         if (Account.isType("Student")) {
             subscriptionExpiry.setVisibility(View.GONE);
             view.findViewById(R.id.enrolment_app_bar_vertical_line_divider).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_option_horizontal_divider).setVisibility(View.VISIBLE);
             view.findViewById(R.id.enrolment_app_bar_option_button).setVisibility(View.GONE);
+            view.findViewById(R.id.enrolment_app_bar_options_layout).setVisibility(View.VISIBLE);
             addNewCourseBtn.setVisibility(View.GONE);
+            all.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setTextViewFocusEffect(all);
+                    courseList.clear();
+                    courseList.addAll(retrievedList);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            enrolled.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setTextViewFocusEffect(enrolled);
+                    courseList.clear();
+                    courseList.addAll(enrolledCourseList);
+                    adapter.notifyDataSetChanged();
+                }
+            });
+            pending.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    setTextViewFocusEffect(pending);
+                    courseList.clear();
+                    courseList.addAll(pendingCourseList);
+                    adapter.notifyDataSetChanged();
+                }
+            });
         } else if (Account.isType("LearningCenter")) {
             enrolmentViewOption.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -162,15 +197,43 @@ public class EnrolmentSystem extends Fragment {
             @Override
             public void onBooleanChanged(boolean newValue) {
                 if (newValue) {
-                    course.clear();
-                    course.addAll(retrieved);
-                    if (course.isEmpty()) {
+                    courseList.clear();
+                    courseList.addAll(retrievedList);
+                    if (courseList.isEmpty()) {
                         noCoursesText.setVisibility(View.VISIBLE);
                     } else {
                         noCoursesText.setVisibility(View.GONE);
                     }
                     recyclerView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
+                }
+            }
+        });
+        courseListener = new ObservableBoolean();
+        enrolmentStatusListener = new ObservableBoolean();
+        enrolmentStatusListener.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                if (value) {
+                    for (Course course : retrievedList) {
+                        for (Enrolment enrolment : enrolmentList) {
+                            if (course.getCourseId().equals(enrolment.getCourseID())
+                                    && enrolment.getEnrolmentStatus().equals("pending")
+                                    && enrolment.getStudentID().equals(Account.getUsername())
+                                    && !pendingCourseList.contains(course)) {
+                                pendingCourseList.add(course);
+                                course.setPending(true);
+                                adapter.notifyDataSetChanged();
+                            } else if (course.getCourseId().equals(enrolment.getCourseID())
+                                    && enrolment.getEnrolmentStatus().equals("enrolled")
+                                    && enrolment.getStudentID().equals(Account.getUsername())
+                                    && !enrolledCourseList.contains(course)) {
+                                enrolledCourseList.add(course);
+                                course.setEnrolled(true);
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
                 }
             }
         });
@@ -187,9 +250,8 @@ public class EnrolmentSystem extends Fragment {
                 pullToRefresh.setRefreshing(false);
             }
         });
-
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new CourseAdapter(getContext(), course);
+        adapter = new CourseAdapter(getContext(), courseList);
         recyclerView.setAdapter(adapter);
         retrieveCourses();
 
@@ -200,6 +262,9 @@ public class EnrolmentSystem extends Fragment {
         subscriptionExpiry = view.findViewById(R.id.enrolment_subscription_status);
         searchView = view.findViewById(R.id.enrolment_app_bar_searchview);
         enrolmentViewOption = view.findViewById(R.id.enrolment_app_bar_option_button);
+        all = view.findViewById(R.id.enrolment_app_bar_option_all);
+        enrolled = view.findViewById(R.id.enrolment_app_bar_option_enrolled);
+        pending = view.findViewById(R.id.enrolment_app_bar_option_pending);
         noCoursesText = view.findViewById(R.id.enrolment_courses_none);
         addNewCourseBtn = view.findViewById(R.id.enrolment_add_fab);
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
@@ -210,16 +275,21 @@ public class EnrolmentSystem extends Fragment {
         paymentRecords = dialog.findViewById(R.id.enrolment_search_option_payment_records);
 
         db = FirebaseFirestore.getInstance();
+        courseList = new ArrayList<>();
+        enrolmentList = new ArrayList<>();
+        pendingCourseList = new ArrayList<>();
+        enrolledCourseList = new ArrayList<>();
     }
 
     private void retrieveCourses() {
-        retrieved = Course.getRetrieved();
+        retrievedList = Course.getRetrieved();
         if (Account.getType() == Account.Type.Student) {
-            retrieved = Course.filterCourses(retrieved, "status", "open");
+            retrievedList = Course.filterCourses(retrievedList, "status", "open");
+            Enrolment.getDataByID("studentID", Account.getUsername(), enrolmentList, enrolmentStatusListener);
         } else if (Account.getType() == Account.Type.Educator) {
-            retrieved = Course.filterCourses(retrieved, "instructor", Account.getName());
+            retrievedList = Course.filterCourses(retrievedList, "instructor", Account.getName());
         } else {
-            retrieved = Course.getCoursesByCenterId(Account.getCenterId());
+            retrievedList = Course.getCoursesByCenterId(Account.getCenterId());
         }
         show.set(true);
     }
@@ -262,5 +332,17 @@ public class EnrolmentSystem extends Fragment {
                         }
                     }
                 });
+    }
+
+    private void setTextViewFocusEffect(TextView view) {
+        retrieveCourses();
+        all.setTextColor(Color.GRAY);
+        enrolled.setTextColor(Color.GRAY);
+        pending.setTextColor(Color.GRAY);
+        view.setTextColor(Color.CYAN);
+    }
+
+    private void toastMessage(String message) {
+        Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();
     }
 }

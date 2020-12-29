@@ -106,7 +106,7 @@ public class ImageHandler {
         }
     }
 
-    protected boolean checkPermission() {
+    public boolean checkPermission() {
         boolean allowed = true;
         PackageManager pm = context.getPackageManager();
         int hasCam = pm.checkPermission(Manifest.permission.CAMERA, context.getPackageName());

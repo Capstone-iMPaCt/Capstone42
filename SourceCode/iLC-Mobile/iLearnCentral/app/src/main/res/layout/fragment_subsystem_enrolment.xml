@@ -69,6 +69,70 @@
                     android:gravity="center"
                     android:src="@drawable/ic_searchbar_menu_40px" />
             </LinearLayout>
+
+            <View
+                android:id="@+id/enrolment_app_bar_option_horizontal_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginHorizontal="3dp"
+                android:background="@android:color/darker_gray"
+                android:visibility="gone"/>
+
+            <LinearLayout
+                android:id="@+id/enrolment_app_bar_options_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/educator_tab_app_bar_horizontal_line_divider"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/enrolment_app_bar_option_all"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="ALL"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:id="@+id/enrolment_app_bar_option_vertical_leftline_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/enrolment_app_bar_option_enrolled"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="ENROLLED"
+                    android:textColor="@color/dark_gray" />
+
+                <View
+                    android:id="@+id/enrolment_app_bar_option_vertical_rightline_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:background="@android:color/darker_gray" />
+
+                <TextView
+                    android:id="@+id/enrolment_app_bar_option_pending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginVertical="5dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:gravity="center"
+                    android:text="PENDING"
+                    android:textColor="@color/dark_gray" />
+            </LinearLayout>
         </LinearLayout>
     </com.google.android.material.appbar.AppBarLayout>
 
