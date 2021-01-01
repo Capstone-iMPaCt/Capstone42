@@ -7,295 +7,215 @@ import androidx.annotation.NonNull;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Class {
-    private String courseId;
-    private String centerId;
-    private String courseStatus;
-    private String courseType;
-    private double courseFee;
-    private String courseName;
-    private String courseDescription;
-    private Timestamp scheduleFrom;
-    private Timestamp scheduleTo;
-    private List<String> scheduleDays;
-    private String courseInstructor;
-    private static List<Class> retrieved = new ArrayList<>();
+
+    private String classId;
+    private String eduID, courseID;
+    private Educator educator;
+    private Course course;
+    private Timestamp classStart, classEnd;
+    private String roomNo;
+    public String status;
+    public static List<Class> retrieved = new ArrayList<>();
 
     public Class() {
-        this.courseId = "";
-        this.courseStatus = "open";
-        this.courseType = "";
-        this.courseFee = 0.0;
-        this.courseName = "";
-        this.courseDescription = "";
-        this.scheduleFrom = Timestamp.now();
-        this.scheduleTo = Timestamp.now();
-        this.scheduleDays = new ArrayList<String>();
-        this.courseInstructor = "";
+        this.classId = eduID = courseID = "";
+        this.educator = null;
+        this.course = null;
+        this.classStart = Timestamp.now();
+        this.classEnd = Timestamp.now();
+        this.roomNo = "";
+        this.status = "";
     }
 
-    public Class(String courseId, String centerId, String courseStatus, String courseType, double courseFee, String courseName, String courseDescription, Timestamp ScheduleFrom, Timestamp ScheduleTo, List<String> ScheduleDays, String courseInstructor) {
-        this.courseId = courseId;
-        this.centerId = centerId;
-        this.courseStatus = courseStatus;
-        this.courseType = courseType;
-        this.courseFee = courseFee;
-        this.courseName = courseName;
-        this.courseDescription = courseDescription;
-        this.scheduleFrom = ScheduleFrom;
-        this.scheduleTo = ScheduleTo;
-        this.scheduleDays = ScheduleDays;
-        this.courseInstructor = courseInstructor;
+    public String getClassId() {
+        return classId;
     }
 
-    public void setCourse(Class otherCourse) {
-        this.courseId = otherCourse.getCourseId();
-        this.centerId = otherCourse.getCenterId();
-        this.courseStatus = otherCourse.getCourseStatus();
-        this.courseType = otherCourse.getCourseType();
-        this.courseFee = otherCourse.getCourseFee();
-        this.courseName = otherCourse.getCourseName();
-        this.courseDescription = otherCourse.getCourseDescription();
-        this.scheduleFrom = otherCourse.getScheduleFrom();
-        this.scheduleTo = otherCourse.getScheduleTo();
-        this.scheduleDays = otherCourse.getScheduleDays();
-        this.courseInstructor = otherCourse.getCourseInstructor();
+    public void setClassId(String classId) {
+        this.classId = classId;
     }
 
-    public String getCourseId() {
-        return courseId;
+    public String getEduID() {
+        return eduID;
     }
 
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    public void setEduID(String eduID) {
+        this.eduID = eduID;
     }
 
-    public String getCenterId() {
-        return centerId;
+    public String getCourseID() {
+        return courseID;
     }
 
-    public void setCenterId(String centerId) {
-        this.centerId = centerId;
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
     }
 
-    public String getCourseStatus() {
-        return courseStatus;
+    public Educator getEducator() {
+        return educator;
     }
 
-    public void setCourseStatus(String courseStatus) {
-        this.courseStatus = courseStatus;
+    public void setEducator(Educator educator) {
+        this.educator = educator;
     }
 
-    public String getCourseType() {
-        return courseType;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCourseType(String courseType) {
-        this.courseType = courseType;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
-    public double getCourseFee() {
-        return courseFee;
+    public Timestamp getClassStart() {
+        return classStart;
     }
 
-    public void setCourseFee(double courseFee) {
-        this.courseFee = courseFee;
+    public void setClassStart(Timestamp classStart) {
+        this.classStart = classStart;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public Timestamp getClassEnd() {
+        return classEnd;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setClassEnd(Timestamp classEnd) {
+        this.classEnd = classEnd;
     }
 
-    public String getCourseDescription() {
-        return courseDescription;
+    public String getRoomNo() {
+        return roomNo;
     }
 
-    public void setCourseDescription(String courseDescription) {
-        this.courseDescription = courseDescription;
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
     }
 
-    public Timestamp getScheduleFrom() {
-        return scheduleFrom;
+    public String getStatus() {
+        return status;
     }
 
-    public void setScheduleFrom(Timestamp scheduleFrom) {
-        this.scheduleFrom = scheduleFrom;
-    }
-
-    public Timestamp getScheduleTo() {
-        return scheduleTo;
-    }
-
-    public void setScheduleTo(Timestamp scheduleTo) {
-        this.scheduleTo = scheduleTo;
-    }
-
-    public List<String> getScheduleDays() {
-        return scheduleDays;
-    }
-
-    public void setScheduleDays(List<String> scheduleDays) {
-        this.scheduleDays = scheduleDays;
-    }
-
-    public void addScheduleDay(String value) {
-        scheduleDays.add(value);
-    }
-
-    public String getCourseInstructor() {
-        return courseInstructor;
-    }
-
-    public void setCourseInstructor(String courseInstructor) {
-        this.courseInstructor = courseInstructor;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public static List<Class> getRetrieved() {
         return retrieved;
     }
 
-    public static void setRetrieved(List<Class> otherRetrieved) {
-        retrieved = otherRetrieved;
+    public void setClass(Class otherClass) {
+        this.classId = otherClass.getClassId();
+        this.eduID = otherClass.getEduID();
+        this.courseID = otherClass.getCourseID();
+        this.educator = otherClass.getEducator();
+        this.course = otherClass.getCourse();
+        this.classStart = otherClass.getClassStart();
+        this.classEnd = otherClass.getClassEnd();
+        this.roomNo = otherClass.getRoomNo();
+        this.status = otherClass.getStatus();
     }
 
-    public static void retrieveCoursesFromDB(final ObservableBoolean done) {
-        FirebaseFirestore.getInstance().collection("Course")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                try {
-                                    Class course = new Class();
-                                    course.setCourseId(document.getId());
-                                    course.setCenterId(document.getString("CenterID"));
-                                    course.setCourseStatus(document.getString("CourseStatus"));
-                                    course.setCourseType(document.getString("CourseType"));
-                                    course.setCourseFee(document.getDouble("CourseFee"));
-                                    course.setCourseName(document.getString("CourseName"));
-                                    course.setCourseDescription(document
-                                            .getString("CourseDescription"));
-                                    course.setScheduleFrom(document
-                                            .getTimestamp("ScheduleFrom"));
-                                    course.setScheduleTo(document
-                                            .getTimestamp("ScheduleTo"));
-                                    course.setCourseInstructor(document
-                                            .getString("CourseInstructor"));
+    public static void retrieveClassesFromDB(String courseID, String classStatus, final ObservableBoolean done) {
+        final String TAG = "Class Model";
+        retrieved.clear();
+        if (classStatus.isEmpty() ||classStatus == null) {
+            FirebaseFirestore.getInstance().collection("Class")
+                    .whereEqualTo("CourseID", courseID)
+                    .orderBy("ClassStart")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            processDBResult(task, TAG, done);
+                        }
+                    });
+        } else {
+            FirebaseFirestore.getInstance().collection("Class")
+                    .whereEqualTo("CourseID", courseID)
+                    .whereEqualTo("Status", classStatus)
+                    .orderBy("ClassStart")
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            processDBResult(task, TAG, done);
+                        }
+                    });
+        }
+    }
 
-                                    List<String> op = (List<String>) document
-                                            .get("ScheduleDays");
-                                    for (int i = 0; i < op.size(); i++) {
-                                        course.addScheduleDay(op.get(i));
-                                    }
-
-                                    int pos = getCoursePositionById(document.getId());
-                                    if (pos == -1) {
-                                        retrieved.add(course);
-                                    } else {
-                                        retrieved.get(pos).setCourse(course);
-                                    }
-                                    Log.d("getCourses", "Course item retrieved: " + document
-                                            .getId());
-                                } catch (Exception e) {
-                                    Log.d("getCourses", "Course item not retrieved: " + e
-                                            .getMessage());
-                                }
-                            }
-                            if (done!=null) done.set(true);
-                        } else {
-                            if (done!=null) done.set(false);
-                            Log.d("getCourses", "Error getting documents: ", task.getException());
+    private static void processDBResult(@NonNull Task<QuerySnapshot> task, String TAG, ObservableBoolean done) {
+        if (task.isSuccessful()) {
+            for (QueryDocumentSnapshot document : task.getResult()) {
+                Class c = new Class();
+                c.setClassId(document.getId());
+                c.setRoomNo(document.getString("RoomNo"));
+                c.setEduID(document.getString("EducatorID"));
+                c.setCourseID(document.getString("CourseID"));
+                c.setClassStart(document.getTimestamp("ClassStart"));
+                c.setClassEnd(document.getTimestamp("ClassEnd"));
+                c.setEducator(Educator.getEduByUsername(document.getString("EducatorID")));
+                c.setCourse(Course.getCourseById(document.getString("CourseID")));
+                c.setStatus(document.getString("Status"));
+                if (c.getStatus().equalsIgnoreCase("Open") || c.getStatus().equalsIgnoreCase("Ongoing")) {
+                    if (c.getClassStart()!=null) {
+                        if (c.getClassStart().compareTo(Timestamp.now()) <= 0 && c.getClassEnd()
+                                .compareTo(Timestamp.now()) >= 0) {
+                            c.setStatus("Ongoing");
+                            FirebaseFirestore.getInstance().collection("Class")
+                                    .document(document.getId()).update("Status", "Ongoing");
+                        } else if (c.getClassEnd().compareTo(Timestamp.now()) < 0) {
+                            c.setStatus("Close");
+                            FirebaseFirestore.getInstance().collection("Class")
+                                    .document(document.getId()).update("Status", "Close");
                         }
                     }
-                });
+                }
+                    retrieved.add(c);
+                Log.d(TAG, document.getId());
+            }
+            if (done != null) done.set(true);
+        } else {
+            if (done != null) done.set(false);
+            Log.d(TAG, "Error getting documents: ", task.getException());
+        }
     }
 
-    public static int getCoursePositionById(String courseId) {
-        for (int i = 0; i < retrieved.size(); i++) {
-            if (retrieved.get(i).getCourseId().equals(courseId))
+    public static void addNewClassToDB(final Class aClass) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("CourseID", aClass.getCourseID());
+        data.put("EducatorID", aClass.getEduID());
+        data.put("RoomNo", aClass.getRoomNo());
+        data.put("Status", aClass.getStatus());
+        data.put("ClassStart", aClass.getClassStart());
+        data.put("ClassEnd", aClass.getClassEnd());
+        FirebaseFirestore.getInstance().collection("Class").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentReference> task) {
+                aClass.setClassId(task.getResult().getId());
+            }
+        });
+    }
+
+    public static int getClassPositionById(String classId) {
+        for (int i=0; i<retrieved.size();i++) {
+            if (retrieved.get(i).getClassId().equals(classId))
                 return i;
         }
         return -1;
-    }
-
-    public static Class getCourseById(String courseId) {
-        for (int i = 0; i < retrieved.size(); i++) {
-            if (retrieved.get(i).getCourseId().equals(courseId))
-                return retrieved.get(i);
-        }
-        return null;
-    }
-
-    public static List<Class> getCoursesByCenterId(String centerId) {
-        List<Class> courses = new ArrayList<Class>();
-        for (int i = 0; i < retrieved.size(); i++) {
-            if (retrieved.get(i).getCenterId().equals(centerId))
-                courses.add(retrieved.get(i));
-        }
-        return courses;
-    }
-
-    public static List<Class> getCoursesByCenterIdWithStatus(String centerId, String status) {
-        List<Class> courses = getCoursesByCenterId(centerId);
-        for (int i = 0; i < retrieved.size(); i++) {
-            if (!retrieved.get(i).getCourseStatus().equalsIgnoreCase(status))
-                courses.remove(retrieved.get(i));
-        }
-        return courses;
-    }
-
-    public static List<Class> filterCourses(List<Class> courses, String filterBy, String filterValue) {
-        filterValue = filterValue.toLowerCase().trim();
-        List<Class> filteredCourse = new ArrayList<Class>();
-        for (Class course:courses) {
-            switch (filterBy.toLowerCase()) {
-                case "status":
-                    if (filterValue.equalsIgnoreCase(course.getCourseStatus())) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                case "type":
-                    if (course.getCourseType().contains(filterValue)) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                case "name":
-                    if (course.getCourseName().contains(filterValue)) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                case "description":
-                    if (course.getCourseDescription().contains(filterValue)) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                case "instructor":
-                    if (course.getCourseInstructor().contains(filterValue)) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                case "days":
-                    if (course.getScheduleDays().contains(filterValue)) {
-                        filteredCourse.add(course);
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-        return filteredCourse;
     }
 }

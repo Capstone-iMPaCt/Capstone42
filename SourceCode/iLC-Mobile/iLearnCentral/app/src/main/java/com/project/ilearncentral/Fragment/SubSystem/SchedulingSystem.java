@@ -1,21 +1,75 @@
 package com.project.ilearncentral.Fragment.SubSystem;
 
-import android.app.TimePickerDialog;
+import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TimePicker;
+import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.Activity.NveClass;
+import com.project.ilearncentral.Adapter.ClassAdapter;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomBehavior.ObservableString;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
+import com.project.ilearncentral.Model.Class;
+import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
-import java.util.Calendar;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class SchedulingSystem extends Fragment {
-    
+
+    private static final String TAG = "SchedulingSystem";
+    private ClassAdapter adapter;
+    private RecyclerView recyclerView;
+    private List<Class> classes;
+    private Map<String, String> courses;
+
+    private Dialog dialog;
+    private Spinner coursesSpinner;
+    private TextView subscriptionStatus, noClass;
+    private FloatingActionButton addNewClassBtn;
+    private Button okDialog, clearDialog;
+    private ImageButton viewOption;
+    private RadioGroup status;
+    private RadioButton openStatus, closeStatus, cancelledStatus, ongoingStatus, requestingStatus;
+
+    private ObservableBoolean loadedClass, isLoading;
+    private ObservableString statusChange;
+    private String courseID;
+    private String statusCurrent;
+
     public SchedulingSystem() {
         // Required empty public constructor
     }
@@ -28,14 +82,240 @@ public class SchedulingSystem extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_subsystem_scheduling, container, false);
+        final View view = inflater.inflate(R.layout.fragment_subsystem_scheduling, container, false);
         super.onCreate(savedInstanceState);
         initialize(view);
+
+        classes = new ArrayList<>();
+        courses = new HashMap<>();
+        courseID = "";
+        statusCurrent = "";
+        setCourseSpinner();
+        statusChange = new ObservableString();
+        loadedClass = new ObservableBoolean();
+        loadedClass.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    isLoading.set(false);
+                    classes.addAll(Class.getRetrieved());
+                    adapter.notifyDataSetChanged();
+                    if (classes.isEmpty()) {
+                        noClass.setVisibility(View.VISIBLE);
+                        noClass.setText("No Classes Found");
+                    } else {
+                        noClass.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+        isLoading = new ObservableBoolean();
+        isLoading.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean loading) {
+                if (loading) {
+                    coursesSpinner.setEnabled(false);
+                    viewOption.setEnabled(false);
+                } else {
+                    coursesSpinner.setEnabled(true);
+                    viewOption.setEnabled(true);
+                }
+            }
+        });
+
+        addNewClassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), NveClass.class);
+                intent.putExtra("classID", "");
+                intent.putExtra("courseID", courseID);
+                intent.putExtra("action", "add");
+                startActivity(intent);
+            }
+        });
+
+        coursesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                String selected = coursesSpinner.getSelectedItem().toString();
+                courseID = selected.substring(selected.indexOf("- ")+2);
+                classesLoading();
+                Class.retrieveClassesFromDB(courseID, "", loadedClass);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                noClass.setText("Please Choose Course");
+            }
+
+        });
+
+        final SwipeRefreshLayout pullToRefresh = view.findViewById(R.id.scheduling_pullToRefresh);
+        pullToRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                pullToRefresh.setRefreshing(false);
+                if (!courseID.isEmpty()) {
+                    classesLoading();
+                    Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                }
+            }
+        });
+
+        viewOption.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.setCancelable(true);
+                dialog.show();
+                okDialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        classesLoading();
+                        String msg = "";
+                        if (status.getCheckedRadioButtonId() == openStatus.getId()) {
+                            msg += "OPEN: ";
+                            statusCurrent = "Open";
+                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        } else if (status.getCheckedRadioButtonId() == closeStatus.getId()) {
+                            msg += "CLOSE: ";
+                            statusCurrent = "Close";
+                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        } else if (status.getCheckedRadioButtonId() == cancelledStatus.getId()) {
+                            msg += "CANCELLED: ";
+                            statusCurrent = "Cancelled";
+                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        } else if (status.getCheckedRadioButtonId() == ongoingStatus.getId()) {
+                            msg += "ONGOING: ";
+                            statusCurrent = "Ongoing";
+                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        } else if (status.getCheckedRadioButtonId() == requestingStatus.getId()) {
+                            msg += "REQUESTING: ";
+                            statusCurrent = "Requesting";
+                        }
+                        Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0,0);
+                        toast.show();
+                        dialog.dismiss();
+                    }
+                });
+                clearDialog.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        status.clearCheck();
+                        statusCurrent = "";
+                        Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                        classesLoading();
+                        Toast toast = Toast.makeText(getContext(), "Cleared filters", Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0,0);
+                        toast.show();
+                        dialog.dismiss();
+                    }
+                });
+            }
+        });
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new ClassAdapter(getContext(), classes, statusChange);
+        recyclerView.setAdapter(adapter);
 
         return view;
     }
 
-    private void initialize(View view){
+    private void classesLoading() {
+        classes.clear();
+        isLoading.set(true);
+        adapter.notifyDataSetChanged();
+        noClass.setVisibility(View.VISIBLE);
+        noClass.setText("Please Wait. Class List Loading.");
+    }
 
+    private void setCourseSpinner() {
+        courses.clear();
+        noClass.setText("Loading Courses. Please wait.");
+        if (Account.getType() == Account.Type.LearningCenter) {
+            addNewClassBtn.setVisibility(View.VISIBLE);
+            for (Course course : Course.getCoursesByCenterId(Account.getCenterId())) {
+                courses.put(course.getCourseId(), course.getCourseName());
+            }
+            List<String> courseSpin = new ArrayList<>();
+            for (Map.Entry<String, String> entry : courses.entrySet()) {
+                courseSpin.add(entry.getValue() + " - " + entry.getKey());
+            }
+            ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courseSpin);
+            aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            coursesSpinner.setAdapter(aadapter);
+            noClass.setText("Please Choose Course");
+        } else if (Account.getType() == Account.Type.Educator) {
+            addNewClassBtn.setVisibility(View.GONE);
+            FirebaseFirestore.getInstance().collection("Course").whereArrayContains("Educators", Account.getUsername())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Course course = Course.getCourseById(document.getId());
+                                    if (course!=null) {
+                                        courses.put(course.getCourseId(), course.getCourseName());
+                                    }
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                                noClass.setText("Please Choose Course");
+                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courses.values());
+                                aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                coursesSpinner.setAdapter(aadapter);
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        } else if (Account.getType() == Account.Type.Student) {
+            addNewClassBtn.setVisibility(View.GONE);
+            FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("StudentID", Account.getUsername())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Course course = Course.getCourseById(document.getId());
+                                    if (course!=null) {
+                                        courses.put(course.getCourseId(), course.getCourseName());
+                                    }
+                                    Log.d(TAG, document.getId() + " => " + document.getData());
+                                }
+                                noClass.setText("Please Choose Course");
+                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courses.values());
+                                aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                coursesSpinner.setAdapter(aadapter);
+                            } else {
+                                Log.d(TAG, "Error getting documents: ", task.getException());
+                            }
+                        }
+                    });
+        }
+    }
+
+    private void initialize(View view){
+        dialog = new Dialog(getContext());
+        dialog.setContentView(R.layout.fragment_dialog_filter_classes);
+        Window window = dialog.getWindow();
+        window.setLayout(Utility.dpToPx(getContext(), 300), LinearLayout.LayoutParams.WRAP_CONTENT);
+        status = dialog.findViewById(R.id.class_status_filter_group);
+        openStatus = dialog.findViewById(R.id.class_status_filter_open);
+        closeStatus = dialog.findViewById(R.id.class_status_filter_close);
+        cancelledStatus = dialog.findViewById(R.id.class_status_filter_cancelled);
+        ongoingStatus = dialog.findViewById(R.id.class_status_filter_ongoing);
+        requestingStatus = dialog.findViewById(R.id.class_status_filter_requesting);
+        okDialog = dialog.findViewById(R.id.class_filter_option_ok);
+        clearDialog = dialog.findViewById(R.id.class_filter_option_clear);
+
+        coursesSpinner = view.findViewById(R.id.scheduling_app_bar_spinner);
+        subscriptionStatus = view.findViewById(R.id.scheduling_subscription_status);
+        noClass = view.findViewById(R.id.scheduling_classes_none);
+        addNewClassBtn = view.findViewById(R.id.scheduling_add_fab);
+        viewOption = view.findViewById(R.id.scheduling_app_bar_option_button);
+        recyclerView = view.findViewById(R.id.scheduling_recylerview);
     }
 }

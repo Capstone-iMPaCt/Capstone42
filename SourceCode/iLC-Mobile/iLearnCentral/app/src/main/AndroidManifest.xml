@@ -22,15 +22,18 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.EnrolmentPaymentRecords"
+        <activity
+            android:name=".Activity.EnrolmentPaymentRecords"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.NveClass" />
-        <activity android:name=".Activity.NveBankAccountDetail"
+        <activity
+            android:name=".Activity.NveBankAccountDetail"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".Activity.ViewResume"
             android:configChanges="orientation|screenSize" />
-        <activity android:name=".Activity.EnrolmentPayment"
+        <activity
+            android:name=".Activity.EnrolmentPayment"
             android:configChanges="orientation|screenSize" />
         <activity
             android:name=".Activity.Payment"
@@ -140,7 +143,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"/>
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

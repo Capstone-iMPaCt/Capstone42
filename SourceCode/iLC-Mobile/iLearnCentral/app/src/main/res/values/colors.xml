@@ -26,5 +26,6 @@
     <color name="rating_count_color">#E91E63</color>
     <color name="bg_recyclerview">#EEEEEE</color>
     <color name="yellow">#FFEB3B</color>
+    <color name="holo_red">#CC0000</color>
 
 </resources>

@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <RadioGroup
+        android:id="@+id/class_status_filter_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp">
+
+        <TextView
+            android:id="@+id/class_status_filter_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Class Status" />
+
+        <RadioButton
+            android:id="@+id/class_status_filter_open"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Open" />
+
+        <RadioButton
+            android:id="@+id/class_status_filter_close"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Close" />
+
+        <RadioButton
+            android:id="@+id/class_status_filter_cancelled"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Cancelled" />
+
+        <RadioButton
+            android:id="@+id/class_status_filter_ongoing"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Ongoing" />
+        <RadioButton
+            android:id="@+id/class_status_filter_requesting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:checked="false"
+            android:text="Requesting" />
+    </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="2"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/class_filter_option_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="OK"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/class_filter_option_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="Clear"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+</LinearLayout>

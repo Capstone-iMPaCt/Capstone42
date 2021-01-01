@@ -39,11 +39,14 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -103,6 +106,24 @@ public class Utility {
             name += middleName.toUpperCase().charAt(0) + ". ";
         name += lastName;
         return name;
+    }
+
+    public static Date addDays(Date date, int days)
+    {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        cal.add(Calendar.DATE, days); //minus number would decrement the days
+        return cal.getTime();
+    }
+
+    public static String getDayString(Date date) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal.get(Calendar.DAY_OF_WEEK) + "";
+    }
+
+    public static String getDateAsString(Date date) {
+        return dateFormat.format(date);
     }
 
     public static void getFullName(final String username, final ObservableString fullname) {
@@ -261,6 +282,11 @@ public class Utility {
         return dateFormat.format(value.toDate());
     }
 
+    public static String getStringFromDateFull(Timestamp value) {
+        SimpleDateFormat format = new SimpleDateFormat("MMMM dd, yyyy");
+        return format.format(value.toDate());
+    }
+
     public static Timestamp getTimeFromString(String value) {
         Timestamp t;
         try {
@@ -273,6 +299,11 @@ public class Utility {
 
     public static String getStringFromTime(Timestamp value) {
         return timeFormat.format(value.toDate());
+    }
+
+    public static String getStringFromDay(Timestamp value) {
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+        return dayFormat.format(value.toDate());
     }
 
     // convert integer to pixel

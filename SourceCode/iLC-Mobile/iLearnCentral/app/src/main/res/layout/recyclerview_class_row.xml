@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="10dp"
+    android:layout_marginTop="10dp">
+
+    <RelativeLayout
+        android:id="@+id/class_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:padding="5dp">
+
+        <TextView
+            android:id="@+id/class_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginStart="55dp"
+            android:layout_alignParentStart="true"
+            android:gravity="start"
+            android:padding="5dp"
+            android:textSize="14sp"
+            android:text="Class Date"
+            android:textStyle="bold"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/class_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginStart="55dp"
+            android:layout_alignParentEnd="true"
+            android:gravity="right"
+            android:padding="5dp"
+            android:textSize="14sp"
+            android:text="Day"
+            android:textColor="@color/colorPrimary"/>
+        <TextView
+            android:id="@+id/class_schedule_label"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_below="@id/class_date"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="55dp"
+            android:background="@drawable/operating_days_icon"
+            android:textColor="@color/colorPrimaryDark" />
+
+        <LinearLayout
+            android:id="@+id/class_time_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/class_date"
+            android:layout_alignTop="@+id/class_schedule_label"
+            android:layout_alignBottom="@+id/class_schedule_label"
+            android:layout_marginStart="5dp"
+            android:layout_toEndOf="@+id/class_schedule_label"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <TextView
+                android:id="@+id/class_schedule_time_start"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Time Start"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/class_schedule_time_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text=" - "
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+            <TextView
+                android:id="@+id/class_schedule_time_end"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Time End"
+                android:gravity="center"
+                android:textColor="@color/colorPrimaryDark" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/class_educator_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginStart="55dp"
+            android:layout_below="@+id/class_schedule_label"
+            android:layout_alignParentStart="true"
+            android:gravity="start|center"
+            android:padding="5dp"
+            android:text="Educator Name"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/class_room_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/class_schedule_label"
+            android:layout_alignParentEnd="true"
+            android:gravity="right"
+            android:padding="5dp"
+            android:text="Room No."
+            android:textColor="@color/colorPrimary" />
+
+        <LinearLayout
+            android:id="@+id/class_status_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/class_room_no"
+            android:orientation="vertical">
+
+            <com.haozhang.lib.SlantedTextView
+                android:id="@+id/class_status"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:slantedBackgroundColor="@android:color/holo_red_dark"
+                app:slantedLength="30dp"
+                app:slantedMode="left_bottom"
+                app:slantedTextColor="@android:color/white"
+                app:slantedTextSize="10sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/class_horizontal_line_bottom_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@+id/class_room_no"
+            android:layout_marginLeft="60dp"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <Button
+            android:id="@+id/class_enroll_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/class_horizontal_line_bottom_divider"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/holo_green_dark"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
+            android:text="ENROLL"
+            android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/class_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/class_horizontal_line_bottom_divider"
+            android:layout_alignParentEnd="true"
+            android:backgroundTint="@android:color/holo_blue_dark"
+            android:minHeight="0dp"
+            android:paddingVertical="10dp"
+            android:text="VIEW RECORDS"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -89,7 +89,7 @@ public class SplashScreen extends AppCompatActivity {
         allLoaded.setOnIntegerChangeListener(new OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int value) {
-                if (value == 6) {
+                if (value >= 6) {
                     finish();
                 }
             }

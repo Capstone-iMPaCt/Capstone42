@@ -1,9 +1,545 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".Activity.NveClass">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <TextView
+        android:id="@+id/class_nve_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:text="Create Class" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <RadioGroup
+        android:id="@+id/class_nve_type_radiogroup"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="2" >
+
+        <RadioButton
+            android:id="@+id/class_nve_single"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:checked="true"
+            android:text="Single" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="@android:color/darker_gray" />
+
+        <RadioButton
+            android:id="@+id/class_nve_recurring"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:text="Recurring" />
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/class_room_no"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/class_nve_schedule_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="true"
+        android:inputType="textMultiLine"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:textSize="15sp"
+        android:text="Errors: "
+        android:textColor="@color/design_default_color_error" />
+
+    <LinearLayout
+        android:id="@+id/class_nve_single_layout"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_transparent_rounded"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/class_nve_schedule_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="15dp"
+                android:textSize="20dp"
+                android:text="Schedule"
+                android:textColor="@color/colorPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_schedule_date_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_schedule_header"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginLeft="50dp"
+                android:layout_marginRight="50dp"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_schedule_date"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Date"
+                    android:inputType="none"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_schedule_time_start_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_schedule_date_layout"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:layout_toStartOf="@+id/class_nve_time_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_schedule_time_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Time Start"
+                    android:inputType="none"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/class_nve_time_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_below="@id/class_nve_schedule_date_layout"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:gravity="center"
+                android:text="-" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_schedule_time_end_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_schedule_date_layout"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@+id/class_nve_time_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_schedule_time_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Time End"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/class_nve_recurring_layout"
+        android:orientation="vertical"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_transparent_rounded"
+            android:paddingHorizontal="10dp">
+
+            <TextView
+                android:id="@+id/class_nve_r_header"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="10dp"
+                android:paddingVertical="15dp"
+                android:textSize="20dp"
+                android:text="Schedule"
+                android:textColor="@color/colorPrimary" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_r_date_start_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_r_header"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/class_nve_date_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_r_date_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Date Start"
+                    android:inputType="none"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/class_nve_date_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_below="@id/class_nve_r_header"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="-" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_r_date_end_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_r_header"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/class_nve_date_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_r_date_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Date End"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_r_time_start_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_date_dash"
+                android:layout_alignParentStart="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_toStartOf="@+id/class_nve_r_time_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_r_time_start"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Time Start"
+                    android:inputType="none"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/class_nve_r_time_dash"
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:layout_below="@id/class_nve_date_dash"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+                android:text="-" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/class_nve_r_time_end_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/class_nve_date_dash"
+                android:layout_alignParentEnd="true"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_toEndOf="@+id/class_nve_r_time_dash"
+                app:errorEnabled="true"
+                app:hintEnabled="false">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/class_nve_r_time_end"
+                    android:layout_width="match_parent"
+                    android:layout_height="45dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/input_white_bg_rounded"
+                    android:drawablePadding="20dp"
+                    android:focusable="false"
+                    android:hint="Time End"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/text_color"
+                    android:textColorHighlight="@color/mint_blue"
+                    android:textColorHint="@color/text_hint_color"
+                    android:textColorLink="@color/light_blue" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </RelativeLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp">
+
+            <TextView
+                android:id="@+id/class_nve_days_label"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="5dp"
+                android:text="Days Repeat"
+                android:textAlignment="center"
+                android:textColor="@color/light_blue"
+                android:textSize="14sp"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <CheckBox
+                android:id="@+id/class_nve_monday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/mon_text"
+                android:checked="true"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
+
+            <CheckBox
+                android:id="@+id/class_nve_tuesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/tue_text"
+                android:checked="true"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/class_nve_wednesday"
+                app:layout_constraintStart_toEndOf="@id/class_nve_monday"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
+
+            <CheckBox
+                android:id="@+id/class_nve_wednesday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/wed_text"
+                android:checked="true"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/class_nve_thursday"
+                app:layout_constraintStart_toEndOf="@id/class_nve_tuesday"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
+
+            <CheckBox
+                android:id="@+id/class_nve_thursday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/thu_text"
+                android:checked="true"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@id/class_nve_friday"
+                app:layout_constraintStart_toEndOf="@id/class_nve_wednesday"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
+
+            <CheckBox
+                android:id="@+id/class_nve_friday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/fri_text"
+                android:checked="true"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
+
+            <CheckBox
+                android:id="@+id/class_nve_saturday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/sat_text"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/class_nve_tuesday"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_tuesday" />
+
+            <CheckBox
+                android:id="@+id/class_nve_sunday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/sun_text"
+                android:textSize="12sp"
+                app:layout_constraintStart_toStartOf="@id/class_nve_thursday"
+                app:layout_constraintTop_toBottomOf="@id/class_nve_thursday" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/class_nve_both_layout"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <Spinner
+            android:id="@+id/class_nve_edu_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/input_white_bg_rounded"
+            />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/class_nve_room_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="20dp"
+            app:errorEnabled="true"
+            app:hintEnabled="false">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_nve_room"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/input_white_bg_rounded"
+                android:drawablePadding="20dp"
+                android:focusable="true"
+                android:hint="Room No."
+                android:inputType="textCapWords"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Spinner
+            android:id="@+id/class_nve_status_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/input_white_bg_rounded"
+            android:entries="@array/class_status" />
+
+        <Button
+            android:id="@+id/class_nve_ok_button"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|bottom"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/button_color_primary"
+            android:text="Submit"
+            android:textColor="@color/text_view_background" />
+    </LinearLayout>
+</androidx.appcompat.widget.LinearLayoutCompat>

@@ -159,5 +159,12 @@
         <item>Open</item>
         <item>Closed</item>
     </string-array>
+    <string-array name="class_status">
+        <item>- Select Class Status -</item>
+        <item>Open</item>
+        <item>Close</item>
+        <item>Ongoing</item>
+        <item>Cancelled</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>
