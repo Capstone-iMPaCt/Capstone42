@@ -137,6 +137,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
     }
 
     private void getImage(final ImageView imageView, String folderName, String filename) {
+        try {
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -150,6 +151,7 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
                 imageView.setVisibility(View.GONE);
             }
         });
+        } catch (Exception e) {}
     }
 
     public class PostViewHolder extends RecyclerView.ViewHolder {

@@ -5,7 +5,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
@@ -16,6 +20,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.gms.wallet.WalletConstants;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -116,6 +121,24 @@ public class Utility {
         return cal.getTime();
     }
 
+    public static Timestamp getCompleteTimestamp(String dateString, View dateView, View timeView) {
+        Timestamp timestamp;
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
+        String timestampString = "";
+        if (dateView!=null)
+            timestampString = ((TextInputEditText)dateView).getText().toString() + " ";
+        else
+            timestampString = dateString + " ";
+        timestampString += ((TextInputEditText)timeView).getText().toString();
+        try {
+            timestamp = new Timestamp(format.parse(timestampString));
+        } catch (ParseException e) {
+            timestamp = null;
+        }
+        return timestamp;
+    }
+
+
     public static String getDayString(Date date) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
@@ -124,6 +147,16 @@ public class Utility {
 
     public static String getDateAsString(Date date) {
         return dateFormat.format(date);
+    }
+
+    public static void selectSpinnerItemByValue(Spinner spnr, String value) {
+        SimpleCursorAdapter adapter = (SimpleCursorAdapter) spnr.getAdapter();
+        for (int position = 0; position < adapter.getCount(); position++) {
+            if(adapter.getItem(position).toString().equalsIgnoreCase(value)) {
+                spnr.setSelection(position);
+                return;
+            }
+        }
     }
 
     public static void getFullName(final String username, final ObservableString fullname) {

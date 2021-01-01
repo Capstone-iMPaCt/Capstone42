@@ -165,6 +165,7 @@
         <item>Close</item>
         <item>Ongoing</item>
         <item>Cancelled</item>
+        <item>Pending</item>
     </string-array>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

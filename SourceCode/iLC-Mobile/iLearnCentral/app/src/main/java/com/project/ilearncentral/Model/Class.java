@@ -10,6 +10,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -221,6 +222,7 @@ public class Class {
         data.put("Status", aClass.getStatus());
         data.put("ClassStart", aClass.getClassStart());
         data.put("ClassEnd", aClass.getClassEnd());
+        data.put("Message", aClass.getRequestMessage());
         FirebaseFirestore.getInstance().collection("Class").add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -228,10 +230,42 @@ public class Class {
                         aClass.setClassId(documentReference.getId());
                         if (count!=null) {
                             count.set(count.get()+1);
-                            System.out.println("JSHAKJHFKAS  " + count.get());
                         }
+                        DocumentReference courseRef = FirebaseFirestore.getInstance().collection("Course").document(aClass.getCourseID());
+                        courseRef.update("Educators", FieldValue.arrayUnion(aClass.getEduID()));
                     }
                 });
+    }
+
+    public static void editClassToDB(final Class aClass) {
+        Map<String, Object> data = new HashMap<>();
+        data.put("CourseID", aClass.getCourseID());
+        data.put("EducatorID", aClass.getEduID());
+        data.put("RoomNo", aClass.getRoomNo());
+        data.put("Status", aClass.getStatus());
+        data.put("ClassStart", aClass.getClassStart());
+        data.put("ClassEnd", aClass.getClassEnd());
+        data.put("Message", aClass.getRequestMessage());
+        FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassId()).set(data)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        DocumentReference courseRef = FirebaseFirestore.getInstance().collection("Course").document(aClass.getCourseID());
+                        courseRef.update("Educators", FieldValue.arrayUnion(aClass.getEduID()));
+                    }
+                });
+    }
+
+    public static void addScheduleRequest(String classId, String requestMessage, final ObservableBoolean done) {
+        DocumentReference request = FirebaseFirestore.getInstance().collection("Class").document(classId);
+        request.update("Message", requestMessage,
+                "Status", "Pending")
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (done!=null) done.set(task.isSuccessful());
+            }
+        });
     }
 
     public static Class getClassById(String classId) {
@@ -241,4 +275,5 @@ public class Class {
         }
         return null;
     }
+
 }

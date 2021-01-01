@@ -59,7 +59,6 @@ public class SchedulingSystem extends Fragment {
     private RecyclerView recyclerView;
     private List<Class> classes;
     private Map<String, String> courses;
-    private final int NEW_CLASS = 1, UPDATE_CLASS = 2;
 
     private Dialog dialog;
     private Spinner coursesSpinner;
@@ -134,7 +133,7 @@ public class SchedulingSystem extends Fragment {
                 intent.putExtra("classID", "");
                 intent.putExtra("courseID", courseID);
                 intent.putExtra("action", "add");
-                startActivityForResult(intent, NEW_CLASS);
+                startActivity(intent);
             }
         });
 
@@ -237,13 +236,14 @@ public class SchedulingSystem extends Fragment {
         if (Account.getType() == Account.Type.LearningCenter) {
             addNewClassBtn.setVisibility(View.VISIBLE);
             for (Course course : Course.getCoursesByCenterId(Account.getCenterId())) {
-                courses.put(course.getCourseId(), course.getCourseName());
+                if (course.getCourseStatus().equalsIgnoreCase("open"))
+                    courses.put(course.getCourseId(), course.getCourseName());
             }
             List<String> courseSpin = new ArrayList<>();
             for (Map.Entry<String, String> entry : courses.entrySet()) {
                 courseSpin.add(entry.getValue() + " - " + entry.getKey());
             }
-            ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courseSpin);
+            ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courseSpin);
             aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             coursesSpinner.setAdapter(aadapter);
             noClass.setText("Please Choose Course");
@@ -258,12 +258,17 @@ public class SchedulingSystem extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Course course = Course.getCourseById(document.getId());
                                     if (course!=null) {
-                                        courses.put(course.getCourseId(), course.getCourseName());
+                                        if (course.getCourseStatus().equalsIgnoreCase("open"))
+                                            courses.put(course.getCourseId(), course.getCourseName());
                                     }
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                 }
+                                List<String> courseSpin = new ArrayList<>();
+                                for (Map.Entry<String, String> entry : courses.entrySet()) {
+                                    courseSpin.add(entry.getValue() + " - " + entry.getKey());
+                                }
                                 noClass.setText("Please Choose Course");
-                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courses.values());
+                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courseSpin);
                                 aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 coursesSpinner.setAdapter(aadapter);
                             } else {
@@ -273,7 +278,7 @@ public class SchedulingSystem extends Fragment {
                     });
         } else if (Account.getType() == Account.Type.Student) {
             addNewClassBtn.setVisibility(View.GONE);
-            FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("StudentID", Account.getUsername())
+            FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("studentID", Account.getUsername())
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
@@ -282,12 +287,17 @@ public class SchedulingSystem extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Course course = Course.getCourseById(document.getId());
                                     if (course!=null) {
-                                        courses.put(course.getCourseId(), course.getCourseName());
+                                        if (course.getCourseStatus().equalsIgnoreCase("open"))
+                                            courses.put(course.getCourseId(), course.getCourseName());
                                     }
                                     Log.d(TAG, document.getId() + " => " + document.getData());
                                 }
+                                List<String> courseSpin = new ArrayList<>();
+                                for (Map.Entry<String, String> entry : courses.entrySet()) {
+                                    courseSpin.add(entry.getValue() + " - " + entry.getKey());
+                                }
                                 noClass.setText("Please Choose Course");
-                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, (List<String>) courses.values());
+                                ArrayAdapter<String> aadapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, courseSpin);
                                 aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                 coursesSpinner.setAdapter(aadapter);
                             } else {
@@ -321,14 +331,9 @@ public class SchedulingSystem extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == NEW_CLASS && resultCode == RESULT_OK) {
-            classesLoading();
-            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
-        } else if (requestCode == UPDATE_CLASS && resultCode == RESULT_OK) {
-            classesLoading();
-            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
-        }
+    public void onResume() {
+        super.onResume();
+        classesLoading();
+        Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
     }
 }

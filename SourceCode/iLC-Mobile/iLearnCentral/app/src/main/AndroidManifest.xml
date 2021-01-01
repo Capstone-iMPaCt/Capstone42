@@ -22,6 +22,7 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".Activity.RequestSchedChange"></activity>
         <activity
             android:name=".Activity.EnrolmentPaymentRecords"
             android:configChanges="orientation|screenSize" />

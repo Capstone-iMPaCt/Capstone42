@@ -20,6 +20,7 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -59,12 +60,12 @@ public class NveClass extends AppCompatActivity {
     private Calendar currentDate;
     private Class updateClass;
     private List<Class> classes;
-    private Date dateStart, dateEnd;
     private ObservableInteger classesAdded;
     private List<String> recurringDays;
     private List<Educator> educators;
     private String classID, courseID, action;
-    private boolean doneTraverse, updated;
+    private boolean doneTraverse;
+    private ArrayAdapter<String> eduAdapter;
 
     private Spinner statusSpinner, eduSpinner;
     private RadioGroup typeGroup;
@@ -87,7 +88,6 @@ public class NveClass extends AppCompatActivity {
         classes = new ArrayList<>();
         updateClass = new Class();
         doneTraverse = false;
-        updated = false;
         setEduSpinner();
 
         Intent i = getIntent();
@@ -148,7 +148,11 @@ public class NveClass extends AppCompatActivity {
                                 .getEduByFullname(eduSpinner.getSelectedItem().toString());
                     }
                     if (singleRadio.isChecked()) {
-                        Class aClass = new Class();
+                        Class aClass;
+                        if (action.equals("add"))
+                            aClass = new Class();
+                        else
+                            aClass = updateClass;
                         aClass.setCourse(course);
                         aClass.setCourseID(courseID);
                         aClass.setEducator(edu);
@@ -161,15 +165,19 @@ public class NveClass extends AppCompatActivity {
                             aClass.setStatus("Open");
                         else
                             aClass.setStatus(statusSpinner.getSelectedItem().toString());
-                        Timestamp tStart = getCompleteTimestamp("", dateInput, timeStartInput);
-                        Timestamp tEnd = getCompleteTimestamp("", dateInput, timeEndInput);
+                        Timestamp tStart = Utility.getCompleteTimestamp("", dateInput, timeStartInput);
+                        Timestamp tEnd = Utility.getCompleteTimestamp("", dateInput, timeEndInput);
                         aClass.setClassStart(tStart);
                         aClass.setClassEnd(tEnd);
-                        Class.addNewClassToDB(aClass, null);
+                        if (action.equals("add")) {
+                            Class.addNewClassToDB(aClass, null);
+                        } else {
+                            Class.editClassToDB(aClass);
+                        }
                         updateUI();
                     } else if (recurringRadio.isChecked()) {
-                        Timestamp curDate = getCompleteTimestamp("", dateRStartInput, timeRStartInput);
-                        Timestamp endDate = getCompleteTimestamp("", dateREndInput, timeREndInput);
+                        Timestamp curDate = Utility.getCompleteTimestamp("", dateRStartInput, timeRStartInput);
+                        Timestamp endDate = Utility.getCompleteTimestamp("", dateREndInput, timeREndInput);
                         Date dateCount = curDate.toDate();
                         if (monCheck.isChecked()) recurringDays.add("2");
                         if (tueCheck.isChecked()) recurringDays.add("3");
@@ -197,8 +205,8 @@ public class NveClass extends AppCompatActivity {
                                     aClass.setStatus("Open");
                                 else
                                     aClass.setStatus(statusSpinner.getSelectedItem().toString());
-                                Timestamp tStart = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeRStartInput);
-                                Timestamp tEnd = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeREndInput);
+                                Timestamp tStart = Utility.getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeRStartInput);
+                                Timestamp tEnd = Utility.getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeREndInput);
                                 aClass.setClassStart(tStart);
                                 aClass.setClassEnd(tEnd);
                                 Class.addNewClassToDB(aClass, classesAdded);
@@ -213,23 +221,6 @@ public class NveClass extends AppCompatActivity {
         });
     }
 
-    private Timestamp getCompleteTimestamp(String dateString, View dateView, View timeView) {
-        Timestamp timestamp;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
-        String timestampString = "";
-        if (dateView!=null)
-            timestampString = ((TextInputEditText)dateView).getText().toString() + " ";
-        else
-            timestampString = dateString + " ";
-        timestampString += ((TextInputEditText)timeView).getText().toString();
-        try {
-            timestamp = new Timestamp(format.parse(timestampString));
-        } catch (ParseException e) {
-            timestamp = null;
-        }
-        return timestamp;
-    }
-
     private void setActionBased() {
         if (action.equalsIgnoreCase("add")) {
             titleTextView.setText("Create New Class/es");
@@ -239,11 +230,27 @@ public class NveClass extends AppCompatActivity {
                 updateClass.setClass(c);
                 typeGroup.setVisibility(View.GONE);
                 titleTextView.setText("Edit Class " + classID);
-                if (updateClass.getRequestMessage()!=null || !updateClass.getRequestMessage().isEmpty()) {
+                if ((c.getStatus().equalsIgnoreCase("Pending") || c.getStatus().equalsIgnoreCase("Cancelled")) && (updateClass.getRequestMessage()!=null || !updateClass.getRequestMessage().isEmpty())) {
                     message.setVisibility(View.VISIBLE);
                     message.setText(String
                             .format("%s%s", message.getText(), updateClass.getRequestMessage()));
                 }
+                dateInput.setText(Utility.getStringFromDate(c.getClassStart()));
+                timeStartInput.setText(Utility.getStringFromTime(c.getClassStart()));
+                timeEndInput.setText(Utility.getStringFromTime(c.getClassEnd()));
+                roomNo.setText(c.getRoomNo());
+                if (c.getEducator()!=null)
+                    eduSpinner.setSelection(eduAdapter.getPosition(c.getEducator().getFullname()));
+                String[] temp = getResources().getStringArray(R.array.class_status);
+                for (int i=0; i< temp.length; i++) {
+                    if (temp[i].equalsIgnoreCase(c.getStatus())) {
+                        statusSpinner.setSelection(i);
+                        break;
+                    } else {
+                        statusSpinner.setSelection(0);
+                    }
+                }
+                submit.setText("UPDATE");
             } else {
                 setResult(RESULT_CANCELED);
                 Toast.makeText(getApplicationContext(), "Class not retrieved!", Toast.LENGTH_SHORT).show();
@@ -252,6 +259,42 @@ public class NveClass extends AppCompatActivity {
         } else {
 
         }
+    }
+
+    public boolean isDateEndAfterDateStart(View vStart, View vEnd, boolean isDate) {
+        SimpleDateFormat formatter;
+        Date dateStart = Timestamp.now().toDate();
+        Date dateEnd = Timestamp.now().toDate();
+        boolean valid = true;
+        if (isDate) formatter = new SimpleDateFormat("MM/dd/yyyy");
+        else formatter = new SimpleDateFormat("hh:mm a");
+        try {
+            ((TextInputEditText) vStart).setError(null);
+            if (isDate && action.equalsIgnoreCase("edit")
+                     && dateStart.before(Utility.addDays(Timestamp.now().toDate(), -1))) {
+                valid = false;
+                ((TextInputEditText) vStart).setError(addError("Date Start is in the past. "));
+            }
+            dateStart = formatter.parse(((TextInputEditText)vStart).getText().toString());
+            if (vEnd!=null) {
+                dateEnd = formatter.parse(((TextInputEditText)vEnd).getText().toString());
+                ((TextInputEditText) vEnd).setError(null);
+                if (dateStart.after(dateEnd)) {
+                    valid = false;
+                    if (isDate)
+                        ((TextInputEditText) vEnd).setError(addError("Date End is before Start. "));
+                    else
+                        ((TextInputEditText) vEnd).setError(addError("Time End is before Start. "));
+                }
+            }
+        } catch (ParseException e) {
+            ((TextInputEditText) vStart).setError(addError("Date/Time Start parsing error. " + dateStart + ". "));
+            if (vEnd!=null) {
+                ((TextInputEditText) vEnd).setError(addError("Date/Time End parsing error. " + dateEnd + ". "));
+            }
+            valid = false;
+        }
+        return !valid;
     }
 
     private boolean checkErrors() {
@@ -356,7 +399,6 @@ public class NveClass extends AppCompatActivity {
         return addError(errorString, true);
     }
     private String addError(String errorString, boolean append) {
-        System.out.println(errorView.getText() + errorString);
         if (append) {
             errorView.setText(String.format("%s %s", errorView.getText().toString(), errorString));
         } else {
@@ -365,41 +407,6 @@ public class NveClass extends AppCompatActivity {
         return errorString;
     }
 
-    private boolean isDateEndAfterDateStart(View vStart, View vEnd, boolean isDate) {
-        SimpleDateFormat formatter;
-        boolean valid = true;
-        if (isDate) {
-            formatter = new SimpleDateFormat("MM/dd/yyyy");
-        } else {
-            formatter = new SimpleDateFormat("hh:mm a");
-        }
-        try {
-            dateStart = formatter.parse(((TextInputEditText)vStart).getText().toString());
-            ((TextInputEditText) vStart).setError(null);
-            if (isDate && dateStart.before(Utility.addDays(Timestamp.now().toDate(), -1))) {
-                valid = false;
-                ((TextInputEditText) vStart).setError(addError("Date Start is in the past. "));
-            }
-            if (vEnd!=null) {
-                dateEnd = formatter.parse(((TextInputEditText)vEnd).getText().toString());
-                ((TextInputEditText) vEnd).setError(null);
-                if (dateStart.after(dateEnd)) {
-                    valid = false;
-                    if (isDate)
-                        ((TextInputEditText) vEnd).setError(addError("Date End is before Start. "));
-                    else
-                        ((TextInputEditText) vEnd).setError(addError("Time End is before Start. "));
-                }
-            }
-        } catch (ParseException e) {
-            ((TextInputEditText) vStart).setError(addError("Date/Time Start parsing error. " + dateStart + ". "));
-            if (vEnd!=null) {
-                ((TextInputEditText) vEnd).setError(addError("Date/Time End parsing error. " + dateEnd + ". "));
-            }
-            valid = false;
-        }
-        return !valid;
-    }
 
     private void setEduSpinner() {
         for (Educator educator : Educator.getEducatorsByCenterId(Account.getCenterId())) {
@@ -410,9 +417,9 @@ public class NveClass extends AppCompatActivity {
         for (Educator educator: educators) {
             eduSpin.add(educator.getFullname());
         }
-        ArrayAdapter<String> aadapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, eduSpin);
-        aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        eduSpinner.setAdapter(aadapter);
+        eduAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, eduSpin);
+        eduAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        eduSpinner.setAdapter(eduAdapter);
     }
 
     private void bindDateTimeInputs() {
@@ -589,18 +596,7 @@ public class NveClass extends AppCompatActivity {
     }
 
     public void updateUI() {
-        updated = true;
-        setResult(RESULT_OK);
         Toast.makeText(getApplicationContext(), "Successfully Added!", Toast.LENGTH_SHORT).show();
         finish();
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (updated)
-            setResult(RESULT_OK);
-        else
-            setResult(RESULT_CANCELED);
-        super.onBackPressed();
     }
 }

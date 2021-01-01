@@ -3,6 +3,7 @@ package com.project.ilearncentral.Adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +21,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.haozhang.lib.SlantedTextView;
+import com.project.ilearncentral.Activity.NveClass;
+import com.project.ilearncentral.Activity.RequestSchedChange;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
@@ -87,10 +90,14 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             case "Close":
                 holder.classStatus.setText("Close");
                 holder.classStatus.setSlantedBackgroundColor(context.getResources().getColor(R.color.hint_color));
+                if (Account.getType() == Account.Type.Educator)
+                    holder.otherButton.setVisibility(View.INVISIBLE);
                 break;
             case "Cancelled":
                 holder.classStatus.setText("Cancelled");
                 holder.classStatus.setSlantedBackgroundColor(context.getResources().getColor(R.color.holo_red));
+                if (Account.getType() == Account.Type.Educator)
+                    holder.otherButton.setVisibility(View.INVISIBLE);
                 break;
             case "Ongoing":
                 holder.classStatus.setText("Ongoing");
@@ -108,11 +115,16 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
         if (Account.getType() == Account.Type.LearningCenter) {
             holder.viewButton.setVisibility(View.VISIBLE);
+            holder.otherButton.setText("UPDATE CLASS");
         } else if (Account.getType() == Account.Type.Educator) {
             holder.viewButton.setVisibility(View.VISIBLE);
             holder.delButton.setVisibility(View.GONE);
+            holder.otherButton.setText("REQUEST RESCHEDULE");
+            if(!aClass.getEduID().equals(Account.getUsername()))
+                holder.containerLayout.setVisibility(View.GONE);
         } else if (Account.getType() == Account.Type.Student) {
             holder.viewButton.setVisibility(View.GONE);
+            holder.otherButton.setVisibility(View.GONE);
             holder.delButton.setVisibility(View.GONE);
         }
 
@@ -153,6 +165,23 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             }
         });
 
+        holder.otherButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (Account.getType() == Account.Type.LearningCenter) {
+                    Intent intent = new Intent(context, NveClass.class);
+                    intent.putExtra("classID", aClass.getClassId());
+                    intent.putExtra("courseID", aClass.getCourseID());
+                    intent.putExtra("action", "edit");
+                    context.startActivity(intent);
+                } else if (Account.getType() == Account.Type.Educator) {
+                    Intent intent = new Intent(context, RequestSchedChange.class);
+                    intent.putExtra("classID", aClass.getClassId());
+                    context.startActivity(intent);
+                }
+            }
+        });
+
         holder.delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,7 +219,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         private LinearLayout classStatusLayout;
         private SlantedTextView classStatus;
         private TextView day, date, timeStart, timeEnd, educator, roomNo;
-        private Button viewButton;
+        private Button viewButton, otherButton;
         private ImageButton delButton;
 
         ClassViewHolder(View itemView) {
@@ -204,7 +233,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             timeEnd = itemView.findViewById(R.id.class_schedule_time_end);
             educator = itemView.findViewById(R.id.class_educator_name);
             roomNo = itemView.findViewById(R.id.class_room_no);
-            viewButton = itemView.findViewById(R.id.class_button);
+            otherButton = itemView.findViewById(R.id.class_update_button);
+            viewButton = itemView.findViewById(R.id.class_view_button);
             delButton = itemView.findViewById(R.id.class_delete_button);
         }
     }

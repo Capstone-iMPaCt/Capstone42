@@ -47,9 +47,12 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
         holder.type.setText(user.getStringType());
         holder.username.setText(user.getFullname());
 //        if (!user.getImage().isEmpty())
-        if (holder.image.getBackground() == null)
+        try {
+            if (holder.image.getBackground() == null)
 //            Picasso.get().load(Uri.parse(user.getImage())).error(R.drawable.user).fit().into(holder.image);
-            Glide.with(context).load(user.getImage()).error(R.drawable.user).fitCenter().into(holder.image);
+                Glide.with(context).load(user.getImage()).error(R.drawable.user).fitCenter()
+                        .into(holder.image);
+        } catch (Exception e) {}
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

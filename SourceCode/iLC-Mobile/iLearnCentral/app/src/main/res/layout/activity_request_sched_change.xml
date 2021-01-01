@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Activity.NveClass"
+    android:paddingHorizontal="10dp">
+
+    <TextView
+        android:id="@+id/class_request_current"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="25sp"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:text="Request Schedule Change" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/class_request_error"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fadeScrollbars="true"
+        android:inputType="textMultiLine"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginHorizontal="15dp"
+        android:textSize="15sp"
+        android:text="Errors: "
+        android:textColor="@color/design_default_color_error" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_transparent_rounded"
+        android:paddingHorizontal="10dp">
+
+        <TextView
+            android:id="@+id/class_request_schedule_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="10dp"
+            android:textSize="20dp"
+            android:text="Requested Schedule"
+            android:textColor="@color/colorPrimary" />
+
+        <CheckBox
+            android:id="@+id/class_request_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_toEndOf="@id/class_request_schedule_header"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="7dp"
+            android:text="Cancel Class" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/class_request_schedule_date_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/class_request_schedule_header"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginLeft="50dp"
+            android:layout_marginRight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_request_schedule_date"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/input_white_bg_rounded"
+                android:drawablePadding="20dp"
+                android:focusable="false"
+                android:hint="Date"
+                android:inputType="none"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/class_request_schedule_time_start_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/class_request_schedule_date_layout"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_toStartOf="@+id/class_request_time_dash">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_request_schedule_time_start"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/input_white_bg_rounded"
+                android:drawablePadding="20dp"
+                android:focusable="false"
+                android:hint="Time Start"
+                android:inputType="none"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/class_request_time_dash"
+            android:layout_width="wrap_content"
+            android:layout_height="45dp"
+            android:layout_below="@id/class_request_schedule_date_layout"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="10dp"
+            android:gravity="center"
+            android:text="-" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/class_request_schedule_time_end_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/class_request_schedule_date_layout"
+            android:layout_alignParentEnd="true"
+            android:layout_gravity="center"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/class_request_time_dash">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/class_request_schedule_time_end"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_gravity="center"
+                android:background="@drawable/input_white_bg_rounded"
+                android:drawablePadding="20dp"
+                android:focusable="false"
+                android:hint="Time End"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/class_request_message_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textSize="20sp"
+        android:text="Add Message:" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/class_request_message_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="10dp"
+        android:layout_marginHorizontal="20dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/class_request_message"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center"
+            android:background="@drawable/input_white_bg_rounded"
+            android:drawablePadding="20dp"
+            android:focusable="true"
+            android:hint="Message"
+            android:inputType="textCapSentences|textMultiLine"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/mint_blue"
+            android:textColorHint="@color/text_hint_color"
+            android:textColorLink="@color/light_blue" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:weightSum="3"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/class_request_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="Cancel"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/class_request_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="Reset"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"/>
+        <Button
+            android:id="@+id/class_request_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:backgroundTint="@color/colorAccent"
+            android:gravity="center"
+            android:text="Send Request"
+            android:layout_weight="1"
+            android:textColor="@android:color/white"/>
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>
