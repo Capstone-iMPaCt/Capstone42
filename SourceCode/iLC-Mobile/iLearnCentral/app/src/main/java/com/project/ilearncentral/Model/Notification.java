@@ -2,26 +2,32 @@ package com.project.ilearncentral.Model;
 import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import androidx.annotation.NonNull;
 
 public class Notification {
-    private String notifId, link, message, status, username;
+    private String notifId, link, message, status, username, subject;
     private Timestamp date;
-    private static List<Notification> retrieved = new ArrayList<>();
+    public static List<Notification> retrieved = new ArrayList<>();
 
     public Notification() {
-        notifId = link = message = status = username = "";
+        notifId = link = message = status = username = subject = "";
         date = Timestamp.now();
     }
 
@@ -73,6 +79,14 @@ public class Notification {
         this.username = username;
     }
 
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     public void setNotification(Notification notification) {
         this.notifId = notification.getNotifId();
         this.date = notification.getDate();
@@ -103,6 +117,16 @@ public class Notification {
                     });
         }
     }
+    public static void retrieveUnreadNotificationsOfUser(final ObservableBoolean done, String username) {
+        CollectionReference db = FirebaseFirestore.getInstance().collection("Notification");
+        db.whereEqualTo("Username", username).whereEqualTo("Status", "unread").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                retrieved.clear();
+                onCompleteRetrieve(done, task);
+            }
+        });
+    }
 
     public static void onCompleteRetrieve (final ObservableBoolean done, final Task<QuerySnapshot> task) {
         if (task.isSuccessful()) {
@@ -114,6 +138,7 @@ public class Notification {
                 notification.setLink(document.getString("Link"));
                 notification.setStatus(document.getString("Status"));
                 notification.setUsername(document.getString("Username"));
+                notification.setUsername(document.getString("Subject"));
                 int pos = getNotifPositionById(document.getId());
                 if (pos == -1) {
                     retrieved.add(notification);
@@ -146,5 +171,32 @@ public class Notification {
     }
 
 
+    public static void newNotification(String username, String subject, String message, String link) {
+        Notification notification = new Notification();
+        notification.setDate(Timestamp.now());
+        notification.setStatus("unread");
+        notification.setLink(link);
+        notification.setMessage(message);
+        notification.setUsername(username);
+        notification.setSubject(subject);
+        newNotification(notification);
+    }
+    public static void newNotification(final Notification notification) {
+        System.out.println("New notification to " + notification.getUsername());
+        Map<String, Object> data = new HashMap<>();
+        data.put("Status", notification.getStatus());
+        data.put("Subject", notification.getSubject());
+        data.put("Date", notification.getDate());
+        data.put("Username", notification.getUsername());
+        data.put("Link", notification.getLink());
+        data.put("Message", notification.getMessage());
+        FirebaseFirestore.getInstance().collection("Notification").add(data)
+            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                @Override
+                public void onSuccess(DocumentReference documentReference) {
+                    notification.setNotifId(documentReference.getId());
+                }
+            });
+    }
 
 }

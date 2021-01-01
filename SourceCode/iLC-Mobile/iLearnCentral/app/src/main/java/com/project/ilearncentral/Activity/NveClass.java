@@ -1,7 +1,7 @@
 package com.project.ilearncentral.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import okhttp3.internal.Util;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -20,27 +19,28 @@ import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableInteger;
 import com.project.ilearncentral.CustomInterface.OnIntegerChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.Educator;
+import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.project.ilearncentral.databinding.ActivityNveClassBinding;
-import com.project.ilearncentral.databinding.ActivityNveCourseBinding;
-
-import org.w3c.dom.Text;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -48,7 +48,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class NveClass extends AppCompatActivity {
 
@@ -64,7 +63,7 @@ public class NveClass extends AppCompatActivity {
     private List<String> recurringDays;
     private List<Educator> educators;
     private String classID, courseID, action;
-    private boolean doneTraverse;
+    private boolean doneTraverse, forPending;
     private ArrayAdapter<String> eduAdapter;
 
     private Spinner statusSpinner, eduSpinner;
@@ -88,6 +87,7 @@ public class NveClass extends AppCompatActivity {
         classes = new ArrayList<>();
         updateClass = new Class();
         doneTraverse = false;
+        forPending = false;
         setEduSpinner();
 
         Intent i = getIntent();
@@ -171,8 +171,12 @@ public class NveClass extends AppCompatActivity {
                         aClass.setClassEnd(tEnd);
                         if (action.equals("add")) {
                             Class.addNewClassToDB(aClass, null);
+                            createNotifForClass(aClass,true);
                         } else {
                             Class.editClassToDB(aClass);
+                            if (aClass.getStatus().equals("Open") && tStart.toDate().before(Timestamp.now().toDate())) {
+                                createNotifForClass(aClass, false);
+                            }
                         }
                         updateUI();
                     } else if (recurringRadio.isChecked()) {
@@ -211,6 +215,7 @@ public class NveClass extends AppCompatActivity {
                                 aClass.setClassEnd(tEnd);
                                 Class.addNewClassToDB(aClass, classesAdded);
                                 classes.add(aClass);
+                                createNotifForClass(aClass,true);
                             }
                             dateCount = Utility.addDays(dateCount, 1);
                         }
@@ -219,6 +224,35 @@ public class NveClass extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void createNotifForClass(final Class aClass, boolean isNew) {
+        Course course = Course.getCourseById(courseID);
+        final String message = "Class for " + aClass.getCourse().getCourseName()+
+                " on " + Utility.getStringFromDate(aClass.getClassStart()) +
+                " at " + Utility.getStringFromTime(aClass.getClassStart()) +
+                " - " + Utility.getStringFromTime(aClass.getClassEnd());
+        final String subject;
+        if (isNew)
+            subject = "New Class";
+        else
+            subject = "New Class";
+        final String link = "none";
+        if (aClass.getEducator() != null && course!=null) {
+            Notification.newNotification(aClass.getEducator().getUsername(), subject, message, link);
+        }
+        FirebaseFirestore.getInstance().collection("Enrolment")
+            .whereEqualTo("courseID", courseID).get()
+            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        for(QueryDocumentSnapshot document: task.getResult()) {
+                            Notification.newNotification(document.getString("studentID"), subject, message, link);
+                        }
+                    }
+                }
+            });
     }
 
     private void setActionBased() {
@@ -232,6 +266,7 @@ public class NveClass extends AppCompatActivity {
                 titleTextView.setText("Edit Class " + classID);
                 if ((c.getStatus().equalsIgnoreCase("Pending") || c.getStatus().equalsIgnoreCase("Cancelled")) && (updateClass.getRequestMessage()!=null || !updateClass.getRequestMessage().isEmpty())) {
                     message.setVisibility(View.VISIBLE);
+                    forPending = true;
                     message.setText(String
                             .format("%s%s", message.getText(), updateClass.getRequestMessage()));
                 }

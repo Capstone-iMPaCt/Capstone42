@@ -25,6 +25,7 @@ import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.LearningCenter;
+import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;

@@ -1,10 +1,15 @@
 package com.project.ilearncentral.Activity;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +24,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.app.NotificationCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -30,6 +36,11 @@ import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Activity.SignUp.CreateUser;
 import com.project.ilearncentral.Activity.Update.UpdateAccount;
@@ -37,6 +48,8 @@ import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Fragment.Feed;
 import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.Fragment.LCEducators;
@@ -46,11 +59,15 @@ import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
 import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
 import com.project.ilearncentral.Model.LearningCenter;
+import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -59,9 +76,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "MAIN";
+    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    public static final String CHANNEL_ID = "ILearnCentral_Notif_Chanel";
+    static int notificationCount = 0 ;
+    TextView notifBadge;
     private FirebaseUser user;
     private boolean tabGenerate, exit;
     private LearningCenter lc;
+    private List<Notification> notifications;
+    private Context mainContext;
 
     private Toolbar toolbar;
     private CircleImageView userImage;
@@ -107,7 +130,10 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         user = FirebaseAuth.getInstance().getCurrentUser();
         tabGenerate = true;
         exit = false;
+        notifications = new ArrayList<>();
+        mainContext = this;
 
+        notifBadge = findViewById(R.id.notification_button_count);
         toolbar = (Toolbar) findViewById(R.id.home_toolbar);
         userImage = (CircleImageView) findViewById(R.id.view_user_image);
         lcLogo = (ImageView) findViewById(R.id.user_learning_center_logo);
@@ -150,6 +176,23 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         if (tabGenerate)
             generateTabs();
         setDetails(1);
+
+        final ObservableBoolean notifRetrieved = new ObservableBoolean();
+        notifRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                for(Notification notification : Notification.retrieved) {
+                    createNotification(notification);
+                }
+                if (notificationCount==0) {
+                    notifBadge.setVisibility(View.GONE);
+                } else {
+                    notifBadge.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        Notification.retrieveUnreadNotificationsOfUser(notifRetrieved, Account.getUsername());
+        checkNotifications();
     }
 
     private void setDetails(int code) {
@@ -279,6 +322,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
+                notificationCount = 0;
+                notifBadge.setText(String.valueOf(notificationCount));
+                notifBadge.setVisibility(View.GONE);
                 break;
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
@@ -404,5 +450,63 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         intent.putExtra("type", code);
         setDetails(code);
         startActivity(intent);
+    }
+
+    private void checkNotifications() {
+        FirebaseFirestore.getInstance().collection("Notification")
+                .whereEqualTo("Username", Account.getUsername())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable QuerySnapshot value,
+                                        @Nullable FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.w(TAG, "Listen failed.", e);
+                            return;
+                        }
+                        for (QueryDocumentSnapshot doc : value) {
+                            Notification not = new Notification();
+                            not.setUsername(doc.getString("Username"));
+                            not.setStatus(doc.getString("Status"));
+                            not.setMessage(doc.getString("Message"));
+                            not.setLink(doc.getString("Link"));
+                            not.setLink(doc.getString("Subject"));
+                            not.setDate(doc.getTimestamp("Date"));
+                            notifications.add(not);
+                            createNotification(not);
+                        }
+                        for(Notification not: notifications) {
+                            if (!not.getStatus().equalsIgnoreCase("unread"))
+                             notifications.remove(not);
+                        }
+
+                    }
+                });
+    }
+
+
+    public void createNotification (Notification notif) {
+        Intent notificationIntent = new Intent(getApplicationContext() , Main.class );
+        notificationIntent.putExtra( "fromNotification" , true );
+        notificationIntent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP | Intent. FLAG_ACTIVITY_SINGLE_TOP );
+        PendingIntent pendingIntent = PendingIntent. getActivity ( this, 0 , notificationIntent , 0 );
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService( NOTIFICATION_SERVICE );
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Main.this, CHANNEL_ID );
+        mBuilder.setContentTitle(notif.getSubject());
+        mBuilder.setContentIntent(pendingIntent);
+        mBuilder.setContentText(notif.getMessage());
+        mBuilder.setSmallIcon(R.drawable.logo_icon);
+        mBuilder.setAutoCancel( true );
+        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
+            int importance = NotificationManager. IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel( NOTIFICATION_CHANNEL_ID , "ILearnCentral" , importance);
+            mBuilder.setChannelId( NOTIFICATION_CHANNEL_ID );
+            assert mNotificationManager != null;
+            mNotificationManager.createNotificationChannel(notificationChannel);
+        }
+        assert mNotificationManager != null;
+        mNotificationManager.notify(( int ) System. currentTimeMillis () , mBuilder.build());
+        notificationCount++;
+        notifBadge.setVisibility(View.VISIBLE);
+        notifBadge.setText(String.valueOf(notificationCount));
     }
 }

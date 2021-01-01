@@ -121,7 +121,7 @@ public class JobPosts {
                             } else {
                                 jobPosts.get(pos).setJobVacancy(document.getId(), document.getData());
                             }
-                            Log.d(TAG, document.getId() + " => " + document.getData());
+                            Log.d(TAG, document.getId());
                         }
                         if (done!=null) done.set(true);
                     } else {
