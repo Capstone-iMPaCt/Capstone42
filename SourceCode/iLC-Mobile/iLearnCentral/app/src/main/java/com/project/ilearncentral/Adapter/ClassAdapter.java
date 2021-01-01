@@ -1,10 +1,13 @@
 package com.project.ilearncentral.Adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -12,11 +15,16 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.haozhang.lib.SlantedTextView;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Class;
+import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -88,8 +96,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                 holder.classStatus.setText("Ongoing");
                 holder.classStatus.setSlantedBackgroundColor(context.getResources().getColor(R.color.mint_blue));
                 break;
-            case "Requesting":
-                holder.classStatus.setText("Requesting");
+            case "Pending":
+                holder.classStatus.setText("Pending");
                 holder.classStatus.setSlantedBackgroundColor(context.getResources().getColor(R.color.text_color));
                 break;
             default:
@@ -102,8 +110,10 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             holder.viewButton.setVisibility(View.VISIBLE);
         } else if (Account.getType() == Account.Type.Educator) {
             holder.viewButton.setVisibility(View.VISIBLE);
+            holder.delButton.setVisibility(View.GONE);
         } else if (Account.getType() == Account.Type.Student) {
             holder.viewButton.setVisibility(View.GONE);
+            holder.delButton.setVisibility(View.GONE);
         }
 
         statusChange.setOnStringChangeListener(new OnStringChangeListener() {
@@ -126,8 +136,8 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                         if (!holder.classStatus.getText().equalsIgnoreCase("Ongoing"))
                             holder.containerLayout.setVisibility(View.GONE);
                         break;
-                    case "Requested":
-                        if (!holder.classStatus.getText().equalsIgnoreCase("Requested"))
+                    case "Pending":
+                        if (!holder.classStatus.getText().equalsIgnoreCase("Pending"))
                             holder.containerLayout.setVisibility(View.GONE);
                         break;
                     default:
@@ -140,6 +150,31 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             @Override
             public void onClick(View v) {
                 //to do
+            }
+        });
+
+        holder.delButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassId()).delete();
+                                holder.containerLayout.setVisibility(View.GONE);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                //No button clicked
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure in deleting class?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
             }
         });
     }
@@ -156,6 +191,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         private SlantedTextView classStatus;
         private TextView day, date, timeStart, timeEnd, educator, roomNo;
         private Button viewButton;
+        private ImageButton delButton;
 
         ClassViewHolder(View itemView) {
             super(itemView);
@@ -169,6 +205,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             educator = itemView.findViewById(R.id.class_educator_name);
             roomNo = itemView.findViewById(R.id.class_room_no);
             viewButton = itemView.findViewById(R.id.class_button);
+            delButton = itemView.findViewById(R.id.class_delete_button);
         }
     }
 }

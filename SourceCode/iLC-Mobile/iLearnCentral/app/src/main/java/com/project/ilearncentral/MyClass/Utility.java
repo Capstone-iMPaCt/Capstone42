@@ -306,6 +306,38 @@ public class Utility {
         return dayFormat.format(value.toDate());
     }
 
+    public static String formatDate(int year, int month, int dayOfMonth) {
+        String dateString = "";
+        month++;
+        if (month < 10)
+            dateString += "0";
+        dateString += month + "/";
+        if (dayOfMonth < 10)
+            dateString += "0";
+        dateString += dayOfMonth + "/" + year;
+        return dateString;
+    }
+
+    public static String formatTime(int hourOfDay, int minute) {
+        String min = "";
+        if (minute < 10) {
+            min += "0" + minute;
+        } else {
+            min += minute;
+        }
+        String time = "";
+        if (hourOfDay==0) {
+            time = "12:" + min + " am";
+        } else if (hourOfDay<=11) {
+            time = hourOfDay + ":" + min + " am";
+        } else if (hourOfDay==12) {
+            time = "12:" + min + " pm";
+        } else {
+            time = (hourOfDay-12) + ":" + min + " pm";
+        }
+        return time;
+    }
+
     // convert integer to pixel
     public static int dpToPx(Context context, int dp) {
         DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();

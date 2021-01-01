@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ArrayAdapter;
@@ -26,6 +27,9 @@ import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.project.ilearncentral.CustomBehavior.ObservableInteger;
+import com.project.ilearncentral.CustomInterface.OnIntegerChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.Educator;
@@ -53,18 +57,20 @@ public class NveClass extends AppCompatActivity {
     private TimePickerDialog timePickerDialog;
 
     private Calendar currentDate;
+    private Class updateClass;
     private List<Class> classes;
     private Date dateStart, dateEnd;
-    private Timestamp timeStart, timeEnd;
+    private ObservableInteger classesAdded;
     private List<String> recurringDays;
     private List<Educator> educators;
     private String classID, courseID, action;
+    private boolean doneTraverse, updated;
 
     private Spinner statusSpinner, eduSpinner;
     private RadioGroup typeGroup;
     private RadioButton singleRadio, recurringRadio;
     private LinearLayout singleLayout, recurringLayout;
-    private TextView titleTextView, daysLabel, errorView;
+    private TextView titleTextView, daysLabel, errorView, message;
     private TextInputEditText roomNo, timeStartInput, timeEndInput, dateInput, timeRStartInput, timeREndInput, dateRStartInput, dateREndInput;
     private CheckBox monCheck, tueCheck, wedCheck, thuCheck, friCheck, satCheck, sunCheck;
     private Button submit;
@@ -78,6 +84,10 @@ public class NveClass extends AppCompatActivity {
         bindDateTimeInputs();
         recurringDays = new ArrayList<>();
         educators = new ArrayList<>();
+        classes = new ArrayList<>();
+        updateClass = new Class();
+        doneTraverse = false;
+        updated = false;
         setEduSpinner();
 
         Intent i = getIntent();
@@ -86,6 +96,20 @@ public class NveClass extends AppCompatActivity {
         action = i.getStringExtra("action");
 
         setActionBased();
+        classesAdded = new ObservableInteger();
+        classesAdded.set(0);
+        classesAdded.setOnIntegerChangeListener(new OnIntegerChangeListener() {
+            @Override
+            public void onIntegerChanged(int value) {
+                if (value>0 && doneTraverse && value == classes.size()) {
+                    submit.setText("SUBMIT");
+                    submit.setEnabled(true);
+                    updateUI();
+                }
+            }
+        });
+
+        errorView.setVisibility(View.GONE);
 
         singleRadio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,18 +165,23 @@ public class NveClass extends AppCompatActivity {
                         Timestamp tEnd = getCompleteTimestamp("", dateInput, timeEndInput);
                         aClass.setClassStart(tStart);
                         aClass.setClassEnd(tEnd);
-                        Class.addNewClassToDB(aClass);
+                        Class.addNewClassToDB(aClass, null);
+                        updateUI();
                     } else if (recurringRadio.isChecked()) {
                         Timestamp curDate = getCompleteTimestamp("", dateRStartInput, timeRStartInput);
                         Timestamp endDate = getCompleteTimestamp("", dateREndInput, timeREndInput);
                         Date dateCount = curDate.toDate();
-                        if (monCheck.isChecked()) recurringDays.add("MONDAY");
-                        if (tueCheck.isChecked()) recurringDays.add("TUESDAY");
-                        if (wedCheck.isChecked()) recurringDays.add("WEDNESDAY");
-                        if (thuCheck.isChecked()) recurringDays.add("THURSDAY");
-                        if (friCheck.isChecked()) recurringDays.add("FRIDAY");
-                        if (satCheck.isChecked()) recurringDays.add("SATURDAY");
-                        if (sunCheck.isChecked()) recurringDays.add("SUNDAY");
+                        if (monCheck.isChecked()) recurringDays.add("2");
+                        if (tueCheck.isChecked()) recurringDays.add("3");
+                        if (wedCheck.isChecked()) recurringDays.add("4");
+                        if (thuCheck.isChecked()) recurringDays.add("5");
+                        if (friCheck.isChecked()) recurringDays.add("6");
+                        if (satCheck.isChecked()) recurringDays.add("7");
+                        if (sunCheck.isChecked()) recurringDays.add("1");
+                        doneTraverse = false;
+                        submit.setEnabled(false);
+                        submit.setText("Please Wait.");
+                        classes.clear();
                         while (dateCount.before(endDate.toDate())) {
                             if (recurringDays.contains(Utility.getDayString(dateCount))) {
                                 Class aClass = new Class();
@@ -168,14 +197,16 @@ public class NveClass extends AppCompatActivity {
                                     aClass.setStatus("Open");
                                 else
                                     aClass.setStatus(statusSpinner.getSelectedItem().toString());
-                                Timestamp tStart = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeStartInput);
-                                Timestamp tEnd = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeEndInput);
+                                Timestamp tStart = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeRStartInput);
+                                Timestamp tEnd = getCompleteTimestamp(Utility.getDateAsString(dateCount), null, timeREndInput);
                                 aClass.setClassStart(tStart);
                                 aClass.setClassEnd(tEnd);
-                                Class.addNewClassToDB(aClass);
+                                Class.addNewClassToDB(aClass, classesAdded);
+                                classes.add(aClass);
                             }
                             dateCount = Utility.addDays(dateCount, 1);
                         }
+                        doneTraverse = true;
                     }
                 }
             }
@@ -203,8 +234,21 @@ public class NveClass extends AppCompatActivity {
         if (action.equalsIgnoreCase("add")) {
             titleTextView.setText("Create New Class/es");
         } else if (action.equalsIgnoreCase("edit")) {
-            typeGroup.setVisibility(View.GONE);
-            titleTextView.setText("Edit Class " + classID);
+            Class c = Class.getClassById(classID);
+            if (c!=null) {
+                updateClass.setClass(c);
+                typeGroup.setVisibility(View.GONE);
+                titleTextView.setText("Edit Class " + classID);
+                if (updateClass.getRequestMessage()!=null || !updateClass.getRequestMessage().isEmpty()) {
+                    message.setVisibility(View.VISIBLE);
+                    message.setText(String
+                            .format("%s%s", message.getText(), updateClass.getRequestMessage()));
+                }
+            } else {
+                setResult(RESULT_CANCELED);
+                Toast.makeText(getApplicationContext(), "Class not retrieved!", Toast.LENGTH_SHORT).show();
+                finish();
+            }
         } else {
 
         }
@@ -213,66 +257,72 @@ public class NveClass extends AppCompatActivity {
     private boolean checkErrors() {
         int errors = 0;
         boolean isEmpty = false;
-        errorView.setText("Errors: ");
+        addError("Errors:", false);
         errorView.setVisibility(View.GONE);
         if(singleRadio.isChecked()) {
             if (dateInput.getText().toString().isEmpty()) {
-                dateInput.setError("Date is empty.");
-                errorView.setText(errorView.getText() + "Date is empty. ");
-            } else if (isDateEndAfterDateStart(dateInput, null, false)) {
+                errors++;
+                dateInput.setError(addError("Date is empty."));
+            } else if (isDateEndAfterDateStart(dateInput, null, true)) {
                 errors++;
             } else {
                 dateInput.setError(null);
             }
             if (timeStartInput.getText().toString().isEmpty()) {
-                timeStartInput.setError("Time is empty.");
-                errorView.setText(errorView.getText() + "Time start is empty. ");
+                errors++;
+                timeStartInput.setError(addError("Time start is empty. "));
                 isEmpty = true;
             }
             if (timeEndInput.getText().toString().isEmpty()) {
-                timeEndInput.setError("Time is empty.");
-                errorView.setText(errorView.getText() + "Time end is empty. ");
+                errors++;
+                timeEndInput.setError(addError("Time end is empty. "));
                 isEmpty = true;
             }
             if (!isEmpty) {
                 timeStartInput.setError(null);
                 timeEndInput.setError(null);
-                if (isDateEndAfterDateStart(timeStartInput, timeEndInput, false))
+                if (isDateEndAfterDateStart(timeStartInput, timeEndInput, false)) {
                     errors++;
+                    addError("Time Start after End. ");
+                }
             }
         } else if (recurringRadio.isChecked()) {
             if (dateRStartInput.getText().toString().isEmpty()) {
-                dateRStartInput.setError("Date is empty.");
-                errorView.setText(errorView.getText() + "Date start is empty. ");
+                errors++;
+                dateRStartInput.setError(addError("Date start is empty. "));
                 isEmpty = true;
             }
             if (dateREndInput.getText().toString().isEmpty()) {
-                dateREndInput.setError("Date is empty.");
-                errorView.setText(errorView.getText() + "Date end is empty. ");
+                errors++;
+                dateREndInput.setError(addError("Date end is empty."));
                 isEmpty = true;
             }
             if (!isEmpty) {
                 dateRStartInput.setError(null);
                 dateREndInput.setError(null);
-                if (isDateEndAfterDateStart(dateRStartInput, dateREndInput, true))
+                if (isDateEndAfterDateStart(dateRStartInput, dateREndInput, true)) {
                     errors++;
+                    addError("Date Start after End. ");
+                }
             }
             isEmpty = false;
             if (timeRStartInput.getText().toString().isEmpty()) {
-                timeRStartInput.setError("Time is empty.");
-                errorView.setText(errorView.getText() + "Time start is empty. ");
+                errors++;
+                timeRStartInput.setError(addError("Time start is empty. "));
                 isEmpty = true;
             }
             if (timeREndInput.getText().toString().isEmpty()) {
-                timeREndInput.setError("Time is empty.");
-                errorView.setText(errorView.getText() + "Time end is empty. ");
+                errors++;
+                timeREndInput.setError(addError("Time end is empty. "));
                 isEmpty = true;
             }
             if (!isEmpty) {
                 timeRStartInput.setError(null);
                 timeREndInput.setError(null);
-                if (isDateEndAfterDateStart(timeRStartInput, timeREndInput, false))
+                if (isDateEndAfterDateStart(timeRStartInput, timeREndInput, false)) {
                     errors++;
+                    addError("Time Start after End. ");
+                }
             }
             int checked = 0;
             if (monCheck.isChecked()) checked++;
@@ -284,26 +334,40 @@ public class NveClass extends AppCompatActivity {
             if (sunCheck.isChecked()) checked++;
             if (checked == 0) {
                 errors++;
-                daysLabel.setText("Days Repeat (Please select at least one)");
-                errorView.setText(errorView.getText() + "Select at least one day. ");
+                addError("Select at least one day. ");
             } else {
                 daysLabel.setText(null);
             }
         }
 
         if (errors == 0) {
+            addError("Errors(" + errors + "): ");
+            errorView.setVisibility(View.GONE);
+        } else {
+            addError("Errors(" + errors + "): ");
             Toast.makeText(getApplicationContext(), "Please correct errors", Toast.LENGTH_SHORT)
                     .show();
             errorView.setVisibility(View.VISIBLE);
-        } else {
-            errorView.setText("Errors: ");
-            errorView.setVisibility(View.GONE);
         }
         return errors == 0;
     }
 
+    private String addError(String errorString) {
+        return addError(errorString, true);
+    }
+    private String addError(String errorString, boolean append) {
+        System.out.println(errorView.getText() + errorString);
+        if (append) {
+            errorView.setText(String.format("%s %s", errorView.getText().toString(), errorString));
+        } else {
+            errorView.setText(errorString);
+        }
+        return errorString;
+    }
+
     private boolean isDateEndAfterDateStart(View vStart, View vEnd, boolean isDate) {
         SimpleDateFormat formatter;
+        boolean valid = true;
         if (isDate) {
             formatter = new SimpleDateFormat("MM/dd/yyyy");
         } else {
@@ -311,39 +375,30 @@ public class NveClass extends AppCompatActivity {
         }
         try {
             dateStart = formatter.parse(((TextInputEditText)vStart).getText().toString());
-            ((TextInputEditText) vStart).setError("");
-            if (dateStart.compareTo(currentDate.getTime()) > 0 || isDate) {
-                if (vEnd!=null) {
-                    dateEnd = formatter.parse(((TextInputEditText)vEnd).getText().toString());
-                    ((TextInputEditText) vEnd).setError("");
-                    if (dateStart.compareTo(dateEnd) < 0) {
-                        return true;
-                    } else {
-                        ((TextInputEditText) vEnd).setError("End is before Start.");
-                        if (isDate)
-                            errorView.setText(errorView.getText() + "Date End is before Start. ");
-                        else
-                            errorView.setText(errorView.getText() + "Time end is before Start. ");
-                    }
-                } else {
-                    return true;
+            ((TextInputEditText) vStart).setError(null);
+            if (isDate && dateStart.before(Utility.addDays(Timestamp.now().toDate(), -1))) {
+                valid = false;
+                ((TextInputEditText) vStart).setError(addError("Date Start is in the past. "));
+            }
+            if (vEnd!=null) {
+                dateEnd = formatter.parse(((TextInputEditText)vEnd).getText().toString());
+                ((TextInputEditText) vEnd).setError(null);
+                if (dateStart.after(dateEnd)) {
+                    valid = false;
+                    if (isDate)
+                        ((TextInputEditText) vEnd).setError(addError("Date End is before Start. "));
+                    else
+                        ((TextInputEditText) vEnd).setError(addError("Time End is before Start. "));
                 }
-            } else {
-                ((TextInputEditText) vStart).setError("Start is before now.");
-                if (isDate)
-                    errorView.setText(errorView.getText() + "Date Start is in the past. ");
-                else
-                    errorView.setText(errorView.getText() + "Time Start is in the past. ");
             }
         } catch (ParseException e) {
-            ((TextInputEditText) vStart).setError("Date/Time parsing error");
-            errorView.setText(errorView.getText() + "Date/Time parsing error. ");
+            ((TextInputEditText) vStart).setError(addError("Date/Time Start parsing error. " + dateStart + ". "));
             if (vEnd!=null) {
-                ((TextInputEditText) vEnd).setError("Date/Time parsing error");
+                ((TextInputEditText) vEnd).setError(addError("Date/Time End parsing error. " + dateEnd + ". "));
             }
-            return false;
+            valid = false;
         }
-        return false;
+        return !valid;
     }
 
     private void setEduSpinner() {
@@ -372,11 +427,12 @@ public class NveClass extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(NveClass.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        binding.classNveScheduleDate.setText(month+1 + "/" + dayOfMonth + "/" + year);
+                        binding.classNveScheduleDate.setText(Utility.formatDate(year, month, dayOfMonth));
                     }
                 }, year, month, day);
                 datePickerDialog.setTitle("Select Date");
                 datePickerDialog.show();
+                dateInput.setError(null);
             }
         });
         binding.classNveRDateStart.setOnClickListener(new View.OnClickListener() {
@@ -390,11 +446,12 @@ public class NveClass extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(NveClass.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        binding.classNveRDateStart.setText(month+1 + "/" + dayOfMonth + "/" + year);
+                        binding.classNveRDateStart.setText(Utility.formatDate(year, month, dayOfMonth));
                     }
                 }, year, month, day);
                 datePickerDialog.setTitle("Select Date Start");
                 datePickerDialog.show();
+                dateRStartInput.setError(null);
             }
         });
         binding.classNveRDateEnd.setOnClickListener(new View.OnClickListener() {
@@ -408,11 +465,12 @@ public class NveClass extends AppCompatActivity {
                 datePickerDialog = new DatePickerDialog(NveClass.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int dayOfMonth) {
-                        binding.classNveRDateEnd.setText(month+1 + "/" + dayOfMonth + "/" + year);
+                        binding.classNveRDateEnd.setText(Utility.formatDate(year, month, dayOfMonth));
                     }
                 }, year, month, day);
                 datePickerDialog.setTitle("Select Date End");
                 datePickerDialog.show();
+                dateREndInput.setError(null);
             }
         });
         binding.classNveScheduleTimeStart.setOnClickListener(new View.OnClickListener() {
@@ -425,11 +483,12 @@ public class NveClass extends AppCompatActivity {
                 timePickerDialog = new TimePickerDialog(NveClass.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        binding.classNveScheduleTimeStart.setText(formatTime(hourOfDay, minute));
+                        binding.classNveScheduleTimeStart.setText(Utility.formatTime(hourOfDay, minute));
                     }
                 }, hour, min, false);
                 timePickerDialog.setTitle("Select Time Start");
                 timePickerDialog.show();
+                timeStartInput.setError(null);
             }
         });
         binding.classNveScheduleTimeEnd.setOnClickListener(new View.OnClickListener() {
@@ -442,11 +501,12 @@ public class NveClass extends AppCompatActivity {
                 timePickerDialog = new TimePickerDialog(NveClass.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        binding.classNveScheduleTimeEnd.setText(formatTime(hourOfDay, minute));
+                        binding.classNveScheduleTimeEnd.setText(Utility.formatTime(hourOfDay, minute));
                     }
                 }, hour, min, false);
                 timePickerDialog.setTitle("Select Time Start");
                 timePickerDialog.show();
+                timeEndInput.setError(null);
             }
         });
         binding.classNveRTimeStart.setOnClickListener(new View.OnClickListener() {
@@ -459,11 +519,12 @@ public class NveClass extends AppCompatActivity {
                 timePickerDialog = new TimePickerDialog(NveClass.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        binding.classNveRTimeStart.setText(formatTime(hourOfDay, minute));
+                        binding.classNveRTimeStart.setText(Utility.formatTime(hourOfDay, minute));
                     }
                 }, hour, min, false);
                 timePickerDialog.setTitle("Select Time Start");
                 timePickerDialog.show();
+                timeRStartInput.setError(null);
             }
         });
         binding.classNveRTimeEnd.setOnClickListener(new View.OnClickListener() {
@@ -476,27 +537,14 @@ public class NveClass extends AppCompatActivity {
                 timePickerDialog = new TimePickerDialog(NveClass.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        binding.classNveRTimeEnd.setText(formatTime(hourOfDay, minute));
+                        binding.classNveRTimeEnd.setText(Utility.formatTime(hourOfDay, minute));
                     }
                 }, hour, min, false);
                 timePickerDialog.setTitle("Select Time Start");
                 timePickerDialog.show();
+                timeREndInput.setError(null);
             }
         });
-    }
-
-    private String formatTime(int hourOfDay, int minute) {
-        String time = "";
-        if (hourOfDay==0) {
-            time = "12:" + minute + " am";
-        } else if (hourOfDay<=11) {
-            time = hourOfDay + ":" + minute + " am";
-        } else if (hourOfDay==12) {
-            time = "12:" + minute + " pm";
-        } else {
-            time = (hourOfDay-12) + ":" + minute + " pm";
-        }
-        return time;
     }
 
     private void hideKeyboard() {
@@ -520,6 +568,7 @@ public class NveClass extends AppCompatActivity {
         recurringLayout = findViewById(R.id.class_nve_recurring_layout);
         titleTextView = findViewById(R.id.class_nve_title);
         errorView = findViewById(R.id.class_nve_schedule_error);
+        message = findViewById(R.id.class_nve_schedule_message);
         daysLabel = findViewById(R.id.class_nve_days_label);
         roomNo = findViewById(R.id.class_nve_room);
         timeStartInput = findViewById(R.id.class_nve_schedule_time_start);
@@ -537,5 +586,21 @@ public class NveClass extends AppCompatActivity {
         satCheck = findViewById(R.id.class_nve_saturday);
         sunCheck = findViewById(R.id.class_nve_sunday);
         submit = findViewById(R.id.class_nve_ok_button);
+    }
+
+    public void updateUI() {
+        updated = true;
+        setResult(RESULT_OK);
+        Toast.makeText(getApplicationContext(), "Successfully Added!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (updated)
+            setResult(RESULT_OK);
+        else
+            setResult(RESULT_CANCELED);
+        super.onBackPressed();
     }
 }

@@ -49,12 +49,12 @@
             android:checked="false"
             android:text="Ongoing" />
         <RadioButton
-            android:id="@+id/class_status_filter_requesting"
+            android:id="@+id/class_status_filter_pending"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:checked="false"
-            android:text="Requesting" />
+            android:text="Pending" />
     </RadioGroup>
 
     <LinearLayout

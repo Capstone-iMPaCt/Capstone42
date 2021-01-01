@@ -21,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -48,6 +50,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.app.Activity.RESULT_OK;
+
 public class SchedulingSystem extends Fragment {
 
     private static final String TAG = "SchedulingSystem";
@@ -55,6 +59,7 @@ public class SchedulingSystem extends Fragment {
     private RecyclerView recyclerView;
     private List<Class> classes;
     private Map<String, String> courses;
+    private final int NEW_CLASS = 1, UPDATE_CLASS = 2;
 
     private Dialog dialog;
     private Spinner coursesSpinner;
@@ -63,7 +68,7 @@ public class SchedulingSystem extends Fragment {
     private Button okDialog, clearDialog;
     private ImageButton viewOption;
     private RadioGroup status;
-    private RadioButton openStatus, closeStatus, cancelledStatus, ongoingStatus, requestingStatus;
+    private RadioButton openStatus, closeStatus, cancelledStatus, ongoingStatus, pendingStatus;
 
     private ObservableBoolean loadedClass, isLoading;
     private ObservableString statusChange;
@@ -122,7 +127,6 @@ public class SchedulingSystem extends Fragment {
                 }
             }
         });
-
         addNewClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,7 +134,7 @@ public class SchedulingSystem extends Fragment {
                 intent.putExtra("classID", "");
                 intent.putExtra("courseID", courseID);
                 intent.putExtra("action", "add");
-                startActivity(intent);
+                startActivityForResult(intent, NEW_CLASS);
             }
         });
 
@@ -175,22 +179,18 @@ public class SchedulingSystem extends Fragment {
                         if (status.getCheckedRadioButtonId() == openStatus.getId()) {
                             msg += "OPEN: ";
                             statusCurrent = "Open";
-                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
                         } else if (status.getCheckedRadioButtonId() == closeStatus.getId()) {
                             msg += "CLOSE: ";
                             statusCurrent = "Close";
-                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
                         } else if (status.getCheckedRadioButtonId() == cancelledStatus.getId()) {
                             msg += "CANCELLED: ";
                             statusCurrent = "Cancelled";
-                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
                         } else if (status.getCheckedRadioButtonId() == ongoingStatus.getId()) {
                             msg += "ONGOING: ";
                             statusCurrent = "Ongoing";
-                            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
-                        } else if (status.getCheckedRadioButtonId() == requestingStatus.getId()) {
-                            msg += "REQUESTING: ";
-                            statusCurrent = "Requesting";
+                        } else if (status.getCheckedRadioButtonId() == pendingStatus.getId()) {
+                            msg += "PENDING: ";
+                            statusCurrent = "Pending";
                         }
                         Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
                         Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
@@ -228,6 +228,7 @@ public class SchedulingSystem extends Fragment {
         adapter.notifyDataSetChanged();
         noClass.setVisibility(View.VISIBLE);
         noClass.setText("Please Wait. Class List Loading.");
+
     }
 
     private void setCourseSpinner() {
@@ -307,7 +308,7 @@ public class SchedulingSystem extends Fragment {
         closeStatus = dialog.findViewById(R.id.class_status_filter_close);
         cancelledStatus = dialog.findViewById(R.id.class_status_filter_cancelled);
         ongoingStatus = dialog.findViewById(R.id.class_status_filter_ongoing);
-        requestingStatus = dialog.findViewById(R.id.class_status_filter_requesting);
+        pendingStatus = dialog.findViewById(R.id.class_status_filter_pending);
         okDialog = dialog.findViewById(R.id.class_filter_option_ok);
         clearDialog = dialog.findViewById(R.id.class_filter_option_clear);
 
@@ -317,5 +318,17 @@ public class SchedulingSystem extends Fragment {
         addNewClassBtn = view.findViewById(R.id.scheduling_add_fab);
         viewOption = view.findViewById(R.id.scheduling_app_bar_option_button);
         recyclerView = view.findViewById(R.id.scheduling_recylerview);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == NEW_CLASS && resultCode == RESULT_OK) {
+            classesLoading();
+            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+        } else if (requestCode == UPDATE_CLASS && resultCode == RESULT_OK) {
+            classesLoading();
+            Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+        }
     }
 }

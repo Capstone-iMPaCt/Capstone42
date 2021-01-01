@@ -5,6 +5,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
@@ -13,6 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomBehavior.ObservableInteger;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -28,7 +30,8 @@ public class Class {
     private Course course;
     private Timestamp classStart, classEnd;
     private String roomNo;
-    public String status;
+    private String status;
+    private String requestMessage;
     public static List<Class> retrieved = new ArrayList<>();
 
     public Class() {
@@ -39,6 +42,7 @@ public class Class {
         this.classEnd = Timestamp.now();
         this.roomNo = "";
         this.status = "";
+        this.requestMessage ="";
     }
 
     public String getClassId() {
@@ -113,6 +117,14 @@ public class Class {
         this.status = status;
     }
 
+    public String getRequestMessage() {
+        return requestMessage;
+    }
+
+    public void setRequestMessage(String requestMessage) {
+        this.requestMessage = requestMessage;
+    }
+
     public static List<Class> getRetrieved() {
         return retrieved;
     }
@@ -127,6 +139,7 @@ public class Class {
         this.classEnd = otherClass.getClassEnd();
         this.roomNo = otherClass.getRoomNo();
         this.status = otherClass.getStatus();
+        this.requestMessage = otherClass.getRequestMessage();
     }
 
     public static void retrieveClassesFromDB(String courseID, String classStatus, final ObservableBoolean done) {
@@ -170,6 +183,10 @@ public class Class {
                 c.setClassEnd(document.getTimestamp("ClassEnd"));
                 c.setEducator(Educator.getEduByUsername(document.getString("EducatorID")));
                 c.setCourse(Course.getCourseById(document.getString("CourseID")));
+                if (document.contains("Message"))
+                    c.setRequestMessage(document.getString("Message"));
+                else
+                    c.setRequestMessage("");
                 c.setStatus(document.getString("Status"));
                 if (c.getStatus().equalsIgnoreCase("Open") || c.getStatus().equalsIgnoreCase("Ongoing")) {
                     if (c.getClassStart()!=null) {
@@ -185,6 +202,7 @@ public class Class {
                         }
                     }
                 }
+                if (c.getClassStart()!=null)
                     retrieved.add(c);
                 Log.d(TAG, document.getId());
             }
@@ -195,7 +213,7 @@ public class Class {
         }
     }
 
-    public static void addNewClassToDB(final Class aClass) {
+    public static void addNewClassToDB(final Class aClass, final ObservableInteger count) {
         Map<String, Object> data = new HashMap<>();
         data.put("CourseID", aClass.getCourseID());
         data.put("EducatorID", aClass.getEduID());
@@ -203,19 +221,24 @@ public class Class {
         data.put("Status", aClass.getStatus());
         data.put("ClassStart", aClass.getClassStart());
         data.put("ClassEnd", aClass.getClassEnd());
-        FirebaseFirestore.getInstance().collection("Class").add(data).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentReference> task) {
-                aClass.setClassId(task.getResult().getId());
-            }
-        });
+        FirebaseFirestore.getInstance().collection("Class").add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        aClass.setClassId(documentReference.getId());
+                        if (count!=null) {
+                            count.set(count.get()+1);
+                            System.out.println("JSHAKJHFKAS  " + count.get());
+                        }
+                    }
+                });
     }
 
-    public static int getClassPositionById(String classId) {
+    public static Class getClassById(String classId) {
         for (int i=0; i<retrieved.size();i++) {
             if (retrieved.get(i).getClassId().equals(classId))
-                return i;
+                return retrieved.get(i);
         }
-        return -1;
+        return null;
     }
 }
