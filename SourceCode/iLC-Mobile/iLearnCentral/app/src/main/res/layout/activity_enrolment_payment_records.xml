@@ -16,7 +16,7 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <androidx.appcompat.widget.Toolbar
-            android:id="@+id/enrollees_toolbar"
+            android:id="@+id/enrolment_payment_records_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="@drawable/bg_toolbar"
@@ -38,8 +38,8 @@
         android:layout_marginTop="@dimen/fab_margin"
         android:gravity="center"
         android:text="No Payment Records"
-        android:textSize="20sp"
-        android:visibility="visible" />
+        android:textSize="18sp"
+        android:visibility="gone" />
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/enrolment_payment_records_pullToRefresh"

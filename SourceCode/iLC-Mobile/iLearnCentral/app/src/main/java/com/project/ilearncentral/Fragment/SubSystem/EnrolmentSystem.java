@@ -68,7 +68,7 @@ public class EnrolmentSystem extends Fragment {
     private Dialog dialog;
     private TextView all, enrolled, pending;
     private TextView noCoursesText, subscriptionExpiry;
-    private Button enrollees, pendingEnrolees, paymentRecords;
+    private Button enrolees, pendingEnrolees, paymentRecords;
     private ImageButton enrolmentViewOption;
 
     private FirebaseFirestore db;
@@ -148,17 +148,21 @@ public class EnrolmentSystem extends Fragment {
                     }
                     dialog.setCancelable(true);
                     dialog.show();
-                    enrollees.setOnClickListener(new View.OnClickListener() {
+                    enrolees.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(new Intent(getActivity(), Enrollees.class));
+                            Intent intent = new Intent(getActivity(), Enrollees.class);
+                            intent.putExtra("option", "enrolees");
+                            startActivity(intent);
                             dialog.dismiss();
                         }
                     });
                     pendingEnrolees.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(new Intent(getActivity(), Enrollees.class));
+                            Intent intent = new Intent(getActivity(), Enrollees.class);
+                            intent.putExtra("option", "pendings");
+                            startActivity(intent);
                             dialog.dismiss();
                         }
                     });
@@ -192,6 +196,50 @@ public class EnrolmentSystem extends Fragment {
                 }
             });
         }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                query = query.toLowerCase();
+                List<Course> queryCourse = new ArrayList<>();
+                for (Course course : courseList) {
+                    if (course.getCenterName().toLowerCase().contains(query)
+                            || course.getCourseName().toLowerCase().contains(query)
+                            || course.getCourseStatus().toLowerCase().contains(query)
+                            || course.getCourseType().toLowerCase().contains(query)
+                            || course.getCourseDescription().toLowerCase().contains(query)
+                            || (course.getCourseFee() + "").toLowerCase().contains(query)
+                            || course.getScheduleFrom().toString().toLowerCase().contains(query)
+                            || Utility.getStringFromDate(course.getScheduleFrom()).toLowerCase()
+                            .contains(query)
+                            || course.getScheduleTo().toString().toLowerCase().contains(query)
+                            || Utility.getStringFromDate(course.getScheduleTo()).toLowerCase()
+                            .contains(query)
+                            || (Utility.getStringFromDate(course.getScheduleFrom())
+                            + "-" + Utility.getStringFromDate(course.getScheduleTo()))
+                            .toLowerCase().contains(query.replaceAll("\\s+", ""))
+                            || course.getProcessedDate().toString().toLowerCase().contains(query)
+                            || course.getEnrolledDate().toString().toLowerCase().contains(query)) {
+                        queryCourse.add(course);
+                    }
+                }
+                courseList.clear();
+                courseList.addAll(queryCourse);
+                adapter.notifyDataSetChanged();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                show.set(true);
+                return false;
+            }
+        });
         show = new ObservableBoolean();
         show.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -221,15 +269,17 @@ public class EnrolmentSystem extends Fragment {
                                     && enrolment.getEnrolmentStatus().equals("pending")
                                     && enrolment.getStudentID().equals(Account.getUsername())
                                     && !pendingCourseList.contains(course)) {
+                                course.setStatus(enrolment.getEnrolmentStatus());
+                                course.setProcessedDate(enrolment.getProcessedDate());
                                 pendingCourseList.add(course);
-                                course.setPending(true);
                                 adapter.notifyDataSetChanged();
                             } else if (course.getCourseId().equals(enrolment.getCourseID())
                                     && enrolment.getEnrolmentStatus().equals("enrolled")
                                     && enrolment.getStudentID().equals(Account.getUsername())
                                     && !enrolledCourseList.contains(course)) {
+                                course.setStatus(enrolment.getEnrolmentStatus());
+                                course.setEnrolledDate(enrolment.getEnrolledDate());
                                 enrolledCourseList.add(course);
-                                course.setEnrolled(true);
                                 adapter.notifyDataSetChanged();
                             }
                         }
@@ -247,6 +297,8 @@ public class EnrolmentSystem extends Fragment {
 //                }
 //                searchView.clearFocus();
 //                JobPosts.retrievePostsFromDB(done);
+                searchView.setQuery("", true);
+                retrieveCourses();
                 pullToRefresh.setRefreshing(false);
             }
         });
@@ -270,7 +322,7 @@ public class EnrolmentSystem extends Fragment {
         recyclerView = view.findViewById(R.id.enrolment_recylerview);
 
         // Search Menu
-        enrollees = dialog.findViewById(R.id.enrolment_search_option_enrollees);
+        enrolees = dialog.findViewById(R.id.enrolment_search_option_enrollees);
         pendingEnrolees = dialog.findViewById(R.id.enrolment_search_option_pending_enrolees);
         paymentRecords = dialog.findViewById(R.id.enrolment_search_option_payment_records);
 

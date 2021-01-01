@@ -17,6 +17,7 @@ import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.MyClass.Account;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -36,8 +37,10 @@ public class Course {
     private Map<String, Object> course;
     private static List<Course> retrieved = new ArrayList<>();
 
-    private boolean enrolled = false;
-    private boolean pending = false;
+    // just for course view purposes
+    private Date processedDate = new Date();
+    private Date enrolledDate = new Date();
+    private String status = "";
 
     public Course() {
         this.course = new HashMap<>();
@@ -165,20 +168,28 @@ public class Course {
         this.course.put("ScheduleTo", scheduleTo);
     }
 
-    public boolean isEnrolled() {
-        return enrolled;
+    public Date getProcessedDate() {
+        return processedDate;
     }
 
-    public void setEnrolled(boolean enrolled) {
-        this.enrolled = enrolled;
+    public void setProcessedDate(Date processedDate) {
+        this.processedDate = processedDate;
     }
 
-    public boolean isPending() {
-        return pending;
+    public Date getEnrolledDate() {
+        return enrolledDate;
     }
 
-    public void setPending(boolean pending) {
-        this.pending = pending;
+    public void setEnrolledDate(Date enrolledDate) {
+        this.enrolledDate = enrolledDate;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public static List<Course> getRetrieved() {

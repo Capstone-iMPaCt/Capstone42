@@ -116,8 +116,8 @@ public class EnrolmentPayment extends AppCompatActivity {
                     FirebaseStorage.getInstance().getReference()
                             .child("enrolment_payment_proof")
                             .child(centerID)
-                            .child(Account.getUsername())
                             .child(courseID)
+                            .child(Account.getUsername())
                             .putFile(photoUri)
                             .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                 @Override
@@ -126,10 +126,12 @@ public class EnrolmentPayment extends AppCompatActivity {
                                     Enrolment enrolment = new Enrolment();
                                     enrolment.setCenterID(centerID);
                                     enrolment.setCourseID(courseID);
+                                    enrolment.setCourseEnrolled(title);
                                     enrolment.setStudentID(Account.getUsername());
+                                    enrolment.setStudentName(Account.getName());
                                     enrolment.setDateCourseStarts(courseStarts);
                                     enrolment.setDateCourseEnds(courseEnds);
-                                    enrolment.setEnrolmentDate(new Date());
+                                    enrolment.setProcessedDate(new Date());
                                     enrolment.setEnrolmentFee(fee);
                                     enrolment.setEnrolmentStatus("pending");
                                     FirebaseFirestore.getInstance()
