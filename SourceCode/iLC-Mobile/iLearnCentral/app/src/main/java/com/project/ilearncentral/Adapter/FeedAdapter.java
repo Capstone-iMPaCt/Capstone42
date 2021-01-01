@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -140,10 +141,16 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.PostViewHolder
         try {
         storageRef.child(folderName).child(filename).getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) {
+            public void onSuccess(final Uri uri) {
                 imageView.setVisibility(View.VISIBLE);
                 Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
 //                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
+                imageView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Utility.viewImage(((Activity)context), uri);
+                    }
+                });
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

@@ -4,12 +4,6 @@
     tools:context=".Activity.Main">
 
     <item
-        android:id="@+id/menu_account_settings"
-        android:icon="@drawable/ic_settings_black_24dp"
-        android:title="@string/account_settings"
-        app:showAsAction="never" />
-
-    <item
         android:id="@+id/menu_update_account"
         android:icon="@drawable/ic_account_circle_black_24dp"
         android:title="@string/update_account"

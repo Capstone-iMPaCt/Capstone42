@@ -13,6 +13,8 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 
+import com.bumptech.glide.Glide;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,12 +35,14 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.project.ilearncentral.Activity.Main;
 import com.project.ilearncentral.Activity.Payment;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
+import com.project.ilearncentral.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -478,6 +482,16 @@ public class Utility {
         db.collection("LearningCenter").document(lc.getCenterId()).update("Ratings", lc.getRatings());
     }
 
+    public static void viewImage(final Activity activity, Uri uri){
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(activity);
+        View mView = activity.getLayoutInflater().inflate(R.layout.fragment_dialog_photoview, null);
+        final PhotoView photoView = mView.findViewById(R.id.photoview);
+        photoView.setMinimumHeight(Utility.getScreenHeight());
+        Glide.with(activity).load(uri.toString()).fitCenter().into(photoView);
+        builder.setView(mView);
+        android.app.AlertDialog dialog = builder.create();
+        dialog.show();
+    }
 
     public static int getScreenWidth() {
         return screenWidth;

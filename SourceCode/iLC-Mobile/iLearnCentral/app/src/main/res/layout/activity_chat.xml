@@ -47,6 +47,9 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/chat_coversations_recycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_transparent_80"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp"/>
     </FrameLayout>
 </LinearLayout>

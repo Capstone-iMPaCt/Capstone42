@@ -7,6 +7,9 @@
     <dimen name="nav_icon_lw">30dp</dimen>
     <dimen name="post_image_height">250dp</dimen>
     <dimen name="post_user_image_lw">48dp</dimen>
+    <dimen name="search_user_image_lw">64dp</dimen>
+    <dimen name="chat_user_image_lw">56dp</dimen>
+    <dimen name="message_user_image_lw">40dp</dimen>
     <dimen name="post_title_textview_width">200dp</dimen>
     <dimen name="item_home_height">100dp</dimen>
     <dimen name="speech_bubble_corners">10dp</dimen>

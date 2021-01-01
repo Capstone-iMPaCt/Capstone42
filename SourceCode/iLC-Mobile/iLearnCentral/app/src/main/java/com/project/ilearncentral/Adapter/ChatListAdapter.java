@@ -49,7 +49,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
 
     @Override
     public void onBindViewHolder(@NonNull final ChatListHolder holder, int position) {
-        holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
+//        holder.parent.setAnimation(AnimationUtils.loadAnimation(context, R.anim.fade_scale_animation));
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         final StorageReference storageRef = storage.getReference();
@@ -87,7 +87,7 @@ public class ChatListAdapter extends RecyclerView.Adapter<ChatListAdapter.ChatLi
                     @Override
                     public void onSuccess(Uri uri)
                     {
-                        Picasso.get().load(uri.toString()).error(R.drawable.user).fit().into(holder.image);
+                        Picasso.get().load(uri.toString()).error(R.drawable.user).fit().centerCrop().into(holder.image);
                     }
                 });
             } catch (Exception e) {}

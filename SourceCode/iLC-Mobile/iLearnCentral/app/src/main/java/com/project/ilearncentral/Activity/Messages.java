@@ -89,7 +89,7 @@ public class Messages extends AppCompatActivity {
                 .addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri.toString()).fit().into(image);
+                        Picasso.get().load(uri.toString()).fit().centerCrop().into(image);
                         image.setVisibility(View.VISIBLE);
                     }
                 });
@@ -110,7 +110,7 @@ public class Messages extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         checkMessages();
     }
-    
+
     private void getMessages() {
         db.collection("Messages")
                 .whereEqualTo("From", username)
@@ -138,11 +138,12 @@ public class Messages extends AppCompatActivity {
                                             return o1.getDateSent().compareTo(o2.getDateSent());
                                         }
                                     });
-                                    adapter.notifyDataSetChanged();
+//                                    adapter.notifyDataSetChanged();
                                     recyclerView.scrollToPosition(messageList.size() - 1);
                                     Log.d(TAG, document.getId() + " From=> " + document.getData());
                                 }
                             }
+                            adapter.notifyItemChanged(messageList.size());
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -175,11 +176,12 @@ public class Messages extends AppCompatActivity {
                                             return o1.getDateSent().compareTo(o2.getDateSent());
                                         }
                                     });
-                                    adapter.notifyDataSetChanged();
+//                                    adapter.notifyDataSetChanged();
                                     recyclerView.scrollToPosition(messageList.size() - 1);
                                     Log.d(TAG, document.getId() + " To=> " + document.getData());
                                 }
                             }
+                            adapter.notifyItemChanged(messageList.size());
                         } else {
                             Log.d(TAG, "Error getting documents: ", task.getException());
                         }
@@ -241,10 +243,11 @@ public class Messages extends AppCompatActivity {
                                     return o1.getDateSent().compareTo(o2.getDateSent());
                                 }
                             });
-                            adapter.notifyDataSetChanged();
+//                            adapter.notifyDataSetChanged();
                             recyclerView.scrollToPosition(messageList.size() - 1);
                         }
                     }
+                    adapter.notifyItemChanged(messageList.size());
                 }
             });
     }

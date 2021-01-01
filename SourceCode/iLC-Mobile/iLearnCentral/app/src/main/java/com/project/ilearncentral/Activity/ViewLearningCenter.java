@@ -2,6 +2,7 @@ package com.project.ilearncentral.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,8 +110,8 @@ public class ViewLearningCenter extends AppCompatActivity {
                 final Dialog ratingDialog = new Dialog(ViewLearningCenter.this, R.style.FullHeightDialog);
                 ratingDialog.setContentView(R.layout.rating_dialog);
                 ratingDialog.setCancelable(true);
-                final RatingBar ratingBar = (RatingBar)ratingDialog.findViewById(R.id.dialog_ratingbar);
-                ratingBar.setRating(Float.parseFloat(lc.getRating()+""));
+                final RatingBar ratingBar = (RatingBar) ratingDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(Float.parseFloat(lc.getRating() + ""));
 
                 TextView text = (TextView) ratingDialog.findViewById(R.id.rank_dialog_text1);
                 text.setText(lc.getBusinessName());
@@ -119,8 +120,8 @@ public class ViewLearningCenter extends AppCompatActivity {
                 updateButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        lc.addRating(Account.getUsername(), (int)ratingBar.getRating());
-                        rating.setText(lc.getRating()+"");
+                        lc.addRating(Account.getUsername(), (int) ratingBar.getRating());
+                        rating.setText(lc.getRating() + "");
                         Utility.rate(lc);
                         ratingDialog.dismiss();
                     }
@@ -130,11 +131,24 @@ public class ViewLearningCenter extends AppCompatActivity {
             }
         });
 
-        if (lc.getLogo() != null && !lc.getLogo().isEmpty())
+        if (lc.getLogo() != null && !lc.getLogo().isEmpty()) {
             Glide.with(this).load(lc.getLogo()).error(R.drawable.logo_icon)
                     .apply(new RequestOptions().override(Utility.getScreenWidth(),
                             Utility.dpToPx(this, 256))).centerCrop().into(logo);
+            logo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utility.viewImage(ViewLearningCenter.this, Uri.parse(lc.getLogo()));
+                }
+            });
+        }
         name.setText(lc.getBusinessName());
+
+        if (Account.getCenterId().equals(lc.getCenterId())) {
+            follow.setVisibility(View.GONE);
+            message.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
+        }
     }
 
     @Override

@@ -29,6 +29,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.github.chrisbanes.photoview.PhotoView;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
@@ -163,6 +164,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         notificationButton.setOnClickListener(this);
         messageButton.setOnClickListener(this);
         userImage.setOnClickListener(this);
+        lcLogo.setOnClickListener(this);
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -329,6 +331,30 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
                 break;
+            case R.id.view_user_image:
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(Main.this);
+                View mView = getLayoutInflater().inflate(R.layout.fragment_dialog_photoview, null);
+                final PhotoView photoView = mView.findViewById(R.id.photoview);
+                photoView.setMinimumHeight(Utility.getScreenHeight());
+                FirebaseStorage.getInstance().getReference().child("images").child(Account.getUsername()).getDownloadUrl()
+                        .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+//                                Picasso.get().load(uri.toString()).centerCrop().into(userImage);
+                                Glide.with(getApplicationContext()).load(uri.toString()).fitCenter().into(photoView);
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                    }
+                });
+                builder.setView(mView);
+                android.app.AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
+            case R.id.user_learning_center_logo:
+                Utility.viewImage(Main.this, Uri.parse(lc.getLogo()));
+                break;
         }
     }
 
@@ -370,10 +396,6 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.menu_account_settings:
-//                startActivity(new Intent(getApplicationContext(), AccountSettings.class));
-                startActivity(new Intent(getApplicationContext(), ViewUser.class));
-                return true;
             case R.id.menu_update_account:
                 startActivityForResult(new Intent(getApplicationContext(), UpdateAccount.class), UPDATE_ACCOUNT);
                 return true;

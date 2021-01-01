@@ -4,41 +4,35 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
+import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
-import de.hdodenhof.circleimageview.CircleImageView;
-import okhttp3.internal.Util;
 
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.FrameLayout;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.Timestamp;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewUser extends AppCompatActivity {
 
@@ -53,6 +47,7 @@ public class ViewUser extends AppCompatActivity {
     private Map<String, Object> userData;
     private String username;
     private User user;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,8 +118,8 @@ public class ViewUser extends AppCompatActivity {
                 final Dialog ratingDialog = new Dialog(ViewUser.this, R.style.FullHeightDialog);
                 ratingDialog.setContentView(R.layout.rating_dialog);
                 ratingDialog.setCancelable(true);
-                final RatingBar ratingBar = (RatingBar)ratingDialog.findViewById(R.id.dialog_ratingbar);
-                ratingBar.setRating(Float.parseFloat(user.getRating()+""));
+                final RatingBar ratingBar = (RatingBar) ratingDialog.findViewById(R.id.dialog_ratingbar);
+                ratingBar.setRating(Float.parseFloat(user.getRating() + ""));
 
                 TextView text = (TextView) ratingDialog.findViewById(R.id.rank_dialog_text1);
                 text.setText(user.getFullname());
@@ -133,8 +128,8 @@ public class ViewUser extends AppCompatActivity {
                 updateButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        user.addRating(Account.getUsername(), (int)ratingBar.getRating());
-                        rating.setText(user.getRating()+"");
+                        user.addRating(Account.getUsername(), (int) ratingBar.getRating());
+                        rating.setText(user.getRating() + "");
                         Utility.rate(user);
                         ratingDialog.dismiss();
                     }
@@ -143,19 +138,31 @@ public class ViewUser extends AppCompatActivity {
                 ratingDialog.show();
             }
         });
+        if (Account.getUsername().equals(username)) {
+            follow.setVisibility(View.GONE);
+            chat.setVisibility(View.GONE);
+            fab.setVisibility(View.GONE);
+        }
     }
 
     private void setValues() {
         usernameView.setText(userData.get("FullName").toString());
-        if (!getString("Image").isEmpty())
-            Picasso.get().load(Uri.parse(getString("Image"))).error(R.drawable.avatar_boy).fit().into(imageView);
+        if (!getString("Image").isEmpty()) {
+            Picasso.get().load(Uri.parse(getString("Image"))).error(R.drawable.avatar_boy).fit().centerCrop().into(imageView);
+            imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Utility.viewImage(ViewUser.this, Uri.parse(getString("Image")));
+                }
+            });
+        }
         expertiseView.setText(getString("AccountType"));
         if (Account.me.isFollowing(user.getUsername())) {
             follow.setText("Unfollow");
         }
         followers.setText(Utility.processCount(user.getFollowers()));
         following.setText(Utility.processCount(user.getFollowing()));
-        rating.setText(user.getRating()+"");
+        rating.setText(user.getRating() + "");
         try {
             Map<String, Object> addressMap = (Map<String, Object>) userData.get("Address");
             String address = "";
@@ -184,7 +191,7 @@ public class ViewUser extends AppCompatActivity {
         }
 
         addressOutput.setText(getString("Address"));
-        birthdateOutput.setText(Utility.getStringFromDate((Timestamp)userData.get("Birthday")));
+        birthdateOutput.setText(Utility.getStringFromDate((Timestamp) userData.get("Birthday")));
         religionOutput.setText(getString("Religion"));
         citizenshipOutput.setText(getString("Citizenship"));
         maritalStatusOutput.setText(getString("MaritalStatus"));
@@ -199,47 +206,47 @@ public class ViewUser extends AppCompatActivity {
 
     public void retrieveUserFromDB() {
         FirebaseFirestore.getInstance().collection("User")
-            .whereEqualTo("Username", username)
-            .get()
-            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String collection = "";
-                            if (document.get("AccountType").equals("learningcenter")) {
-                                collection = "LearningCenterStaff";
-                            } else if (document.get("AccountType").equals("educator")) {
-                                collection = "Educator";
-                            } else if (document.get("AccountType").equals("student")) {
-                                collection = "Student";
-                            }
-                            userData.putAll(document.getData());
-                            if (document.get("Image") == null) userData.put("Image", "");
-                            FirebaseFirestore.getInstance().collection(collection)
-                                .whereEqualTo("Username", username)
-                                .get()
-                                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                        if (task.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                                userData.putAll(document.getData());
-                                                Map<String, Object> name = (Map<String, Object>) userData.get("Name");
-                                                String fullname = Utility.formatFullName(name.get("FirstName")+"", name.get("MiddleName")+"", name.get("LastName")+"");
-                                                userData.put("FullName", fullname);
+                .whereEqualTo("Username", username)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String collection = "";
+                                if (document.get("AccountType").equals("learningcenter")) {
+                                    collection = "LearningCenterStaff";
+                                } else if (document.get("AccountType").equals("educator")) {
+                                    collection = "Educator";
+                                } else if (document.get("AccountType").equals("student")) {
+                                    collection = "Student";
+                                }
+                                userData.putAll(document.getData());
+                                if (document.get("Image") == null) userData.put("Image", "");
+                                FirebaseFirestore.getInstance().collection(collection)
+                                        .whereEqualTo("Username", username)
+                                        .get()
+                                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                if (task.isSuccessful()) {
+                                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                                        userData.putAll(document.getData());
+                                                        Map<String, Object> name = (Map<String, Object>) userData.get("Name");
+                                                        String fullname = Utility.formatFullName(name.get("FirstName") + "", name.get("MiddleName") + "", name.get("LastName") + "");
+                                                        userData.put("FullName", fullname);
+                                                    }
+                                                    setValues();
+                                                } else {
+                                                }
                                             }
-                                            setValues();
-                                        } else {
-                                        }
-                                    }
-                                });
+                                        });
+                            }
+                        } else {
+                            Log.d(TAG, "Error getting documents: ", task.getException());
                         }
-                    } else {
-                        Log.d(TAG, "Error getting documents: ", task.getException());
                     }
-                }
-            });
+                });
     }
 
     @Override

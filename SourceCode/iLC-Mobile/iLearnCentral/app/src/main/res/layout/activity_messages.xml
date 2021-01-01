@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/light_gray"
     tools:context=".Activity.Messages">
 
@@ -17,34 +17,37 @@
         android:focusableInTouchMode="true"
         android:orientation="vertical">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/chat_app_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/chat_toolbar"
+        <com.google.android.material.appbar.AppBarLayout
+            android:id="@+id/chat_app_bar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/bg_toolbar">
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-            <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/message_user_profile_picture"
-                android:layout_width="@dimen/nav_icon_lw"
-                android:layout_height="@dimen/nav_icon_lw"
-                android:layout_marginEnd="8dp"
-                android:visibility="gone"
-                android:src="@drawable/avatar_boy"/>
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/chat_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@drawable/bg_toolbar">
 
-            <TextView
-                android:id="@+id/message_user_name"
-                android:layout_width="wrap_content"
-                android:layout_height="@dimen/nav_icon_lw"
-                android:gravity="center|center_vertical"
-                android:textColor="@android:color/white" />
-        </androidx.appcompat.widget.Toolbar>
-    </com.google.android.material.appbar.AppBarLayout>
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/message_user_profile_picture"
+                    android:layout_width="@dimen/message_user_image_lw"
+                    android:layout_height="@dimen/message_user_image_lw"
+                    android:layout_marginEnd="8dp"
+                    app:civ_border_width="1dp"
+                    app:civ_border_overlay="true"
+                    app:civ_border_color="@color/semi_transparent"
+                    android:src="@drawable/avatar_boy"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/message_user_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="start|center"
+                    android:textColor="@android:color/white" />
+            </androidx.appcompat.widget.Toolbar>
+        </com.google.android.material.appbar.AppBarLayout>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/message_recycler"
@@ -52,8 +55,7 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/message_typer"
             android:clipToPadding="false"
-            app:stackFromEnd="true"
-            />
+            app:stackFromEnd="true" />
     </LinearLayout>
 
     <RelativeLayout
@@ -61,8 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:elevation="10dp"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:elevation="10dp">
 
         <EditText
             android:id="@+id/message_text"
@@ -71,8 +73,8 @@
             android:layout_centerVertical="true"
             android:layout_toStartOf="@+id/message_send"
             android:background="@android:color/transparent"
-            android:padding="10dp"
-            android:hint="@string/type_message" />
+            android:hint="@string/type_message"
+            android:padding="10dp" />
 
         <ImageButton
             android:id="@+id/message_send"
@@ -80,8 +82,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:padding="5dp"
             android:background="@android:color/transparent"
+            android:padding="5dp"
             android:src="@drawable/ic_send_black_40dp" />
     </RelativeLayout>
 </RelativeLayout>

@@ -1,46 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/chat_item_parent"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginHorizontal="3dp"
+    android:layout_marginTop="3dp">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/chat_item_image"
-        android:layout_width="75dp"
-        android:layout_height="75dp"
-        android:background="@drawable/white" />
-
-    <TextView
-        android:id="@+id/chat_item_username"
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:id="@+id/chat_item_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_toEndOf="@+id/chat_item_image"
-        android:text=""
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="@color/colorAccent"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:padding="5dp">
 
-    <TextView
-        android:id="@+id/chat_item_message"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/chat_item_username"
-        android:layout_alignStart="@+id/chat_item_username"
-        android:text=""
-        android:textSize="14sp"
-        android:textStyle="" />
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/chat_item_image"
+            android:layout_width="@dimen/chat_user_image_lw"
+            android:layout_height="@dimen/chat_user_image_lw"
+            app:civ_border_width="1dp"
+            app:civ_border_overlay="true"
+            app:civ_border_color="@color/semi_transparent"/>
 
-    <TextView
-        android:id="@+id/chat_item_time"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="10dp"
-        android:text=""
-        android:textSize="12sp" />
-</RelativeLayout>
+        <TextView
+            android:id="@+id/chat_item_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="0dp"
+            android:layout_toStartOf="@+id/chat_item_time"
+            android:layout_toEndOf="@+id/chat_item_image"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/chat_item_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chat_item_username"
+            android:layout_alignStart="@+id/chat_item_username"
+            android:layout_alignParentEnd="true"
+            android:ellipsize="end"
+            android:maxLines="1" />
+
+        <TextView
+            android:id="@+id/chat_item_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:textSize="10sp"
+            android:textStyle="italic" />
+    </RelativeLayout>
+</androidx.cardview.widget.CardView>

@@ -6,6 +6,12 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -15,18 +21,14 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Adapter.ChatListAdapter;
-import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Message;
+import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 public class Chat extends AppCompatActivity {
 
@@ -43,6 +45,12 @@ public class Chat extends AppCompatActivity {
     private String username;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        getMessages();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
@@ -54,9 +62,9 @@ public class Chat extends AppCompatActivity {
         filteredList = new ArrayList<>();
         addedChat = new ArrayList<>();
 
-        final RecyclerView recyclerView =  findViewById(R.id.chat_coversations_recycler);
+        final RecyclerView recyclerView = findViewById(R.id.chat_coversations_recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        if(chatList.size() == 0) {
+        if (chatList.size() == 0) {
             noConversations.setVisibility(View.VISIBLE);
         }
         adapter = new ChatListAdapter(this, chatList);
@@ -70,7 +78,7 @@ public class Chat extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filteredList.clear();
-                for(Message message: chatList) {
+                for (Message message : chatList) {
                     if (message.getFullname().toLowerCase().contains(query.toLowerCase())) {
                         filteredList.add(message);
                     }
@@ -107,8 +115,8 @@ public class Chat extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Message chat = new Message();
                                 if (addedChat.contains(document.get("To").toString())) {
-                                    for (int i=0; i<chatList.size(); i++) {
-                                        if(chatList.get(i).getFrom().equals(document.get("To").toString())) {
+                                    for (int i = 0; i < chatList.size(); i++) {
+                                        if (chatList.get(i).getFrom().equals(document.get("To").toString())) {
                                             chat.setId(document.getId());
                                             chat.setTo(document.get("To").toString());
                                             chat.setFrom(document.get("From").toString());
@@ -119,8 +127,7 @@ public class Chat extends AppCompatActivity {
                                             adapter.notifyDataSetChanged();
                                         }
                                     }
-                                }
-                                else if (!addedChat.contains(document.get("To").toString())) {
+                                } else if (!addedChat.contains(document.get("To").toString())) {
                                     chat.setId(document.getId());
                                     chat.setTo(document.get("To").toString());
                                     chat.setFrom(document.get("From").toString());
@@ -152,8 +159,8 @@ public class Chat extends AppCompatActivity {
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Message chat = new Message();
                                 if (addedChat.contains(document.get("From").toString())) {
-                                    for (int i=0; i<chatList.size(); i++) {
-                                        if(chatList.get(i).getTo().equals(document.get("From").toString())) {
+                                    for (int i = 0; i < chatList.size(); i++) {
+                                        if (chatList.get(i).getTo().equals(document.get("From").toString())) {
                                             chat.setId(document.getId());
                                             chat.setTo(document.get("To").toString());
                                             chat.setFrom(document.get("From").toString());
@@ -164,8 +171,7 @@ public class Chat extends AppCompatActivity {
                                             adapter.notifyDataSetChanged();
                                         }
                                     }
-                                }
-                                else if (!addedChat.contains(document.get("From").toString())) {
+                                } else if (!addedChat.contains(document.get("From").toString())) {
                                     chat.setId(document.getId());
                                     chat.setTo(document.get("To").toString());
                                     chat.setFrom(document.get("From").toString());
@@ -186,11 +192,4 @@ public class Chat extends AppCompatActivity {
                     }
                 });
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_activity_pages, menu);
-        return true;
-    }
-
 }
