@@ -64,7 +64,7 @@ public class Subscription extends AppCompatActivity implements View.OnClickListe
 
         addon = new ArrayList<>();
         addon.add(new Addon("Enrolment System","This feature handles the management of courses which includes adding, updating, and closing of course posted. This feature also includes viewing of enrolees and pending enrolees.", 199));
-//        addon.add(new Addon("Scheduling System", "This feature handles the adding, updating, closing, setting schedule, and viewing of classes.", 199));
+        addon.add(new Addon("Scheduling System", "This feature handles the adding, updating, closing, setting schedule, and viewing of classes.", 219));
         recyclerView = findViewById(R.id.addon_container_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddonAdapter(this, addon);

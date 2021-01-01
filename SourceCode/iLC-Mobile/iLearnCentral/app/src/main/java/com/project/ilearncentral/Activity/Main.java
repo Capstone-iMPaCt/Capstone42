@@ -173,18 +173,20 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             adapter.addFragment(new LearningCenterProfile(), "Center");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
-            adapter.addFragment(new EnrolmentSystem(), "Enrolment");
             adapter.addFragment(new LCEducators(), "Educators");
+            adapter.addFragment(new EnrolmentSystem(), "Enrolment");
+            adapter.addFragment(new SchedulingSystem(), "Classes");
         } else if (Account.isType("Educator")) {
             adapter.addFragment(new EducatorProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new JobPost(), "Job Posts");
+//            adapter.addFragment(new SchedulingSystem(), "Classes");
         } else if (Account.isType("Student")) {
             adapter.addFragment(new StudentProfile(), "Profile");
             adapter.addFragment(new Feed(), "Feeds");
             adapter.addFragment(new EnrolmentSystem(), "Courses");
+//            adapter.addFragment(new SchedulingSystem(), "Classes");
         }
-        adapter.addFragment(new SchedulingSystem(), "Classes");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

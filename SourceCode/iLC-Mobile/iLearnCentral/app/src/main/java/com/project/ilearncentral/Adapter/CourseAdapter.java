@@ -19,7 +19,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -243,8 +242,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         private LinearLayout courseFeeLayout, dateProcessedLayout, dateEnrolledLayout;
         private CircleImageView userImage;
         private SlantedTextView courseFee;
-        private TextView userName, editLink, courseStatus, courseType, courseName
-                , courseDescription, scheduleFrom, scheduleTo, dateProcessed, dateEnrolled;
+        private TextView userName, editLink, courseStatus, courseType, courseName, courseDescription, scheduleFrom, scheduleTo, dateProcessed, dateEnrolled;
         private Button enrollButton, closeCourseButton;
         private View topDivider, bottomDivider;
 

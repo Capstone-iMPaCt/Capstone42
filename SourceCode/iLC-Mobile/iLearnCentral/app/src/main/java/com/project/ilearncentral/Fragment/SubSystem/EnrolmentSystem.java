@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -78,6 +79,12 @@ public class EnrolmentSystem extends Fragment {
     }
 
     @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        setTextViewFocusEffect(all);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
@@ -116,6 +123,10 @@ public class EnrolmentSystem extends Fragment {
                     setTextViewFocusEffect(enrolled);
                     courseList.clear();
                     courseList.addAll(enrolledCourseList);
+                    if (enrolledCourseList.size() == 0) {
+                        noCoursesText.setVisibility(View.VISIBLE);
+                        noCoursesText.setText("No Course/s Enrolled");
+                    }
                     adapter.notifyDataSetChanged();
                 }
             });
@@ -125,6 +136,10 @@ public class EnrolmentSystem extends Fragment {
                     setTextViewFocusEffect(pending);
                     courseList.clear();
                     courseList.addAll(pendingCourseList);
+                    if (pendingCourseList.size() == 0) {
+                        noCoursesText.setVisibility(View.VISIBLE);
+                        noCoursesText.setText("No Pending Enrolment/s");
+                    }
                     adapter.notifyDataSetChanged();
                 }
             });
@@ -249,6 +264,7 @@ public class EnrolmentSystem extends Fragment {
                     courseList.addAll(retrievedList);
                     if (courseList.isEmpty()) {
                         noCoursesText.setVisibility(View.VISIBLE);
+                        noCoursesText.setText("Sorry, No Courses Available.");
                     } else {
                         noCoursesText.setVisibility(View.GONE);
                     }
@@ -298,6 +314,7 @@ public class EnrolmentSystem extends Fragment {
 //                searchView.clearFocus();
 //                JobPosts.retrievePostsFromDB(done);
                 searchView.setQuery("", true);
+                setTextViewFocusEffect(all);
                 retrieveCourses();
                 pullToRefresh.setRefreshing(false);
             }

@@ -39,6 +39,13 @@ public class Enrollees extends AppCompatActivity {
     private String option;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        enrolmentsList.clear();
+        adapter.notifyDataSetChanged();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initialize();
@@ -48,6 +55,8 @@ public class Enrollees extends AppCompatActivity {
             public void onBooleanChanged(boolean value) {
                 if (value) {
                     enrolmentsList.clear();
+                    enroleeList.clear();
+                    pendingList.clear();
                     enrolmentsList.addAll(retrievedList);
                     for (Enrolment enrolees : retrievedList) {
                         if (enrolees.getEnrolmentStatus().equals("enrolled")) {

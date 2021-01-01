@@ -26,6 +26,7 @@
             android:name=".Activity.EnrolmentPaymentRecords"
             android:configChanges="orientation|screenSize" />
         <activity android:name=".Activity.NveClass" />
+        <activity android:name=".Activity.EnroleePaymentDetails" />
         <activity
             android:name=".Activity.NveBankAccountDetail"
             android:configChanges="orientation|screenSize" />

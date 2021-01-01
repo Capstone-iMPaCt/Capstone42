@@ -91,7 +91,7 @@ public class Payment extends AppCompatActivity {
         Intent intent = getIntent();
         fee = intent.getDoubleExtra("fee", 0);
         title = intent.getStringExtra("title");
-        layoutBinding.paymentAmount.setText("PAY " + Utility.showPriceInPHP(fee));
+        layoutBinding.paymentAmount.setText("PAY " + Utility.showPriceInPHP(fee) + "/month");
 
         paymentsClient = PaymentsUtil.createPaymentsClient(this);
 

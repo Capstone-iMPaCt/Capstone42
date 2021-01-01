@@ -182,6 +182,7 @@ public class Enrolment {
     }
 
     public static void getDocumentReferenceByID(String idType, String id, final List<Enrolment> enrolmentsList, final ObservableBoolean listener) {
+        enrolmentsList.clear();
         FirebaseFirestore.getInstance().collection("Enrolment")
                 .whereEqualTo(idType, id)
                 .get()
