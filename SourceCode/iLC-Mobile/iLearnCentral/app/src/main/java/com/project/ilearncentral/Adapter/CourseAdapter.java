@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -44,6 +46,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     private Context context;
     private List<Course> courses;
     private StorageReference storageRef;
+    private int lastPosition = -1;
 
     public CourseAdapter(Context context, List<Course> courses) {
         this.context = context;
@@ -59,7 +62,6 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         return new CourseAdapter.CourseViewHolder(view);
     }
 
-    private int lastPosition = -1;
 
     @Override
     public void onBindViewHolder(@NonNull final CourseViewHolder holder, final int position) {
@@ -71,6 +73,7 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
 
         holder.userName.setText(course.getCenterName());
         holder.courseName.setText(course.getCourseName());
+        holder.courseType.setText(course.getCourseType());
         holder.courseDescription.setText(course.getCourseDescription());
         holder.scheduleFrom.setText(Utility.getStringFromDate(course.getScheduleFrom()));
         holder.scheduleTo.setText(Utility.getStringFromDate(course.getScheduleTo()));
@@ -99,17 +102,27 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
                     context.startActivity(intent);
                 }
             });
-            if (course.isPending()) {
+
+            if (course.getStatus().equals("pending")) {
                 holder.enrollButton.setText("PENDING");
                 holder.enrollButton.setEnabled(false);
                 holder.enrollButton.setTextColor(Color.YELLOW);
-                holder.enrollButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
-            }
-            if (course.isEnrolled()) {
+                holder.enrollButton.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+                holder.dateProcessedLayout.setVisibility(View.VISIBLE);
+                holder.dateProcessed.setText(course.getProcessedDate().toString());
+            } else if (course.getStatus().equals("enrolled")) {
                 holder.enrollButton.setText("ENROLLED");
                 holder.enrollButton.setEnabled(false);
                 holder.enrollButton.setTextColor(Color.GREEN);
-                holder.enrollButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
+                holder.enrollButton.setBackgroundTintList(ColorStateList.valueOf(Color.LTGRAY));
+                holder.dateEnrolledLayout.setVisibility(View.VISIBLE);
+                holder.dateEnrolled.setText(course.getEnrolledDate().toString());
+            } else {
+                holder.enrollButton.setText("ENROL");
+                holder.enrollButton.setEnabled(true);
+                holder.enrollButton.setTextColor(Color.WHITE);
+                holder.enrollButton.setBackgroundTintList(ColorStateList.valueOf(Color.parseColor("#ff669900")));
+                holder.dateEnrolledLayout.setVisibility(View.GONE);
             }
         } else if (Account.isType("Educator")) {
             getImage(holder.userImage, "images/", course.getCenterId());
@@ -227,10 +240,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
     public class CourseViewHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout containerLayout;
-        private LinearLayout courseFeeLayout;
+        private LinearLayout courseFeeLayout, dateProcessedLayout, dateEnrolledLayout;
         private CircleImageView userImage;
         private SlantedTextView courseFee;
-        private TextView userName, editLink, courseStatus, courseType, courseName, courseDescription, scheduleFrom, scheduleTo;
+        private TextView userName, editLink, courseStatus, courseType, courseName
+                , courseDescription, scheduleFrom, scheduleTo, dateProcessed, dateEnrolled;
         private Button enrollButton, closeCourseButton;
         private View topDivider, bottomDivider;
 
@@ -251,6 +265,11 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
             courseFee = itemView.findViewById(R.id.course_fee);
             enrollButton = itemView.findViewById(R.id.course_enroll_button);
             closeCourseButton = itemView.findViewById(R.id.course_close_button);
+            courseType = itemView.findViewById(R.id.course_type);
+            dateProcessedLayout = itemView.findViewById(R.id.course_date_processed_layout);
+            dateProcessed = itemView.findViewById(R.id.course_date_processed);
+            dateEnrolledLayout = itemView.findViewById(R.id.course_date_enrolled_layout);
+            dateEnrolled = itemView.findViewById(R.id.course_date_enrolled);
         }
     }
 }

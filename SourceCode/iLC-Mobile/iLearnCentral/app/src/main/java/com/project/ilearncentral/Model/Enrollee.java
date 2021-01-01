@@ -4,6 +4,12 @@ public class Enrollee {
     private int enrolleeImage;
     private String enrolleeName, enrolleeCourseEnrolled;
 
+    private String courseID;
+    private String studentID;
+
+    public Enrollee() {
+    }
+
     public Enrollee(int enrolleeImage, String enrolleeName, String enrolleeCourseEnrolled) {
         this.enrolleeImage = enrolleeImage;
         this.enrolleeName = enrolleeName;
@@ -37,5 +43,21 @@ public class Enrollee {
 
     public void setEnrolleeCourseEnrolled(String enrolleeCourseEnrolled) {
         this.enrolleeCourseEnrolled = enrolleeCourseEnrolled;
+    }
+
+    public String getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(String courseID) {
+        this.courseID = courseID;
+    }
+
+    public String getStudentID() {
+        return studentID;
+    }
+
+    public void setStudentID(String studentID) {
+        this.studentID = studentID;
     }
 }
