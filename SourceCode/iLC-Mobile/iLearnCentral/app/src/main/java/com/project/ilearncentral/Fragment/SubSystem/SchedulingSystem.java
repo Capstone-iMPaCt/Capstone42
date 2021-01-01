@@ -285,7 +285,8 @@ public class SchedulingSystem extends Fragment {
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
-                                    Course course = Course.getCourseById(document.getId());
+                                    Course course = Course.getCourseById(document.getString("courseID"));
+                                    System.out.println(document.getId() + " " + course.getCourseStatus());
                                     if (course!=null) {
                                         if (course.getCourseStatus().equalsIgnoreCase("open"))
                                             courses.put(course.getCourseId(), course.getCourseName());
