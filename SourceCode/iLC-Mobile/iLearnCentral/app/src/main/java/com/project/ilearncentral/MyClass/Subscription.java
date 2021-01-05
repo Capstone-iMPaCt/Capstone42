@@ -133,25 +133,28 @@ public class Subscription {
     }
 
     public static void getSchedulingSubscriptionDetails(final TextView textView) {
+        textView.setText("Subscribe to enable this feature.");
         FirebaseFirestore.getInstance().collection("Subscription")
                 .document(Account.getCenterId())
                 .addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                        if (value.getData().containsKey("SchedulingSystem")) {
-                            Map<String, Object> data = (Map<String, Object>) value.get("SchedulingSystem");
-                            Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
-                            Date dateNow = new Date();
-                            if (dateNow.compareTo(timestamp.toDate()) < 0) {
-                                // If dateNow occurs before SubscriptionExpiry
-                                setSchedulingSubscriptionExpiry(timestamp.toDate());
-                                setSchedulingSubscriptionStatus(true);
-                                textView.setText("Subscription expires on: "
-                                        + Subscription.getSchedulingSubscriptionExpiry());
+                        if (value.exists()) {
+                            Map<String, Object> document = value.getData();
+                            if (document.containsKey("SchedulingSystem")) {
+                                Map<String, Object> data = (Map<String, Object>) document.get("SchedulingSystem");
+                                Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
+                                Date dateNow = new Date();
+                                if (dateNow.compareTo(timestamp.toDate()) < 0) {
+                                    // If dateNow occurs before SubscriptionExpiry
+                                    setSchedulingSubscriptionExpiry(timestamp.toDate());
+                                    setSchedulingSubscriptionStatus(true);
+                                    textView.setText("Subscription expires on: "
+                                            + Subscription.getSchedulingSubscriptionExpiry());
+                                }
+                            } else {
+                                setSchedulingSubscriptionStatus(false);
                             }
-                        } else {
-                            setSchedulingSubscriptionStatus(false);
-                            textView.setText("Subscribe to enable this feature.");
                         }
                     }
                 });
