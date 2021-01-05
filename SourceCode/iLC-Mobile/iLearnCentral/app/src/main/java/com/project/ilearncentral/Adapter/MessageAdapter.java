@@ -48,7 +48,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         if (to) {
             holder.message.setBackground(context.getDrawable(R.drawable.shape_bg_outgoing_message));
             holder.message.setPadding(10,10,20,20);
-            holder.time.setPadding(0,0, 30,0);
+            holder.time.setPadding(0,0, 10,0);
             holder.time.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.parent);
@@ -64,7 +64,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageH
         else {
             holder.message.setBackground(context.getDrawable(R.drawable.shape_bg_incoming_message));
             holder.message.setPadding(20,10,10,20);
-            holder.time.setPadding(30,0,0,0);
+            holder.time.setPadding(10,0,0,0);
             holder.time.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_START);
             ConstraintSet constraintSet = new ConstraintSet();
             constraintSet.clone(holder.parent);

@@ -4,32 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_linear"
+    android:background="@drawable/bg_transparent_80"
     android:focusable="false"
     tools:context=".Activity.NveJobPost">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:background="@drawable/bg_transparent_80">
+        android:padding="20dp">
 
         <ImageView
             android:id="@+id/job_post_nve_logo"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:layout_gravity="center"
             android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
             android:contentDescription="@string/iLC_logo_description"
-            android:src="@drawable/logo_icon"/>
+            android:src="@drawable/logo_icon" />
 
         <TextView
             android:id="@+id/job_post_nve_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_toRightOf="@+id/job_post_nve_logo"
             android:text="Learning Center Name"
             android:textAlignment="center"
-            android:layout_toRightOf="@+id/job_post_nve_logo"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="18sp"
             android:textStyle="bold" />
@@ -38,54 +37,58 @@
             android:id="@+id/job_post_nve_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_name"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:paddingHorizontal="5dp"
             android:text="@string/business_address"
             android:textColor="@color/text_color"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
         <TextView
             android:id="@+id/job_post_nve_website"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_address"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:paddingHorizontal="5dp"
             android:text="@string/company_website"
             android:textColor="@color/text_color"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
         <TextView
             android:id="@+id/job_post_nve_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_website"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:paddingHorizontal="5dp"
             android:text="@string/contact_Email"
             android:textColor="@color/text_color"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
         <TextView
             android:id="@+id/job_post_nve_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:textSize="15sp"
             android:layout_below="@+id/job_post_nve_email"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/job_post_nve_logo"
+            android:paddingHorizontal="5dp"
             android:text="@string/contact_number"
             android:textColor="@color/text_color"
+            android:textSize="15sp"
             android:textStyle="italic" />
 
         <LinearLayout
-            android:layout_below="@+id/job_post_nve_logo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/job_post_nve_logo"
             android:orientation="vertical">
 
             <Switch
@@ -94,8 +97,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:checked="true"
-                android:textSize="18sp"
-                android:text="Receiving Applicants" />
+                android:text="Receiving Applicants"
+                android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -103,9 +106,9 @@
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/job_post_nve_position"
-                    android:hint="@string/position"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:hint="@string/position"
                     android:inputType="textCapWords"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
@@ -347,6 +350,7 @@
                     android:background="@color/transparent"
                     android:src="@drawable/ic_add_circle_mint_50dp" />
             </LinearLayout>
+
             <TextView
                 android:id="@+id/job_post_nve_appm_label"
                 android:layout_width="match_parent"
@@ -409,8 +413,8 @@
                 android:layout_marginBottom="30dp"
                 android:background="@drawable/button_color_primary"
                 android:text="@string/apply"
-                android:visibility="gone"
-                android:textColor="@color/text_view_background" />
+                android:textColor="@color/text_view_background"
+                android:visibility="gone" />
         </LinearLayout>
     </RelativeLayout>
 </ScrollView>

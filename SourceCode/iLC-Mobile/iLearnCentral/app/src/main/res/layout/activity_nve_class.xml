@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_transparent_80"
     android:orientation="vertical"
+    android:padding="20dp"
     tools:context=".Activity.NveClass">
 
     <TextView
@@ -12,11 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="10dp"
+        android:text="Create Class"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:text="Create Class" />
+        android:textStyle="bold" />
 
     <View
         android:layout_width="match_parent"
@@ -26,19 +28,19 @@
 
     <RadioGroup
         android:id="@+id/class_nve_type_radiogroup"
-        android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:weightSum="2" >
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <RadioButton
             android:id="@+id/class_nve_single"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:gravity="center"
             android:checked="true"
+            android:gravity="center"
             android:text="Single" />
 
         <View
@@ -51,8 +53,8 @@
             android:id="@+id/class_nve_recurring"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="center"
             android:layout_weight="1"
+            android:gravity="center"
             android:text="Recurring" />
     </RadioGroup>
 
@@ -67,42 +69,41 @@
         android:id="@+id/class_nve_schedule_message"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadeScrollbars="true"
-        android:inputType="textMultiLine"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
         android:layout_marginHorizontal="15dp"
-        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:fadeScrollbars="true"
+        android:inputType="textMultiLine"
         android:text="Request Message: "
-        android:textColor="@color/colorPrimaryDark" />
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/class_nve_schedule_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fadeScrollbars="true"
-        android:inputType="textMultiLine"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="15dp"
-        android:textSize="15sp"
+        android:layout_marginTop="10dp"
+        android:fadeScrollbars="true"
+        android:inputType="textMultiLine"
         android:text="Errors: "
-        android:textColor="@color/design_default_color_error" />
+        android:textColor="@color/design_default_color_error"
+        android:textSize="15sp" />
 
     <LinearLayout
         android:id="@+id/class_nve_single_layout"
-        android:orientation="vertical"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/bg_transparent_rounded"
             android:paddingHorizontal="10dp">
 
             <TextView
@@ -112,9 +113,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dp"
                 android:paddingVertical="15dp"
-                android:textSize="20dp"
                 android:text="Schedule"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/class_nve_schedule_date_layout"
@@ -224,10 +225,11 @@
 
     <LinearLayout
         android:id="@+id/class_nve_recurring_layout"
-        android:orientation="vertical"
-        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -242,9 +244,9 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="10dp"
                 android:paddingVertical="15dp"
-                android:textSize="20dp"
                 android:text="Schedule"
-                android:textColor="@color/colorPrimary" />
+                android:textColor="@color/colorPrimary"
+                android:textSize="20dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/class_nve_r_date_start_layout"
@@ -414,9 +416,9 @@
                 android:id="@+id/class_nve_monday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="5dp"
                 android:text="@string/mon_text"
-                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
@@ -425,9 +427,9 @@
                 android:id="@+id/class_nve_tuesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="5dp"
                 android:text="@string/tue_text"
-                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@id/class_nve_wednesday"
                 app:layout_constraintStart_toEndOf="@id/class_nve_monday"
@@ -437,9 +439,9 @@
                 android:id="@+id/class_nve_wednesday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="5dp"
                 android:text="@string/wed_text"
-                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@id/class_nve_thursday"
                 app:layout_constraintStart_toEndOf="@id/class_nve_tuesday"
@@ -449,9 +451,9 @@
                 android:id="@+id/class_nve_thursday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="5dp"
                 android:text="@string/thu_text"
-                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toStartOf="@id/class_nve_friday"
                 app:layout_constraintStart_toEndOf="@id/class_nve_wednesday"
@@ -461,9 +463,9 @@
                 android:id="@+id/class_nve_friday"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:checked="true"
                 android:padding="5dp"
                 android:text="@string/fri_text"
-                android:checked="true"
                 android:textSize="12sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/class_nve_days_label" />
@@ -491,11 +493,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/class_nve_both_layout"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
         <Spinner
             android:id="@+id/class_nve_edu_spinner"
@@ -503,9 +506,7 @@
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
-            android:layout_marginHorizontal="20dp"
-            android:background="@drawable/input_white_bg_rounded"
-            />
+            android:background="@drawable/input_white_bg_rounded" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/class_nve_room_layout"
@@ -513,7 +514,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="25dp"
-            android:layout_marginHorizontal="20dp"
             app:errorEnabled="true"
             app:hintEnabled="false">
 
@@ -542,7 +542,6 @@
             android:layout_height="45dp"
             android:layout_gravity="center"
             android:layout_marginTop="10dp"
-            android:layout_marginHorizontal="20dp"
             android:background="@drawable/input_white_bg_rounded"
             android:entries="@array/class_status" />
 

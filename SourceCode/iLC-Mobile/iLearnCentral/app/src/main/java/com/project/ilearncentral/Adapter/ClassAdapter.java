@@ -29,6 +29,7 @@ import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.MyClass.Account;
+import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -162,6 +163,21 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             @Override
             public void onClick(View v) {
                 //to do
+                if (!Subscription.isSchedulingSubscribed()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    return;
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
             }
         });
 
@@ -169,6 +185,21 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             @Override
             public void onClick(View v) {
                 if (Account.getType() == Account.Type.LearningCenter) {
+                    if (!Subscription.isSchedulingSubscribed()) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                        alertDialog.setTitle("Please subscribe");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        return;
+                                    }
+                                });
+                        alertDialog.show();
+                        return;
+                    }
                     Intent intent = new Intent(context, NveClass.class);
                     intent.putExtra("classID", aClass.getClassId());
                     intent.putExtra("courseID", aClass.getCourseID());
@@ -185,6 +216,21 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.delButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Subscription.isSchedulingSubscribed()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    return;
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
