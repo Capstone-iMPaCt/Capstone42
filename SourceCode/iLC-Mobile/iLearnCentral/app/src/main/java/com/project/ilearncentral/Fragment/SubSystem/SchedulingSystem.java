@@ -21,6 +21,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -180,21 +181,6 @@ public class SchedulingSystem extends Fragment {
         viewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!Subscription.isSchedulingSubscribed()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Please subscribe");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    return;
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
                 dialog.setCancelable(true);
                 dialog.show();
                 okDialog.setOnClickListener(new View.OnClickListener() {
@@ -274,7 +260,10 @@ public class SchedulingSystem extends Fragment {
             aadapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             coursesSpinner.setAdapter(aadapter);
             noClass.setText("Please Choose Course");
+
+            Subscription.getSchedulingSubscriptionDetails(subscriptionExpiry);
         } else if (Account.getType() == Account.Type.Educator) {
+            subscriptionExpiry.setVisibility(View.GONE);
             addNewClassBtn.setVisibility(View.GONE);
             FirebaseFirestore.getInstance().collection("Course").whereArrayContains("Educators", Account.getUsername())
                     .get()
@@ -304,6 +293,7 @@ public class SchedulingSystem extends Fragment {
                         }
                     });
         } else if (Account.getType() == Account.Type.Student) {
+            subscriptionExpiry.setVisibility(View.GONE);
             addNewClassBtn.setVisibility(View.GONE);
             FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("studentID", Account.getUsername())
                     .get()
@@ -356,8 +346,6 @@ public class SchedulingSystem extends Fragment {
         addNewClassBtn = view.findViewById(R.id.scheduling_add_fab);
         viewOption = view.findViewById(R.id.scheduling_app_bar_option_button);
         recyclerView = view.findViewById(R.id.scheduling_recylerview);
-
-        Subscription.getSchedulingSubscriptionDetails(subscriptionExpiry);
     }
 
     @Override
@@ -366,4 +354,14 @@ public class SchedulingSystem extends Fragment {
         classesLoading();
         Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
     }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (Account.getType() == Account.Type.LearningCenter) {
+            Subscription.getSchedulingSubscriptionDetails(subscriptionExpiry);
+        }
+    }
+
+
 }
