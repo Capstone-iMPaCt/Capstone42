@@ -11,6 +11,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -19,6 +23,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,13 +35,9 @@ import com.project.ilearncentral.R;
 import java.util.HashMap;
 import java.util.Map;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 public class Login extends AppCompatActivity implements View.OnClickListener {
 
-    private String TAG ="LOGIN";
+    private String TAG = "LOGIN";
     private TextView errorTextMessage;
     private EditText username;
     private TextInputEditText password;
@@ -94,10 +95,10 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.signUpLink:
-                startActivityForResult(new Intent(Login.this, AccountTypeSelection.class),1);
+                startActivityForResult(new Intent(Login.this, AccountTypeSelection.class), 1);
                 break;
             case R.id.forgotPasswordLink:
-                startActivityForResult(new Intent(Login.this, ForgotPassword.class),2);
+                startActivityForResult(new Intent(Login.this, ForgotPassword.class), 2);
                 break;
             case R.id.logInButton:
                 setLogInButton();
@@ -124,43 +125,66 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
             password.setError("Enter password");
             password.requestFocus();
         } else if (!(username.getText().toString().isEmpty() && password.getText().toString().isEmpty())) {
-            logIn();
+            if (username.getText().toString().equals("iLearnCentral")) {
+                loginAdministratorAccount();
+            } else {
+                logIn();
+            }
         } else {
             Toast.makeText(getApplicationContext(), "Error Logging In", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void logIn(){
-        if (password.getText().toString().length()>=6) {
+    private void loginAdministratorAccount() {
+        FirebaseFirestore.getInstance().collection("AdministratorAccount")
+                .document("iLearnCentral")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            if (password.getText().toString().equals(task.getResult().get("Password").toString())) {
+                                startActivity(new Intent(Login.this, AdministratorView.class));
+                                Toast.makeText(Login.this, "Administrator's Account Login", Toast.LENGTH_SHORT).show();
+                                finish();
+                            } else
+                                Toast.makeText(Login.this, "Error Logging In Administrator's Account", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void logIn() {
+        if (password.getText().toString().length() >= 6) {
             Utility.buttonWait(logInButton, true);
             final String usernameValue = username.getText().toString();
             if (!Patterns.EMAIL_ADDRESS.matcher(usernameValue).matches()) {
                 db.collection("User").whereEqualTo("Username", usernameValue).get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            if (!task.getResult().isEmpty()) {
-                                for (QueryDocumentSnapshot document : task.getResult()) {
-                                    setAccountType(document.get("AccountType").toString());
-                                    email = document.getString("Email");
-                                    oldId = document.getId();
-                                    oldData = document.getData();
-                                    aUser = true;
-                                    loginEmail();
-                                    Log.d(TAG, document.getId() + " => " + document
-                                            .getData());
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    if (!task.getResult().isEmpty()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            setAccountType(document.get("AccountType").toString());
+                                            email = document.getString("Email");
+                                            oldId = document.getId();
+                                            oldData = document.getData();
+                                            aUser = true;
+                                            loginEmail();
+                                            Log.d(TAG, document.getId() + " => " + document
+                                                    .getData());
+                                        }
+                                    } else {
+                                        Utility.buttonWait(logInButton, false, "Log In");
+                                        Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
+                                                .show();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            } else {
-                                Utility.buttonWait(logInButton, false, "Log In");
-                                Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
-                                        .show();
                             }
-                        } else {
-                            Log.d(TAG, "Error getting documents: ", task.getException());
-                        }
-                        }
-                    });
+                        });
             } else {
                 db.collection("User").whereEqualTo("Email", usernameValue).get()
                         .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -218,52 +242,52 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     private void loginEmail() {
         final String passwordValue = password.getText().toString();
         firebaseAuth.signInWithEmailAndPassword(email, passwordValue)
-            .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        // Sign in success, update UI with the signed-in user's information
-                        loggedIn();
-                    } else {
-                        if (aUser && task.getException().getMessage().equals(getString(R.string.login_error_message_no_email))) {
-                            firebaseAuth.createUserWithEmailAndPassword(email, passwordValue)
-                                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (task.isSuccessful()) {
-                                            FirebaseUser user = firebaseAuth.getCurrentUser();
-                                            db.collection("User").document(user.getUid()).set(oldData)
-                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                    @Override
-                                                    public void onSuccess(Void aVoid) {
-                                                        db.collection("User").document(oldId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                            @Override
-                                                            public void onSuccess(Void aVoid) {
-                                                                loggedIn();
-                                                                Log.d(TAG, "DocumentSnapshot successfully deleted!");
-                                                            }
-                                                        });
-                                                        Log.d(TAG, "DocumentSnapshot successfully written!");
-                                                    }
-                                                });
-
-                                        } else {
-                                            Utility.buttonWait(logInButton, false, "Log In");
-                                            Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
-                                                    .show();
-                                            Log.d(TAG, "Error logging in.");
-                                        }
-                                    }
-                                });
+                .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            loggedIn();
                         } else {
-                            Utility.buttonWait(logInButton, false, "Log In");
-                            Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
-                                    .show();
-                            Log.d(TAG, "Error logging in.");
+                            if (aUser && task.getException().getMessage().equals(getString(R.string.login_error_message_no_email))) {
+                                firebaseAuth.createUserWithEmailAndPassword(email, passwordValue)
+                                        .addOnCompleteListener(Login.this, new OnCompleteListener<AuthResult>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                                if (task.isSuccessful()) {
+                                                    FirebaseUser user = firebaseAuth.getCurrentUser();
+                                                    db.collection("User").document(user.getUid()).set(oldData)
+                                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                @Override
+                                                                public void onSuccess(Void aVoid) {
+                                                                    db.collection("User").document(oldId).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                        @Override
+                                                                        public void onSuccess(Void aVoid) {
+                                                                            loggedIn();
+                                                                            Log.d(TAG, "DocumentSnapshot successfully deleted!");
+                                                                        }
+                                                                    });
+                                                                    Log.d(TAG, "DocumentSnapshot successfully written!");
+                                                                }
+                                                            });
+
+                                                } else {
+                                                    Utility.buttonWait(logInButton, false, "Log In");
+                                                    Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
+                                                            .show();
+                                                    Log.d(TAG, "Error logging in.");
+                                                }
+                                            }
+                                        });
+                            } else {
+                                Utility.buttonWait(logInButton, false, "Log In");
+                                Toast.makeText(getApplicationContext(), "Username or Password is incorrect.", Toast.LENGTH_SHORT)
+                                        .show();
+                                Log.d(TAG, "Error logging in.");
+                            }
                         }
                     }
-                }
-            });
+                });
     }
 
     private void loggedIn() {
@@ -274,9 +298,9 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1 && resultCode == RESULT_OK) {
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             finish();
-        } else if(requestCode == 2 && resultCode == RESULT_OK) {
+        } else if (requestCode == 2 && resultCode == RESULT_OK) {
             username.setText(data.getStringExtra("username"));
         }
     }

@@ -1,10 +1,11 @@
 package com.project.ilearncentral.Fragment.SubSystem;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,10 +19,8 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,7 +40,7 @@ import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.JobPosts;
+import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -49,8 +48,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static android.app.Activity.RESULT_OK;
 
 public class SchedulingSystem extends Fragment {
 
@@ -62,14 +59,14 @@ public class SchedulingSystem extends Fragment {
 
     private Dialog dialog;
     private Spinner coursesSpinner;
-    private TextView subscriptionStatus, noClass;
+    private TextView subscriptionExpiry, noClass;
     private FloatingActionButton addNewClassBtn;
     private Button okDialog, clearDialog;
     private ImageButton viewOption;
     private RadioGroup status;
     private RadioButton openStatus, closeStatus, cancelledStatus, ongoingStatus, pendingStatus;
 
-    private ObservableBoolean loadedClass, isLoading;
+    private ObservableBoolean loadedClass, isLoading, subscriptionStatus;
     private ObservableString statusChange;
     private String courseID;
     private String statusCurrent;
@@ -129,6 +126,21 @@ public class SchedulingSystem extends Fragment {
         addNewClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Subscription.isSchedulingSubscribed()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    return;
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), NveClass.class);
                 intent.putExtra("classID", "");
                 intent.putExtra("courseID", courseID);
@@ -141,7 +153,7 @@ public class SchedulingSystem extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 String selected = coursesSpinner.getSelectedItem().toString();
-                courseID = selected.substring(selected.indexOf("- ")+2);
+                courseID = selected.substring(selected.indexOf("- ") + 2);
                 classesLoading();
                 Class.retrieveClassesFromDB(courseID, "", loadedClass);
             }
@@ -168,6 +180,21 @@ public class SchedulingSystem extends Fragment {
         viewOption.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!Subscription.isSchedulingSubscribed()) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    return;
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 dialog.setCancelable(true);
                 dialog.show();
                 okDialog.setOnClickListener(new View.OnClickListener() {
@@ -192,9 +219,9 @@ public class SchedulingSystem extends Fragment {
                             statusCurrent = "Pending";
                         }
                         Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
-                        Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0,0);
-                        toast.show();
+//                        Toast toast = Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER, 0,0);
+//                        toast.show();
                         dialog.dismiss();
                     }
                 });
@@ -205,9 +232,9 @@ public class SchedulingSystem extends Fragment {
                         statusCurrent = "";
                         Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
                         classesLoading();
-                        Toast toast = Toast.makeText(getContext(), "Cleared filters", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0,0);
-                        toast.show();
+//                        Toast toast = Toast.makeText(getContext(), "Cleared filters", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER, 0,0);
+//                        toast.show();
                         dialog.dismiss();
                     }
                 });
@@ -257,7 +284,7 @@ public class SchedulingSystem extends Fragment {
                             if (task.isSuccessful()) {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Course course = Course.getCourseById(document.getId());
-                                    if (course!=null) {
+                                    if (course != null) {
                                         if (course.getCourseStatus().equalsIgnoreCase("open"))
                                             courses.put(course.getCourseId(), course.getCourseName());
                                     }
@@ -287,7 +314,7 @@ public class SchedulingSystem extends Fragment {
                                 for (QueryDocumentSnapshot document : task.getResult()) {
                                     Course course = Course.getCourseById(document.getString("courseID"));
                                     System.out.println(document.getId() + " " + course.getCourseStatus());
-                                    if (course!=null) {
+                                    if (course != null) {
                                         if (course.getCourseStatus().equalsIgnoreCase("open"))
                                             courses.put(course.getCourseId(), course.getCourseName());
                                     }
@@ -309,7 +336,7 @@ public class SchedulingSystem extends Fragment {
         }
     }
 
-    private void initialize(View view){
+    private void initialize(View view) {
         dialog = new Dialog(getContext());
         dialog.setContentView(R.layout.fragment_dialog_filter_classes);
         Window window = dialog.getWindow();
@@ -324,11 +351,13 @@ public class SchedulingSystem extends Fragment {
         clearDialog = dialog.findViewById(R.id.class_filter_option_clear);
 
         coursesSpinner = view.findViewById(R.id.scheduling_app_bar_spinner);
-        subscriptionStatus = view.findViewById(R.id.scheduling_subscription_status);
+        subscriptionExpiry = view.findViewById(R.id.scheduling_subscription_status);
         noClass = view.findViewById(R.id.scheduling_classes_none);
         addNewClassBtn = view.findViewById(R.id.scheduling_add_fab);
         viewOption = view.findViewById(R.id.scheduling_app_bar_option_button);
         recyclerView = view.findViewById(R.id.scheduling_recylerview);
+
+        Subscription.getSchedulingSubscriptionDetails(subscriptionExpiry);
     }
 
     @Override
