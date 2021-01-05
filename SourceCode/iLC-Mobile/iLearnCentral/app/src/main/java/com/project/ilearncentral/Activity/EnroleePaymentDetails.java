@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -30,7 +28,6 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.project.ilearncentral.databinding.ActivityEnroleePaymentDetailsBinding;
-import com.squareup.picasso.Picasso;
 
 import java.util.Date;
 
@@ -127,7 +124,7 @@ public class EnroleePaymentDetails extends AppCompatActivity {
         centerID = intent.getStringExtra("CenterID");
         fee = Double.parseDouble(String.valueOf(intent.getDoubleExtra("Fee", 0)));
 
-        binding.enroleePaymentDate.append(Utility.getStringFromDate(new Timestamp(dateProcessed)));
+        binding.enroleePaymentDate.append(Utility.getDateStringFromTimestamp(new Timestamp(dateProcessed)));
         binding.enroleePaymentName.append(studentName);
         binding.enroleePaymentCourseTitle.append(courseTitle);
         binding.enroleePaymentFee.append(Utility.showPriceInPHP(fee));

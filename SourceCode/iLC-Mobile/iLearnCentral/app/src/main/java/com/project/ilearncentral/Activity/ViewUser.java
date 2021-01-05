@@ -191,7 +191,7 @@ public class ViewUser extends AppCompatActivity {
         }
 
         addressOutput.setText(getString("Address"));
-        birthdateOutput.setText(Utility.getStringFromDate((Timestamp) userData.get("Birthday")));
+        birthdateOutput.setText(Utility.getDateStringFromTimestamp((Timestamp) userData.get("Birthday")));
         religionOutput.setText(getString("Religion"));
         citizenshipOutput.setText(getString("Citizenship"));
         maritalStatusOutput.setText(getString("MaritalStatus"));

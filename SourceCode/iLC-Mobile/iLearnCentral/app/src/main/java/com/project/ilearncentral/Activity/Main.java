@@ -1,11 +1,13 @@
 package com.project.ilearncentral.Activity;
 
+import android.app.Dialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -18,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -25,6 +28,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.NotificationCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
@@ -47,7 +52,9 @@ import com.project.ilearncentral.Activity.SignUp.CreateUser;
 import com.project.ilearncentral.Activity.Update.UpdateAccount;
 import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
+import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.Adapter.MainAdapter;
+import com.project.ilearncentral.Adapter.NotificationAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
@@ -59,6 +66,7 @@ import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
 import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
+import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.MyClass.Account;
@@ -79,12 +87,14 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private String TAG = "MAIN";
     public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
     public static final String CHANNEL_ID = "ILearnCentral_Notif_Chanel";
-    static int notificationCount = 0 ;
+    public int notificationCount;
     TextView notifBadge;
     private FirebaseUser user;
-    private boolean tabGenerate, exit;
+    private boolean tabGenerate, exit, notificationRetrieved;
     private LearningCenter lc;
     private List<Notification> notifications;
+    private NotificationAdapter notifAdapter;
+    private RecyclerView notificationRecycler;
     private Context mainContext;
 
     private Toolbar toolbar;
@@ -98,6 +108,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private CollapsingToolbarLayout toolbarLayout;
     private CoordinatorLayout.LayoutParams clLayoutParams;
     private TextView usernameDisplay, fieldDisplay;
+    private Dialog notifDialog;
     private final int UPDATE_PROFILE = 11, UPDATE_ACCOUNT = 12, UPDATE_CENTER = 13, CREATE_USER = 14, UPDATE_RESUME = 15;
 
     @Override
@@ -132,6 +143,8 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         tabGenerate = true;
         exit = false;
         notifications = new ArrayList<>();
+        notificationCount = 0;
+        notificationRetrieved = false;
         mainContext = this;
 
         notifBadge = findViewById(R.id.notification_button_count);
@@ -150,6 +163,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         ((CustomAppBarLayoutBehavior) clLayoutParams.getBehavior()).setScrollBehavior(true);
         usernameDisplay = findViewById(R.id.user_full_name);
         fieldDisplay = findViewById(R.id.user_expertise);
+
+        notifDialog = new Dialog(this);
+        notifDialog.setContentView(R.layout.dialog_notification_list);
+        notifDialog.setCancelable(true);
+        notificationRecycler = notifDialog.findViewById(R.id.notification_recycler);
+
 
         setSupportActionBar(toolbar);
 
@@ -179,22 +198,37 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             generateTabs();
         setDetails(1);
 
+        notificationRecycler.setLayoutManager(new LinearLayoutManager(this));
+        notifAdapter = new NotificationAdapter(this, notifications);
+        notificationRecycler.setAdapter(notifAdapter);
+
         final ObservableBoolean notifRetrieved = new ObservableBoolean();
         notifRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
-            public void onBooleanChanged(boolean value) {
-                for(Notification notification : Notification.retrieved) {
-                    createNotification(notification);
-                }
-                if (notificationCount==0) {
-                    notifBadge.setVisibility(View.GONE);
-                } else {
-                    notifBadge.setVisibility(View.VISIBLE);
+            public void onBooleanChanged(boolean success) {
+                if (success) {
+                    notificationRetrieved = true;
+                    for (Notification notification : Notification.retrieved) {
+                        notifications.add(notification);
+                    }
+                    newNotificationSet();
                 }
             }
         });
         Notification.retrieveUnreadNotificationsOfUser(notifRetrieved, Account.getUsername());
         checkNotifications();
+    }
+
+    private void newNotificationSet() {
+        notificationCount = Notification.countUnread(notifications);
+        notifBadge.setVisibility(View.VISIBLE);
+        notifBadge.setText(String.valueOf(notificationCount));
+        notifAdapter.notifyDataSetChanged();
+        if (notificationCount==0) {
+            notifBadge.setVisibility(View.GONE);
+        } else {
+            notifBadge.setVisibility(View.VISIBLE);
+        }
     }
 
     private void setDetails(int code) {
@@ -242,6 +276,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
+                notificationRecycler.setVisibility(View.GONE);
                 switch (position) {
                     case 0:
                         appBarLayout.setExpanded(true);
@@ -324,6 +359,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
+                notifDialog.show();
                 notificationCount = 0;
                 notifBadge.setText(String.valueOf(notificationCount));
                 notifBadge.setVisibility(View.GONE);
@@ -477,6 +513,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     private void checkNotifications() {
         FirebaseFirestore.getInstance().collection("Notification")
                 .whereEqualTo("Username", Account.getUsername())
+                .whereEqualTo("Status", "new")
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value,
@@ -486,21 +523,21 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             return;
                         }
                         for (QueryDocumentSnapshot doc : value) {
+                            FirebaseFirestore.getInstance().collection("Notification").document(doc.getId()).update("Status", "unread");
                             Notification not = new Notification();
+                            not.setNotifId(doc.getId());
                             not.setUsername(doc.getString("Username"));
-                            not.setStatus(doc.getString("Status"));
+                            not.setStatus("unread");
                             not.setMessage(doc.getString("Message"));
                             not.setLink(doc.getString("Link"));
-                            not.setLink(doc.getString("Subject"));
+                            not.setSubject(doc.getString("Subject"));
                             not.setDate(doc.getTimestamp("Date"));
-                            notifications.add(not);
-                            createNotification(not);
+                            if (!Notification.containsNotification(doc.getId()) && notificationRetrieved) {
+                                createNotification(not);
+                                notifications.add(not);
+                                newNotificationSet();
+                            }
                         }
-                        for(Notification not: notifications) {
-                            if (!not.getStatus().equalsIgnoreCase("unread"))
-                             notifications.remove(not);
-                        }
-
                     }
                 });
     }
@@ -527,8 +564,5 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         }
         assert mNotificationManager != null;
         mNotificationManager.notify(( int ) System. currentTimeMillis () , mBuilder.build());
-        notificationCount++;
-        notifBadge.setVisibility(View.VISIBLE);
-        notifBadge.setText(String.valueOf(notificationCount));
     }
 }

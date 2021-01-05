@@ -87,9 +87,9 @@ public class LearningCenterProfile extends Fragment {
                         businessAddress.setText(lc.getBusinessAddress());
                         serviceType.setText(lc.getServiceType());
                         openingTime.setText(Utility
-                                .getStringFromTime(lc.getOpen()));
+                                .getTimeStringFromTimestamp(lc.getOpen()));
                         closingTime.setText(Utility
-                                .getStringFromTime(lc.getClose()));
+                                .getTimeStringFromTimestamp(lc.getClose()));
                         operatingDays.clear();
                         operatingDays.addAll((List<String>) lc.getOperatingDays());
                         checkDay("Mon", monday);

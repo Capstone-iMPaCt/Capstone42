@@ -74,8 +74,8 @@ public class CourseAdapter extends RecyclerView.Adapter<CourseAdapter.CourseView
         holder.courseName.setText(course.getCourseName());
         holder.courseType.setText(course.getCourseType());
         holder.courseDescription.setText(course.getCourseDescription());
-        holder.scheduleFrom.setText(Utility.getStringFromDate(course.getScheduleFrom()));
-        holder.scheduleTo.setText(Utility.getStringFromDate(course.getScheduleTo()));
+        holder.scheduleFrom.setText(Utility.getDateStringFromTimestamp(course.getScheduleFrom()));
+        holder.scheduleTo.setText(Utility.getDateStringFromTimestamp(course.getScheduleTo()));
         holder.courseFee.setText(Utility.showPriceInPHP(course.getCourseFee()));
 
         if (Account.isType("Student")) {

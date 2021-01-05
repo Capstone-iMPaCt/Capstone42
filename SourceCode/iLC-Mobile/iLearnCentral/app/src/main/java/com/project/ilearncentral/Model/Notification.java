@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.MyClass.Utility;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -87,6 +88,16 @@ public class Notification {
         this.subject = subject;
     }
 
+    @Override
+    public String toString() {
+        return "Notification: " + notifId +
+                "\nSubject: " + subject +
+                "\nMessage: " + message +
+                "\nDate: " + Utility.getDateTimeStringFromTimestamp(date) +
+                "\nLink: " + link +
+                "\nStatus: " + status;
+    }
+
     public void setNotification(Notification notification) {
         this.notifId = notification.getNotifId();
         this.date = notification.getDate();
@@ -119,10 +130,10 @@ public class Notification {
     }
     public static void retrieveUnreadNotificationsOfUser(final ObservableBoolean done, String username) {
         CollectionReference db = FirebaseFirestore.getInstance().collection("Notification");
-        db.whereEqualTo("Username", username).whereEqualTo("Status", "unread").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        db.whereEqualTo("Username", username).whereEqualTo("Status", "unread").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                retrieved.clear();
                 onCompleteRetrieve(done, task);
             }
         });
@@ -130,6 +141,7 @@ public class Notification {
 
     public static void onCompleteRetrieve (final ObservableBoolean done, final Task<QuerySnapshot> task) {
         if (task.isSuccessful()) {
+            retrieved.clear();
             for (QueryDocumentSnapshot document : task.getResult()) {
                 Notification notification = new Notification();
                 notification.setNotifId(document.getId());
@@ -137,44 +149,40 @@ public class Notification {
                 notification.setMessage(document.getString("Message"));
                 notification.setLink(document.getString("Link"));
                 notification.setStatus(document.getString("Status"));
+                if (notification.getStatus().equalsIgnoreCase("new"))
+                    notification.setStatus("unread");
                 notification.setUsername(document.getString("Username"));
-                notification.setUsername(document.getString("Subject"));
-                int pos = getNotifPositionById(document.getId());
-                if (pos == -1) {
-                    retrieved.add(notification);
-                } else {
-                    retrieved.get(pos).setNotification(notification);
-                }
+                notification.setSubject(document.getString("Subject"));
+                retrieved.add(notification);
             }
             if (done!=null) done.set(true);
         } else {
             if (done != null) done.set(false);
-            Log.d("getStudents", "Error getting documents: ", task.getException());
+            Log.d("getNotification", "Error getting documents: ", task.getException());
         }
     }
 
-    public static int getNotifPositionById(String notifId) {
+    public static boolean containsNotification(String notID) {
         for (int i=0; i<retrieved.size();i++) {
-            if (retrieved.get(i).getNotifId().equals(notifId))
-                return i;
+            if (retrieved.get(i).getNotifId().equals(notID))
+                return true;
         }
-        return -1;
+        return false;
     }
 
-    public static List<Notification> getNotifPositionByUsername(String username) {
-        List<Notification> notifications = new ArrayList<>();
-        for (int i=0; i<retrieved.size();i++) {
-            if (retrieved.get(i).getUsername().equals(username))
-                notifications.add(retrieved.get(i));
+    public static int countUnread(List<Notification> notifications) {
+        int count = 0;
+        for(Notification notification:notifications) {
+            if (notification.getStatus().equalsIgnoreCase("unread"))
+                count++;
         }
-        return notifications;
+        return count;
     }
-
 
     public static void newNotification(String username, String subject, String message, String link) {
         Notification notification = new Notification();
         notification.setDate(Timestamp.now());
-        notification.setStatus("unread");
+        notification.setStatus("new");
         notification.setLink(link);
         notification.setMessage(message);
         notification.setUsername(username);
@@ -182,7 +190,6 @@ public class Notification {
         newNotification(notification);
     }
     public static void newNotification(final Notification notification) {
-        System.out.println("New notification to " + notification.getUsername());
         Map<String, Object> data = new HashMap<>();
         data.put("Status", notification.getStatus());
         data.put("Subject", notification.getSubject());

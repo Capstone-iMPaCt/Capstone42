@@ -242,9 +242,9 @@ public class RequestSchedChange extends AppCompatActivity {
     }
 
     private void setData() {
-        oldDate = Utility.getStringFromDate(aClass.getClassStart());
-        oldTimeStart = Utility.getStringFromTime(aClass.getClassStart());
-        oldTimeEnd = Utility.getStringFromTime(aClass.getClassEnd());
+        oldDate = Utility.getDateStringFromTimestamp(aClass.getClassStart());
+        oldTimeStart = Utility.getTimeStringFromTimestamp(aClass.getClassStart());
+        oldTimeEnd = Utility.getTimeStringFromTimestamp(aClass.getClassEnd());
         errorView.setVisibility(View.GONE);
 
         dateInput.setText(oldDate);
