@@ -62,7 +62,7 @@ public class UserAboutMe extends Fragment {
     private void setOutputs() {
         addressOutput.setText(Account.getAddress());
         if (Account.getTimeStampData("birthday")!=null)
-            birthdateOutput.setText(Utility.getStringFromDate(Account.getTimeStampData("birthday")));
+            birthdateOutput.setText(Utility.getDateStringFromTimestamp(Account.getTimeStampData("birthday")));
         else
             birthdateOutput.setText("");
         religionOutput.setText(Account.getStringData("religion"));

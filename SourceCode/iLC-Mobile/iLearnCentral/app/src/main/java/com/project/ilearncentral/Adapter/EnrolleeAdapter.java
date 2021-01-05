@@ -19,7 +19,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.type.Date;
 import com.project.ilearncentral.Activity.EnroleePaymentDetails;
 import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.MyClass.Utility;
@@ -94,7 +93,7 @@ public class EnrolleeAdapter extends BaseAdapter {
         enroleeCourseEnrolled.setText(enrolee.getCourseEnrolled());
 
         if (mode.equals("pendings")) {
-            enroleeDate.setText(Utility.getStringFromDate(new Timestamp(enrolee.getProcessedDate())));
+            enroleeDate.setText(Utility.getDateStringFromTimestamp(new Timestamp(enrolee.getProcessedDate())));
             view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -110,7 +109,7 @@ public class EnrolleeAdapter extends BaseAdapter {
                 }
             });
         } else if (mode.equals("enrolees")) {
-            enroleeDate.setText(Utility.getStringFromDate(new Timestamp(enrolee.getEnrolledDate())));
+            enroleeDate.setText(Utility.getDateStringFromTimestamp(new Timestamp(enrolee.getEnrolledDate())));
         }
 
         return view;

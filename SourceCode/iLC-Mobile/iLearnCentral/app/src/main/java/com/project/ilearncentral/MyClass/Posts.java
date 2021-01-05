@@ -16,8 +16,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.Model.Post;
-import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.Utility;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -264,13 +262,13 @@ public class Posts {
 
     private static String dateCurPost(String key) {
         if (curPost.containsKey(key))
-            return Utility.getStringFromDate((Timestamp) curPost.get(key));
+            return Utility.getDateStringFromTimestamp((Timestamp) curPost.get(key));
         return null;
     }
 
     private static String timeCurPost(String key) {
         if (curPost.containsKey(key))
-            return Utility.getStringFromTime((Timestamp) curPost.get(key));
+            return Utility.getTimeStringFromTimestamp((Timestamp) curPost.get(key));
         return "";
     }
 

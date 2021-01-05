@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +14,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.Messages;
@@ -98,8 +89,8 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             holder.businessNameTextView.setText(job.getBusinessData().get("BusinessName"));
         }
         holder.positionTextView.setText(job.getPosition());
-        holder.dateTextView.setText(Utility.getStringFromDate(job.getDate()));
-        holder.timeTextView.setText(Utility.getStringFromTime(job.getDate()));
+        holder.dateTextView.setText(Utility.getDateStringFromTimestamp(job.getDate()));
+        holder.timeTextView.setText(Utility.getTimeStringFromTimestamp(job.getDate()));
         holder.descriptionTextView.setText(job.getJobDescription());
 
         holder.logoImageView.setOnClickListener(new View.OnClickListener() {

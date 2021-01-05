@@ -229,9 +229,9 @@ public class NveClass extends AppCompatActivity {
     private void createNotifForClass(final Class aClass, boolean isNew) {
         Course course = Course.getCourseById(courseID);
         final String message = "Class for " + aClass.getCourse().getCourseName()+
-                " on " + Utility.getStringFromDate(aClass.getClassStart()) +
-                " at " + Utility.getStringFromTime(aClass.getClassStart()) +
-                " - " + Utility.getStringFromTime(aClass.getClassEnd());
+                " on " + Utility.getDateStringFromTimestamp(aClass.getClassStart()) +
+                " at " + Utility.getTimeStringFromTimestamp(aClass.getClassStart()) +
+                " - " + Utility.getTimeStringFromTimestamp(aClass.getClassEnd());
         final String subject;
         if (isNew)
             subject = "New Class";
@@ -270,9 +270,9 @@ public class NveClass extends AppCompatActivity {
                     message.setText(String
                             .format("%s%s", message.getText(), updateClass.getRequestMessage()));
                 }
-                dateInput.setText(Utility.getStringFromDate(c.getClassStart()));
-                timeStartInput.setText(Utility.getStringFromTime(c.getClassStart()));
-                timeEndInput.setText(Utility.getStringFromTime(c.getClassEnd()));
+                dateInput.setText(Utility.getDateStringFromTimestamp(c.getClassStart()));
+                timeStartInput.setText(Utility.getTimeStringFromTimestamp(c.getClassStart()));
+                timeEndInput.setText(Utility.getTimeStringFromTimestamp(c.getClassEnd()));
                 roomNo.setText(c.getRoomNo());
                 if (c.getEducator()!=null)
                     eduSpinner.setSelection(eduAdapter.getPosition(c.getEducator().getFullname()));

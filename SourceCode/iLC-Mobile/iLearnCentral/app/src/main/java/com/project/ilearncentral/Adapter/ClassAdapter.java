@@ -16,18 +16,13 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.haozhang.lib.SlantedTextView;
 import com.project.ilearncentral.Activity.NveClass;
 import com.project.ilearncentral.Activity.RequestSchedChange;
-import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Class;
-import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
@@ -60,7 +55,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         final Class aClass = classes.get(position);
 
         if (aClass.getClassStart()!=null)
-            holder.day.setText(Utility.getStringFromDay(aClass.getClassStart()));
+            holder.day.setText(Utility.getDayStringFromTimestamp(aClass.getClassStart()));
         else holder.day.setVisibility(View.INVISIBLE);
 
         if (aClass.getClassStart()!=null)
@@ -68,11 +63,11 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         else holder.date.setVisibility(View.INVISIBLE);
 
         if (aClass.getClassStart()!=null)
-            holder.timeStart.setText(Utility.getStringFromTime(aClass.getClassStart()));
+            holder.timeStart.setText(Utility.getTimeStringFromTimestamp(aClass.getClassStart()));
         else holder.timeStart.setVisibility(View.INVISIBLE);
 
         if (aClass.getClassEnd()!=null)
-            holder.timeEnd.setText(Utility.getStringFromTime(aClass.getClassEnd()));
+            holder.timeEnd.setText(Utility.getTimeStringFromTimestamp(aClass.getClassEnd()));
         else holder.timeEnd.setVisibility(View.INVISIBLE);
 
         if (aClass.getEducator()!=null)
@@ -121,8 +116,9 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             holder.viewButton.setVisibility(View.VISIBLE);
             holder.delButton.setVisibility(View.GONE);
             holder.otherButton.setText("REQUEST RESCHEDULE");
-            if(!aClass.getEduID().equals(Account.getUsername()))
+            if(!aClass.getEduID().equals(Account.getUsername())) {
                 holder.containerLayout.setVisibility(View.GONE);
+            }
         } else if (Account.getType() == Account.Type.Student) {
             holder.viewButton.setVisibility(View.GONE);
             holder.otherButton.setVisibility(View.GONE);

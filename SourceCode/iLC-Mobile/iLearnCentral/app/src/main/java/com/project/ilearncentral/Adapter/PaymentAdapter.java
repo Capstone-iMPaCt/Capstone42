@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -22,7 +21,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.Timestamp;
 import com.google.firebase.storage.FirebaseStorage;
-import com.project.ilearncentral.Activity.EnroleePaymentDetails;
 import com.project.ilearncentral.Model.Enrolment;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
@@ -58,7 +56,7 @@ public class PaymentAdapter extends RecyclerView.Adapter<PaymentAdapter.PaymentV
         holder.enroleeName.setText(payment.getStudentName());
         holder.courseTitle.setText(payment.getCourseEnrolled());
         holder.amountPayed.setText(Utility.showPriceInPHP(payment.getEnrolmentFee()));
-        holder.datePayed.setText(Utility.getStringFromDate(new Timestamp(payment.getProcessedDate())));
+        holder.datePayed.setText(Utility.getDateStringFromTimestamp(new Timestamp(payment.getProcessedDate())));
 
         holder.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override

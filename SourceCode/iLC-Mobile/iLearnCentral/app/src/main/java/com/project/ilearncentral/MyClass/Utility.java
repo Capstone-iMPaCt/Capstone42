@@ -6,7 +6,6 @@ import android.net.Uri;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
@@ -19,9 +18,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.wallet.PaymentsClient;
-import com.google.android.gms.wallet.Wallet;
-import com.google.android.gms.wallet.WalletConstants;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +31,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.project.ilearncentral.Activity.Main;
-import com.project.ilearncentral.Activity.Payment;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
@@ -44,11 +38,6 @@ import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.R;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -60,7 +49,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Optional;
 
 public class Utility {
 
@@ -73,6 +61,7 @@ public class Utility {
     private static final int PERMISSION_REQUEST_CODE = 200;
     private static SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+    private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
     public static void buttonWait(Button button, boolean wait) {
         buttonWait(button, wait, "");
@@ -127,7 +116,6 @@ public class Utility {
 
     public static Timestamp getCompleteTimestamp(String dateString, View dateView, View timeView) {
         Timestamp timestamp;
-        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
         String timestampString = "";
         if (dateView!=null)
             timestampString = ((TextInputEditText)dateView).getText().toString() + " ";
@@ -135,7 +123,7 @@ public class Utility {
             timestampString = dateString + " ";
         timestampString += ((TextInputEditText)timeView).getText().toString();
         try {
-            timestamp = new Timestamp(format.parse(timestampString));
+            timestamp = new Timestamp(dateTimeFormat.parse(timestampString));
         } catch (ParseException e) {
             timestamp = null;
         }
@@ -315,7 +303,11 @@ public class Utility {
         return t;
     }
 
-    public static String getStringFromDate(Timestamp value) {
+    public static String getDateTimeStringFromTimestamp(Timestamp value) {
+        return dateTimeFormat.format(value.toDate());
+    }
+
+    public static String getDateStringFromTimestamp(Timestamp value) {
         return dateFormat.format(value.toDate());
     }
 
@@ -334,11 +326,11 @@ public class Utility {
         return t;
     }
 
-    public static String getStringFromTime(Timestamp value) {
+    public static String getTimeStringFromTimestamp(Timestamp value) {
         return timeFormat.format(value.toDate());
     }
 
-    public static String getStringFromDay(Timestamp value) {
+    public static String getDayStringFromTimestamp(Timestamp value) {
         SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
         return dayFormat.format(value.toDate());
     }

@@ -295,7 +295,7 @@ public class SchedulingSystem extends Fragment {
         } else if (Account.getType() == Account.Type.Student) {
             subscriptionExpiry.setVisibility(View.GONE);
             addNewClassBtn.setVisibility(View.GONE);
-            FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("studentID", Account.getUsername())
+            FirebaseFirestore.getInstance().collection("Enrolment").whereEqualTo("studentID", Account.getUsername()).whereEqualTo("enrolmentStatus", "enrolled")
                     .get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override

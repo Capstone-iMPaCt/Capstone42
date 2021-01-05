@@ -14,8 +14,8 @@ public class Post {
         this.content = content;
         this.postTitle = postTitle;
         this.date = date;
-        this.datePosted = Utility.getStringFromDate(date);
-        this.timePosted = Utility.getStringFromTime(date);
+        this.datePosted = Utility.getDateStringFromTimestamp(date);
+        this.timePosted = Utility.getTimeStringFromTimestamp(date);
         this.postId = postId;
         this.withImage = withImage;
         this.fullname = "";
@@ -25,8 +25,8 @@ public class Post {
         this.postSender = postSender;
         this.postTitle = postTitle;
         this.date = date;
-        this.datePosted = Utility.getStringFromDate(date);
-        this.timePosted = Utility.getStringFromTime(date);
+        this.datePosted = Utility.getDateStringFromTimestamp(date);
+        this.timePosted = Utility.getTimeStringFromTimestamp(date);
         this.content = content;
         this.withImage = withImage;
         this.fullname = "";
