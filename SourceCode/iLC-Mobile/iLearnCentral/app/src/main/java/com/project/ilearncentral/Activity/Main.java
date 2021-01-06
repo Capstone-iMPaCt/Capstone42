@@ -359,10 +359,15 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
-                notifDialog.show();
-                notificationCount = 0;
-                notifBadge.setText(String.valueOf(notificationCount));
-                notifBadge.setVisibility(View.GONE);
+                if (notificationCount!=0) {
+                    notifDialog.show();
+                    notifDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialog) {
+                            newNotificationSet();
+                        }
+                    });
+                }
                 break;
             case R.id.message_button:
                 startActivity(new Intent(getApplicationContext(), Chat.class));
@@ -532,11 +537,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             not.setLink(doc.getString("Link"));
                             not.setSubject(doc.getString("Subject"));
                             not.setDate(doc.getTimestamp("Date"));
-                            if (!Notification.containsNotification(doc.getId()) && notificationRetrieved) {
-                                createNotification(not);
-                                notifications.add(not);
-                                newNotificationSet();
-                            }
+                            createNotification(not);
+                            notifications.add(not);
+                            newNotificationSet();
                         }
                     }
                 });

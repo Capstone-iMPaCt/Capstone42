@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -47,38 +48,53 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         holder.subject.setText(notification.getSubject());
         holder.message.setText(notification.getMessage());
         holder.time.setText(Utility.getDateTimeStringFromTimestamp(notification.getDate()));
+        holder.status.setText(notification.getStatus());
         if (notification.getStatus().equalsIgnoreCase("unread")) {
+            holder.link.setEnabled(true);
             holder.parent.setEnabled(true);
             holder.parent.setBackgroundColor(context.getResources().getColor(R.color.bt_black_12));
             holder.parent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    FirebaseFirestore.getInstance().collection("Notification").document(notification.getNotifId()).update("Status", "read");
-                    holder.parent.setEnabled(false);
-                    holder.parent.setBackgroundColor(context.getResources().getColor(R.color.bt_white));
-                    switch (notification.getLink()) {
-                        case "none":
-                        default:
-                            break;
-                    }
+                    setNotifToRead(notification, holder);
+                }
+            });
+            holder.link.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setNotifToRead(notification, holder);
                 }
             });
         } else {
+            holder.link.setEnabled(false);
             holder.parent.setEnabled(false);
             holder.parent.setBackgroundColor(context.getResources().getColor(R.color.bt_white));
         }
     }
 
+    private void setNotifToRead(Notification notification, @NonNull NotificationHolder holder) {
+        FirebaseFirestore.getInstance().collection("Notification").document(notification.getNotifId()).update("Status", "read");
+        notification.setStatus("read");
+        holder.link.setEnabled(false);
+        holder.parent.setEnabled(false);
+        holder.parent.setBackgroundColor(context.getResources().getColor(R.color.bt_white));
+        switch (notification.getLink()) {
+            case "none":
+            default:
+                break;
+        }
+    }
+
     @Override
     public int getItemCount() {
-        System.out.println("Notification size: " + notifications.size());
         return notifications.size();
     }
 
     public class NotificationHolder extends RecyclerView.ViewHolder {
 
         private RelativeLayout parent;
-        private TextView subject, message, time;
+        private Button link;
+        private TextView subject, message, time, status;
 
         NotificationHolder(@NonNull View itemView) {
             super(itemView);
@@ -86,6 +102,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             subject = itemView.findViewById(R.id.notif_item_subject);
             message = itemView.findViewById(R.id.notif_item_message);
             time = itemView.findViewById(R.id.notif_item_time);
+            link = itemView.findViewById(R.id.notif_item_link);
+            status = itemView.findViewById(R.id.notif_item_status);
         }
     }
 }

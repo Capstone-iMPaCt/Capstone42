@@ -130,7 +130,7 @@ public class Notification {
     }
     public static void retrieveUnreadNotificationsOfUser(final ObservableBoolean done, String username) {
         CollectionReference db = FirebaseFirestore.getInstance().collection("Notification");
-        db.whereEqualTo("Username", username).whereEqualTo("Status", "unread").get()
+        db.whereEqualTo("Username", username).whereEqualTo("Status", "unread").orderBy("Date").get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
