@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -52,7 +50,6 @@ import com.project.ilearncentral.Activity.SignUp.CreateUser;
 import com.project.ilearncentral.Activity.Update.UpdateAccount;
 import com.project.ilearncentral.Activity.Update.UpdateLearningCenter;
 import com.project.ilearncentral.Activity.Update.UpdateProfile;
-import com.project.ilearncentral.Adapter.CourseAdapter;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.Adapter.NotificationAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
@@ -66,7 +63,6 @@ import com.project.ilearncentral.Fragment.Profile.LearningCenterProfile;
 import com.project.ilearncentral.Fragment.Profile.StudentProfile;
 import com.project.ilearncentral.Fragment.SubSystem.EnrolmentSystem;
 import com.project.ilearncentral.Fragment.SubSystem.SchedulingSystem;
-import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.MyClass.Account;
@@ -85,7 +81,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Main extends AppCompatActivity implements View.OnClickListener {
 
     private String TAG = "MAIN";
-    public static final String NOTIFICATION_CHANNEL_ID = "10001" ;
+    public static final String NOTIFICATION_CHANNEL_ID = "10001";
     public static final String CHANNEL_ID = "ILearnCentral_Notif_Chanel";
     public int notificationCount;
     TextView notifBadge;
@@ -117,12 +113,14 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
 //            Toast.makeText(this, "Press back again to exit.", Toast.LENGTH_SHORT).show();
 //            exit = true;
 //        } else
-//            super.onBackPressed();
+//        super.onBackPressed();
+        Utility.setExit(true);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setCancelable(true).setTitle("Exit").setMessage("Do you want to exit iLearnCentral?")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        Utility.setExit(true);
                         finish();
                     }
                 })
@@ -138,6 +136,9 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        if (Utility.isExit())
+            super.onBackPressed();
 
         user = FirebaseAuth.getInstance().getCurrentUser();
         tabGenerate = true;
@@ -224,7 +225,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
         notifBadge.setVisibility(View.VISIBLE);
         notifBadge.setText(String.valueOf(notificationCount));
         notifAdapter.notifyDataSetChanged();
-        if (notificationCount==0) {
+        if (notificationCount == 0) {
             notifBadge.setVisibility(View.GONE);
         } else {
             notifBadge.setVisibility(View.VISIBLE);
@@ -545,27 +546,26 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 });
     }
 
-
-    public void createNotification (Notification notif) {
-        Intent notificationIntent = new Intent(getApplicationContext() , Main.class );
-        notificationIntent.putExtra( "fromNotification" , true );
-        notificationIntent.setFlags(Intent. FLAG_ACTIVITY_CLEAR_TOP | Intent. FLAG_ACTIVITY_SINGLE_TOP );
-        PendingIntent pendingIntent = PendingIntent. getActivity ( this, 0 , notificationIntent , 0 );
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService( NOTIFICATION_SERVICE );
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Main.this, CHANNEL_ID );
+    public void createNotification(Notification notif) {
+        Intent notificationIntent = new Intent(getApplicationContext(), Main.class);
+        notificationIntent.putExtra("fromNotification", true);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(Main.this, CHANNEL_ID);
         mBuilder.setContentTitle(notif.getSubject());
         mBuilder.setContentIntent(pendingIntent);
         mBuilder.setContentText(notif.getMessage());
         mBuilder.setSmallIcon(R.drawable.logo_icon);
-        mBuilder.setAutoCancel( true );
-        if (android.os.Build.VERSION. SDK_INT >= android.os.Build.VERSION_CODES. O ) {
-            int importance = NotificationManager. IMPORTANCE_HIGH;
-            NotificationChannel notificationChannel = new NotificationChannel( NOTIFICATION_CHANNEL_ID , "ILearnCentral" , importance);
-            mBuilder.setChannelId( NOTIFICATION_CHANNEL_ID );
+        mBuilder.setAutoCancel(true);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, "ILearnCentral", importance);
+            mBuilder.setChannelId(NOTIFICATION_CHANNEL_ID);
             assert mNotificationManager != null;
             mNotificationManager.createNotificationChannel(notificationChannel);
         }
         assert mNotificationManager != null;
-        mNotificationManager.notify(( int ) System. currentTimeMillis () , mBuilder.build());
+        mNotificationManager.notify((int) System.currentTimeMillis(), mBuilder.build());
     }
 }
