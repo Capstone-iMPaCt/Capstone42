@@ -37,6 +37,7 @@ import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -212,42 +213,36 @@ public class JobPost extends Fragment {
             addNewPostBtn.setVisibility(View.GONE);
             toggleView.setVisibility(View.GONE);
             toggleRecommend.setVisibility(View.VISIBLE);
+
+            final List<String> profile = getProfileLibrary();
             toggleRecommend.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (recommend) {
-                        setRecommendationOff();
+                        all.callOnClick();
                     } else {
                         toggleRecommend.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255, 235, 59)));
                         isAll = false;
                         all.setTextColor(Color.GRAY);
                         applied.setTextColor(Color.GRAY);
 
-                        temp = new ArrayList<>(jobs);
-                        recommendation = new ArrayList<>();
-                        for (String libraryWord : getProfileLibrary()) {
-                            for (JobVacancy jobPost : temp) {
-                                if (jobPost.getPosition().toLowerCase().contains(libraryWord)
-                                        || jobPost.getJobDescription().toLowerCase().contains(libraryWord)) {
-
-//                                        || jobPost.getSkills().listIterator().next().toLowerCase().contains(libraryWord)
-                                    if (!recommendation.contains(jobPost))
-                                        recommendation.add(jobPost);
-//                                    Log.d(TAG, "TEST: " + libraryWord);
+                        temp = new ArrayList<>();
+                        temp.addAll(jobs);
+                        jobs.clear();
+                        for (JobVacancy jobPost : temp) {
+                            for (String keyWord : profile) {
+                                if (jobPost.getPosition().toLowerCase().contains(keyWord.trim())
+                                        || jobPost.getJobDescription().toLowerCase().contains(keyWord.trim())) {
+                                    if (!jobs.contains(jobPost))
+                                        jobs.add(jobPost);
                                 }
                             }
-//                            Log.d(TAG, "TEST: " + jobPost.getPosition());
-//                            Toast.makeText(getContext(), jobPost.getJobDescription(), Toast.LENGTH_SHORT).show();
                         }
-                        if (recommendation.size() == 0) {
+                        if (jobs.size() == 0) {
                             Toast.makeText(getContext(), "There are no recommendations for you at the moment.", Toast.LENGTH_SHORT).show();
                         }
-                        jobs.clear();
-                        jobs.addAll(recommendation);
                         adapter.notifyDataSetChanged();
                         recommend = true;
-                        jobs.clear();
-                        jobs.addAll(temp);
                     }
                 }
             });
@@ -374,6 +369,11 @@ public class JobPost extends Fragment {
             for (ResumeItem item : Resume.getInterest()) {
                 Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
             }
+        }
+        List<String> temp = new ArrayList<>(library);
+        for (String item : temp) {
+            if (item.contains("teach"))
+                library.remove(item);
         }
         return library;
     }

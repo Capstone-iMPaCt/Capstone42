@@ -3,7 +3,6 @@ package com.project.ilearncentral.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,9 +45,8 @@ public class SplashScreen extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (Utility.isExit()) {
-            Utility.setExit(false);
             finish();
-            Toast.makeText(SplashScreen.this, "onExit", Toast.LENGTH_SHORT).show();
+            Utility.setExit(false);
         }
     }
 
