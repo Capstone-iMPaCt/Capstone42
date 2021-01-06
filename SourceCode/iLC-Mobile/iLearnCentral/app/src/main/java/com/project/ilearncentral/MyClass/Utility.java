@@ -63,6 +63,8 @@ public class Utility {
     private static SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
     private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
+    private static boolean exit;
+
     public static void buttonWait(Button button, boolean wait) {
         buttonWait(button, wait, "");
     }
@@ -508,6 +510,14 @@ public class Utility {
         System.out.println("Symbol: " + currency.getSymbol());
         System.out.println("Default Fraction Digits: " + currency.getDefaultFractionDigits());
         System.out.println();
+    }
+
+    public static boolean isExit() {
+        return exit;
+    }
+
+    public static void setExit(boolean exit) {
+        Utility.exit = exit;
     }
 
     public static String showPriceInPHP(double price) {

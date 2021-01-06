@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -27,13 +28,15 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
-import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.JobVacancy;
+import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
+import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -44,6 +47,8 @@ public class JobPost extends Fragment {
     private JobPostAdapter adapter;
     private RecyclerView recyclerView;
     private List<JobVacancy> jobs;
+    private List<JobVacancy> recommendation;
+    private List<JobVacancy> temp;
 
     private ObservableBoolean done;
     private ObservableString editOrView;
@@ -148,7 +153,8 @@ public class JobPost extends Fragment {
                 isAll = true;
                 jobs.clear();
                 jobs.addAll(JobPosts.searchText("", isAll));
-                adapter.notifyDataSetChanged();
+//                adapter.notifyDataSetChanged();
+                setRecommendationOff();
             }
         });
         applied.setOnClickListener(new View.OnClickListener() {
@@ -210,11 +216,38 @@ public class JobPost extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (recommend) {
-                        toggleRecommend.setBackgroundTintList(null);
-                        recommend = false;
+                        setRecommendationOff();
                     } else {
-                        toggleRecommend.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255,235,59)));
+                        toggleRecommend.setBackgroundTintList(ColorStateList.valueOf(Color.rgb(255, 235, 59)));
+                        isAll = false;
+                        all.setTextColor(Color.GRAY);
+                        applied.setTextColor(Color.GRAY);
+
+                        temp = new ArrayList<>(jobs);
+                        recommendation = new ArrayList<>();
+                        for (String libraryWord : getProfileLibrary()) {
+                            for (JobVacancy jobPost : temp) {
+                                if (jobPost.getPosition().toLowerCase().contains(libraryWord)
+                                        || jobPost.getJobDescription().toLowerCase().contains(libraryWord)) {
+
+//                                        || jobPost.getSkills().listIterator().next().toLowerCase().contains(libraryWord)
+                                    if (!recommendation.contains(jobPost))
+                                        recommendation.add(jobPost);
+//                                    Log.d(TAG, "TEST: " + libraryWord);
+                                }
+                            }
+//                            Log.d(TAG, "TEST: " + jobPost.getPosition());
+//                            Toast.makeText(getContext(), jobPost.getJobDescription(), Toast.LENGTH_SHORT).show();
+                        }
+                        if (recommendation.size() == 0) {
+                            Toast.makeText(getContext(), "There are no recommendations for you at the moment.", Toast.LENGTH_SHORT).show();
+                        }
+                        jobs.clear();
+                        jobs.addAll(recommendation);
+                        adapter.notifyDataSetChanged();
                         recommend = true;
+                        jobs.clear();
+                        jobs.addAll(temp);
                     }
                 }
             });
@@ -250,6 +283,7 @@ public class JobPost extends Fragment {
                 searchView.clearFocus();
                 JobPosts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
+                setRecommendationOff();
             }
         });
 
@@ -258,6 +292,15 @@ public class JobPost extends Fragment {
         adapter = new JobPostAdapter(getContext(), editOrView, jobs);
         recyclerView.setAdapter(adapter);
         return view;
+    }
+
+    private void setRecommendationOff() {
+        toggleRecommend.setBackgroundTintList(null);
+        adapter.notifyDataSetChanged();
+        recommend = false;
+        isAll = true;
+        all.setTextColor(Color.CYAN);
+        applied.setTextColor(Color.GRAY);
     }
 
     private void bindLayout(View view) {
@@ -313,5 +356,25 @@ public class JobPost extends Fragment {
             applying = false;
             JobPosts.retrievePostsFromDB(done);
         }
+    }
+
+    private List<String> getProfileLibrary() {
+        List<String> library = new ArrayList<>();
+        if (Resume.getSkills() != null) {
+            for (ResumeItem item : Resume.getSkills()) {
+                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+            }
+        }
+        if (Resume.getQualities() != null) {
+            for (ResumeItem item : Resume.getQualities()) {
+                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+            }
+        }
+        if (Resume.getInterest() != null) {
+            for (ResumeItem item : Resume.getInterest()) {
+                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+            }
+        }
+        return library;
     }
 }

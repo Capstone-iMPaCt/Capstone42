@@ -1,11 +1,12 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -25,7 +26,6 @@ import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.LearningCenter;
-import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
@@ -41,6 +41,16 @@ public class SplashScreen extends AppCompatActivity {
     private int updateType;
     private FirebaseUser user;
     private FirebaseFirestore db;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (Utility.isExit()) {
+            Utility.setExit(false);
+            finish();
+            Toast.makeText(SplashScreen.this, "onExit", Toast.LENGTH_SHORT).show();
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +74,14 @@ public class SplashScreen extends AppCompatActivity {
         if (update) {
             switch (updateType) {
                 case 0:
-                case 1:setAccount();
+                case 1:
+                    setAccount();
                     break;
-                case 2:setProfileDetails();
+                case 2:
+                    setProfileDetails();
                     break;
-                case 3:setLearningCenterDetails();
+                case 3:
+                    setLearningCenterDetails();
                     break;
                 default:
                     setAccount();
@@ -100,14 +113,14 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onBooleanChanged(boolean value) {
                 Educator.setUsers();
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
         final ObservableBoolean LCRetrieved = new ObservableBoolean();
         userRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
         final ObservableBoolean educatorRetrieved = new ObservableBoolean();
@@ -115,14 +128,14 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onBooleanChanged(boolean value) {
                 JobApplication.setEducators();
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
         final ObservableBoolean courseRetrieved = new ObservableBoolean();
         educatorRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
         final ObservableBoolean vacancyRetrieved = new ObservableBoolean();
@@ -130,14 +143,14 @@ public class SplashScreen extends AppCompatActivity {
             @Override
             public void onBooleanChanged(boolean value) {
                 JobApplication.setJobVacancies();
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
         final ObservableBoolean applicationsRetrieved = new ObservableBoolean();
         vacancyRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
-                allLoaded.set(allLoaded.get()+1);
+                allLoaded.set(allLoaded.get() + 1);
             }
         });
 
