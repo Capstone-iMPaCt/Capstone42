@@ -20,6 +20,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -73,7 +74,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         holder.closePostButton.setVisibility(View.GONE);
         holder.containerLayout.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
-        getImage(holder.logoImageView, "images/", job.getCenterId());
+        getImage(holder.logoImageView, job.getCenterId());
         ObservableObject businessDetails = new ObservableObject();
         businessDetails.setOnObjectChangeListener(new OnObjectChangeListener() {
             @Override
@@ -102,7 +103,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         if (Account.isType("LearningCenter")) {
             holder.applyButton.setVisibility(View.INVISIBLE);
             if (Account.getStringData("centerId")
-                    .equals(job.getCenterId())){
+                    .equals(job.getCenterId())) {
                 holder.editTextView.setVisibility(View.VISIBLE);
                 holder.closePostButton.setVisibility(View.VISIBLE);
                 holder.chatButton.setVisibility(View.GONE);
@@ -191,18 +192,20 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         return jobs.size();
     }
 
-    private void getImage(final ImageView imageView, String folderName, String filename) {
-        try {
-            storageRef.child(folderName).child(filename).getDownloadUrl()
-                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
-                            Glide.with(context).load(uri.toString()).error(R.drawable.white)
-                                    .fitCenter().into(imageView);
+    private void getImage(final ImageView imageView, String filename) {
+        storageRef.child("images").child(filename).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(context).load(uri.toString()).fitCenter().into(imageView);
 //                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
-                        }
-                    });
-        }catch (Exception e){}
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                imageView.setImageDrawable(context.getDrawable(R.drawable.logo_icon));
+            }
+        });
     }
 
     public class JobPostViewHolder extends RecyclerView.ViewHolder {
