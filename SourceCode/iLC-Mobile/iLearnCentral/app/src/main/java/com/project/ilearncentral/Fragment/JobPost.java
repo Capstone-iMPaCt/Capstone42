@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
@@ -28,6 +28,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
+import com.project.ilearncentral.Model.CSVFile;
 import com.project.ilearncentral.Model.JobVacancy;
 import com.project.ilearncentral.Model.ResumeItem;
 import com.project.ilearncentral.MyClass.Account;
@@ -35,9 +36,10 @@ import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.MyClass.Resume;
 import com.project.ilearncentral.R;
 
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 import static android.app.Activity.RESULT_OK;
@@ -59,13 +61,14 @@ public class JobPost extends Fragment {
 
     private SwipeRefreshLayout pullToRefresh;
     private SearchView searchView;
-    private TextView toggleView, searchOption, applicants, closed, all, applied;
+    private TextView toggleView, searchOption, applicants, closed, all, applied, pageMessage;
     private View horizontalDivider;
     private LinearLayout options;
     private ImageButton toggleRecommend;
     private boolean isAll, recommend = false;
     public static boolean applying;
 
+    private InputStream inputStream;
 
     public JobPost() {
         // Required empty public constructor
@@ -163,11 +166,16 @@ public class JobPost extends Fragment {
             public void onClick(View view) {
                 applied.setTextColor(Color.CYAN);
                 all.setTextColor(Color.GRAY);
+                pageMessage.setVisibility(View.GONE);
 
                 isAll = false;
                 jobs.clear();
                 jobs.addAll(JobPosts.eduAppliedTo(JobPosts.getJobPosts(), Account.getUsername()));
                 adapter.notifyDataSetChanged();
+                if (jobs.size() == 0) {
+                    pageMessage.setVisibility(View.VISIBLE);
+                    pageMessage.setText("No job post applied yet.");
+                }
             }
         });
         editOrView = new ObservableString();
@@ -233,13 +241,16 @@ public class JobPost extends Fragment {
                             for (String keyWord : profile) {
                                 if (jobPost.getPosition().toLowerCase().contains(keyWord.trim())
                                         || jobPost.getJobDescription().toLowerCase().contains(keyWord.trim())) {
-                                    if (!jobs.contains(jobPost))
+                                    if (!jobs.contains(jobPost)) {
                                         jobs.add(jobPost);
+//                                        Log.d(TAG, "KEYWORD: " + keyWord);
+                                    }
                                 }
                             }
                         }
                         if (jobs.size() == 0) {
-                            Toast.makeText(getContext(), "There are no recommendations for you at the moment.", Toast.LENGTH_SHORT).show();
+                            pageMessage.setVisibility(View.VISIBLE);
+                            pageMessage.setText("Sorry, there are no recommendations for you at the moment.");
                         }
                         adapter.notifyDataSetChanged();
                         recommend = true;
@@ -296,6 +307,7 @@ public class JobPost extends Fragment {
         isAll = true;
         all.setTextColor(Color.CYAN);
         applied.setTextColor(Color.GRAY);
+        pageMessage.setVisibility(View.GONE);
     }
 
     private void bindLayout(View view) {
@@ -310,6 +322,7 @@ public class JobPost extends Fragment {
         all = view.findViewById(R.id.feed_app_bar_edu_option_all);
         applied = view.findViewById(R.id.feed_app_bar_edu_option_applied);
         recyclerView = view.findViewById(R.id.educator_tab_recylerview);
+        pageMessage = view.findViewById(R.id.educator_tab_job_posts_message);
 
         addNewPostBtn = view.findViewById(R.id.feed_add_fab);
 
@@ -354,27 +367,46 @@ public class JobPost extends Fragment {
     }
 
     private List<String> getProfileLibrary() {
+        inputStream = getResources().openRawResource(R.raw.root_word_collection);
         List<String> library = new ArrayList<>();
+        CSVFile csvFile = new CSVFile(inputStream);
+        List<String> rootWords = csvFile.read();
+
+        if (Resume.getObjective() != null) {
+            Collections.addAll(library, Resume.getObjective().toLowerCase().trim().split("\\W+"));
+        }
         if (Resume.getSkills() != null) {
             for (ResumeItem item : Resume.getSkills()) {
-                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+                Collections.addAll(library, item.getDetail().toLowerCase().trim().split("\\W+"));
+            }
+        }
+        if (Resume.getAwards() != null) {
+            for (ResumeItem item : Resume.getAwards()) {
+                Collections.addAll(library, item.getDetail().toLowerCase().trim().split("\\W+"));
             }
         }
         if (Resume.getQualities() != null) {
             for (ResumeItem item : Resume.getQualities()) {
-                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+                Collections.addAll(library, item.getDetail().toLowerCase().trim().split("\\W+"));
             }
         }
         if (Resume.getInterest() != null) {
             for (ResumeItem item : Resume.getInterest()) {
-                Collections.addAll(library, item.getDetail().toLowerCase().split("\\W+"));
+                Collections.addAll(library, item.getDetail().toLowerCase().trim().split("\\W+"));
             }
         }
-        List<String> temp = new ArrayList<>(library);
-        for (String item : temp) {
-            if (item.contains("teach"))
-                library.remove(item);
+        List<String> profileKeyWords = new ArrayList<>();
+        for (String item : library) {
+            for (String word : rootWords) {
+                if (item.contains(word) && !profileKeyWords.contains(word)) {
+                    profileKeyWords.add(word);
+                }
+            }
         }
-        return library;
+        profileKeyWords.removeAll(Arrays.asList("", null));
+//        for (String item : profileKeyWords) {
+//            Log.d(TAG, "WORDS: " + item);
+//        }
+        return profileKeyWords;
     }
 }

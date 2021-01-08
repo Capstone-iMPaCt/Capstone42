@@ -173,13 +173,27 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/educator_tab_recylerview"
+        <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/bg_recyclerview"
-            android:clipToPadding="false"
-            android:paddingBottom="100dp" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/educator_tab_job_posts_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="50dp"
+                android:textSize="18sp"
+                android:visibility="gone" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/educator_tab_recylerview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/bg_recyclerview"
+                android:clipToPadding="false"
+                android:paddingBottom="100dp" />
+        </FrameLayout>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
