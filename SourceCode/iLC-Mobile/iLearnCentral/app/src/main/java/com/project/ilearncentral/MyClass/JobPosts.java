@@ -107,7 +107,6 @@ public class JobPosts {
 
     public static void retrievePostsFromDB(final ObservableBoolean done) {
         db.collection("JobVacancies")
-            .whereEqualTo("Status", "open")
             .orderBy("Date", Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {

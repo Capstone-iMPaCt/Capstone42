@@ -12,6 +12,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
+import com.project.ilearncentral.Fragment.JobPost;
 import com.project.ilearncentral.MyClass.JobPosts;
 import com.project.ilearncentral.R;
 
@@ -252,12 +253,17 @@ public class JobApplication {
     }
 
     public static List<JobApplication> getApplicantsByCenterId(String centerId, String status) {
+        setJobVacancies();
         List<JobApplication> applications = new ArrayList<>();
         for (JobApplication application:retrieved) {
-            if (application.getJobVacancy().getCenterId().equalsIgnoreCase(centerId)) {
-                if (application.getApplicationStatus().equalsIgnoreCase(status))
-                    applications.add(application);
-            }
+            try {
+                System.out.println(application.getEduUsername() + application.getJobVacancy());
+                if (application.getJobVacancy().getCenterId().equalsIgnoreCase(centerId)) {
+                    if (application.getApplicationStatus().equalsIgnoreCase(status)) {
+                        applications.add(application);
+                    }
+                }
+            }catch (Exception e) {}
         }
         return applications;
     }
