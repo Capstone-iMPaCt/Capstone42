@@ -82,6 +82,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 Map<String, String> businessDetails = (Map<String, String>) value;
                 holder.businessNameTextView.setText(businessDetails.get("BusinessName"));
                 job.setBusinessData(businessDetails);
+                notifyDataSetChanged();
             }
         });
         if (job.getBusinessData().isEmpty()) {
@@ -111,6 +112,8 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         } else if (Account.isType("Educator")) {
             if (JobApplication.isApplicant(job.getJobId(), Account.getUsername())) {
                 holder.applyButton.setVisibility(View.GONE);
+            } else {
+                holder.applyButton.setVisibility(View.VISIBLE);
             }
         }
         if (job.getStatus().equalsIgnoreCase("close")) {

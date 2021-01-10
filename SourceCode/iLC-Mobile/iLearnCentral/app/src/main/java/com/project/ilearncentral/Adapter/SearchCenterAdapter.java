@@ -8,6 +8,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,12 +26,14 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapter.SearchCenterHolder> {
 
     private Context context;
     private List<LearningCenter> centers;
+    private int lastPosition = -1;
 
     public SearchCenterAdapter(Context context, List<LearningCenter> centers) {
         this.context = context;
@@ -49,6 +52,8 @@ public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapte
     @Override
     public void onBindViewHolder(@NonNull final SearchCenterHolder holder, int position) {
         final LearningCenter center = centers.get(position);
+
+        holder.root.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         holder.type.setText(center.getServiceType() + "\n" + center.getDescription());
         holder.name.setText(center.getBusinessName());
@@ -73,6 +78,7 @@ public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapte
 
     public class SearchCenterHolder extends RecyclerView.ViewHolder {
 
+        private CardView root;
         private RelativeLayout parent;
         private TextView name, type;
         private ImageView image;
@@ -80,6 +86,7 @@ public class SearchCenterAdapter extends RecyclerView.Adapter<SearchCenterAdapte
         SearchCenterHolder(@NonNull View itemView) {
             super(itemView);
 
+            root = itemView.findViewById(R.id.search_user_root);
             parent = itemView.findViewById(R.id.search_user_parent);
             name = itemView.findViewById(R.id.search_username);
             type = itemView.findViewById(R.id.search_user_type);

@@ -157,7 +157,6 @@ public class JobPost extends Fragment {
                 isAll = true;
                 jobs.clear();
                 jobs.addAll(JobPosts.searchText("", isAll));
-//                adapter.notifyDataSetChanged();
                 setRecommendationOff();
             }
         });
@@ -167,6 +166,8 @@ public class JobPost extends Fragment {
                 applied.setTextColor(Color.CYAN);
                 all.setTextColor(Color.GRAY);
                 pageMessage.setVisibility(View.GONE);
+                toggleRecommend.setBackgroundTintList(null);
+                recommend = false;
 
                 isAll = false;
                 jobs.clear();

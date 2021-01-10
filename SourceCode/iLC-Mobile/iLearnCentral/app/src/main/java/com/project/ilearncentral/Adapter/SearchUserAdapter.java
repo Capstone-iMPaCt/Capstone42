@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -19,12 +20,14 @@ import com.squareup.picasso.Picasso;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.SearchUserHolder> {
 
     private Context context;
     private List<User> users;
+    private int lastPosition = -1;
 
     public SearchUserAdapter(Context context, List<User> users) {
         this.context = context;
@@ -43,6 +46,8 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
     @Override
     public void onBindViewHolder(@NonNull final SearchUserHolder holder, int position) {
         final User user = users.get(position);
+
+        holder.root.setAnimation(AnimationUtils.loadAnimation(context, (position > lastPosition) ? R.anim.move_up : R.anim.move_down));
 
         holder.type.setText(user.getStringType());
         holder.username.setText(user.getFullname());
@@ -72,6 +77,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
 
     public class SearchUserHolder extends RecyclerView.ViewHolder {
 
+        private CardView root;
         private RelativeLayout parent;
         private TextView username, type;
         private ImageView image;
@@ -79,6 +85,7 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
         SearchUserHolder(@NonNull View itemView) {
             super(itemView);
 
+            root = itemView.findViewById(R.id.search_user_root);
             parent = itemView.findViewById(R.id.search_user_parent);
             username = itemView.findViewById(R.id.search_username);
             type = itemView.findViewById(R.id.search_user_type);

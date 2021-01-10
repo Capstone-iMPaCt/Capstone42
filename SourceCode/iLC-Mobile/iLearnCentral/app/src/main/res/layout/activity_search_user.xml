@@ -15,6 +15,7 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/search_user_toolbar"
             android:layout_width="match_parent"
@@ -22,20 +23,58 @@
             android:background="@drawable/bg_toolbar"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_user_view"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="10dp"
-                app:queryHint="@string/search" />
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.SearchView
+                    android:id="@+id/search_user_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    app:queryHint="@string/search" />
+
+                <View
+                    android:id="@+id/search_center_app_bar_vertical_line_divider"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginVertical="3dp"
+                    android:layout_toStartOf="@id/feed_app_bar_toggel_buttons_layout"
+                    android:background="@color/light_gray" />
+
+                <ImageButton
+                    android:id="@+id/search_center_app_bar_toggle_recommend"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="10dp"
+                    android:background="@drawable/disable_recommend_icon"
+                    android:gravity="center" />
+            </LinearLayout>
         </androidx.appcompat.widget.Toolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/search_user_recyclerview"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/bg_transparent_80"
-        android:clipToPadding="false"
-        android:paddingBottom="100dp" />
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/search_user_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="50dp"
+            android:gravity="center"
+            android:textSize="18sp"
+            android:visibility="gone" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_user_recyclerview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/bg_transparent_80"
+            android:clipToPadding="false"
+            android:paddingBottom="100dp" />
+    </FrameLayout>
 </LinearLayout>
