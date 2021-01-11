@@ -75,6 +75,12 @@ public class JobPost extends Fragment {
     }
 
     @Override
+    public void onStart() {
+        super.onStart();
+        applicants.setTextColor(Color.GRAY);
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }

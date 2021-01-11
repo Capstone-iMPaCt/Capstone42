@@ -144,13 +144,4 @@ public class Applicants extends AppCompatActivity implements View.OnFocusChangeL
         }
         noItemsDisplay();
     }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        setViewItems("APPLICANTS");
-        applicants.setTextColor(Color.CYAN);
-        hired.setTextColor(Color.WHITE);
-        rejected.setTextColor(Color.WHITE);
-    }
 }

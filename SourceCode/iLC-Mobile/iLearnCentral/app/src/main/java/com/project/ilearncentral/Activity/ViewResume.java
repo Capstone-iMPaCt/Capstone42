@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Activity;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.cardview.widget.CardView;
@@ -10,17 +11,25 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
 import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
@@ -48,6 +57,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
     private TextView usernameDisplay, fieldDisplay;
     private Educator edu;
     private JobApplication applicant;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,6 +75,9 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
         usernameDisplay = findViewById(R.id.view_resume_full_name);
         fieldDisplay = findViewById(R.id.view_resume_expertise);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toolbar.setTitle("");
+//        toolbar.setSubtitle("");
 
         hireButton.setOnClickListener(this);
         rejectButton.setOnClickListener(this);
@@ -78,6 +91,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
         Intent i = getIntent();
         if (i.hasExtra("educator")) {
             edu = Educator.getEduByUsername(i.getStringExtra("educator"));
+            getImage(userImage, edu.getUsername());
         }
         if (i.hasExtra("jobApplication")) {
             applicant = JobApplication.getJAById(i.getStringExtra("jobApplication"));
@@ -95,7 +109,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
 
     private void generateTabs() {
         MainAdapter adapter = new MainAdapter(getSupportFragmentManager());
-        adapter.addFragment(new ViewResumeFragment(edu), "Resume");
+        adapter.addFragment(new ViewResumeFragment(edu), "");
 
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
@@ -186,24 +200,46 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
                         .setNegativeButton("No", dialogClickListener).show();
                 break;
             case R.id.view_resume_message_button:
-                startActivity(new Intent(getApplicationContext(), Chat.class));
+//                startActivity(new Intent(getApplicationContext(), Chat.class));
+                Intent intent = new Intent(getApplicationContext(), Messages.class);
+                intent.putExtra("USER_NAME", edu.getUsername());
+                intent.putExtra("FULL_NAME", edu.getFullname());
+                startActivity(intent);
                 break;
         }
     }
 
     private void setStatus(String status) {
         if (status.equalsIgnoreCase(JobApplication.HIRED)) {
+            hireButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
             hireButton.setEnabled(false);
             hireButton.setVisibility(View.VISIBLE);
             hireButton.setText(JobApplication.HIRED.toUpperCase());
             rejectButton.setEnabled(false);
-            rejectButton.setVisibility(View.GONE);
+            rejectButton.setVisibility(View.INVISIBLE);
         } else if (status.equalsIgnoreCase(JobApplication.REJECTED)) {
+            rejectButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
             rejectButton.setEnabled(false);
             rejectButton.setText(JobApplication.REJECTED.toUpperCase());
             rejectButton.setVisibility(View.VISIBLE);
             hireButton.setEnabled(false);
-            hireButton.setVisibility(View.GONE);
+            hireButton.setVisibility(View.INVISIBLE);
         }
+    }
+
+    private void getImage(final ImageView imageView, String filename) {
+        FirebaseStorage.getInstance().getReference().child("images").child(filename).getDownloadUrl()
+                .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        Glide.with(getApplicationContext()).load(uri.toString()).fitCenter().into(imageView);
+//                Picasso.get().load(uri.toString()).centerCrop().fit().into(imageView);
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                imageView.setImageDrawable(getApplicationContext().getDrawable(R.drawable.user));
+            }
+        });
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
@@ -108,6 +109,10 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 holder.editTextView.setVisibility(View.VISIBLE);
                 holder.closePostButton.setVisibility(View.VISIBLE);
                 holder.chatButton.setVisibility(View.GONE);
+            } else {
+                holder.editTextView.setVisibility(View.GONE);
+                holder.closePostButton.setVisibility(View.GONE);
+                holder.chatButton.setVisibility(View.VISIBLE);
             }
         } else if (Account.isType("Educator")) {
             if (JobApplication.isApplicant(job.getJobId(), Account.getUsername())) {
@@ -117,9 +122,16 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             }
         }
         if (job.getStatus().equalsIgnoreCase("close")) {
-            holder.closePostButton.setBackgroundColor(Color.GRAY);
+            holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
             holder.closePostButton.setClickable(false);
+            holder.closePostButton.setEnabled(false);
             holder.closePostButton.setText("CLOSED");
+            holder.editTextView.setVisibility(View.GONE);
+        } else {
+            holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+            holder.closePostButton.setClickable(true);
+            holder.closePostButton.setEnabled(true);
+            holder.closePostButton.setText("CLOSE");
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override
