@@ -183,13 +183,33 @@ public class NveClass extends AppCompatActivity {
                         Timestamp curDate = Utility.getCompleteTimestamp("", dateRStartInput, timeRStartInput);
                         Timestamp endDate = Utility.getCompleteTimestamp("", dateREndInput, timeREndInput);
                         Date dateCount = curDate.toDate();
-                        if (monCheck.isChecked()) recurringDays.add("2");
-                        if (tueCheck.isChecked()) recurringDays.add("3");
-                        if (wedCheck.isChecked()) recurringDays.add("4");
-                        if (thuCheck.isChecked()) recurringDays.add("5");
-                        if (friCheck.isChecked()) recurringDays.add("6");
-                        if (satCheck.isChecked()) recurringDays.add("7");
-                        if (sunCheck.isChecked()) recurringDays.add("1");
+                        if (monCheck.isChecked()) {
+                            recurringDays.add("2");
+                            recurringDays.add("Monday");
+                        }
+                        if (tueCheck.isChecked()) {
+                            recurringDays.add("3");
+                            recurringDays.add("Tuesday");
+                        }
+                        if (wedCheck.isChecked()) {
+                            recurringDays.add("4");
+                            recurringDays.add("Wednesday");
+                        }
+                        if (thuCheck.isChecked()) {
+                            recurringDays.add("5");
+                            recurringDays.add("Thursday");
+                        }
+                        if (friCheck.isChecked()) {
+                            recurringDays.add("6");
+                            recurringDays.add("Friday");
+                        }
+                        if (satCheck.isChecked()) {
+                            recurringDays.add("7");
+                            recurringDays.add("Saturday");
+                        }
+                        if (sunCheck.isChecked()) {
+                            recurringDays.add("Sunday");
+                        }
                         doneTraverse = false;
                         submit.setEnabled(false);
                         submit.setText("Please Wait.");
@@ -215,10 +235,10 @@ public class NveClass extends AppCompatActivity {
                                 aClass.setClassEnd(tEnd);
                                 Class.addNewClassToDB(aClass, classesAdded);
                                 classes.add(aClass);
-                                createNotifForClass(aClass,true);
                             }
                             dateCount = Utility.addDays(dateCount, 1);
                         }
+                        createNotifForClassSet(edu);
                         doneTraverse = true;
                     }
                 }
@@ -231,12 +251,12 @@ public class NveClass extends AppCompatActivity {
         final String message = "Class for " + aClass.getCourse().getCourseName()+
                 " on " + Utility.getDateStringFromTimestamp(aClass.getClassStart()) +
                 " at " + Utility.getTimeStringFromTimestamp(aClass.getClassStart()) +
-                " - " + Utility.getTimeStringFromTimestamp(aClass.getClassEnd());
+                " every ";
         final String subject;
         if (isNew)
             subject = "New Class";
         else
-            subject = "New Class";
+            subject = "Updated Class";
         final String link = "none";
         if (aClass.getEducator() != null && course!=null) {
             Notification.newNotification(aClass.getEducator().getUsername(), subject, message, link);
@@ -253,6 +273,38 @@ public class NveClass extends AppCompatActivity {
                     }
                 }
             });
+    }
+
+
+    private void createNotifForClassSet(final Educator edu) {
+        Course course = Course.getCourseById(courseID);
+        String message = "Classes for " + course.getCourseName() +
+                " starting " + dateRStartInput.getText() +
+                " to " + dateREndInput.getText() +
+                " every ";
+        for (String day:recurringDays) {
+            if (daysLabel.length()>1) message += day + ", ";
+        }
+        if (message.endsWith(", ")) message = message.substring(0, message.length()-2) + ".";
+        final String m = message;
+        final String subject = "New set of Classes.";
+        final String link = "none";
+        if (edu!=null) {
+            Notification.newNotification(edu.getUsername(), subject, m, link);
+        }
+        FirebaseFirestore.getInstance().collection("Enrolment")
+                .whereEqualTo("courseID", courseID)
+                .whereEqualTo( "enrolmentStatus", "enrolled").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for(QueryDocumentSnapshot document: task.getResult()) {
+                                Notification.newNotification(document.getString("studentID"), subject, m, link);
+                            }
+                        }
+                    }
+                });
     }
 
     private void setActionBased() {

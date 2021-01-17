@@ -25,6 +25,7 @@ import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
 import com.project.ilearncentral.Model.LearningCenter;
+import com.project.ilearncentral.Model.Student;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.JobPosts;
@@ -101,7 +102,7 @@ public class SplashScreen extends AppCompatActivity {
         allLoaded.setOnIntegerChangeListener(new OnIntegerChangeListener() {
             @Override
             public void onIntegerChanged(int value) {
-                if (value >= 6) {
+                if (value >= 8) {
                     finish();
                 }
             }
@@ -112,13 +113,15 @@ public class SplashScreen extends AppCompatActivity {
             public void onBooleanChanged(boolean value) {
                 Educator.setUsers();
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " user loaded ");
             }
         });
         final ObservableBoolean LCRetrieved = new ObservableBoolean();
-        userRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+        LCRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " lc loaded ");
             }
         });
         final ObservableBoolean educatorRetrieved = new ObservableBoolean();
@@ -127,13 +130,15 @@ public class SplashScreen extends AppCompatActivity {
             public void onBooleanChanged(boolean value) {
                 JobApplication.setEducators();
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " educator loaded ");
             }
         });
         final ObservableBoolean courseRetrieved = new ObservableBoolean();
-        educatorRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+        courseRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " course loaded ");
             }
         });
         final ObservableBoolean vacancyRetrieved = new ObservableBoolean();
@@ -142,13 +147,23 @@ public class SplashScreen extends AppCompatActivity {
             public void onBooleanChanged(boolean value) {
                 JobApplication.setJobVacancies();
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " vacancy loaded ");
             }
         });
         final ObservableBoolean applicationsRetrieved = new ObservableBoolean();
-        vacancyRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+        applicationsRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
                 allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " application loaded ");
+            }
+        });
+        final ObservableBoolean studentsRetrieved = new ObservableBoolean();
+        studentsRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                allLoaded.set(allLoaded.get() + 1);
+                System.out.println(allLoaded.get() + " student loaded ");
             }
         });
 
@@ -163,6 +178,7 @@ public class SplashScreen extends AppCompatActivity {
                             LearningCenter.retrieveLearningCentersFromDB(LCRetrieved);
                             Educator.retrieveEducatorsFromDB(educatorRetrieved);
                             Course.retrieveCoursesFromDB(courseRetrieved);
+                            Student.retrieveStudentsFromDB(studentsRetrieved);
                             JobPosts.retrievePostsFromDB(vacancyRetrieved);
                             JobApplication.retrieveJobApplicationsFromDB(applicationsRetrieved);
                         }

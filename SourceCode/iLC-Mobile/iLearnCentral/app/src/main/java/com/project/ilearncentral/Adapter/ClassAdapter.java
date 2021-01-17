@@ -20,6 +20,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.haozhang.lib.SlantedTextView;
 import com.project.ilearncentral.Activity.NveClass;
 import com.project.ilearncentral.Activity.RequestSchedChange;
+import com.project.ilearncentral.Activity.ViewRecordActivity;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Class;
@@ -158,21 +159,28 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
         holder.viewButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //to do
-                if (!Subscription.isSchedulingSubscribed()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(context).create();
-                    alertDialog.setTitle("Please subscribe");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    return;
-                                }
-                            });
-                    alertDialog.show();
-                    return;
+                if (Account.getType() == Account.Type.LearningCenter) {
+                    if (!Subscription.isSchedulingSubscribed()) {
+                        AlertDialog alertDialog = new AlertDialog.Builder(context).create();
+                        alertDialog.setTitle("Please subscribe");
+                        alertDialog.setCancelable(true);
+                        alertDialog
+                                .setMessage("You do not have access to this feature.\nPlease subscribe.");
+                        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                        return;
+                                    }
+                                });
+                        alertDialog.show();
+                        return;
+                    }
+                } else if (Account.getType() == Account.Type.Educator) {
+                    Intent intent = new Intent(context, ViewRecordActivity.class);
+                    intent.putExtra("classID", aClass.getClassID());
+                    intent.putExtra("action", "edit");
+                    context.startActivity(intent);
                 }
             }
         });
@@ -197,13 +205,13 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                         return;
                     }
                     Intent intent = new Intent(context, NveClass.class);
-                    intent.putExtra("classID", aClass.getClassId());
+                    intent.putExtra("classID", aClass.getClassID());
                     intent.putExtra("courseID", aClass.getCourseID());
                     intent.putExtra("action", "edit");
                     context.startActivity(intent);
                 } else if (Account.getType() == Account.Type.Educator) {
                     Intent intent = new Intent(context, RequestSchedChange.class);
-                    intent.putExtra("classID", aClass.getClassId());
+                    intent.putExtra("classID", aClass.getClassID());
                     context.startActivity(intent);
                 }
             }
@@ -232,7 +240,7 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                     public void onClick(DialogInterface dialog, int which) {
                         switch (which){
                             case DialogInterface.BUTTON_POSITIVE:
-                                FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassId()).delete();
+                                FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassID()).delete();
                                 holder.containerLayout.setVisibility(View.GONE);
                                 break;
 

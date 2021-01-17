@@ -40,6 +40,8 @@ import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.Course;
+import com.project.ilearncentral.Model.Student;
+import com.project.ilearncentral.Model.StudentRecord;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Subscription;
 import com.project.ilearncentral.MyClass.Utility;
@@ -157,6 +159,7 @@ public class SchedulingSystem extends Fragment {
                 courseID = selected.substring(selected.indexOf("- ") + 2);
                 classesLoading();
                 Class.retrieveClassesFromDB(courseID, "", loadedClass);
+                StudentRecord.retrieveStatusRecordFromDB(courseID, null);
             }
 
             @Override
@@ -174,6 +177,7 @@ public class SchedulingSystem extends Fragment {
                 if (!courseID.isEmpty()) {
                     classesLoading();
                     Class.retrieveClassesFromDB(courseID, statusCurrent, loadedClass);
+                    StudentRecord.retrieveStatusRecordFromDB(courseID, null);
                 }
             }
         });

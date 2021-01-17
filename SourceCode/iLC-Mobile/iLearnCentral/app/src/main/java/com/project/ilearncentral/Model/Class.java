@@ -1,5 +1,6 @@
 package com.project.ilearncentral.Model;
 
+import android.app.Activity;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -9,7 +10,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -17,7 +17,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableInteger;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,6 +32,11 @@ public class Class {
     private String roomNo;
     private String status;
     private String requestMessage;
+    private List<Attendance> attendances;
+    private List<ClassActivity> activities;
+    private String lessonPlan;
+    private boolean linkedPlan;
+
     public static List<Class> retrieved = new ArrayList<>();
 
     public Class() {
@@ -44,9 +48,11 @@ public class Class {
         this.roomNo = "";
         this.status = "";
         this.requestMessage ="";
+        this.attendances = new ArrayList();
+        this.activities = new ArrayList<>();
     }
 
-    public String getClassId() {
+    public String getClassID() {
         return classId;
     }
 
@@ -130,8 +136,51 @@ public class Class {
         return retrieved;
     }
 
+    public List<Attendance> getAttendances() {
+        return attendances;
+    }
+
+    public void setAttendances(List<Attendance> attendances) {
+        this.attendances = attendances;
+    }
+
+    public void addAttendance(List<Attendance> attendances) {
+        this.attendances.addAll(attendances);
+    }
+
+    public void addAttendance(Attendance attendance) {
+        this.attendances.add(attendance);
+    }
+
+    public List<ClassActivity> getActivities() {
+        return activities;
+    }
+
+    public void setActivities(List<ClassActivity> activities) {
+        this.activities = activities;
+    }
+    public void addActivity(ClassActivity activity) {
+        this.activities.add(activity);
+    }
+
+    public String getLessonPlan() {
+        return lessonPlan;
+    }
+
+    public void setLessonPlan(String lessonPlan) {
+        this.lessonPlan = lessonPlan;
+    }
+
+    public boolean isLinkedPlan() {
+        return linkedPlan;
+    }
+
+    public void setLinkedPlan(boolean linkedPlan) {
+        this.linkedPlan = linkedPlan;
+    }
+
     public void setClass(Class otherClass) {
-        this.classId = otherClass.getClassId();
+        this.classId = otherClass.getClassID();
         this.eduID = otherClass.getEduID();
         this.courseID = otherClass.getCourseID();
         this.educator = otherClass.getEducator();
@@ -141,12 +190,16 @@ public class Class {
         this.roomNo = otherClass.getRoomNo();
         this.status = otherClass.getStatus();
         this.requestMessage = otherClass.getRequestMessage();
+        this.attendances = otherClass.getAttendances();
+        this.activities = otherClass.getActivities();
+        this.lessonPlan = otherClass.getLessonPlan();
+        this.linkedPlan = otherClass.isLinkedPlan();
     }
 
     public static void retrieveClassesFromDB(String courseID, String classStatus, final ObservableBoolean done) {
         final String TAG = "Class Model";
         retrieved.clear();
-        if (classStatus.isEmpty() ||classStatus == null) {
+        if (classStatus.isEmpty() || classStatus == null) {
             FirebaseFirestore.getInstance().collection("Class")
                     .whereEqualTo("CourseID", courseID)
                     .orderBy("ClassStart")
@@ -203,6 +256,27 @@ public class Class {
                         }
                     }
                 }
+
+                List <Object> attendInput = (List<Object>) document.get("Attendance");
+                if (attendInput != null) {
+                    for (int i=0;i<attendInput.size();i++) {
+                        Map <String, String> data = new HashMap<>();
+                        for (Map.Entry entry : ((Map<String, Object>) attendInput.get(i)).entrySet()) {
+                            data.put(entry.getKey().toString(), entry.getValue().toString());
+                        }
+                        Attendance attendance = new Attendance();
+                        attendance.setClassID(c.getClassID());
+                        attendance.setClass(Class.getClassById(c.getClassID()));
+                        attendance.setStudentID(data.get("StudentID"));
+                        attendance.setStudent(Student.getStuByUsername(attendance.getStudentID()));
+                        attendance.setRemarks(data.get("Remarks"));
+                        attendance.setAttendance(data.get("Attendance"));
+                        c.addAttendance(attendance);
+                    }
+                }
+                c.setLessonPlan(document.getString("LessonPlan"));
+                c.setLinkedPlan(document.getBoolean("LinkedPlan"));
+
                 if (c.getClassStart()!=null)
                     retrieved.add(c);
                 Log.d(TAG, document.getId());
@@ -223,6 +297,8 @@ public class Class {
         data.put("ClassStart", aClass.getClassStart());
         data.put("ClassEnd", aClass.getClassEnd());
         data.put("Message", aClass.getRequestMessage());
+        data.put("LessonPlan", "");
+        data.put("LinkedPlan", false);
         FirebaseFirestore.getInstance().collection("Class").add(data)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -246,7 +322,7 @@ public class Class {
         data.put("ClassStart", aClass.getClassStart());
         data.put("ClassEnd", aClass.getClassEnd());
         data.put("Message", aClass.getRequestMessage());
-        FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassId()).set(data)
+        FirebaseFirestore.getInstance().collection("Class").document(aClass.getClassID()).set(data)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
@@ -270,10 +346,26 @@ public class Class {
 
     public static Class getClassById(String classId) {
         for (int i=0; i<retrieved.size();i++) {
-            if (retrieved.get(i).getClassId().equals(classId))
+            if (retrieved.get(i).getClassID().equals(classId))
                 return retrieved.get(i);
         }
         return null;
     }
 
+    public static boolean hasStudentInAttendance(Class aClass, String studentID) {
+        for (Attendance attendance:aClass.attendances) {
+           if (studentID.equalsIgnoreCase(attendance.getStudentID()))
+               return true;
+        }
+        return false;
+    }
+    public static boolean hasStudentInActivities(Class aClass, String activityID, String studentID) {
+        for (ClassActivity activity: aClass.getActivities()) {
+            if (activity.getActivityID().equalsIgnoreCase(activityID)) {
+                if (activity.hasStudent(studentID))
+                    return true;
+            }
+        }
+        return false;
+    }
 }

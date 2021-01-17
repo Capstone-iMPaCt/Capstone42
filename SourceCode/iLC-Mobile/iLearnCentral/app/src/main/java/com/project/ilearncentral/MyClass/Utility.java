@@ -38,6 +38,8 @@ import com.project.ilearncentral.Model.LearningCenter;
 import com.project.ilearncentral.Model.User;
 import com.project.ilearncentral.R;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -593,5 +595,11 @@ public class Utility {
             return Long.parseLong(num.substring(0, i));
         }
         return cardNumber;
+    }
+
+    public static String numberFormat(Double number) {
+        DecimalFormatSymbols otherSymbols = new DecimalFormatSymbols(Locale.getDefault());
+        DecimalFormat df = new DecimalFormat("#.##", otherSymbols);
+        return df.format(number);
     }
 }

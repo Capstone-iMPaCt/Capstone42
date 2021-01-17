@@ -188,6 +188,9 @@ public class Student extends User {
         super.setUser(user);
     }
 
+    public static void retrieveStudentsFromDB(final ObservableBoolean done) {
+        retrieveStudentsFromDB(done, "", "");
+    }
     public static void retrieveStudentsFromDB(final ObservableBoolean done, String query, String value) {
         CollectionReference db = FirebaseFirestore.getInstance().collection("Student");
         if (query.isEmpty()) {

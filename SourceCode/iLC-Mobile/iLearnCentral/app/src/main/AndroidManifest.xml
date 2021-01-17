@@ -22,7 +22,8 @@
         android:roundIcon="@drawable/logo_icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activity.AdministratorView"></activity>
+        <activity android:name=".Activity.ViewRecordActivity"></activity>
+        <activity android:name=".Activity.AdministratorView" />
         <activity android:name=".Activity.RequestSchedChange" />
         <activity
             android:name=".Activity.EnrolmentPaymentRecords"

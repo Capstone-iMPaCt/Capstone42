@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/view_record_activities_row"
+    android:orientation="vertical"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp">
+
+    <View
+        android:id="@+id/view_record_activity_row_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/view_record_activity_row_title_layout"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginEnd="10dp"
+            app:layout_constraintEnd_toStartOf="@+id/view_record_activities_row_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/view_record_activity_row_title"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/input_white_bg_rounded"
+                android:enabled="false"
+                android:focusable="true"
+                android:gravity="start"
+                android:hint="Activity Title"
+                android:inputType="textCapWords"
+                android:minLines="1"
+                android:padding="5dp"
+                android:textAlignment="gravity"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <Button
+            android:id="@+id/view_record_activities_row_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_rounded_corners"
+            android:backgroundTint="@android:color/white"
+            android:clickable="true"
+            android:minHeight="0dp"
+            android:paddingVertical="5dp"
+            android:visibility="gone"
+            android:text="Reset"
+            android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view_record_activities_row_button" />
+
+        <Button
+            android:id="@+id/view_record_activities_row_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_rounded_corners"
+            android:backgroundTint="@android:color/white"
+            android:clickable="true"
+            android:minHeight="0dp"
+            android:layout_marginTop="10dp"
+            android:paddingVertical="5dp"
+            android:text="Edit"
+            android:textColor="@android:color/holo_blue_dark"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/view_record_activity_row_score_layout"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/view_record_activity_row_title_layout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/view_record_activity_row_score"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/input_white_bg_rounded"
+                android:enabled="false"
+                android:focusable="true"
+                android:gravity="center"
+                android:hint="Full Score"
+                android:inputType="numberDecimal"
+                android:minLines="1"
+                android:padding="5dp"
+                android:textAlignment="gravity"
+                android:textColor="@color/text_color"
+                android:textColorHighlight="@color/mint_blue"
+                android:textColorHint="@color/text_hint_color"
+                android:textColorLink="@color/light_blue"
+                android:textSize="15sp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/view_record_activity_row_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/view_record_activities_row_reset"
+            app:layout_constraintStart_toEndOf="@+id/view_record_activity_row_score_layout"
+            app:layout_constraintTop_toBottomOf="@id/view_record_activity_row_title_layout" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_record_activity_row_desc_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginBottom="15dp"
+        app:layout_constraintStart_toEndOf="@+id/view_record_activity_row_perfect_label"
+        app:layout_constraintTop_toBottomOf="@id/view_record_activity_row_title_layout" >
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/view_record_activity_row_desc"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/input_white_bg_rounded"
+            android:focusable="true"
+            android:gravity="start"
+            android:hint="Description"
+            android:inputType="textMultiLine|textCapSentences"
+            android:minLines="1"
+            android:enabled="false"
+            android:padding="5dp"
+            android:textSize="15sp"
+            android:textAlignment="gravity"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/mint_blue"
+            android:textColorHint="@color/text_hint_color"
+            android:textColorLink="@color/light_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:id="@+id/view_record_activity_row_table_header"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:paddingHorizontal="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="5dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="start"
+            android:text="Student Name"
+            android:textStyle="bold"
+            android:layout_weight="2"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Scores"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view_record_activity_row_table_contents"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="3"
+        android:paddingHorizontal="10dp"
+        android:layout_marginVertical="2dp"
+        >
+    </LinearLayout>
+    <View
+        android:id="@+id/view_record_attendance_row_below_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="5dp"
+        android:background="@android:color/darker_gray" />
+
+</LinearLayout>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingVertical="5dp"
+    android:paddingHorizontal="10dp">
+
+    <View
+        android:id="@+id/view_record_attendance_row_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginVertical="5dp"
+        android:background="@android:color/darker_gray" />
+
+    <TextView
+        android:id="@+id/view_record_attendance_row_student_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="left"
+        android:text="Student Name"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/view_record_attendance_row_top_line"
+        android:textColor="@color/colorPrimaryDark"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/view_record_attendance_row_presence"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:gravity="left"
+        android:text="Not Set"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/view_record_attendance_row_top_line"
+        android:background="@color/bt_black_12"
+        android:textColor="@android:color/black"
+        android:paddingVertical="2dp"
+        android:paddingHorizontal="20dp"
+        android:textSize="15sp" />
+
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:weightSum="3"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:layout_below="@id/view_record_attendance_row_student_name"
+        android:id="@+id/view_record_attendance_row_radiogroup"
+     >
+        <RadioButton
+            android:id="@+id/view_record_attendance_row_present"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="5dp"
+            android:text="Present"
+            android:background="@android:color/holo_green_light"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/view_record_attendance_row_absent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginHorizontal="5dp"
+            android:text="Absent"
+            android:background="@android:color/holo_red_light"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_weight="1"
+            />
+
+        <RadioButton
+            android:id="@+id/view_record_attendance_row_late"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:background="@android:color/holo_orange_dark"
+            android:textColor="@android:color/black"
+            android:gravity="center"
+            android:layout_marginHorizontal="5dp"
+            android:text="Late"
+            android:layout_weight="1"
+            />
+    </RadioGroup>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/view_record_attendance_row_remarks_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/view_record_attendance_row_radiogroup"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/view_record_attendance_row_remarks"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/input_white_bg_rounded"
+            android:drawablePadding="20dp"
+            android:focusable="true"
+            android:gravity="start"
+            android:hint="Remarks"
+            android:inputType="textCapSentences|textMultiLine"
+            android:minLines="1"
+            android:padding="10dp"
+            android:textSize="15sp"
+            android:textAlignment="gravity"
+            android:textColor="@color/text_color"
+            android:textColorHighlight="@color/mint_blue"
+            android:textColorHint="@color/text_hint_color"
+            android:textColorLink="@color/light_blue" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <View
+        android:id="@+id/view_record_attendance_row_top_below"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/view_record_attendance_row_radiogroup"
+        android:layout_marginVertical="5dp"
+        android:background="@android:color/darker_gray" />
+
+</RelativeLayout>
