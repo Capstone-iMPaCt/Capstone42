@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,7 +50,6 @@ public class JobPost extends Fragment {
     private RecyclerView recyclerView;
     private List<JobVacancy> jobs;
     private List<JobVacancy> recommendation;
-    private List<JobVacancy> temp;
 
     private ObservableBoolean done;
     private ObservableString editOrView;
@@ -241,10 +239,10 @@ public class JobPost extends Fragment {
                         all.setTextColor(Color.GRAY);
                         applied.setTextColor(Color.GRAY);
 
-                        temp = new ArrayList<>();
-                        temp.addAll(jobs);
+                        recommendation = new ArrayList<>();
+                        recommendation.addAll(jobs);
                         jobs.clear();
-                        for (JobVacancy jobPost : temp) {
+                        for (JobVacancy jobPost : recommendation) {
                             for (String keyWord : profile) {
                                 if (jobPost.getPosition().toLowerCase().contains(keyWord.trim())
                                         || jobPost.getJobDescription().toLowerCase().contains(keyWord.trim())) {
@@ -297,6 +295,7 @@ public class JobPost extends Fragment {
                 JobPosts.retrievePostsFromDB(done);
                 pullToRefresh.setRefreshing(false);
                 setRecommendationOff();
+                closed.setTextColor(Color.GRAY);
             }
         });
 

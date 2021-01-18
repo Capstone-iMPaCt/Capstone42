@@ -2,11 +2,14 @@ package com.project.ilearncentral.Model;
 
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -18,8 +21,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import androidx.annotation.NonNull;
 
 public class Resume {
     private static String TAG = "Resume";
@@ -35,12 +36,13 @@ public class Resume {
     private List<ResumeItem> references;
     private List<ResumeItem> skills;
 
-    public enum ResumeItemType {Award, Education, Employment, Interest, Qualities, Reference, Skill};
+    public enum ResumeItemType {Award, Education, Employment, Interest, Qualities, Reference, Skill}
 
     public Resume() {
         username = "";
         reset();
     }
+
     public Resume(String username) {
         this.username = username;
         reset();
@@ -49,19 +51,19 @@ public class Resume {
     public void reset() {
         resumeId = "";
         objective = "";
-        if (awards==null) awards = new ArrayList<>();
+        if (awards == null) awards = new ArrayList<>();
         else awards.clear();
-        if (educationalBackground==null) educationalBackground = new ArrayList<>();
+        if (educationalBackground == null) educationalBackground = new ArrayList<>();
         else educationalBackground.clear();
-        if (employmentHistory==null) employmentHistory = new ArrayList<>();
+        if (employmentHistory == null) employmentHistory = new ArrayList<>();
         else employmentHistory.clear();
-        if (interest==null) interest = new ArrayList<>();
+        if (interest == null) interest = new ArrayList<>();
         else interest.clear();
-        if (qualities==null) qualities = new ArrayList<>();
+        if (qualities == null) qualities = new ArrayList<>();
         else qualities.clear();
-        if (references==null) references = new ArrayList<>();
+        if (references == null) references = new ArrayList<>();
         else references.clear();
-        if (skills==null) skills = new ArrayList<>();
+        if (skills == null) skills = new ArrayList<>();
         else skills.clear();
     }
 
@@ -71,6 +73,14 @@ public class Resume {
 
     public void setId(String id) {
         this.resumeId = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getObjective() {
@@ -137,6 +147,36 @@ public class Resume {
         this.awards = awards;
     }
 
+    public static void getResumeList(final List<Resume> resumeList, final ObservableBoolean listener) {
+        FirebaseFirestore.getInstance().collection("Resume")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot document : queryDocumentSnapshots) {
+                            Resume resume = new Resume();
+                            resume.setUsername(document.get("Username").toString());
+                            resume.setObjective(document.get("CareerObjective").toString());
+                            resume.setAwards(mapDataToResumeItem((List<Object>) document.get("Awards"), ResumeItemType.Award));
+                            resume.setEducationalBackground(mapDataToResumeItem((List<Object>) document.get("EducationalBackground"), ResumeItemType.Education));
+                            resume.setEmploymentHistory(mapDataToResumeItem((List<Object>) document.get("EmploymentHistory"), ResumeItemType.Employment));
+                            resume.setInterest(mapDataToResumeItem((List<Object>) document.get("Interests"), ResumeItemType.Interest));
+                            resume.setQualities(mapDataToResumeItem((List<Object>) document.get("Qualities"), ResumeItemType.Qualities));
+                            resume.setReferences(mapDataToResumeItem((List<Object>) document.get("References"), ResumeItemType.Reference));
+                            resume.setSkills(mapDataToResumeItem((List<Object>) document.get("Skills"), ResumeItemType.Skill));
+                            resumeList.add(resume);
+                        }
+                        listener.set(true);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+    }
+
     public static Resume getResumeFromDB(String username, final ObservableBoolean done) {
         if (username == null || username.isEmpty())
             username = Account.getUsername();
@@ -149,11 +189,11 @@ public class Resume {
                     for (QueryDocumentSnapshot document : task.getResult()) {
                         resume.setId(document.getId());
                         setData(resume, document.getData());
-                        if (done!=null) done.set(true);
+                        if (done != null) done.set(true);
                         Log.d(TAG, document.getId() + " => " + document.getData());
                     }
                 } else {
-                    if (done!=null) done.set(false);
+                    if (done != null) done.set(false);
                     Log.d(TAG, "Error getting documents: ", task.getException());
                 }
             }

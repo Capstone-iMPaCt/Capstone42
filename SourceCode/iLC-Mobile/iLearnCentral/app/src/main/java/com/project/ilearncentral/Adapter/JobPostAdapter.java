@@ -27,6 +27,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.project.ilearncentral.Activity.Messages;
 import com.project.ilearncentral.Activity.NveJobPost;
+import com.project.ilearncentral.Activity.SearchUser;
 import com.project.ilearncentral.CustomBehavior.ObservableObject;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnObjectChangeListener;
@@ -109,10 +110,26 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 holder.editTextView.setVisibility(View.VISIBLE);
                 holder.closePostButton.setVisibility(View.VISIBLE);
                 holder.chatButton.setVisibility(View.GONE);
+                holder.recommendButton.setVisibility(View.VISIBLE);
+                if (job.getStatus().equalsIgnoreCase("close")) {
+                    holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
+                    holder.closePostButton.setClickable(false);
+                    holder.closePostButton.setEnabled(false);
+                    holder.closePostButton.setText("CLOSED");
+                    holder.editTextView.setVisibility(View.GONE);
+                    holder.recommendButton.setVisibility(View.GONE);
+                } else {
+                    holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
+                    holder.closePostButton.setClickable(true);
+                    holder.closePostButton.setEnabled(true);
+                    holder.closePostButton.setText("CLOSE");
+                    holder.recommendButton.setVisibility(View.VISIBLE);
+                }
             } else {
                 holder.editTextView.setVisibility(View.GONE);
                 holder.closePostButton.setVisibility(View.GONE);
                 holder.chatButton.setVisibility(View.VISIBLE);
+                holder.recommendButton.setVisibility(View.GONE);
             }
         } else if (Account.isType("Educator")) {
             if (JobApplication.isApplicant(job.getJobId(), Account.getUsername())) {
@@ -120,18 +137,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             } else {
                 holder.applyButton.setVisibility(View.VISIBLE);
             }
-        }
-        if (job.getStatus().equalsIgnoreCase("close")) {
-            holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.GRAY));
-            holder.closePostButton.setClickable(false);
-            holder.closePostButton.setEnabled(false);
-            holder.closePostButton.setText("CLOSED");
-            holder.editTextView.setVisibility(View.GONE);
-        } else {
-            holder.closePostButton.setBackgroundTintList(ColorStateList.valueOf(Color.RED));
-            holder.closePostButton.setClickable(true);
-            holder.closePostButton.setEnabled(true);
-            holder.closePostButton.setText("CLOSE");
+            holder.recommendButton.setVisibility(View.GONE);
         }
         holder.editTextView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,15 +148,14 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
                 }
             }
         });
-//        holder.containerLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                JobPosts.setCurPost(JobPosts.getJobPostById(job.getJobId()));
-//                if (JobPosts.hasCurrent()) {
-//                    edit.set("n" + job.getJobId());
-//                }
-//            }
-//        });
+        holder.recommendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, SearchUser.class);
+                intent.putExtra("JobPostID", job.getJobId());
+                context.startActivity(intent);
+            }
+        });
         holder.chatButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -229,7 +234,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
         private RelativeLayout headerLayout;
         private ImageView logoImageView;
         private TextView businessNameTextView, positionTextView, dateTextView, timeTextView, descriptionTextView, editTextView;
-        private Button closePostButton, applyButton, chatButton;
+        private Button closePostButton, applyButton, chatButton, recommendButton;
 
         JobPostViewHolder(View itemView) {
             super(itemView);
@@ -243,6 +248,7 @@ public class JobPostAdapter extends RecyclerView.Adapter<JobPostAdapter.JobPostV
             timeTextView = itemView.findViewById(R.id.job_post_time);
             descriptionTextView = itemView.findViewById(R.id.job_post_description);
             editTextView = itemView.findViewById(R.id.job_post_edit_icon);
+            recommendButton = itemView.findViewById(R.id.job_post_potential_hire);
             closePostButton = itemView.findViewById(R.id.job_post_close_button);
             applyButton = itemView.findViewById(R.id.job_post_apply_button);
             chatButton = itemView.findViewById(R.id.job_post_chat_button);
