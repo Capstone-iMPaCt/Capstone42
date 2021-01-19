@@ -18,7 +18,7 @@ import java.util.Map;
 import androidx.annotation.NonNull;
 
 public class LearningCenter {
-    private String centerId, businessName, businessAddress, companyWebsite, contactEmail, contactNumber, description, serviceType, logo;
+    private String centerId, businessName, businessAddress, companyWebsite, contactEmail, contactNumber, description, serviceType, logo, verificationStatus;
     private List<Map<String, String>> accounts;
     private List<String> operatingDays;
     private Timestamp open, close;
@@ -29,7 +29,7 @@ public class LearningCenter {
     private static List<LearningCenter> retrieved = new ArrayList<>();
 
     public LearningCenter() {
-        businessName = businessAddress = companyWebsite = contactEmail = contactNumber = description = serviceType = logo = "";
+        businessName = businessAddress = companyWebsite = contactEmail = contactNumber = description = serviceType = logo = verificationStatus = "";
         following = new ArrayList<>();
         followers = new ArrayList<>();
         rating = 0;
@@ -37,6 +37,7 @@ public class LearningCenter {
         accounts = new ArrayList<>();
         operatingDays = new ArrayList<>();
         open = close = Timestamp.now();
+        verificationStatus = "";
     }
 
     public String getCenterId() {
@@ -109,6 +110,14 @@ public class LearningCenter {
 
     public void setLogo(String logo) {
         this.logo = logo;
+    }
+
+    public String getVerificationStatus() {
+        return verificationStatus;
+    }
+
+    public void setVerificationStatus(String verificationStatus) {
+        this.verificationStatus = verificationStatus;
     }
 
     public List<Map<String, String>> getAccounts() {
@@ -276,6 +285,7 @@ public class LearningCenter {
         operatingDays = lc.getOperatingDays();
         open = lc.getOpen();
         close = lc.getClose();
+        verificationStatus = lc.getVerificationStatus();
     }
 
     public static List<LearningCenter> getRetrieved() {
@@ -351,6 +361,8 @@ public class LearningCenter {
                                 }
                                 if(document.contains("Ratings"))
                                     lc.addRating((Map<String, Integer>) document.get("Ratings"));
+                                if(document.contains("VerificationStatus"))
+                                    lc.setVerificationStatus(document.get("VerificationStatus").toString());
                                 if (pos == -1) {
                                     retrieved.add(lc);
                                 } else {

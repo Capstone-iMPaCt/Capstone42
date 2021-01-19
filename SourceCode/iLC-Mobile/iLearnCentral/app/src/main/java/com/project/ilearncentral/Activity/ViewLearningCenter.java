@@ -2,12 +2,14 @@ package com.project.ilearncentral.Activity;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -28,10 +30,11 @@ import java.util.Map;
 
 public class ViewLearningCenter extends AppCompatActivity {
 
-    ImageView logo;
-    Button message, follow, courses;
+    ImageView logo, verificationIcon;
+    Button message, follow, courses, verificationButton;
     LearningCenter lc;
-    TextView name, followers, following, rating;
+    TextView name, followers, following, rating, verificationStatus;
+    LinearLayout verificationLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,10 @@ public class ViewLearningCenter extends AppCompatActivity {
         followers = (TextView) findViewById(R.id.learning_center_followers);
         following = (TextView) findViewById(R.id.learning_center_following);
         rating = (TextView) findViewById(R.id.learning_center_rating);
+        verificationLayout = findViewById(R.id.learning_center_profile_verification_layout);
+        verificationIcon = findViewById(R.id.learning_center_profile_verification_status_icon);
+        verificationStatus = findViewById(R.id.learning_center_profile_verification_status);
+        verificationButton = findViewById(R.id.learning_center_profile_verification_button);
 
         lc = LearningCenter.getLCById(Account.getStringData("openLC"));
 
@@ -164,5 +171,32 @@ public class ViewLearningCenter extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         Account.removeData("openLC");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        verificationLayout.setVisibility(View.VISIBLE);
+        verificationButton.setVisibility(View.GONE);
+        if (!lc.getVerificationStatus().isEmpty()) {
+            if (lc.getVerificationStatus().equals("pending")) {
+                verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
+                verificationStatus.setText("Business verification is pending.");
+                verificationStatus.setTextColor(Color.parseColor("#17AADB"));
+            } else if (lc.getVerificationStatus().equals("verified")) {
+                verificationIcon.setBackgroundResource(R.drawable.verified_icon);
+                verificationStatus.setText("Business is verified.");
+                verificationStatus.setTextColor(Color.GREEN);
+            } else if (lc.getVerificationStatus().equals("rejected")) {
+                verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
+                verificationStatus.setText("Business verification is rejected.");
+                verificationStatus.setTextColor(Color.RED);
+            }
+        } else {
+            verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
+            verificationStatus.setText("Business is not verified.");
+            verificationStatus.setTextColor(Color.DKGRAY);
+        }
     }
 }

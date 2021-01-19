@@ -27,6 +27,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.project.ilearncentral.Fragment.SubscriptionSales;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.Connection;
 import com.project.ilearncentral.MyClass.Utility;
@@ -144,7 +145,7 @@ public class Login extends AppCompatActivity implements View.OnClickListener {
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.isSuccessful()) {
                             if (password.getText().toString().equals(task.getResult().get("Password").toString())) {
-                                startActivity(new Intent(Login.this, AdministratorView.class));
+                                startActivity(new Intent(Login.this, AdministratorMain.class));
                                 Toast.makeText(Login.this, "Administrator's Account Login", Toast.LENGTH_SHORT).show();
                                 finish();
                             } else

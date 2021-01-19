@@ -1,15 +1,26 @@
 package com.project.ilearncentral.Fragment.Profile;
 
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.project.ilearncentral.Activity.Main;
+import com.project.ilearncentral.Activity.VerifyBusiness;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.LearningCenter;
@@ -24,8 +35,10 @@ public class LearningCenterProfile extends Fragment {
 
     private TextView sunday, monday, tuesday, wednesday, thursday, friday, saturday;
     private TextView businessName, serviceType, businessAddress, openingTime, closingTime, email, contact, website, aboutUs,
-                    following, followers, rating;
-    private LinearLayout emailLayout, contactLayout, websiteLayout;
+            following, followers, rating, verificationStatus;
+    private LinearLayout emailLayout, contactLayout, websiteLayout, verificationLayout;
+    private Button verificationButton;
+    private ImageView verificationIcon;
     private CardView aboutUsLayout;
     private List<String> operatingDays;
     private ObservableBoolean update;
@@ -44,7 +57,7 @@ public class LearningCenterProfile extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profile_learning_center, container, false);
+        final View view = inflater.inflate(R.layout.fragment_profile_learning_center, container, false);
 
         lc = new LearningCenter();
         sunday = view.findViewById(R.id.course_sched_day_sun);
@@ -71,6 +84,11 @@ public class LearningCenterProfile extends Fragment {
         followers = view.findViewById(R.id.learning_center_followers);
         following = view.findViewById(R.id.learning_center_following);
         rating = view.findViewById(R.id.learning_center_rating);
+
+        verificationLayout = view.findViewById(R.id.learning_center_profile_verification_layout);
+        verificationIcon = view.findViewById(R.id.learning_center_profile_verification_status_icon);
+        verificationStatus = view.findViewById(R.id.learning_center_profile_verification_status);
+        verificationButton = view.findViewById(R.id.learning_center_profile_verification_button);
 
         update = new ObservableBoolean();
         update.setOnBooleanChangeListener(new OnBooleanChangeListener() {
@@ -127,7 +145,7 @@ public class LearningCenterProfile extends Fragment {
 
                         followers.setText(Utility.processCount(lc.getFollowers()));
                         following.setText(Utility.processCount(lc.getFollowing()));
-                        rating.setText(lc.getRating()+"");
+                        rating.setText(lc.getRating() + "");
 
                         Account.businessSet = false;
                     }
@@ -136,6 +154,46 @@ public class LearningCenterProfile extends Fragment {
         });
         Account.updateObservables.add(update);
         if (Account.businessSet) update.set(true);
+
+        ObservableBoolean vsListener = new ObservableBoolean();
+        vsListener.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+            @Override
+            public void onBooleanChanged(boolean value) {
+                if (value) {
+                    getActivity().recreate();
+                }
+            }
+        });
+        Utility.setVerificationListener(vsListener);
+        if (Account.getBusinessData().containsKey("VerificationStatus")){
+            verificationButton.setVisibility(View.GONE);
+            verificationLayout.setVisibility(View.VISIBLE);
+            if (Account.getBusinessData().get("VerificationStatus").equals("pending")) {
+                verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
+                verificationStatus.setText("Business verification is pending.");
+                verificationStatus.setTextColor(Color.parseColor("#17AADB"));
+            } else if (Account.getBusinessData().get("VerificationStatus").equals("verified")) {
+                verificationIcon.setBackgroundResource(R.drawable.verified_icon);
+                verificationStatus.setText("Business is verified.");
+                verificationStatus.setTextColor(Color.GREEN);
+            } else if (Account.getBusinessData().get("VerificationStatus").equals("rejected")) {
+                verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
+                verificationStatus.setText("Business verification is rejected.");
+                verificationStatus.setTextColor(Color.RED);
+            } else {
+                verificationLayout.setVisibility(View.GONE);
+                verificationButton.setVisibility(View.VISIBLE);
+            }
+        } else {
+            verificationLayout.setVisibility(View.GONE);
+            verificationButton.setVisibility(View.VISIBLE);
+        }
+        verificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getContext(), VerifyBusiness.class));
+            }
+        });
         return view;
     }
 

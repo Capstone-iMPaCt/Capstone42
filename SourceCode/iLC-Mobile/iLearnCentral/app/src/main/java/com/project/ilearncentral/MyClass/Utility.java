@@ -66,6 +66,7 @@ public class Utility {
     private static SimpleDateFormat dateTimeFormat = new SimpleDateFormat("MM/dd/yyyy hh:mm a");
 
     private static boolean exit;
+    private static ObservableBoolean verificationListener;
 
     public static void buttonWait(Button button, boolean wait) {
         buttonWait(button, wait, "");
@@ -520,6 +521,14 @@ public class Utility {
 
     public static void setExit(boolean exit) {
         Utility.exit = exit;
+    }
+
+    public static void setVerificationListener(ObservableBoolean verificationListener) {
+        Utility.verificationListener = verificationListener;
+    }
+
+    public static void setVerificationListenerValue(boolean value) {
+        Utility.verificationListener.set(value);
     }
 
     public static String showPriceInPHP(double price) {

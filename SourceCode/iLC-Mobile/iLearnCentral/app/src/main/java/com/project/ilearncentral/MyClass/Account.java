@@ -224,6 +224,9 @@ public class Account {
                 setValidatedData("ZipCode", address, "bZipCode");
                 setValidatedData("Country", address, "bCountry");
             }
+            if (businessData.containsKey("VerificationStatus")) {
+                data.put("VerificationStatus", businessData.get("VerificationStatus"));
+            }
 
             accounts.clear();
             accounts.addAll((List<Map<String, Object>>) businessData.get("Accounts"));
@@ -267,6 +270,7 @@ public class Account {
             accounts.add(account);
         }
         businessData.put("Accounts", accounts);
+        businessData.put("VerificationStatus", getStringData("VerificationStatus"));
         return businessData;
     }
 

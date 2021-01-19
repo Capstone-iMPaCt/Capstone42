@@ -1,54 +1,53 @@
-package com.project.ilearncentral.Activity;
+package com.project.ilearncentral.Fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.project.ilearncentral.Adapter.AdminReportAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Sales;
 import com.project.ilearncentral.MyClass.Utility;
-import com.project.ilearncentral.databinding.ActivityAdministratorViewBinding;
+import com.project.ilearncentral.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdministratorView extends AppCompatActivity {
+public class SubscriptionSales extends Fragment {
 
-    private ActivityAdministratorViewBinding binding;
+    private SearchView searchView;
+    private RecyclerView recyclerView;
 
     private List<Sales> retrievedList;
     private List<Sales> salesList;
+
     private AdminReportAdapter adapter;
     private ObservableBoolean salesListener;
 
-    @Override
-    public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(true).setTitle("Exit").setMessage("Do you want to close iLearnCentral?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                }).show();
+    public SubscriptionSales() {
+        // Required empty public constructor
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initialize();
+        setRetainInstance(true);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        final View view = inflater.inflate(R.layout.fragment_subscription_sales, container, false);
+        initialize(view);
 
         salesListener.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
@@ -61,7 +60,7 @@ public class AdministratorView extends AppCompatActivity {
                 }
             }
         });
-        binding.avReportsSearch.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 query = query.toLowerCase();
@@ -83,25 +82,27 @@ public class AdministratorView extends AppCompatActivity {
                 return false;
             }
         });
-        binding.avReportsSearch.setOnCloseListener(new SearchView.OnCloseListener() {
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
                 salesListener.set(true);
                 return false;
             }
         });
+
+        return view;
     }
 
-    private void initialize() {
-        binding = ActivityAdministratorViewBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+    private void initialize(View view) {
+        searchView = view.findViewById(R.id.admin_ss_search);
+        recyclerView = view.findViewById(R.id.admin_ss_recyclerview);
 
         retrievedList = new ArrayList<>();
         salesList = new ArrayList<>();
         salesListener = new ObservableBoolean();
         Sales.getSalesData(retrievedList, salesListener);
-        adapter = new AdminReportAdapter(AdministratorView.this, salesList);
-        binding.avReportsRecyclerview.setLayoutManager(new LinearLayoutManager(this));
-        binding.avReportsRecyclerview.setAdapter(adapter);
+        adapter = new AdminReportAdapter(getContext(), salesList);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
     }
 }
