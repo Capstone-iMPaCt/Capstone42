@@ -85,20 +85,28 @@ public class ViewRecordActivity extends AppCompatActivity {
             }
         }
 
+        if (action.equalsIgnoreCase("view")) {
+            lessonPlanEdit.setVisibility(View.GONE);
+            attendanceEdit.setVisibility(View.GONE);
+            activitiesAdd.setVisibility(View.GONE);
+            lessonPlanReset.setVisibility(View.GONE);
+            attendanceReset.setVisibility(View.GONE);
+        }
+
         lessonPlan.setText(aClass.getLessonPlan());
         lessonPlanInput.setText(aClass.getLessonPlan());
         if (aClass.getLessonPlan().isEmpty())
             lessonPlan.setVisibility(View.GONE);
 
         attendanceRecycler.setLayoutManager(new LinearLayoutManager(this));
-        attendanceAdapter = new AttendanceAdapter(this, attendances, aClass, actionAttendance);
+        attendanceAdapter = new AttendanceAdapter(this, attendances, aClass, actionAttendance, false);
         attendanceRecycler.setAdapter(attendanceAdapter);
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setReverseLayout(true);
         linearLayoutManager.setStackFromEnd(true);
         activitiesRecycler.setLayoutManager(linearLayoutManager);
-        activityAdapter = new ClassActivityAdapter(this, activities, aClass);
+        activityAdapter = new ClassActivityAdapter(this, activities, aClass, action);
         activitiesRecycler.setAdapter(activityAdapter);
 
         setStudent();
@@ -156,17 +164,6 @@ public class ViewRecordActivity extends AppCompatActivity {
             public void onClick(View v) {
                 lessonPlan.setText(aClass.getLessonPlan());
                 lessonPlanInput.setText(aClass.getLessonPlan());
-            }
-        });
-
-        studentsRetrieved.setOnBooleanChangeListener(new OnBooleanChangeListener() {
-            @Override
-            public void onBooleanChanged(boolean value) {
-                if (value) {
-                    for (Student student: students) {
-
-                    }
-                }
             }
         });
 
@@ -238,7 +235,6 @@ public class ViewRecordActivity extends AppCompatActivity {
                     activities.add(a);
                     aClass.addActivity(a);
                     actLoading.setVisibility(View.GONE);
-                    System.out.println("Add new Activity " + activities.size());
                     activityAdapter.notifyDataSetChanged();
                 }
             }
@@ -270,17 +266,13 @@ public class ViewRecordActivity extends AppCompatActivity {
     }
 
     private void setAttendance() {
-        if (Account.getType() == Account.Type.Educator) {
-            attLoading.setVisibility(View.VISIBLE);
-            Attendance.retrieveAttendanceFromDB("Class", classID, aClass, null, attendanceRetrieved);
-        }
+        attLoading.setVisibility(View.VISIBLE);
+        Attendance.retrieveAttendanceFromDB("Class", classID, aClass, null, attendanceRetrieved);
     }
 
     private void setActivity() {
-        if (Account.getType() == Account.Type.Educator) {
-            actLoading.setVisibility(View.VISIBLE);
-            ClassActivity.retrieveActivityFromDB("Class", classID, aClass, null, activityRetrieved);
-        }
+        actLoading.setVisibility(View.VISIBLE);
+        ClassActivity.retrieveActivityFromDB("Class", classID, aClass, null, activityRetrieved);
     }
 
     private void exitCancelled() {

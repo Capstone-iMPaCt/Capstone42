@@ -257,7 +257,6 @@ public class JobApplication {
         List<JobApplication> applications = new ArrayList<>();
         for (JobApplication application:retrieved) {
             try {
-                System.out.println(application.getEduUsername() + application.getJobVacancy());
                 if (application.getJobVacancy().getCenterId().equalsIgnoreCase(centerId)) {
                     if (application.getApplicationStatus().equalsIgnoreCase(status)) {
                         applications.add(application);

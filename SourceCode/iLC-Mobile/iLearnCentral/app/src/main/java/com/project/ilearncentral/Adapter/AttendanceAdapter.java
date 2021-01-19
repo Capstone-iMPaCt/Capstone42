@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -17,8 +18,10 @@ import com.project.ilearncentral.CustomInterface.OnStringChangeListener;
 import com.project.ilearncentral.Model.Attendance;
 import com.project.ilearncentral.Model.Class;
 import com.project.ilearncentral.Model.StudentRecord;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -29,13 +32,17 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     private final Context context;
     private final List<Attendance> attendances;
     private final Class aClass;
+    private final boolean studentFocus;
     private final ObservableString actionState;
+    private final List<String> added;
 
-    public AttendanceAdapter(Context context, List<Attendance> attendance, Class aClass, ObservableString actionState) {
+    public AttendanceAdapter(Context context, List<Attendance> attendance, Class aClass, ObservableString actionState, boolean studentFocus) {
         this.context = context;
         this.attendances = attendance;
         this.aClass = aClass;
         this.actionState = actionState;
+        this.added = new ArrayList<>();
+        this.studentFocus = studentFocus;
     }
 
     @NonNull
@@ -50,13 +57,21 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
     @Override
     public void onBindViewHolder(@NonNull final AttendanceViewHolder holder, final int position) {
         final Attendance attend = attendances.get(position);
+        if ((added.contains(attend.getStudentID())&&aClass!=null) || added.contains(attend.getClassID()))
+            holder.parent.setVisibility(View.GONE);
+        else {
+            added.add(attend.getStudentID());
+            added.add(attend.getClassID());
+        }
         holder.toSet.setVisibility(View.GONE);
-        final StudentRecord record = StudentRecord.getRecordByStudentIDAndCourseID(attend.getStudentID(), aClass.getCourseID());
-        Attendance.clearRedundant(aClass.getAttendances(), "StudentID");
-        Attendance.clearRedundant(record.getAttendanceList(), "ClassID");
-        final Attendance attend2 = record.getAttendanceByClassID(aClass.getClassID());
-        if (attend.getStudent()!=null)
-            holder.name.setText(attend.getStudent().getFullname());
+        if (!studentFocus) {
+            if (attend.getStudent() != null)
+                holder.name.setText(attend.getStudent().getFullname());
+        } else {
+            if (attend.getaClass() != null)
+                holder.name.setText(Utility.getDateTimeStringFromTimestamp(attend.getaClass().getClassStart()) +
+                        "-" + Utility.getTimeStringFromTimestamp(attend.getaClass().getClassEnd()));
+        }
         actionState.setOnStringChangeListener(new OnStringChangeListener() {
             @Override
             public void onStringChanged(String value) {
@@ -72,18 +87,23 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
                         holder.remarksLayout.setVisibility(View.GONE);
                     }
                     holder.toSet.setVisibility(View.GONE);
-                    for(Attendance attendance:aClass.getAttendances()) {
-                        if (attendance.getStudentID().equalsIgnoreCase(attend.getStudentID())) {
-                            attend.setRemarks(holder.remarks.getText().toString());
-                            attend2.setRemarks(holder.remarks.getText().toString());
-                            attendance.setRemarks(holder.remarks.getText().toString());
-                            attend.setAttendance(holder.presence.getText().toString().toLowerCase());
-                            attend2.setAttendance(holder.presence.getText().toString().toLowerCase());
-                            attendance.setAttendance(holder.presence.getText().toString().toLowerCase());
-                            break;
+                    if (aClass!=null) {
+                        final StudentRecord record = StudentRecord
+                                .getRecordByStudentIDAndCourseID(attend.getStudentID(), aClass.getCourseID());
+                        final Attendance attend2 = record.getAttendanceByClassID(aClass.getClassID());
+                        for(Attendance attendance:aClass.getAttendances()) {
+                            if (attendance.getStudentID().equalsIgnoreCase(attend.getStudentID())) {
+                                attend.setRemarks(holder.remarks.getText().toString());
+                                attend2.setRemarks(holder.remarks.getText().toString());
+                                attendance.setRemarks(holder.remarks.getText().toString());
+                                attend.setAttendance(holder.presence.getText().toString().toLowerCase());
+                                attend2.setAttendance(holder.presence.getText().toString().toLowerCase());
+                                attendance.setAttendance(holder.presence.getText().toString().toLowerCase());
+                                break;
+                            }
                         }
+                        Attendance.saveAttendance(aClass, record);
                     }
-                    Attendance.saveAttendance(aClass, record);
                 } else if (value.equalsIgnoreCase("reset")) {
                     holder.remarks.setText(attend.getRemarks());
                     setCurrentValues(holder, attend);
@@ -156,6 +176,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
 
     public class AttendanceViewHolder extends RecyclerView.ViewHolder {
 
+        private final RelativeLayout parent;
         private final TextView name;
         private final TextView presence;
         private final View topDivider;
@@ -170,6 +191,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.At
         AttendanceViewHolder(View itemView) {
             super(itemView);
 
+            parent = itemView.findViewById(R.id.view_record_attendance_row_parent);
             topDivider = itemView.findViewById(R.id.view_record_attendance_row_top_line);
             bottomDivider = itemView.findViewById(R.id.view_record_attendance_row_below_line);
             name = itemView.findViewById(R.id.view_record_attendance_row_student_name);

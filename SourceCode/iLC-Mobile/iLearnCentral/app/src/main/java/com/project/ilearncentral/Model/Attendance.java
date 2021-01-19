@@ -106,6 +106,29 @@ public class Attendance {
         isSaved = saved;
     }
 
+    public boolean addAttendanceWithCheck(List<Attendance> attendances, Attendance attendance) {
+        for (Attendance a: attendances) {
+            if(a.getClassID().equalsIgnoreCase(attendance.getClassID()) && a.getStudentID().equalsIgnoreCase(attendance.getStudentID())) {
+                a.setAttendance(attendance);
+                return true;
+            }
+        }
+        attendances.add(attendance);
+        return false;
+    }
+
+    public void setAttendance(Attendance attendance) {
+        this.studentID = attendance.getStudentID();
+        this.classID = attendance.getClassID();
+        this.courseID = attendance.getCourseID();
+        this.remarks = attendance.getRemarks();
+        this.attendance = attendance.getAttendance();
+        this.student = attendance.getStudent();
+        this.aClass = attendance.getaClass();
+        this.course = attendance.getCourse();
+        this.isSaved = attendance.isSaved();
+    }
+
     public void retrieveModels() {
         if (!studentID.isEmpty()) {
             student = Student.getStuByUsername(studentID);
@@ -133,24 +156,32 @@ public class Attendance {
 
     public static List<Map<String, String>> getAttendanceClassModel(List<Attendance> attendances) {
         List<Map<String, String >> attendanceList = new ArrayList<>();
+        List<String> done = new ArrayList<>();
         for (Attendance attendance:attendances) {
-            Map<String, String> attend = new HashMap<>();
-            attend.put("Attendance", attendance.getAttendance());
-            attend.put("Remarks", attendance.getRemarks());
-            attend.put("StudentID", attendance.getStudentID());
-            attendanceList.add(attend);
+            if (!done.contains(attendance.getStudentID())) {
+                done.add(attendance.getStudentID());
+                Map<String, String> attend = new HashMap<>();
+                attend.put("Attendance", attendance.getAttendance());
+                attend.put("Remarks", attendance.getRemarks());
+                attend.put("StudentID", attendance.getStudentID());
+                attendanceList.add(attend);
+            }
         }
         return attendanceList;
     }
 
     public static List<Map<String, String>> getAttendanceStudentRecordModel(List<Attendance> attendances) {
         List<Map<String, String >> attendanceList = new ArrayList<>();
+        List<String> done = new ArrayList<>();
         for (Attendance attendance:attendances) {
-            Map<String, String> attend = new HashMap<>();
-            attend.put("Attendance", attendance.getAttendance());
-            attend.put("Remarks", attendance.getRemarks());
-            attend.put("ClassID", attendance.getClassID());
-            attendanceList.add(attend);
+            if (!done.contains(attendance.getClassID())) {
+                done.add(attendance.getStudentID());
+                Map<String, String> attend = new HashMap<>();
+                attend.put("Attendance", attendance.getAttendance());
+                attend.put("Remarks", attendance.getRemarks());
+                attend.put("ClassID", attendance.getClassID());
+                attendanceList.add(attend);
+            }
         }
         return attendanceList;
     }
@@ -250,7 +281,38 @@ public class Attendance {
         }
         if (studentRecord != null) {
             FirebaseFirestore.getInstance().collection("StudentRecord").document(studentRecord.getRecordID())
-                    .update("Classes", Attendance.getAttendanceStudentRecordModel(studentRecord.getAttendanceList()));
+                    .update("Classes", Attendance.getAttendanceStudentRecordModel(studentRecord.getAttendances()));
         }
+    }
+
+    public static Attendance getAttendancesByStudentID(List<Attendance> attendances, String studentID) {
+        for (Attendance attendance:attendances) {
+            if (attendance.getStudentID().equalsIgnoreCase(studentID))
+                return attendance;
+        }
+        return null;
+    }
+
+    public static Attendance getAttendancesByClassID(List<Attendance> attendances, String classID) {
+        for (Attendance attendance:attendances) {
+            if (attendance.getClassID().equalsIgnoreCase(classID))
+                return attendance;
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Attendance{" + "\n" +
+                "\t" + "student=" + student + ",\n" +
+                "\t" + "aClass=" + aClass + ",\n" +
+                "\t" + "course=" + course + ",\n" +
+                "\t" + "studentID='" + studentID + '\'' + ",\n" +
+                "\t" + "classID='" + classID + '\'' + ",\n" +
+                "\t" + "courseID='" + courseID + '\'' + ",\n" +
+                "\t" + "remarks='" + remarks + '\'' + ",\n" +
+                "\t" + "attendance='" + attendance + '\'' + ",\n" +
+                "\t" + "isSaved=" + isSaved + "\n" +
+                '}';
     }
 }

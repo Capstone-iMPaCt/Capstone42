@@ -23,6 +23,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Activity.VerifyBusiness"></activity>
+        <activity android:name=".Activity.ViewRecordSummaryActivity"></activity>
         <activity android:name=".Activity.ViewRecordActivity" />
         <activity android:name=".Activity.AdministratorView" />
         <activity android:name=".Activity.RequestSchedChange" />

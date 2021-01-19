@@ -24,7 +24,7 @@ public class Student extends User {
     private String fullname, firstName, lastName, middleName, extension;
     private String address, citizenship, gender, martitalStatus, religion;
     private Timestamp birthday, enrolmentDate;
-    private static List<Student> retrieved = new ArrayList<>();
+    private static final List<Student> retrieved = new ArrayList<>();
 
     public Student() {
         super();
@@ -338,5 +338,35 @@ public class Student extends User {
             }
         }
         return students;
+    }
+
+    public static boolean hasStudent(List<Student> students, String studentID) {
+        for (Student student:students) {
+            if (student.getUsername().equalsIgnoreCase(studentID))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Student{" + "\n" +
+                "\t" + "stuId='" + stuId + '\'' + ",\n" +
+                "\t" + "centerId='" + centerId + '\'' + ",\n" +
+                "\t" + "username='" + username + '\'' + ",\n" +
+                "\t" + "enrolmentStatus='" + enrolmentStatus + '\'' + ",\n" +
+                "\t" + "fullname='" + fullname + '\'' + ",\n" +
+//                "\t" + "firstName='" + firstName + '\'' + ",\n" +
+//                "\t" + "lastName='" + lastName + '\'' + ",\n" +
+//                "\t" + "middleName='" + middleName + '\'' + ",\n" +
+//                "\t" + "extension='" + extension + '\'' + ",\n" +
+//                "\t" + "address='" + address + '\'' + ",\n" +
+//                "\t" + "citizenship='" + citizenship + '\'' + ",\n" +
+//                "\t" + "gender='" + gender + '\'' + ",\n" +
+//                "\t" + "martitalStatus='" + martitalStatus + '\'' + ",\n" +
+//                "\t" + "religion='" + religion + '\'' + ",\n" +
+//                "\t" + "birthday=" + birthday + ",\n" +
+//                "\t" + "enrolmentDate=" + enrolmentDate + ",\n" +
+                '}';
     }
 }

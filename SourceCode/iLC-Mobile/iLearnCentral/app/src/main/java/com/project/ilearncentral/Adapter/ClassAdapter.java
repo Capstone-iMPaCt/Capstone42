@@ -33,9 +33,9 @@ import java.util.List;
 
 public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHolder> {
 
-    private Context context;
-    private List<Class> classes;
-    private ObservableString statusChange;
+    private final Context context;
+    private final List<Class> classes;
+    private final ObservableString statusChange;
 
     public ClassAdapter(Context context, List<Class> classes, ObservableString statusChange) {
         this.context = context;
@@ -176,10 +176,17 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                         alertDialog.show();
                         return;
                     }
+                    Intent intent = new Intent(context, ViewRecordActivity.class);
+                    intent.putExtra("classID", aClass.getClassID());
+                    intent.putExtra("action", "view");
+                    context.startActivity(intent);
                 } else if (Account.getType() == Account.Type.Educator) {
                     Intent intent = new Intent(context, ViewRecordActivity.class);
                     intent.putExtra("classID", aClass.getClassID());
-                    intent.putExtra("action", "edit");
+                    if (aClass.getEduID().equalsIgnoreCase(Account.getUsername()))
+                        intent.putExtra("action", "edit");
+                    else
+                        intent.putExtra("action", "view");
                     context.startActivity(intent);
                 }
             }
@@ -265,12 +272,18 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
 
     public class ClassViewHolder extends RecyclerView.ViewHolder {
 
-        private RelativeLayout containerLayout;
-        private LinearLayout classStatusLayout;
-        private SlantedTextView classStatus;
-        private TextView day, date, timeStart, timeEnd, educator, roomNo;
-        private Button viewButton, otherButton;
-        private ImageButton delButton;
+        private final RelativeLayout containerLayout;
+        private final LinearLayout classStatusLayout;
+        private final SlantedTextView classStatus;
+        private final TextView day;
+        private final TextView date;
+        private final TextView timeStart;
+        private final TextView timeEnd;
+        private final TextView educator;
+        private final TextView roomNo;
+        private final Button viewButton;
+        private final Button otherButton;
+        private final ImageButton delButton;
 
         ClassViewHolder(View itemView) {
             super(itemView);

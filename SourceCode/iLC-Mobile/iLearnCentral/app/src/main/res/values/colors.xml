@@ -11,6 +11,7 @@
     <color name="light_blue_50">#503F51B5</color>
     <color name="mint_blue">#FF17AADB</color>
     <color name="mint_blue_50">#5017AADB</color>
+    <color name="mint_blue_25">#2517AADB</color>
 
     -- customized materials color --
     <color name="text_color">#0C0E26</color>
@@ -27,5 +28,7 @@
     <color name="bg_recyclerview">#EEEEEE</color>
     <color name="yellow">#FFEB3B</color>
     <color name="holo_red">#CC0000</color>
+
+    <color name="sky_blue">#ADCDF1</color>
 
 </resources>

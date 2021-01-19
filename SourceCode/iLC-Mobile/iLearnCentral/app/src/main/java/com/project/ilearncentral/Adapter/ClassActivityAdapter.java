@@ -39,13 +39,15 @@ public class ClassActivityAdapter extends RecyclerView.Adapter<ClassActivityAdap
     private static final CharSequence TAG = "ClassActivityAdapter";
     private final Context context;
     private final List<ClassActivity> activities;
+    private final String action;
     private final Class aClass;
     private final ClassActivityAdapter adapter;
     private final Map<String,List<String>> tableLayouts;
 
-    public ClassActivityAdapter(Context context, List<ClassActivity> activity, Class aClass) {
+    public ClassActivityAdapter(Context context, List<ClassActivity> activity, Class aClass, String action) {
         this.context = context;
         this.activities = activity;
+        this.action = action;
         this.aClass = aClass;
         this.adapter = this;
         this.tableLayouts = new HashMap<>();
@@ -63,11 +65,17 @@ public class ClassActivityAdapter extends RecyclerView.Adapter<ClassActivityAdap
     @Override
     public void onBindViewHolder(@NonNull final ClassActivityViewHolder holder, final int position) {
         final ClassActivity activity = activities.get(position);
-        System.out.println();
         holder.titleInput.setText(activity.getActivityTitle());
         holder.perfectScoreInput.setText(Utility.numberFormat(activity.getPerfectScore()));
-        holder.date.setText(Utility.getDateStringFromTimestamp(aClass.getClassStart()));
+        if (aClass!=null)
+            holder.date.setText(Utility.getDateStringFromTimestamp(aClass.getClassStart()));
+        else
+            holder.date.setVisibility(View.GONE);
         holder.descriptionInput.setText(activity.getActivityDescription());
+        if (action.equalsIgnoreCase("view")) {
+            holder.editBtn.setVisibility(View.GONE);
+            holder.resetBtn.setVisibility(View.GONE);
+        }
         if (activity.getActivityDescription().isEmpty() && !activity.getActivityID().isEmpty()) {
             holder.descriptionLayout.setVisibility(View.GONE);
         } else {
@@ -77,9 +85,6 @@ public class ClassActivityAdapter extends RecyclerView.Adapter<ClassActivityAdap
         final Map<String,EditText> scoreInputs = new HashMap<>();
         final List<String> studentsInRow = new ArrayList<>();
         for (Student student: activity.getStudents()) {
-            System.out.println(activity.getActivityID() + " - " + student.getUsername());
-            System.out.println(scoreInputs.size() + " - " + scoreInputs.containsKey(student.getUsername()));
-
             if (!scoreInputs.containsKey(student.getUsername())) {
                 TextView studentName = new TextView(context);
                 studentName.setText(student.getFullname());

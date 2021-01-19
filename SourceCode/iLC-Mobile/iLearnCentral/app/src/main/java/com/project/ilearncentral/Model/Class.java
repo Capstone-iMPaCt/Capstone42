@@ -32,6 +32,7 @@ public class Class {
     private String roomNo;
     private String status;
     private String requestMessage;
+    private List<Student> students;
     private List<Attendance> attendances;
     private List<ClassActivity> activities;
     private String lessonPlan;
@@ -48,6 +49,7 @@ public class Class {
         this.roomNo = "";
         this.status = "";
         this.requestMessage ="";
+        this.students = new ArrayList<>();
         this.attendances = new ArrayList();
         this.activities = new ArrayList<>();
     }
@@ -163,6 +165,67 @@ public class Class {
         this.activities.add(activity);
     }
 
+    public boolean addAttendanceWithCheck(Attendance attendance) {
+        for (Attendance a: this.attendances) {
+            if(a.getClassID().equalsIgnoreCase(attendance.getClassID())
+                    && a.getStudentID().equalsIgnoreCase(attendance.getStudentID())) {
+                a.setAttendance(attendance);
+                return true;
+            }
+        }
+        attendances.add(attendance);
+        return false;
+    }
+
+    public boolean addAttendanceWithCheck(List<Attendance> attendances, Attendance attendance) {
+        for (Attendance a: attendances) {
+            if(a.getClassID().equalsIgnoreCase(attendance.getClassID()) && a.getStudentID().equalsIgnoreCase(attendance.getStudentID())) {
+                a.setAttendance(attendance);
+                return true;
+            }
+        }
+        attendances.add(attendance);
+        return false;
+    }
+
+    public boolean addClassActivityWithCheck(ClassActivity activity) {
+        for (ClassActivity a: this.activities) {
+            if(a.getActivityID().equalsIgnoreCase(activity.getActivityID())) {
+                a.setActivity(activity);
+                return true;
+            }
+        }
+        activities.add(activity);
+        return false;
+    }
+
+    public boolean addClassActivityWithCheck(List<ClassActivity> activities, ClassActivity activity) {
+        for (ClassActivity a: activities) {
+            if(a.getActivityID().equalsIgnoreCase(activity.getActivityID())) {
+                a.setActivity(activity);
+                return true;
+            }
+        }
+        activities.add(activity);
+        return false;
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+    }
+
+    public void addStudents(List<Student> students) {
+        this.students.addAll(students);
+    }
+
+    public void addStudent(Student student) {
+        this.students.add(student);
+    }
+
     public String getLessonPlan() {
         return lessonPlan;
     }
@@ -266,7 +329,7 @@ public class Class {
                         }
                         Attendance attendance = new Attendance();
                         attendance.setClassID(c.getClassID());
-                        attendance.setClass(Class.getClassById(c.getClassID()));
+                        attendance.setClass(c);
                         attendance.setStudentID(data.get("StudentID"));
                         attendance.setStudent(Student.getStuByUsername(attendance.getStudentID()));
                         attendance.setRemarks(data.get("Remarks"));
@@ -367,5 +430,34 @@ public class Class {
             }
         }
         return false;
+    }
+
+    public static boolean hasClass(List<Class> classes, String classID) {
+        for (Class aClass:classes) {
+            if (aClass.getClassID().equalsIgnoreCase(classID))
+                return true;
+        }
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Class{" + "\n" +
+                "\t" + "classId='" + classId + '\'' + ",\n" +
+                "\t" + "eduID='" + eduID + '\'' + ",\n" +
+                "\t" + "courseID='" + courseID + '\'' + ",\n" +
+//                "\t" + "educator=" + educator + ",\n" +
+//                "\t" + "course=" + course + ",\n" +
+                "\t" + "classStart=" + classStart + ",\n" +
+                "\t" + "classEnd=" + classEnd + ",\n" +
+                "\t" + "roomNo='" + roomNo + '\'' + ",\n" +
+                "\t" + "status='" + status + '\'' + ",\n" +
+                "\t" + "requestMessage='" + requestMessage + '\'' + ",\n" +
+//                "\t" + "students=" + students + ",\n" +
+//                "\t" + "attendances=" + attendances + ",\n" +
+//                "\t" + "activities=" + activities + ",\n" +
+                "\t" + "lessonPlan='" + lessonPlan + '\'' + ",\n" +
+                "\t" + "linkedPlan=" + linkedPlan + "\n" +
+                '}';
     }
 }
