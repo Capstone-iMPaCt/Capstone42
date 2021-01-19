@@ -120,7 +120,10 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
             if(!aClass.getEduID().equals(Account.getUsername())) {
                 holder.containerLayout.setVisibility(View.GONE);
             }
-        } else if (Account.getType() == Account.Type.Student) {
+            else {
+                holder.containerLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
             holder.viewButton.setVisibility(View.GONE);
             holder.otherButton.setVisibility(View.GONE);
             holder.delButton.setVisibility(View.GONE);
@@ -133,22 +136,32 @@ public class ClassAdapter extends RecyclerView.Adapter<ClassAdapter.ClassViewHol
                     case "Open":
                         if (!holder.classStatus.getText().equalsIgnoreCase("Open"))
                             holder.containerLayout.setVisibility(View.GONE);
+                        else
+                            holder.containerLayout.setVisibility(View.VISIBLE);
                         break;
                     case "Close":
                         if (!holder.classStatus.getText().equalsIgnoreCase("Close"))
                             holder.containerLayout.setVisibility(View.GONE);
+                        else
+                            holder.containerLayout.setVisibility(View.VISIBLE);
                         break;
                     case "Cancelled":
                         if (!holder.classStatus.getText().equalsIgnoreCase("Cancelled"))
                             holder.containerLayout.setVisibility(View.GONE);
+                        else
+                            holder.containerLayout.setVisibility(View.VISIBLE);
                         break;
                     case "Ongoing":
                         if (!holder.classStatus.getText().equalsIgnoreCase("Ongoing"))
                             holder.containerLayout.setVisibility(View.GONE);
+                        else
+                            holder.containerLayout.setVisibility(View.VISIBLE);
                         break;
                     case "Pending":
                         if (!holder.classStatus.getText().equalsIgnoreCase("Pending"))
                             holder.containerLayout.setVisibility(View.GONE);
+                        else
+                            holder.containerLayout.setVisibility(View.VISIBLE);
                         break;
                     default:
                         break;
