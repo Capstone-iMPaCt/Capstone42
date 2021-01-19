@@ -20,6 +20,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.UploadTask;
@@ -27,6 +28,7 @@ import com.project.ilearncentral.CustomBehavior.ObservableString;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.BankAccountDetail;
 import com.project.ilearncentral.Model.Enrolment;
+import com.project.ilearncentral.Model.StudentRecord;
 import com.project.ilearncentral.MyClass.Account;
 import com.project.ilearncentral.MyClass.ImageHandler;
 import com.project.ilearncentral.MyClass.Utility;
@@ -123,7 +125,7 @@ public class EnrolmentPayment extends AppCompatActivity {
                                 @Override
                                 public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                     Log.d(TAG, photoUri.toString());
-                                    Enrolment enrolment = new Enrolment();
+                                    final Enrolment enrolment = new Enrolment();
                                     enrolment.setCenterID(centerID);
                                     enrolment.setCourseID(courseID);
                                     enrolment.setCourseEnrolled(title);
@@ -136,9 +138,18 @@ public class EnrolmentPayment extends AppCompatActivity {
                                     enrolment.setEnrolmentStatus("pending");
                                     FirebaseFirestore.getInstance()
                                             .collection("Enrolment")
-                                            .add(enrolment);
-                                    toastMessage("Saving enrolment successful.");
-                                    finish();
+                                            .add(enrolment).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentReference> task) {
+                                            StudentRecord record = new StudentRecord();
+                                            record.setCourseID(courseID);
+                                            record.setStudentID(enrolment.getStudentID());
+                                            FirebaseFirestore.getInstance().collection("StudentRecord").
+                                                    add(StudentRecord.getStudentRecordModel(record));
+                                            toastMessage("Saving enrolment successful.");
+                                            finish();
+                                        }
+                                    });
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {

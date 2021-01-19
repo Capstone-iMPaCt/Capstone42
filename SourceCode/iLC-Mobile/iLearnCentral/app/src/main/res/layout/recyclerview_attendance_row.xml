@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/view_record_attendance_row_parent"
     android:paddingVertical="5dp"
     android:paddingHorizontal="10dp">
 

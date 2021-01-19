@@ -105,4 +105,14 @@
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
         app:srcCompat="@drawable/add_icon" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/scheduling_view_summary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|start"
+        android:layout_margin="@dimen/fab_margin"
+        android:clickable="true"
+        app:srcCompat="@drawable/summary_white"
+        />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

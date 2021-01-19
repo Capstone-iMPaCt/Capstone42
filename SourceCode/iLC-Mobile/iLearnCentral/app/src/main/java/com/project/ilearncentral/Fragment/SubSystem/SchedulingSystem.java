@@ -34,6 +34,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.project.ilearncentral.Activity.NveClass;
+import com.project.ilearncentral.Activity.ViewRecordSummaryActivity;
 import com.project.ilearncentral.Adapter.ClassAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomBehavior.ObservableString;
@@ -63,7 +64,7 @@ public class SchedulingSystem extends Fragment {
     private Dialog dialog;
     private Spinner coursesSpinner;
     private TextView subscriptionExpiry, noClass;
-    private FloatingActionButton addNewClassBtn;
+    private FloatingActionButton addNewClassBtn, viewSummaryBtn;
     private Button okDialog, clearDialog;
     private ImageButton viewOption;
     private RadioGroup status;
@@ -107,8 +108,10 @@ public class SchedulingSystem extends Fragment {
                     if (classes.isEmpty()) {
                         noClass.setVisibility(View.VISIBLE);
                         noClass.setText("No Classes Found");
+                        viewSummaryBtn.setVisibility(View.GONE);
                     } else {
                         noClass.setVisibility(View.GONE);
+                        viewSummaryBtn.setVisibility(View.VISIBLE);
                     }
                 }
             }
@@ -129,25 +132,34 @@ public class SchedulingSystem extends Fragment {
         addNewClassBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!Subscription.isSchedulingSubscribed()) {
-                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
-                    alertDialog.setTitle("Please subscribe");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
-                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                    return;
-                                }
-                            });
-                    alertDialog.show();
-                    return;
-                }
-                Intent intent = new Intent(getActivity(), NveClass.class);
-                intent.putExtra("classID", "");
+            if (!Subscription.isSchedulingSubscribed()) {
+                AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                alertDialog.setTitle("Please subscribe");
+                alertDialog.setCancelable(true);
+                alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                    new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            return;
+                        }
+                    });
+                alertDialog.show();
+                return;
+            }
+            Intent intent = new Intent(getActivity(), NveClass.class);
+            intent.putExtra("classID", "");
+            intent.putExtra("courseID", courseID);
+            intent.putExtra("action", "add");
+            startActivity(intent);
+            }
+        });
+
+        viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), ViewRecordSummaryActivity.class);
                 intent.putExtra("courseID", courseID);
-                intent.putExtra("action", "add");
                 startActivity(intent);
             }
         });
@@ -244,7 +256,6 @@ public class SchedulingSystem extends Fragment {
         adapter.notifyDataSetChanged();
         noClass.setVisibility(View.VISIBLE);
         noClass.setText("Please Wait. Class List Loading.");
-
     }
 
     private void setCourseSpinner() {
@@ -348,6 +359,7 @@ public class SchedulingSystem extends Fragment {
         subscriptionExpiry = view.findViewById(R.id.scheduling_subscription_status);
         noClass = view.findViewById(R.id.scheduling_classes_none);
         addNewClassBtn = view.findViewById(R.id.scheduling_add_fab);
+        viewSummaryBtn = view.findViewById(R.id.scheduling_view_summary);
         viewOption = view.findViewById(R.id.scheduling_app_bar_option_button);
         recyclerView = view.findViewById(R.id.scheduling_recylerview);
     }

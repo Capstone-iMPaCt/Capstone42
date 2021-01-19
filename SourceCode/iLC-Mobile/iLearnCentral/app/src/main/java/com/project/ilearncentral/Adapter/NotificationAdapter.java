@@ -4,24 +4,18 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.project.ilearncentral.Model.Message;
 import com.project.ilearncentral.Model.Notification;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.NotificationHolder> {
@@ -37,7 +31,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @NonNull
     @Override
     public NotificationHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.recycler_notification_row, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.recyclerview_notification_row, parent, false);
 
         return new NotificationHolder(view);
     }

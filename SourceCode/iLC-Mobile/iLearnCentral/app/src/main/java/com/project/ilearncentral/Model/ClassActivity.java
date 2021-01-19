@@ -328,4 +328,22 @@ public class ClassActivity {
                     .set(getActivityClassModel(activity));
         }
     }
+
+    @Override
+    public String toString() {
+        return "ClassActivity{" + "\n" +
+                "\t" + "activityID='" + activityID + '\'' + ",\n" +
+                "\t" + "perfectScore=" + perfectScore + ",\n" +
+                "\t" + "activityTitle='" + activityTitle + '\'' + ",\n" +
+                "\t" + "activityDescription='" + activityDescription + '\'' + ",\n" +
+                "\t" + "aClass=" + aClass + ",\n" +
+                "\t" + "classID='" + classID + '\'' + ",\n" +
+                "\t" + "students=" + students + ",\n" +
+                "\t" + "scores=" + scores + ",\n" +
+                "\t" + "student=" + student + ",\n" +
+                "\t" + "studentID='" + studentID + '\'' + ",\n" +
+                "\t" + "score=" + score + ",\n" +
+                "\t" + "studentRecord=" + studentRecord + "\n" +
+                '}';
+    }
 }
