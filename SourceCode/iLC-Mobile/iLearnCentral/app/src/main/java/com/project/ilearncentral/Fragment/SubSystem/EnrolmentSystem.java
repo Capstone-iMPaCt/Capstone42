@@ -382,9 +382,9 @@ public class EnrolmentSystem extends Fragment {
                         if (task.isSuccessful()) {
                             DocumentSnapshot document = task.getResult();
                             if (document.exists()) {
-                                if (document.getData().containsKey("EnrolmentSystem")) {
-                                    Map<String, Object> data = (Map<String, Object>) document.get("EnrolmentSystem");
-                                    Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
+                                int subscriptionLevel = document.getDouble("SubscriptionLevel").intValue();
+                                if (subscriptionLevel > 0) {
+                                    Timestamp timestamp = (com.google.firebase.Timestamp) document.get("SubscriptionExpiry");
                                     Date dateNow = new Date();
                                     if (dateNow.compareTo(timestamp.toDate()) < 0) {
                                         // If dateNow occurs before SubscriptionExpiry

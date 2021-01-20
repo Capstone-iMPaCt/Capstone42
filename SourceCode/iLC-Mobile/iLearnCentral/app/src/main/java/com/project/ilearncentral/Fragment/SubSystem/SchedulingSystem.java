@@ -158,6 +158,21 @@ public class SchedulingSystem extends Fragment {
         viewSummaryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!Subscription.isSchedulingSubscribed() && Account.isType("LearningCenter")) {
+                    AlertDialog alertDialog = new AlertDialog.Builder(getContext()).create();
+                    alertDialog.setTitle("Please subscribe");
+                    alertDialog.setCancelable(true);
+                    alertDialog.setMessage("You do not have access to this feature.\nPlease subscribe.");
+                    alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "OK",
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                    return;
+                                }
+                            });
+                    alertDialog.show();
+                    return;
+                }
                 Intent intent = new Intent(getActivity(), ViewRecordSummaryActivity.class);
                 intent.putExtra("courseID", courseID);
                 startActivity(intent);

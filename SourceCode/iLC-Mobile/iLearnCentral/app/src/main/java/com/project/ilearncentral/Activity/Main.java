@@ -315,12 +315,12 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.main_subscription_button:
-                if (!Account.isType("LearningCenter")) {
-                    String accountType = "";
-                    if (Account.isType("Educator"))
-                        accountType = "Educator";
-                    else
-                        accountType = "Student";
+                if (Account.isType("Student")) {
+                    String accountType = "Student";
+//                    if (Account.isType("Educator"))
+//                        accountType = "Educator";
+//                    else
+//                        accountType = "Student";
                     android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
                     alertDialog.setTitle("Access denied!");
                     alertDialog.setCancelable(true);
@@ -333,20 +333,21 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                             });
                     alertDialog.show();
                     break;
-                }
-                if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0) {
-                    android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
-                    alertDialog.setTitle("Access denied!");
-                    alertDialog.setCancelable(true);
-                    alertDialog.setMessage("Only administrator accounts have access to this feature.");
-                    alertDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
-                            new DialogInterface.OnClickListener() {
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            });
-                    alertDialog.show();
-                    break;
+                } else if (Account.isType("LearningCenter")) {
+                    if (Account.getProfileData().get("AccessLevel").toString().compareToIgnoreCase("staff") == 0) {
+                        android.app.AlertDialog alertDialog = new android.app.AlertDialog.Builder(this).create();
+                        alertDialog.setTitle("Access denied!");
+                        alertDialog.setCancelable(true);
+                        alertDialog.setMessage("Only administrator accounts have access to this feature.");
+                        alertDialog.setButton(android.app.AlertDialog.BUTTON_NEUTRAL, "OK",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        dialog.dismiss();
+                                    }
+                                });
+                        alertDialog.show();
+                        break;
+                    }
                 }
                 Intent intent = new Intent(getApplicationContext(), Subscription.class);
                 if (user.getPhotoUrl() != null)
@@ -360,7 +361,7 @@ public class Main extends AppCompatActivity implements View.OnClickListener {
                 startActivity(new Intent(getApplicationContext(), SearchCenter.class));
                 break;
             case R.id.notification_button:
-                if (notificationCount!=0) {
+                if (notificationCount != 0) {
                     notifDialog.show();
                     notifDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                         @Override

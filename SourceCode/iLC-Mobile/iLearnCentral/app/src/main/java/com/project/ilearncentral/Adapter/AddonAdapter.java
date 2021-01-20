@@ -2,7 +2,6 @@ package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,6 @@ import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +28,6 @@ import com.project.ilearncentral.R;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHolder> {
 
@@ -64,13 +61,24 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
         holder.descriptionTextView.setText(addon.getDescription());
         holder.countdownTextView.setText("Subscription ends on " + addon.getCountdown());
         holder.fee.setText(Utility.showPriceInPHP(addon.getFee()));
+        if (addon.getFee() == 0) {
+            holder.subscribeButton.setText("Free");
+            holder.subscribeButton.setEnabled(false);
+            holder.subscribeButton.setBackgroundTintList(context.getResources().getColorStateList(R.color.dark_gray));
+            holder.horizontalLine.setVisibility(View.VISIBLE);
+            holder.countdownTextView.setText("Lifetime free");
+            holder.countdownTextView.setVisibility(View.VISIBLE);
+        }
 
         holder.subscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, Payment.class);
                 intent.putExtra("fee", addon.getFee());
-                intent.putExtra("title", addon.getTitle());
+                if (addon.getTitle().equals("Subscription Level 1"))
+                    intent.putExtra("level", 1);
+                else if (addon.getTitle().equals("Subscription Level 2"))
+                    intent.putExtra("level", 2);
                 context.startActivity(intent);
             }
         });
@@ -82,17 +90,27 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    String systemName = addon.getTitle().replaceAll("\\s+", "");
+                    int subscriptionLevel = document.getDouble("SubscriptionLevel").intValue();
                     if (document.exists()) {
-                        if (document.getData().containsKey(systemName)) {
-                            Map<String, Object> data = (Map<String, Object>) document.get(systemName);
-                            Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
-                            Log.d(TAG, document.getData().get(systemName) + "");
-                            Date dateNow = new Date();
-                            if (dateNow.compareTo(timestamp.toDate()) < 0) {
-                                // If dateNow occurs before SubscriptionExpiry
-                                holder.countdownTextView.setText("Expires on: " + timestamp.toDate().toString());
-                                setSubscribeButton(holder);
+                        if (subscriptionLevel == 1) {
+                            if (addon.getTitle().equals("Subscription Level 1")) {
+                                Timestamp timestamp = (com.google.firebase.Timestamp) document.get("SubscriptionExpiry");
+                                Date dateNow = new Date();
+                                if (dateNow.compareTo(timestamp.toDate()) < 0) {
+                                    // If dateNow occurs before SubscriptionExpiry
+                                    holder.countdownTextView.setText("Expires on: " + timestamp.toDate().toString());
+                                    setSubscribeButton(holder);
+                                }
+                            }
+                        } else if (subscriptionLevel == 2) {
+                            if (addon.getTitle().equals("Subscription Level 1") || addon.getTitle().equals("Subscription Level 2")) {
+                                Timestamp timestamp = (com.google.firebase.Timestamp) document.get("SubscriptionExpiry");
+                                Date dateNow = new Date();
+                                if (dateNow.compareTo(timestamp.toDate()) < 0) {
+                                    // If dateNow occurs before SubscriptionExpiry
+                                    holder.countdownTextView.setText("Expires on: " + timestamp.toDate().toString());
+                                    setSubscribeButton(holder);
+                                }
                             }
                         }
                     }

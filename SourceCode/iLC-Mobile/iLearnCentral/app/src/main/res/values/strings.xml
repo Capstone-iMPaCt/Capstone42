@@ -171,5 +171,12 @@
         <item>Cancelled</item>
         <item>Pending</item>
     </string-array>
+    <string-array name="subscription_duration">
+        <item>1 Month Subscription</item>
+        <item>2 Months Subscription</item>
+        <item>3 Months Subscription</item>
+        <item>6 Months Subscription</item>
+        <item>12 Months Subscription</item>
+    </string-array>
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

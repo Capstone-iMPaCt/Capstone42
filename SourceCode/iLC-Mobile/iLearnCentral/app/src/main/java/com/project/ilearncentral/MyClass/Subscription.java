@@ -68,18 +68,16 @@ public class Subscription {
         Subscription.schedulingSubscriptionExpiry = schedulingSubscriptionExpiry;
     }
 
-    public static void setSubscriptionStatus(String title, double fee) {
+    public static void setSubscriptionStatus(int level, int month, double fee) {
         setRef();
-        String systemName = title.replaceAll("\\s+", "");
         Date currentDate = new Date();
         Calendar dateExpire = Calendar.getInstance();
         dateExpire.setTime(currentDate);
-        dateExpire.add(Calendar.MONTH, 1);
+        dateExpire.add(Calendar.MONTH, month);
 
         final Map<String, Object> subscription = new HashMap<>();
-        Map<String, Object> system = new HashMap<>();
-        system.put("SubscriptionExpiry", dateExpire.getTime());
-        subscription.put(systemName, system);
+        subscription.put("SubscriptionLevel", level);
+        subscription.put("SubscriptionExpiry", dateExpire.getTime());
 
         db.collection("Subscription")
                 .document(Account.getCenterId())
@@ -102,8 +100,8 @@ public class Subscription {
         Map<String, Object> sale = new HashMap<>();
         sale.put("CenterID", Account.getCenterId());
         sale.put("Date", new Date());
-        sale.put("SubscriptionTitle", title);
-        sale.put("Fee", fee);
+        sale.put("SubscriptionLevel", level);
+        sale.put("Fee", fee * month);
         db.collection("Sales").add(sale);
     }
 
@@ -140,10 +138,9 @@ public class Subscription {
                     @Override
                     public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (value.exists()) {
-                            Map<String, Object> document = value.getData();
-                            if (document.containsKey("SchedulingSystem")) {
-                                Map<String, Object> data = (Map<String, Object>) document.get("SchedulingSystem");
-                                Timestamp timestamp = (com.google.firebase.Timestamp) data.get("SubscriptionExpiry");
+                            int subscriptionLevel = value.getDouble("SubscriptionLevel").intValue();
+                            if (subscriptionLevel > 1) {
+                                Timestamp timestamp = (com.google.firebase.Timestamp) value.get("SubscriptionExpiry");
                                 Date dateNow = new Date();
                                 if (dateNow.compareTo(timestamp.toDate()) < 0) {
                                     // If dateNow occurs before SubscriptionExpiry

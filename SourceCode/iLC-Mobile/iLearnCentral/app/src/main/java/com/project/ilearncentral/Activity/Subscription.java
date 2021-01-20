@@ -3,9 +3,7 @@ package com.project.ilearncentral.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -63,8 +61,13 @@ public class Subscription extends AppCompatActivity implements View.OnClickListe
         layoutBinding.userPageLink.setOnClickListener(this);
 
         addon = new ArrayList<>();
-        addon.add(new Addon("Enrolment System","This feature handles the management of courses which includes adding, updating, and closing of course posted. This feature also includes viewing of enrolees and pending enrolees.", 199));
-        addon.add(new Addon("Scheduling System", "This feature handles the adding, updating, closing, setting schedule, and viewing of classes.", 219));
+        if (Account.isType("learningcenter")) {
+            addon.add(new Addon("Subscription Level 0", "This is a lifetime free subscription which includes Job Hiring and Profiling systems. These systems handles the job post management, and potential hire recommendation features of iLearnCentral.", 0));
+            addon.add(new Addon("Subscription Level 1", "This subscription level includes the Enrolment System. This system handles the course and enrolment management features of iLearnCentral that include the posting, updating, and closing of courses; processing student enrolment and enrolment fees; and viewing students enrolled and payments.", 199));
+            addon.add(new Addon("Subscription Level 2", "This subscription level includes the Enrolment System extended with a Scheduling System. Scheduling System features are the adding of classes, the updating of class details, the closing of classes, and the viewing of class records.", 399));
+        } else if (Account.isType("educator")) {
+            addon.add(new Addon("Subscription Level 0", "This is a lifetime free subscription which includes Job Seeking and Profiling systems. These systems handles the job searching, job applying, job vacancy recommendation features of iLearnCentral.", 0));
+        }
         recyclerView = findViewById(R.id.addon_container_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AddonAdapter(this, addon);

@@ -17,7 +17,6 @@ import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
-import com.google.android.gms.wallet.WalletConstants;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.project.ilearncentral.MyClass.Constants;
@@ -27,10 +26,10 @@ import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 import com.project.ilearncentral.databinding.ActivityPaymentBinding;
 
+import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.Optional;
 
 public class Payment extends AppCompatActivity {
     // Arbitrarily-picked constant integer you define to track a request for payment data activity.
@@ -39,14 +38,14 @@ public class Payment extends AppCompatActivity {
     // A client for interacting with the Google Pay API.
     private PaymentsClient paymentsClient;
 
-    private ActivityPaymentBinding layoutBinding;
+    private ActivityPaymentBinding binding;
     private ImageButton googlePayButton;
 
     private FirebaseFirestore db;
     private DocumentReference ref;
 
     private double fee;
-    private String title;
+    private int level, monthNum;
     private String subSystem;
 
     @Override
@@ -79,23 +78,43 @@ public class Payment extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_payment);
-
         initialize();
+
+        binding.paymentMonths.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
+            @Override
+            public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
+                switch (position) {
+                    case 0:
+                    case 1:
+                    case 2:
+                        monthNum = position + 1;
+                        break;
+                    case 3:
+                        monthNum = position * 2;
+                        break;
+                    case 4:
+                        monthNum = position * 3;
+                        break;
+                    default:
+                }
+                binding.paymentAmount.setText("PAY " + Utility.showPriceInPHP(fee * monthNum));
+            }
+        });
     }
 
     private void initialize() {
-        layoutBinding = ActivityPaymentBinding.inflate(getLayoutInflater());
-        setContentView(layoutBinding.getRoot());
+        binding = ActivityPaymentBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         Intent intent = getIntent();
         fee = intent.getDoubleExtra("fee", 0);
-        title = intent.getStringExtra("title");
-        layoutBinding.paymentAmount.setText("PAY " + Utility.showPriceInPHP(fee) + "/month");
+        level = intent.getIntExtra("level", 0);
+        monthNum = 1;
+        binding.paymentAmount.setText("PAY " + Utility.showPriceInPHP(fee));
 
         paymentsClient = PaymentsUtil.createPaymentsClient(this);
 
-        layoutBinding.paymentGpayButton.setOnClickListener(new View.OnClickListener() {
+        binding.paymentGpayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 //                Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(fee);
@@ -155,7 +174,7 @@ public class Payment extends AppCompatActivity {
                     this, getString(R.string.payments_show_name, billingName),
                     Toast.LENGTH_LONG).show();
 
-            Subscription.setSubscriptionStatus(title, fee);
+            Subscription.setSubscriptionStatus(level, monthNum, fee);
 
             // Logging token string.
             Log.d("Google Pay token: ", token);
