@@ -186,12 +186,15 @@ public class Account {
                 profileData.put("EmploymentStatus", getStringData("employmentStatus"));
             else
                 profileData.put("EmploymentStatus", "none");
-            if (hasKey("employmentType"))
-                profileData.put("EmploymentType", getStringData("employmentType"));
+            List<String> types = new ArrayList<>();
+            if (hasKey("employmentType")) {
+                types.addAll((List<String>)profileData.get("EmploymentType"));
+                profileData.put("EmploymentType", types);
+            }
             else
-                profileData.put("EmploymentType", "");
+                profileData.put("EmploymentType", types);
             if (hasKey("employmentDate"))
-                profileData.put("EmploymentDate", getStringData("employmentDate"));
+                profileData.put("EmploymentDate", getTimeStampData("employmentDate"));
             else
                 profileData.put("EmploymentStatus", null);
         } else if (type == Type.Student) {
