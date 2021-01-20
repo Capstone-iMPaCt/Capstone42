@@ -126,10 +126,10 @@ public class VerifyBusiness extends AppCompatActivity {
         String fileName = "";
         Uri photoUri = null;
         if (requestCode == PERMIT) {
-            fileName = "PERMIT_" + Account.getUsername();
+            fileName = "PERMIT_" + Account.getCenterId();
             photoUri = permitPhotoUri;
         } else if (requestCode == BIR) {
-            fileName = "BIR_" + Account.getUsername();
+            fileName = "BIR_" + Account.getCenterId();
             photoUri = birPhotoUri;
         }
         Utility.buttonWait(binding.verifyBusinessSubmitButton, true, "Submitting...");

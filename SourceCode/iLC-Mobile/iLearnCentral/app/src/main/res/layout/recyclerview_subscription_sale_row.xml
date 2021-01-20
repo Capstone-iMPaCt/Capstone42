@@ -14,7 +14,7 @@
         android:padding="5dp">
 
         <TextView
-            android:id="@+id/rsrr_username"
+            android:id="@+id/rsrr_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
@@ -39,7 +39,7 @@
             android:id="@+id/rsrr_subscription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rsrr_username"
+            android:layout_below="@+id/rsrr_user_name"
             android:text="Subscription Title"
             android:textColor="@color/colorPrimaryDark" />
 

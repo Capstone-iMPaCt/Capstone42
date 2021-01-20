@@ -12,7 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.ilearncentral.Adapter.AdminReportAdapter;
+import com.project.ilearncentral.Adapter.SubscriptionSalesAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Sales;
@@ -30,7 +30,7 @@ public class SubscriptionSales extends Fragment {
     private List<Sales> retrievedList;
     private List<Sales> salesList;
 
-    private AdminReportAdapter adapter;
+    private SubscriptionSalesAdapter adapter;
     private ObservableBoolean salesListener;
 
     public SubscriptionSales() {
@@ -101,7 +101,7 @@ public class SubscriptionSales extends Fragment {
         salesList = new ArrayList<>();
         salesListener = new ObservableBoolean();
         Sales.getSalesData(retrievedList, salesListener);
-        adapter = new AdminReportAdapter(getContext(), salesList);
+        adapter = new SubscriptionSalesAdapter(getContext(), salesList);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
     }

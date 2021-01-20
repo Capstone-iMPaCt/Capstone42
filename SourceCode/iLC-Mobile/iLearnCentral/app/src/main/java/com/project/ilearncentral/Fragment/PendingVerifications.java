@@ -12,10 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.project.ilearncentral.Adapter.AdminReportAdapter;
+import com.project.ilearncentral.Adapter.PendingVerificationsAdapter;
+import com.project.ilearncentral.Adapter.SubscriptionSalesAdapter;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.Sales;
+import com.project.ilearncentral.Model.Verification;
 import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
 
@@ -27,11 +29,11 @@ public class PendingVerifications extends Fragment {
     private SearchView searchView;
     private RecyclerView recyclerView;
 
-//    private List<Sales> retrievedList;
-//    private List<Sales> salesList;
+    private List<Verification> retrievedList;
+    private List<Verification> verificationList;
 
-    private AdminReportAdapter adapter;
-    private ObservableBoolean salesListener;
+    private PendingVerificationsAdapter adapter;
+    private ObservableBoolean verificationsListener;
 
     public PendingVerifications() {
         // Required empty public constructor
@@ -49,14 +51,13 @@ public class PendingVerifications extends Fragment {
         final View view = inflater.inflate(R.layout.fragment_pending_verifications, container, false);
         initialize(view);
 
-        salesListener.setOnBooleanChangeListener(new OnBooleanChangeListener() {
+        verificationsListener.setOnBooleanChangeListener(new OnBooleanChangeListener() {
             @Override
             public void onBooleanChanged(boolean value) {
                 if (value) {
-//                    salesList.clear();
-//                    salesList.addAll(retrievedList);
+                    verificationList.clear();
+                    verificationList.addAll(retrievedList);
                     adapter.notifyDataSetChanged();
-
                 }
             }
         });
@@ -64,15 +65,13 @@ public class PendingVerifications extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 query = query.toLowerCase();
-//                salesList.clear();
-//                for (Sales sale : retrievedList) {
-//                    if (sale.getCenterName().toLowerCase().contains(query)
-//                            || sale.getSubscriptionTitle().toLowerCase().contains(query)
-//                            || (sale.getFee() + "").contains(query)
-//                            || (Utility.getDateAsString(sale.getDate()).contains(query))) {
-//                        salesList.add(sale);
-//                    }
-//                }
+                verificationList.clear();
+                for (Verification verification : retrievedList) {
+                    if (verification.getName().toLowerCase().contains(query)
+                            || (Utility.getDateAsString(verification.getDate()).contains(query))) {
+                        verificationList.add(verification);
+                    }
+                }
                 adapter.notifyDataSetChanged();
                 return false;
             }
@@ -85,7 +84,7 @@ public class PendingVerifications extends Fragment {
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
             public boolean onClose() {
-                salesListener.set(true);
+                verificationsListener.set(true);
                 return false;
             }
         });
@@ -97,12 +96,12 @@ public class PendingVerifications extends Fragment {
         searchView = view.findViewById(R.id.admin_pv_search);
         recyclerView = view.findViewById(R.id.admin_pv_recyclerview);
 
-//        retrievedList = new ArrayList<>();
-//        salesList = new ArrayList<>();
-        salesListener = new ObservableBoolean();
-//        Sales.getSalesData(retrievedList, salesListener);
-//        adapter = new AdminReportAdapter(getContext(), salesList);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-//        recyclerView.setAdapter(adapter);
+        retrievedList = new ArrayList<>();
+        verificationList = new ArrayList<>();
+        verificationsListener = new ObservableBoolean();
+        Verification.getPendingVerifications(retrievedList, verificationsListener);
+        adapter = new PendingVerificationsAdapter(getContext(), verificationList, verificationsListener);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        recyclerView.setAdapter(adapter);
     }
 }
