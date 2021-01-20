@@ -84,7 +84,7 @@ public class Sales {
                             Sales sale = new Sales();
                             sale.setCenterID(document.get("CenterID").toString());
                             sale.setCenterName(document.get("CenterID").toString(), listener);
-                            sale.setSubscriptionTitle(document.get("SubscriptionTitle").toString());
+                            sale.setSubscriptionTitle("Subscription Level " + document.getDouble("SubscriptionLevel").intValue());
                             sale.setFee(document.getDouble("Fee"));
                             sale.setDate(document.getDate("Date"));
                             salesList.add(sale);

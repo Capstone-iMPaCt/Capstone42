@@ -90,8 +90,8 @@ public class AddonAdapter extends RecyclerView.Adapter<AddonAdapter.AddonViewHol
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    int subscriptionLevel = document.getDouble("SubscriptionLevel").intValue();
                     if (document.exists()) {
+                        int subscriptionLevel = document.getDouble("SubscriptionLevel").intValue();
                         if (subscriptionLevel == 1) {
                             if (addon.getTitle().equals("Subscription Level 1")) {
                                 Timestamp timestamp = (com.google.firebase.Timestamp) document.get("SubscriptionExpiry");
