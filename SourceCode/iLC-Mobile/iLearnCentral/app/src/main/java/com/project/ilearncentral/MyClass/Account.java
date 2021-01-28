@@ -1,16 +1,14 @@
 package com.project.ilearncentral.MyClass;
 
-import android.content.Intent;
 import android.net.Uri;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
-import com.project.ilearncentral.Activity.Main;
-import com.project.ilearncentral.Activity.SplashScreen;
 import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.Model.User;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +35,7 @@ public class Account {
     }
 
     public static void activateObservables(boolean success) {
-        for (ObservableBoolean updateObservable:updateObservables) {
+        for (ObservableBoolean updateObservable : updateObservables) {
             updateObservable.set(success);
         }
     }
@@ -74,7 +72,7 @@ public class Account {
             me.setUserId(FirebaseAuth.getInstance().getCurrentUser().getUid());
             me.setUsername(getUsername());
             me.setType(userData.get("AccountType").toString());
-            if (userData.get("Image")!=null)
+            if (userData.get("Image") != null)
                 me.setImage(userData.get("Image").toString());
             if (userData.containsKey("Followers"))
                 me.getFollowers().addAll((List<String>) userData.get("Followers"));
@@ -186,14 +184,22 @@ public class Account {
                 profileData.put("EmploymentStatus", getStringData("employmentStatus"));
             else
                 profileData.put("EmploymentStatus", "none");
-            if (hasKey("employmentType"))
-                profileData.put("EmploymentType", getStringData("employmentType"));
-            else
-                profileData.put("EmploymentType", "");
-            if (hasKey("employmentDate"))
-                profileData.put("EmploymentDate", getStringData("employmentDate"));
-            else
-                profileData.put("EmploymentStatus", null);
+//            if (hasKey("employmentType"))
+//                profileData.put("EmploymentType", getStringData("employmentType"));
+//            else
+//                profileData.put("EmploymentType", "");
+            if (hasKey("employmentDate")) {
+//                profileData.put("EmploymentDate", getStringData("employmentDate"));
+                profileData.put("EmploymentDate", getTimeStampData("employmentDate"));
+            } else {
+//                profileData.put("EmploymentStatus", null);
+                profileData.put("EmploymentDate", null);
+            }
+            List<String> types = new ArrayList<>();
+            if (hasKey("employmentType")) {
+                types.addAll((List<String>) data.get("employmentType"));
+            }
+            profileData.put("EmploymentType", types);
         } else if (type == Type.Student) {
             if (hasKey("enrolmentStatus"))
                 profileData.put("EnrolmentStatus", getStringData("enrolmentStatus"));
@@ -308,11 +314,12 @@ public class Account {
             address += ", " + data.get("country");
         if (!getStringData("zipCode").isEmpty())
             address += ", " + data.get("zipCode");
-        if (address.length()>1 && address.charAt(0)==',')
+        if (address.length() > 1 && address.charAt(0) == ',')
             address = address.substring(1);
         address.replaceAll("\\s", " ");
         return address.trim();
     }
+
     public static String getBusinessAddress() {
         String address = "";
         if (!getStringData("bHouseNo").isEmpty())
@@ -331,7 +338,7 @@ public class Account {
             address += ", " + data.get("bCountry");
         if (!getStringData("bZipCode").isEmpty())
             address += ", " + data.get("bZipCode");
-        if (address.length()>1 && address.charAt(0)==',')
+        if (address.length() > 1 && address.charAt(0) == ',')
             address = address.substring(1);
         address.replaceAll("\\s", " ");
         return address;
@@ -414,7 +421,7 @@ public class Account {
 
     public static Object get(String key) {
         if (data.containsKey(key))
-            return  data.get(key);
+            return data.get(key);
         return null;
     }
 
