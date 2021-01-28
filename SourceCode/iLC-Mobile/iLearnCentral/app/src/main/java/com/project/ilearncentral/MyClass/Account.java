@@ -184,22 +184,17 @@ public class Account {
                 profileData.put("EmploymentStatus", getStringData("employmentStatus"));
             else
                 profileData.put("EmploymentStatus", "none");
-//            if (hasKey("employmentType"))
-//                profileData.put("EmploymentType", getStringData("employmentType"));
-//            else
-//                profileData.put("EmploymentType", "");
-            if (hasKey("employmentDate")) {
-//                profileData.put("EmploymentDate", getStringData("employmentDate"));
-                profileData.put("EmploymentDate", getTimeStampData("employmentDate"));
-            } else {
-//                profileData.put("EmploymentStatus", null);
-                profileData.put("EmploymentDate", null);
-            }
             List<String> types = new ArrayList<>();
             if (hasKey("employmentType")) {
-                types.addAll((List<String>) data.get("employmentType"));
+                types.addAll((List<String>)profileData.get("EmploymentType"));
+                profileData.put("EmploymentType", types);
             }
-            profileData.put("EmploymentType", types);
+            else
+                profileData.put("EmploymentType", types);
+            if (hasKey("employmentDate"))
+                profileData.put("EmploymentDate", getTimeStampData("employmentDate"));
+            else
+                profileData.put("EmploymentStatus", null);
         } else if (type == Type.Student) {
             if (hasKey("enrolmentStatus"))
                 profileData.put("EnrolmentStatus", getStringData("enrolmentStatus"));
