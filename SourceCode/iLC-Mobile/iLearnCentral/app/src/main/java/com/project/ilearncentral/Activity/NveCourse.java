@@ -16,10 +16,12 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.Timestamp;
+import com.project.ilearncentral.CustomBehavior.ObservableBoolean;
 import com.project.ilearncentral.CustomInterface.OnBooleanChangeListener;
 import com.project.ilearncentral.Model.BankAccountDetail;
 import com.project.ilearncentral.Model.Course;
 import com.project.ilearncentral.MyClass.BankAccountList;
+import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.databinding.ActivityNveCourseBinding;
 
 import java.text.ParseException;
@@ -36,6 +38,7 @@ public class NveCourse extends AppCompatActivity {
     private static final String TAG = "NveCourse";
 
     private OnBooleanChangeListener bankDataListener;
+    private ObservableBoolean setListener;
     private boolean others, typeNone;
     private DatePickerDialog datePickerDialog;
     private Calendar currentDate;
@@ -150,6 +153,19 @@ public class NveCourse extends AppCompatActivity {
     private void initialize() {
         binding = ActivityNveCourseBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        Intent intent = getIntent();
+        if (intent.hasExtra("courseId")) {
+            course = Course.getCourseById(getIntent().getStringExtra("courseId"));
+            binding.courseNveTypeSpinner.setSelection(5);
+            binding.courseNveTypeSpinner.get
+            binding.courseNveType.setText(course.getCourseType());
+            binding.courseNveFee.setText(Utility.showPriceInPHP(course.getCourseFee()));
+            binding.courseNveScheduleDateStart.setText(Utility.getDateStringFromTimestamp(course.getScheduleFrom()));
+            binding.courseNveScheduleDateEnd.setText(Utility.getDateStringFromTimestamp(course.getScheduleTo()));
+            binding.courseNveName.setText(course.getCourseName());
+            binding.courseNveDescription.setText(course.getCourseDescription());
+        }
 
         bankAccountDetailRef = new BankAccountDetail();
         bankAccountList = new ArrayList<>();

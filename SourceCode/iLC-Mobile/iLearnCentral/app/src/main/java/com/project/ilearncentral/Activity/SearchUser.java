@@ -58,7 +58,7 @@ public class SearchUser extends AppCompatActivity {
     private List<String> queryList;
     private InputStream inputStream;
     private Intent intent;
-    private String jobPostID;
+    private String jobPostID = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -189,7 +189,7 @@ public class SearchUser extends AppCompatActivity {
             }
         }
         recyclerView.setLayoutManager(new LinearLayoutManager(SearchUser.this));
-        adapter = new SearchUserAdapter(this, users);
+        adapter = new SearchUserAdapter(this, users, jobPostID);
         recyclerView.setAdapter(adapter);
         retrievedUsers = User.getRetrievedUsers();
         if (retrievedUsers.size() > 0) show.set(true);

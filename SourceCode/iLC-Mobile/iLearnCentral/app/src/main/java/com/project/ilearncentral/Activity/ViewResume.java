@@ -1,13 +1,5 @@
 package com.project.ilearncentral.Activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.viewpager.widget.ViewPager;
-import de.hdodenhof.circleimageview.CircleImageView;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,12 +7,16 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.viewpager.widget.ViewPager;
 
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -32,15 +28,13 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.project.ilearncentral.Adapter.MainAdapter;
 import com.project.ilearncentral.CustomBehavior.CustomAppBarLayoutBehavior;
-import com.project.ilearncentral.Fragment.Profile.EducatorProfile;
 import com.project.ilearncentral.Fragment.ViewResumeFragment;
 import com.project.ilearncentral.Model.Educator;
 import com.project.ilearncentral.Model.JobApplication;
-import com.project.ilearncentral.Model.JobVacancy;
-import com.project.ilearncentral.Model.Resume;
 import com.project.ilearncentral.MyClass.Account;
-import com.project.ilearncentral.MyClass.Utility;
 import com.project.ilearncentral.R;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ViewResume extends AppCompatActivity implements View.OnClickListener {
 
@@ -95,6 +89,9 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
         }
         if (i.hasExtra("jobApplication")) {
             applicant = JobApplication.getJAById(i.getStringExtra("jobApplication"));
+        } else {
+            hireButton.setVisibility(View.GONE);
+            rejectButton.setVisibility(View.GONE);
         }
 
         generateTabs();
@@ -104,7 +101,10 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
     private void setDetails() {
         usernameDisplay.setText(edu.getFullname());
         fieldDisplay.setText(Account.Type.Educator.toString());
-        setStatus(applicant.getApplicationStatus());
+        try {
+            setStatus(applicant.getApplicationStatus());
+        } catch (Exception e) {
+        }
     }
 
     private void generateTabs() {
@@ -152,7 +152,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
                 dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 if (!applicant.getApplicationStatus().equalsIgnoreCase(JobApplication.HIRED)) {
                                     applicant.setApplicationStatus(JobApplication.HIRED);
@@ -178,7 +178,7 @@ public class ViewResume extends AppCompatActivity implements View.OnClickListene
                 dialogClickListener = new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
+                        switch (which) {
                             case DialogInterface.BUTTON_POSITIVE:
                                 if (!applicant.getApplicationStatus().equalsIgnoreCase(JobApplication.REJECTED)) {
                                     applicant.setApplicationStatus(JobApplication.REJECTED);

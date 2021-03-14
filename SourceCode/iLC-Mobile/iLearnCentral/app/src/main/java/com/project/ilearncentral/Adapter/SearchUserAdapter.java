@@ -2,7 +2,6 @@ package com.project.ilearncentral.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,27 +10,29 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.project.ilearncentral.Activity.ViewUser;
-import com.project.ilearncentral.Model.User;
-import com.project.ilearncentral.R;
-import com.squareup.picasso.Picasso;
-
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.bumptech.glide.Glide;
+import com.project.ilearncentral.Activity.ViewResume;
+import com.project.ilearncentral.Activity.ViewUser;
+import com.project.ilearncentral.Model.User;
+import com.project.ilearncentral.R;
+
+import java.util.List;
 
 public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.SearchUserHolder> {
 
     private Context context;
     private List<User> users;
+    private String jobPostID;
     private int lastPosition = -1;
 
-    public SearchUserAdapter(Context context, List<User> users) {
+    public SearchUserAdapter(Context context, List<User> users, String jobPostID) {
         this.context = context;
         this.users = users;
+        this.jobPostID = jobPostID;
     }
 
     @NonNull
@@ -57,15 +58,23 @@ public class SearchUserAdapter extends RecyclerView.Adapter<SearchUserAdapter.Se
 //            Picasso.get().load(Uri.parse(user.getImage())).error(R.drawable.user).fit().into(holder.image);
                 Glide.with(context).load(user.getImage()).error(R.drawable.user).fitCenter()
                         .into(holder.image);
-        } catch (Exception e) {}
+        } catch (Exception e) {
+        }
         holder.parent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, ViewUser.class);
-                intent.putExtra("USERNAME", user.getUsername());
-                intent.putExtra("TYPE", user.getType());
-                intent.putExtra("FULL_NAME", user.getFullname());
-                context.startActivity(intent);
+                if (jobPostID != null) {
+                    Intent intent = new Intent(context, ViewResume.class);
+                    intent.putExtra("educator", user.getUsername());
+//                    intent.putExtra("jobApplication", "");
+                    context.startActivity(intent);
+                } else {
+                    Intent intent = new Intent(context, ViewUser.class);
+                    intent.putExtra("USERNAME", user.getUsername());
+                    intent.putExtra("TYPE", user.getType());
+                    intent.putExtra("FULL_NAME", user.getFullname());
+                    context.startActivity(intent);
+                }
             }
         });
     }

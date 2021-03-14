@@ -170,11 +170,11 @@ public class LearningCenterProfile extends Fragment {
             verificationLayout.setVisibility(View.VISIBLE);
             if (Account.getBusinessData().get("VerificationStatus").equals("pending")) {
                 verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
-                verificationStatus.setText("Business verification is pending.");
+                verificationStatus.setText("Business verification is pending. Verification may take up to 3days.");
                 verificationStatus.setTextColor(Color.parseColor("#17AADB"));
             } else if (Account.getBusinessData().get("VerificationStatus").equals("verified")) {
                 verificationIcon.setBackgroundResource(R.drawable.verified_icon);
-                verificationStatus.setText("Business is verified.");
+                verificationStatus.setText("Business is verified and active.");
                 verificationStatus.setTextColor(Color.GREEN);
             } else if (Account.getBusinessData().get("VerificationStatus").equals("rejected")) {
                 verificationIcon.setBackgroundResource(R.drawable.unverified_icon);
