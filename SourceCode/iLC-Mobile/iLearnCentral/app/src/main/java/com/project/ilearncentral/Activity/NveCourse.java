@@ -158,7 +158,7 @@ public class NveCourse extends AppCompatActivity {
         if (intent.hasExtra("courseId")) {
             course = Course.getCourseById(getIntent().getStringExtra("courseId"));
             binding.courseNveTypeSpinner.setSelection(5);
-            binding.courseNveTypeSpinner.get
+//            binding.courseNveTypeSpinner.get
             binding.courseNveType.setText(course.getCourseType());
             binding.courseNveFee.setText(Utility.showPriceInPHP(course.getCourseFee()));
             binding.courseNveScheduleDateStart.setText(Utility.getDateStringFromTimestamp(course.getScheduleFrom()));
