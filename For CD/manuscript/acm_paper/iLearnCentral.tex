@@ -1,0 +1,2392 @@
+iLearnCentral: A CLOUD-BASED LEARNING CENTER 
+PLATFORM WITH MOBILE TECHNOLOGY
+
+
+
+
+A Research/Capstone Proposal
+Presented to the Faculty of the
+College of Computer Studies, University of Cebu
+
+
+
+
+In Partial Fulfillment of the Requirements
+for the degree Bachelor of Science in Information Technology
+
+
+
+
+By
+
+
+Jephunneh C. Mabini
+Rhea Shane M. Chiong
+Cristian G. Paragoso
+John Rey D. Duano
+
+
+Edsel C. Paray
+Adviser
+
+
+September 2020 
+ 
+ ACKNOWLEDGMENT
+The completion of this study would not be possible without the presence of the following:
+First and foremost, we offer our warm gratitude to our Adviser, Mr. Edsel C. Paray, for sharing his knowledge and guidance in writing our manuscript, for being patient in checking our papers, and for giving suggestions and inspiration for the study’s completion.
+To our dear parents, we offer our warm gratitude for the prayers, love, concern, and financial support. 
+To those who are not mentioned but, in one way or another, have helped us in this study, the product of this manuscript would not be possible without all of them.
+Above all, the Almighty Father, the source of infinite wisdom, strength, and goodness. To God be the glory!
+
+The Researchers
+Jephunneh C. Mabini
+Rhea Shane M. Chiong
+Cristian G. Paragoso
+John Rey D. Duano
+ 
+DEDICATION
+This project is lovingly dedicated to our respective parents, who have been our constant source of inspiration. They have given us the drive and discipline to tackle a task with enthusiasm and determination. Without their love and support, this project would not have been possible. 
+To our advisers and professors who genuinely helped us to finish this work,
+And above all,
+To our beloved God Almighty who never surrendered to shed us His love, grace and wisdom to accomplish this study that, somehow in the very near future, may contribute to help those who will use and appreciate it.
+ 
+APPROVAL SHEET
+
+This Research/Capstone Project Study titled iLearnCentral: A CLOUD-BASED LEARNING CENTER PLATFORM WITH MOBILE TECHNOLOGY prepared and submitted by Jephunneh C. Mabini, Rhea Shane M. Chiong, Cristian G. Paragoso, John Rey D. Duano has been examined and is recommended for approval and acceptance.
+
+RECOMMENDED:
+
+Edsel C. Paray	Eric  P. Ortega
+      Adviser	IT Research Coordinator
+________________________________________________________________________
+APPROVED BY THE Examining Tribunal on Proposal Hearing with a group verdict of ___________________ on ______________.
+
+Moma D. Ortega
+Chairman
+
+ Janeth S. Ugang	Laila M. Alegado	Rechie Ople
+Member	Member	Censor
+________________________________________________________________________
+ACCEPTED and APPROVED in partial fulfillment of the requirements in Bachelor of Science in Information Technology.
+
+Moma D. Ortega, MCS
+                   Dean, UC – CCS
+                                  Date: ______________
+
+TABLE OF CONTENTS
+		Page
+ACKNOWLEDGMENT	..................................................................................... 	        ii
+DEDICATION 		.................................................................................................. 	        iii
+APPROVAL SHEET	..................................................................................................	        iv
+TABLE OF CONTENTS	.....................................................................................	        v
+LIST OF TABLES 	.................................................................................................. 	      viii
+LIST OF FIGURES 	.................................................................................................. 	        ix
+CHAPTER I: INTRODUCTION 
+Rationale of the Study	.....................................................................................	        1
+Objective of the Study	..................................................................................... 	        2
+Scope and Limitations	..................................................................................... 	        2
+Significance of the Study	........................................................................ 	        3
+Flow of the Study	..................................................................................... 	        4
+Definition of Terms 	..................................................................................... 	        5
+CHAPTER II: REVIEW OF RELATED LITERATURE AND STUDIES 
+Related Literatures 	..................................................................................... 	        6
+Related Studies 		..................................................................................... 	        9
+Comparative Matrix 	..................................................................................... 	        10
+CHAPTER III: RESEARCH METHODOLOGY 
+Software Engineering Methodology 	........................................................... 	        12
+Planning/Conception-Initiation Phase 	........................................................... 	        14
+Business Model Canvass 	........................................................... 	        15
+Program Workflow 	......................................................................... 	        16
+Validation Board 	......................................................................... 	        19
+Gantt Chart	...................................................................................... 	        20
+Functional Decomposition Diagram 	............................................... 	        22
+Analysis-Design Phase 	          ............................................................................ 	        24
+Use Case Diagram 	......................................................................... 	        25
+Storyboard 	......................................................................................	        26
+User Interface Diagram 	      ................................................................... 	        28
+Database Design 	......................................................................... 	        42
+Entity-Relationship Diagram 	............................................... 	        53
+Data Dictionary	          ............................................................... 	        54
+	Network Design
+Network Model 	......................................................................... 	        66
+Network Topology 	......................................................................... 	        66
+Development/Construction/Build Phase 	        .................................................... 	        67
+Technology Stack Diagram	............................................................ 	        67
+Software Specificatiom		............................................................ 	        69
+		Program Specification 	     ...................................................................	        70
+Software List of Modules 	      ........................................ 	        70
+	Testing/Quality Assurance Phase      ..................................................................	        72
+		Unit Testing    ........................................................................................	        72
+		Integration Testing    ..............................................................................	        78
+		Alpha Testing	......................................................................................	        82
+		Acceptance Testing    ............................................................................	        84
+	Implementation/Deployment Phase    .................................................................	        97
+Cost Specification    ...............................................................................	        97
+		Software Specification    ........................................................................             96
+		Hardware Specification     .....................................................................	        96
+		Human Resource Specifications      .......................................................	        97
+		User Guide     .........................................................................................	        98
+Installation Guide     ..............................................................................	       115
+		Project Roadmap      ..............................................................................	       116
+CONCLUSION		..................................................................................................	       116
+RECOMMENDATIONS		........................................................................	       117
+REFERENCES 		................................................................................................... 	       118
+TEAM PROFILE	 	...................................................................................... 	       130
+APPENDICES 	  
+	A – Consultation Logs		........................................................................ 	       120
+B – Censor’s Certificate 	......................................................................... 	       121
+     	C – Transmittal Letters(Town Central Adventist Learning Center) ...................            122
+D – Transmittal Letters(Paraclete Learning Center)  .......................................... 	       123
+E – Learning Center Questionnaire 	............................................................ 	       124
+F – Learning Center Questionnaire Cont’d    ..................................................... 	       125
+G – Educator Questionnaire 	......................................................................... 	       126
+H – Educator Questionnaire Cont’d	............................................................ 	       127
+I – Learning Center Survey Results 	............................................................ 	       128
+J – Educator Survey Results 	......................................................................... 	       129 
+LIST OF TABLES
+Table No.  	Table Name	Page
+1	Comparative Matrix	10
+2	Business Model Canvas	15
+3	Validation Board	19
+4	Gantt Chart	20
+5	User Document	42
+6	Learning Center Document	43
+7	Learning Center Staff Document	44
+8	Educator Document	44
+9	Resume Document	45
+10	Student Document	46
+11	Job Vacancy Document	47
+12	Job Application Document	47
+13	Course Document	48
+14	Enrollment Document	48
+15	Payment Document	49
+16	Class Document	49
+17	Lesson Plan Document	50
+18	Student Record Document	50
+19	Class Activity Document	50
+20	Messages Document 	51
+21	Post Document 	51
+22	Search History Document	52
+23	Subscription Document 	52
+24	Sales Document 	52
+25	Database Data Dictionary	54
+26	Software List of Modules 	70
+27	Unit Testing – Learning Center Application	72
+28	Unit Testing – Educator Application	75
+29	Unit Testing – Student Application 	76
+30	Integration Testing	78
+31	Alpha Testing	82
+32	Acceptance Testing	84
+33	Software Requirements Specification	96
+34	Hardware Specifications	96
+35	Hardware Resource Specifications	97
+
+ 
+LIST OF FIGURES
+Figure No.	Figure Name	Page
+1	Flow of the Study	4
+2	Agile Development Methodology	12
+3	User Activity Program Workflow	16
+4	Hiring Module Program Workflow	17
+5	Enrolment Module Program Workflow	18
+6	Scheduling Module Program Workflow	18
+7	Functional Decomposition Diagram (Learning Center)	22
+8	Functional Decomposition Diagram (Educator) 	23
+9	Functional Decomposition Diagram (Student)	24
+10	Use Case Diagram	25
+11	iLearnCentral Storyboard	26
+12	Login Page	28
+13	Account Type Selection Page	29
+14	Sign up Page	29
+15	Learning Center Profile Page	30
+16	Learning Center About Page	30
+17	Learning Center Feed Page	31
+18	Learning Center Job Posts Page	31
+19	Learning Center Enrolment Page	32
+20	Learning Center Educators Page	32
+21	Learning Center Classes Page	33
+22	Learning Center Enrollment and Scheduling 	
+	Subscription Page	33
+23	Learning Center Search Page	34
+24	Learning Center Recommended Learning Centers Page	34
+25	Learning Center Sidenav Page	35
+26	Educator Profile Page	35
+27	Educator Information Feeds Page	36
+28	Educator Job Posts Page	36
+29	Educator Classes Page	37
+30	Educator Search Page	37
+31	Educator Learning Center Page	38
+32	Ecucator Message Page	38
+33	Student Profile Page	39
+34	Student Information Feeds Page	39
+35	Student Courses Page	40
+36	Student Classes Page	40
+37	Student Search Page	41
+38	Student Recommended Learning Centers Page	41
+39	Entity Relationship Diagram	54
+40	Network Model	69
+41	Network Topology	70
+42	Technology Stack Diagram	71
+43	Log In Page	102
+44	Account Type Selection Page	103
+45	Sign Up Page	104
+46	Learning Center User Interface	110
+47	Educator User Interface	114
+48	Student User Interface	118
+49	Project Roadmap	120
+
+
+
+ 
+CHAPTER I
+INTRODUCTION
+In this era, mobile phone has become fashionable to the public because it is very handy. With the availability of mobile phones, multiple issues have been solved and the bulk of the information is kept online. Initially, when mobile phones first came out, they were only useful for communicating; now they are of multiple usages. Moreover, mobile phones have become the colossal point of attention for individuals and businesses alike, courtesy of the various incredible features and opportunities that they offer (Chatterjee, 2014).
+One of the markets or businesses needing to take advantage of mobile solutions is the learning centers. Due to the high turnabout of educators in these centers, the total process takes a lot of time. iLearnCentral helps solve this predicament. It is a mobile application (app) that helps ease the whole experience of learning centers from hiring and profiling of educators to scheduling and enrollment. 
+
+Rationale of the Study
+Insufficient use of Information Technology (IT) is one of the significant reasons that slowed the growth of small and medium-sized enterprises (SMEs) in Asia (Yoshino, 2016). However, outsourcing IT services for SMEs is now a trend for business solutions. Outsourcing IT services can help SMEs by having lower cost, focus on core operations, and IT resources similar to the large establishment (Gluck, n.d.).
+Most learning centers are SMEs and would gain an advantage if they would utilize outsourcing of IT. The core operations of learning centers involve manual procedures, and automation by IT can ease the processes. Having the ability to do work conveniently and efficiently by using IT gives the learning center a competitive edge.
+It is vital for learning centers to select the best and most qualified educators for their students because they play an important role in building a child’s success in their first years of school. Educators do more than facilitate arts and crafts projects throughout the day. They provide structure and help children grow in their reading and writing skills, teach science and help children understand themselves (Hudson, 2017). 
+There is a multitude of reasons why educators in the Philippines are quitting their jobs. The attrition rate has steadily increased and according to Ingersoll and Smith (2003), educators' attrition rate has serious consequence in the workplace and students. Although attrition rate is inevitable, learning centers need to hire new educators swiftly without affecting the children’s progress. The faster and easier the process, the better the service.
+The researchers use these problems as the basis to create a project that addresses these issues. The researchers are taking advantage of the growth of mobile technology and mobile computing and create the app iLearnCentral. iLearnCentral helps learning centers lessen the administrative burdens and offer an alternative solution for the attrition rate of educators.
+
+Objective of the Study
+	The study aimed to develop a cloud-based learning center platform with mobile technology for administrative staff, educators, parents, and students.
+To achieve this aim, the specific objectives were:
+1.	to gather data on the issues encountered by small and medium learning centers;
+2.	to design features on the app for both educators and learning centers; and
+3.	to define software requirements for both mobile and web development.
+
+Scope and Limitations
+The development of the mobile and web apps of this project study are focused on learning centers and educators within the Philippines. Features of the apps are pre-defined for only the common problems across different types of learning centers. The apps have the intelligence to compare the job-seeking educators' profile and details on every job hiring position and suggest the qualified potential hire to the learning centers depending on the pre-set requirements and qualifications of the job hiring position. On the other hand, job-seeking educators get a list of potential job career vacancy recommendations through the apps. They can also search manually for institutions, hirings, or job vacancies they want to employ. 
+Another intelligent feature of the apps is the scheduling and optimizing of classes and activity schedules for the learning centers and educators. The app also has an enrollment management system to help students and parents process enrollment online. The mobile app is designed to operate on a system with an Android version of 5.0 and above and with an internet connection, while the web app is designed to run on Mozilla Firefox, Google Chrome, Microsoft Edge, and Safari browsers.
+Unlike company-specific software that is developed to manage their specific needs, iLearnCentral cannot provide learning center-specific features for different types of learning centers. The apps cannot help with the hiring of other staff members of learning centers as well, and the functionalities of the mobile app are limited offline.
+
+Significance of the Study
+The implementation of the system changes the methods and processes that the learning centers and educators are accustomed to and the outcome of the study is beneficial to the following: 
+Learning Centers. They can have an automated system for the common operational processes and the hiring process of educators is simpler.
+	Educators. They can have a new platform to search for jobs easily. For educators that are already connected with a learning center, they can effortlessly manage their work schedules.
+	Parents. They are able to pay online for their children’s tuition fees, and monitor their children’s school status online.
+	Students. They get the best educator available to help them learn.
+	Researchers. In order to increase the personal knowledge of problem solving and improving their coordination, teamwork and programming skills.  
+	Future Researchers. The ideas presented may be used as reference data in conducting new researches. The outcome of the study is beneficial to them as a cross-reference. This study may be one of the bases where a new theory in learning arises. 
+
+ 
+Flow of the Study
+	Flow of the study shows the inputs and the selection of the processes included on the study.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Figure 1: Flow of the Study
+Figure 1 shows the flow of the study. The flow is divided into three parts. Firstly, an input is the requirement needed for the application. Secondly, process is the development of the application. Finally, an output is produced out of the input and process.
+The inputs are gathering of information about the issues encountered by learning centers and determining a solution. 
+The process of the study implements the use of a Software Development Life Cycle methodology, which is the Agile Model. It is composed of 5 phases which include Requirement Phase, Design Phase, Development Phase, Market Release, Track and Monitor Phase.
+	The output of the study is a mobile and web application that would automate learning centers’ processes and assist educators entitled as "iLearnCentral: A Cloud-Based Learning Center Platform with Mobile Technology".
+Definition of Terms
+The following terms have meanings in the context of usage in the study. Some of the terms operate only to this study by providing more clarity. 
+Class. Periodic or sporadic meetings of enrolled students and educators to have lessons.
+Class Session. A single instance of a class with a specific schedule.
+Cloud-Based Platform. A software that provides services or resources via the internet from a provider’s server.
+Course. The term for the study of a subject or program offered by learning centers. 
+	Educators. They are the teaching staff of the learning center and the people seeking for a teaching job. 
+Issues encountered by small and medium learning centers. These are the problems encountered by the learning center’s operations, the educator’s class management and job seeking, and other problems regarding the parents and students.
+	Learning Centers. Are the SMEs that provides learning services. It could be academic, language, music and arts, etc. 
+ 
+CHAPTER II
+REVIEW OF RELATED LITERATURE AND STUDIES
+	The literature and studies cited in this chapter tackle the different concepts, understanding, and ideas, generalizations or conclusions and different developments related to study from the past up to the present which serve as the researchers’ guide in developing the project. Those that were also included in this chapter help in familiarizing information that are relevant and similar to the present study.
+
+Related Literature
+In the Philippines, case study by the United Nations Educational, Scientific and Cultural Organization (UNESCO) shows that an increasing number of school-age Filipinos are out of school. A huge percentage of Filipino children and youth aged 6 to 17 years are not attending school. In 2003, there were a total of 5.18 million out-of-school youth (1.84 million out-of-school children aged 6 to 11 years old, and 3.94 million young people aged 12 to 15) in the country according to the Department of Education (DepEd). In fact, the government estimates that “one in six school-age children in the country is being deprived of education and the number is rising steadily. These numbers have been backed up by a recent Australian Council for Educational Research (ACER) report that highlights the importance of preschool education in the Philippines. The first report of the study, released in May 2016, examined the results of the first of four assessment rounds, which measured the cognitive, social and emotional, and oral language skills of children at the commencement of their first year of school.
+The report revealed that students who attended a preschool program performed better across all three domains than those who did not. Accordingly, even in general terms, without collecting and analyzing data on the duration or type of preschool program attended, it appears that attending preschool makes a positive difference within the sample. This supports current interventions and the government’s policy related to investing in early years education. 
+All these reports show that there is a need of updating and innovating Philippine Learning Center processes as it is vital to the growth and foundation of children. Learning Centers can turn to iLearnCentral to achieve this in a lesser amount of time.
+There have been a few books published that pinpoint the significance of educators’ qualification in early childhood education. Sheridan et al. (2009) stated in their book “Professional  
+Development in Early Childhood Programs: Process Issues and Research Needs” that the knowledge, skills, and practices of early childhood educators are important factors in determining how much a young child learns and how prepared that child is for entry into school. Early childhood educators are being asked to have deeper understandings of child development and early education issues; to provide richer educational experiences for all children, including those who are vulnerable and disadvantaged; to engage children of varying abilities and backgrounds; to connect with a diverse array of families; and to do so with greater demands for accountability and, in some cases, fewer resources, than ever before. The importance of understanding the qualities of early childhood educators that contribute to optimal child learning and they are to meet certain educational qualifications and receive professional development to enhance their abilities to support young children's learning. Indeed, the professional development of practicing early childhood educators is considered critical to the quality of experiences afforded to children (Martinez-Beck & Zaslow, 2006).
+In the face of increased attention to early childhood professional development in the practice and policy communities, there is a concomitant need for empirical efforts to examine what works for whom, within which contexts, and at what cost (Welch-Ross et al., 2006). Research on early childhood professional development must go beyond basic questions that address caregiver characteristics and their associations with attributes of knowledge, skill, or practice. Rather, establishing a scientific endeavor of early childhood professional development requires building a body of theories and evidence about not only its forms but also its and proximal and distal outcomes. The early childhood field is at a place where professional development practice and craft knowledge require a larger and firmer platform of theoretical and empirical expertise in order to guide planning and implementation of the ambitious kinds of school and child care reforms that are demanded in the current era of services expansion and accountability. Indeed, the field is acquiring a body of findings of the effects of various forms, levels, and organizations of professional development on early childhood educators' knowledge bases and skillsets. However, we need to know more about the dynamic and transactional teaching and learning processes underlying these effects as they function in real-world early childhood settings. For example, we need findings documenting personal theories of change, supportive relationships among participants, and practitioner acceptance/resistance to change. We are even farther behind in building a solid body of empirical information on the indirect but essential influence of professional development on child and family outcomes. The number of children going to preschool and the number of licensed educators has proportionally increased. This gives Learning Centers the liberty of selecting the best available educator basing on their underlying professional development – skills, behaviors, and qualifications. 
+Additionally, some studies have focused on the efficiency and simplification of the hiring process of employees in bigger companies. The foundation of a high-impact workforce relies on the quality employees, but successful teams cannot be built by antiquated recruiting processes. Talent acquisition professionals are constantly in search of better ways to hire as the demand for talented individuals goes up and pressures on recruiting teams simmer. More than half of talent acquisition leaders say the hardest part of recruitment is identifying the right candidates from a large applicant pool and, unfortunately, that's because many of them are doing so by hand. Companies are looking for more efficient ways to modernize and streamline recruiting efforts. As the hiring process has evolved from newspaper ads to job boards to social recruiting, the next wave of this industry is recruiting automation. Just as salespeople and marketers have benefited from software-enabled automation in recent years, recruiters are increasingly turning to automated mechanisms for hiring the best talent, and the industry is responding accordingly.
+Buckley et al. (2004) did some study on the advancement of human resource systems. Presently, these systems are being modified so they can be administered using various forms of computer technology. These technological advances are being driven primarily by strong demands from human resource professionals for enhancements in speed, effectiveness, and cost containment. This case study presents results obtained by an educational publisher from the use of an automated recruiting and screening system. The system allowed for recruiting and the automated administration of professionally developed, job-related questions aimed at deciphering whether an applicant meets the job requirements. The analyses showed conservative savings due to reduced employee turnover, reduced staffing costs, and increased hiring-process efficiencies. The current system coupled with the addition of planned enhancements should increase future hiring efficiency, employee quality, and resulting financial savings.
+In May 2018, Reija Oksanen, a faculty member of the University of Tampere, also did a study on the transformation and impact of the use of technology in recruiting practices. The use of technology in recruiting practices is constantly becoming more and more routine amongst organizations. Recruiting as a whole has experienced a major change with new technologies providing quick, effective and cost-efficient ways of finding potential employees. Among these new technologies are big data and Artificial Intelligence (AI). Organizations have been collecting massive amounts of data, and now they are able to derive real value from big data and AI. The research data was collected during the spring of 2018 by interviewing weight recruitment professionals who work among recruitment on a daily basis. Data was studied with qualitative methods by analyzing, coding and identifying themes. As the aim of this study was to widen knowledge about the phenomenon of new technology-based recruitment methods the findings of this study appeared broad and diverse, highlighting the novelty of the phenomenon as opinions of the interviewees varied greatly. Three phases where AI can be of short-lived recruitment process were identified: practical organizing, pre-screening applications, and candidate communication. The benefits and disadvantages of AI in recruitment aroused much discussion and opinions among the interviewees. Numerous opportunities and risks were identified when utilizing new technologies in recruiting. Among other things, accelerating the recruitment process, automation of routine tasks and increasing objectivity were seen as opportunities. The risk of discrimination, data distortion, and invasion of privacy were considered as risks, among others.
+
+Related Studies
+	In July 2018, three students of the University of San Carlos (USC) – Patrick Dave Woogue, Cris Lawrence Adrian Militante, and Gabriel Andrew Pineda – won the grand prize for their online tutorial system at the 14th Smart Wireless Engineering Education Program (SWEEP) Innovation and Excellence Awards for their mobile application Eryl. The application leverages on a mobile platform that allows users to act as student-tutors to those having difficulty with their lessons, thus stimulating collaborative learning within the school. It is a mobile online tutorial system that enables students to join online classes or organize one and it also let them select from a teacher pool and negotiate for a schedule and fee.
+	OrangeApps, a school management application, has been officially released in 2014 by then 19-year old Gian Javelona. It has since become a huge technology company that builds products that focuses on solving problems in education. Schools of every size use the platform to manage their entire operations from admission, payments, grading, scheduling and a whole lot more giving them time to focus more on providing better education. The app comes with multiple features for teachers, students, admins and parents. However, it is designed for large schools and universities.
+	Schoology was designed by three Washington University students - Jeremy Reid, Ryan wang and Alex Trinidad and has been released since August 2009. It is a cloud-based platform which was originally developed for sharing notes. Today, Schoology provides teachers the tools needed to manage and oversee an online classroom activity for K-12 and higher education institutions. 
+	iEduCentre has focused on the comfort of business owners and administrators for schools and tuition centers. Before the days of the digital revolution, these organizations are saddled with bundles of administrative burdens, endless paperwork and shelves crammed with files. In 2011, Aquarius Soft launched iEduCentre and had since benefited more than hundred over clients in Singapore. After refining the system along the way through rounds of consultations with our clients, we are proud to introduce a total of more than 40 modules, each inter-facing well with one another to create a highly comprehensive, user-friendly and stable system for all our customers.
+	SpellWizards is an engaging educational program designed specifically to help children learn spelling, while having fun along the way. It has been designed for children aged 4-11 in order to improve their spelling, and enhance their computer knowledge and typing skills. Accessible online as a web app, SpellWizards is an effective support tool which can be used by schools, teachers and parents looking to encourage and engage children to learn through play, with the added benefit of being able to track their progress online.
+
+Comparative Matrix 
+The comparative matrix shows the different studies that were related to the proposal. It shows its differences and were used by the proponents as basis to create and innovate the features of iLearnCentral.
+Table 1
+COMPARATIVE MATRIX
+Related Studies	Features	Limitations	Platform Details
+Name: Eryl
+
+URL: None
+
+Year: July 2018	- allows users to become students and tutors
+- allows to negotiate on a teacher pool	- not fully released	- None
+ Name: OrangeApps
+
+URL: https://orangeapps.ph/ 
+
+Year: 2014
+
+Proponents: Gian Javelona	- admin, reacher, student and parents monitoring and management system
+
+	-intended for huge schools and universities
+
+	- Web, Android, iOS
+Name: Schoology
+
+URL: https://www.schoology.com/ 
+
+Year: 2009
+
+Proponents: 	- for K-12 school and higher education institutions
+- automated grading system
+- calendars and messaging
+	- educator-centric app 	- Web, Android, iOS
+Name: iEduCentre
+
+URL: https://www.ieducentre.com/ 
+
+Year: 2011	- CRM & scheduling
+- attendance tracking, fee automation
+- student, parent and portals
+human resource & payroll
+	- only available in the US	- Web
+Name: SpellWizards
+
+URL: https://spellwizards.co.uk/
+
+Year: Unknown	- spelling assistant for children aged 4 to 11	- only for learning to spell	- Web
+
+
+
+
+
+
+
+
+
+
+
+ 
+CHAPTER III
+RESEARCH METHODOLOGY
+Each section discusses the approach used for the analysis and other technical specifications to help reinforce the proposal. It also includes diagrams, designs features techniques, and materials for implementing "iLearnCentral: A Cloud-Based Learning Center Platform with Mobile Technology" to fulfill the study's goals requirement.
+
+Software Engineering Methodology
+	iLearnCentral's development study used the agile approach as the project framework for software engineering. Agile software development defines an approach to software development under which requirements and ideas progress through the collaborative effort of cross-functional self-organizing teams.
+One of the benefits of the agile approach that suits this study is collaboration and open interactions with designers, advisers, and collaborators based on their feedback and any changes that occur throughout the development. It promotes flexible planning, structural growth, first conveyance, ongoing transition, and facilitates rapid and adaptable response to change.
+ 
+Figure 2: Agile Development Methodology
+ 
+Figure 2 shows the representation of the framework lifecycle in an agile development methodology. The agile process requires less preparation, and the activities split into small increments. The agile process is for short-term projects with a team effort that meets the life cycle of software development (Sharma, 2012). By using customer feedback to agree on ideas, iteratively improves software This approach provides opportunities for assessing the path throughout the development lifecycle This performs by generic workflows, such as sprints or cycles to the end of which teams deliver a material increment that is potentially transmittable. This approach focuses on the replication of abbreviated work cycles and the functional yields of the product.
+The developers do the following phases of the Agile Methodology:
+Requirement Analysis. Defined the requirements for the iteration based on the product backlog, sprint backlog, customer and stakeholder feedback.
+	The gathered system features are from research and interviews conducted with industry experts in the related fields. The User Interfase (UI) designer and the programmer defined the code specifications needed to fulfill the requirements of the project. The technical writer then took note of changes and checked the document with all team members present. The database designer verified if the features are compatible with the materials. The project manager reported the improvements made by the team to the team's adviser.
+Initially, the team members made the primary manuscript and background researches on learning centers, educators, and job-seekers to lay out the things to do. In every iteration, the team members assigned to work on the obstacles analyzed the issues and came up with a possible solution. They consulted on resolutions with the other members. At the end of each day, the team members reported on their progress.
+Plan Phase. Phase of preparation involved creating a set of plans that helped guide the team through the phases of project implementation and closure. The plans produced during this process helped developers manage time, cost, performance, change, risk, and issues to ensure the project is delivered on time and within budget by the developers. 
+The team determined schedules, preparations, and plans of actions to handle changes during the iteration. In every sprint cycle, the organizations made are directed towards the fulfillment of its intentions. Itemized priorities and time constraints were the focus of budget allocation by the project manager. The team established communication routes for questions and issues that arose.
+Design Phase. The specifications evaluated and defined by the designers are used in the design phase to make design choices using various diagrams. The assigned UI designer created the user interface. The programmer and database designer described the device element interface mechanism. The project manager monitored the progress of the members' tasks. From the selected sprint backlog, the team determined which designs to tackle from the manuscript. There is a parallel development of mobile and web applications.
+Development Phase. This step required testing usability and reliability for all aspects of the product. The software testing checked if it met all the specifications set out in the evaluation of requirements and if it handled the information correctly.
+The developers checked, analyzed, identified the issues and updated or modified the software beyond the steps or requirements that were set up. Until deployment, all parts of the operation underwent a continuum of individual evaluations through different testing methods to ensure its efficacy and efficiency.
+Release. Before releasing it to the market, developers carried out several activities to test the application. It allowed the system to work within each operation of the deployment phase with tolerable performance and specific processes. Using the guidance given in the deployment document, developers then installed the application in the server environment. 
+Track and Monitor. This phase happened after the program is sent out to the customers/clients. Here, developers maintain tracking, monitoring, and providing IT support services to include system and software updates and enhancements if appropriate. Feedback gathered from monitoring generates a list of improvements and bug fixes for the next iteration.
+Another sprint cycle happens at the end of the previous. A sprint review with all members determines the set of activities for the next iteration. It includes adjustments from leftover unfinished tasks, additional features requested, and feedback from monitoring.
+Planning/Conception-Initiation Phase
+The planning phase discussed the high-level decisions on why a project is valuable and what the requirements are. It helped the researchers keep track of assigned tasks, meeting deadlines, the progress of each requirement, and the budget for project work plans.
+Business Model Canvas
+The Business Model Canvas is a visual representation, commonly used by strategic managers, of existing and emerging business models.
+Table 2
+BUSINESS MODEL CANVAS
+
+KEY PARTNERS
+	KEY ACTIVITIES
+	VALUE PROPOSITIONS
+	CUSTOMER RELATIONSHIPS
+	CUSTOMER SEGMENTS
+
+	Learning Centers
+	Educators currently teaching in learning centers
+	Job seeking educators		Design and develop an intelligent school management software geared towards the needs of learning centers, educators and students		System can be used by any type of learning center 
+	System could automate basic operations of administration with integrated artificial intelligence
+	Recommend job vacancies to educators
+	Assist educators in classes
+	Market learning center services and recommend courses to student
+		Customer service hotlines 
+	User Feedback
+	Email		Learning center administration 
+	Educators in learning centers 
+	Students in learning centers
+	Educators seeking employment
+	KEY RESOURCES
+		CHANNELS
+	
+		Developers.
+	Cloud-based database storage and back-end.
+	Internet
+	Android smart phones
+	Software Development Toolkit			Social Media platforms
+	Digital Ads
+	Word of Mouth
+	
+    COST STRUCTURE	    REVENUE STREAM
+	Customer acquisition costs 
+	Research and Development 
+	Marketing and Advertising
+	Hosting, Operations and Maintenance		Subscription based on feature packages 
+	Ad Revenue from free or trial users
+Table 2 illustrates the Business Model Canvas of the system. The Business Model Canvas is essential in building a flourishing business market. It gives concrete ideas to the researchers about the target market of the project and the cost of developing it. The Value Proposition shows the importance it gives to the public. Channels are a way for the group to interact simultaneously with customers and investors to sell the program. Customer relationships ensure that the entities involved are supporting our business relationship. Revenue streams demonstrates how we can earn revenue from the services provided.
+
+Program Workflow
+Defining, managing, automating and optimizing business processes is a software workflow. Progressions of measures (tasks, events, interactions) involving a cycle of work, involving two or more individuals, and generating or adding value to the activities of the organization.
+ 
+Figure 3: User Activity Program Workflow
+Figure 3 shows the program workflow for general user activities. The administrative account creation and authentication starts with the registration of learning centers to the system. Job seekers register for an account to build their profile resume. The hiring module involves the learning center and job-seeking educator which could produce an employed educator. Only learning center and educator accounts can log in to most of the functionalities of iLearnCentral. Interested students can inquire by creating a free account and browse through services offered by learning centers. Enrollment would involve input from both learning center and the student. The scheduling is processed by iLearnCentral to produce calendars to the educator and student.
+ 
+Figure 4: Hiring Module Program Workflow
+Figure 4 details the hiring module from Figure 3. Job-seeking educators build their hiring profile or resume. After which the system processes their qualifications and determine a list of hiring learning centers from open job vacancies on which they apply for. They can also browse through other job vacancies available. On the other hand, learning centers receive recommended list of job-seeking profiles which fit their requirements.   
+ 
+Figure 5: Enrollment Module Program Workflow
+Figure 5 shows the program workflow for the enrollment module. The student or parent sees a list of courses from the system provided by the chosen learning center. With the selected course/s, they can process enrollment by providing the required information. The system prompts the Google Payment(GPay) form for online payment and receives a receipt that will verify enrollment fee once payment is sucessful. The student will then send out a soft copy of the receipt to the admin to verify their enrollment. 
+ 
+Figure 6: Scheduling Module Program Workflow
+Figure 6 shows the workflow for the scheduling module. The administrative staff would input class details for scheduling. The students and educators have time available when they can have a class. Schedules depend on matches with classes and educator’s open loads. There should be a consideration for the classrooms available and the learning center’s open business hours. Any changes to the schedule automatically adjusts schedules and notify all persons involved. 
+
+Validation Board (Stages 1 and 2)
+Table 3 shows the different problems that our customers encountered. It also shows the solution to the problem being solved by the researcher. Table 3 also contains the most risky assumption, the methods and the criteria for success, the results and the decision, as well as the learning. 	
+Table 3
+VALIDATION BOARD 
+Experiments	1	2	3
+Customer	Learning Center Administration	Educator	Job-Seeking Educators
+Problem	Learning centers using manual transactions to support common management processes i.e. hiring, enrollment, and scheduling	Variation of lessons for different students handled, maintaining schedules, and keeping records	High turnover of educators in learning centers leading to constant demand amidst particular qualifications.
+Solution	A dynamic learning center management system supporting different types of learning centers, i.e. day care, music, language studies	Adding a module for educators employed by a center to keep track of lessons, update schedules, and integrate records to the system.	Data pool of job-seeking educators sifted and recommended to fit learning centers' particular needs and vice versa.
+Riskiest Assumption	Learning Center have no IT support	Learning center provide resources i.e. internet connectivity to employees	Educators uses the system to look for employment in learning centers
+Method and Success Criteria	60% of the respondents agree to use the system	60% of the respondents agree to use the system	60% of the respondents agree to use the system
+
+Gantt Chart
+The Gantt chart shows the scheduled work or activity completion in specific time frames in relation to the amount planned for the specified periods. The chart serves as a guide for the advocates to decide how long a project takes, classify the resources needed, and schedule the order of task completion performed by the researchers.
+
+Table 4
+GANTT CHART
+Task ID	Task Name	Task Lead	Start Date	End Date	September 2020	October 2020	November 2020	December 2020
+					1	2	3	4	1	2	3	4	1	2	3	4	1	2	3	4
+1	AI	Rhea Shane	Sept. 1	Nov. 13											
+					
+2	Development / Construction / Build Phase	Rhea Shane	Sept. 1	Nov. 30																
+3	Technology
+Stack Diagram Specification	Jephunneh	Sept. 1	Sept. 4					
+		
+									
+																				
+4	Software Requirements Specification	Jephunneh	Sept. 1	Sept. 4					
+											
+																				
+5	Testing/Quality Assurance Phase	Cristian	Sept. 1	Dec. 4																
+																				
+6	Unit Testing	Cristian	Sept. 1	Dec. 4																
+7	Integration Testing	Cristian	Dec. 1	Dec. 3																
+8	Alpha Testing	Cristian	Dec. 1	Dec. 3																
+9	Acceptance Testing	John Rey	Oct. 12	Oct. 23																
+10	Cost Specification	John Rey	Oct. 12	Oct. 23																
+																				
+ 11	Implementation/Deployment Phase	Rhea Shane	Dec. 7	Dec. 11																
+12	Human
+Resource Specifications	Jephunneh	Sept. 1	Sept. 4																
+13	User & Installation Guide	John Rey	Dec.1	Dec. 11																
+14	Project Roadmap	Jephunneh	Sept. 1 	Nov. 30																
+																				
+15	Conclusion	Jephunneh	Dec. 14	Dec. 18																
+																				
+16	Recommendations	John Rey	Oct. 12	Oct. 23																
+17	Finalization
+of
+Manuscript and Proposal	John Rey	Oct. 12	 Dec. 11																
+
+				
+      Complete		     Ongoing	           Not yet started
+
+Table 4 shows the Gantt chart of the development for the proposed project. Every activity is performed in three different colors: red means that the activity has not yet started, yellow means that the activity is still on the way, and blue means that the activity is already finished.
+
+
+
+
+Functional Decomposition Diagram
+The functional decomposition diagram demonstrates the operative relationship between the various components of the project into critical modules to clearly illustrate and simplify various activities.
+ 
+Figure 7: Functional Decomposition Diagram (Learning Center)
+Figure 7 shows the functional decomposition diagram of the learning center user. The learning center will have the administrator account access since the user will manage the users their educators and other employees will have. Also, the user can create a course list which the students can enroll to. The administrator can also handle rescheduling and updating changes while being notified also by changes made. Lastly, the administrator can receive tuition payments and generate receipts from enrolled students and can receive and return general inquiries. 
+    
+Figure 8: Functional Decomposition Diagram (Educator)
+Figure 8 shows the functional decomposition diagram of the educator user. The educator user will have to determine which account type they would like to possess, either job-seeking type educator account or the educator account. The job-seeking educator needs to create a resume or an application letter to be sent to learning centers that has posted a job vacancy. Then, apply for the vacancy by processing the application for the job. However, if the account is the educator account, the user will automatically be registered to the learning center they are under to and handle class and keep student records. 
+ 
+Figure 9: Functional Decomposition Diagram (Student)
+Figure 9 shows the functional decomposition diagram of the student or parent user. The user will need to input their schedule availability to determine which schedules will be suitable for them to enroll. The student or parent can also process enrollment by selecting their preferred course or referred course by their educator. Also, by processing enrollment, they will have the comfort of paying the enrollment fee through the application.  
+
+Analysis / Design Phase
+The stage of analysis includes the concept of the specifications needed to accomplish the method. Each step determines the problem to be solved by the customer.
+
+
+
+
+
+
+Use Case Diagram
+Use case diagram shows the graphic representation of the mechanism of iLearnCentral and potential sequences of interactions between systems and users in a specific environment related to a specific target.
+ 
+Figure 10: Use Case Diagram
+Figure 10 shows the use case diagram for iLearnCentral. It shows the outside view of the system and the requirements needed. It identifies the system's influencing external and internal factors and their interactions.
+The learning center is a factor in most of the internal modules. Account management involves all actors with varying degrees of complexity for each actor. Job hiring only concerns with the learning center and the job-seeking applicant. Enrollment processing is between the learning center and the students/parents. Determining schedules need the interaction between the learning center, student, and assigned educator. 
+Storyboard
+	This section shows the graphic organizer of the iLearnCentral application in the form of images being displayed by sequence of their appearance for each users through navigating the application. 
+ 
+Figure 11: Storyboard (Learning Center)
+	Figure 11 shows the graphical presentation of the learning center user. The first page of the application is the login page, in which the user is prompted to enter user credentials. If the user still has no existing account, they may create an account and enter personal information. Upon success of entering user credentials, the user will reach the main page of the learning center user. This page contains the profile, about center, feeds, job posts, enrolment, educators, and classes page.  
+	Also, the learning center user may also apply for the existing systems the application has, which is the enrolment and scheduling systems. For this, payment must be done first through GPay (Google Pay) to access the system and use the functions of the system. 
+      
+Figure 11.1: Storyboard (Educator and Students)
+	Figure 11.1 shows the graphical presentation of the educator and student users. Both users will still be prompted to enter user credentials if they already have existing accounts. If user still has no existing account, they may create and account and enter personal information. Upon success of entering user credentials, both users will reach each main pages of each users. 
+	For the educator user, the main page contains profile, feeds, job posts, and classes page. The educator user may apply for a job post when the educator is yet to find a learning center to work for. First, they will complete their personal information as well as resume for employers to view. When they apply for a job opening, the employers can view their personal background upon completion of resume.
+	For the student user, the main page contains profile, feeds, courses, and classes page. The student user may enroll to a course posted by the learning center or educator once their account is verified by the learning center admin. Also, updates and postings made by the learning center and educators can be viewed from the student user account. 
+User Interface Diagram
+	This section shows a visual representation of the real mobile implementation focusing on maximizing usability and user experience. It shows how the user can communicate with the computer (Android device) and visually demonstrate the characteristics or functions that users can use depending on the user type.
+ 
+Figure 12: Login Page
+Figure 12 shows the Login Page. The user can enter their credentials to login. This page also provides links to the registration page and forgot password support page. 
+
+ 
+Figure 13: Account Type Selection Page
+There are three type of users – educator, student and learning center. Users can select the type of account they would like to create.
+   
+Figure 14: Sign up Page
+Figure 14 shows the different pages for each of the user sign up types. The sign up page for learning centers is different from the educator and student because the sign up for learning centers require them to specify the type of learning center that they have. The pages show required information for the registration (e.g. First Name, Middle Name, Last Name, Username and Password). Once filled out, users can click on ‘Register’ button to complete the registration or to cancel by clicking the ‘Cancel’ button. 
+Learning Center User Interface
+ 
+Figure 15: Learning Center Profile Page 
+Figure 15 shows the profile of a learning center. This includes the number of employees, students, followers and contact information.
+
+ 
+Figure 16: Learning About Center Page
+Figure 16 shows the information about the learning center. This includes the business information, location and business schedule.		
+ 
+Figure 17: Learning Center Feed Page
+Figure 17 shows the feed or posts about other existing learning centers. Only learning centers existing under the system can view and post under feeds page.
+			 
+Figure 18: Learning Center Job Posts Page 
+Figure 18 shows the job posts by learning centers including the user given if the user also posted a job post. 
+			 
+Figure 19: Learning Center Enrollment Page 
+Figure 19 shows the enrollment page where learning centers can post a subject that students can enroll.
+ 
+Figure 20: Learning Center Educators Page 
+Figure 20 shows the educators’ page where the learning center user can view their educator as well as their status and other information. 
+  
+Figure 21: Learning Center Classes Page 
+Figure 21 shows the classes of the day. In here, the classes will be shown with the subject and the educator assigned to the subject.  
+
+  
+Figure 22: Learning Center Enrollment and Scheduling Subscription Page
+Figure 22 shows the enrollment and scheduling function the learning center can use for ease of usage of their users. 
+ 
+Figure 23: Learning Center Search Page
+Figure 23 shows the search page in which the user can search for a user existing in the system.  
+ 
+Figure 24: Learning Center Recommended Learning Centers Page
+Figure 24 shows the list of recommended learning centers for the users. In here, it is also shows their information. They can also be searched if the user wants to know more about their interested learning center. 
+ 
+Figure 25: Learning Center Sidenav Page 
+Figure 25 shows the side navigation bar page of the system and other options for the application.
+
+
+Educator User Interface
+ 
+Figure 26: Educator Profile Page
+Figure 26 shows the profile page of the educator user. They can view their personal information as well as update their information for their future employers. 
+
+ 
+Figure 27: Educator Information Feeds Page
+Figure 27 shows the feeds page of the educator user. They can view updates or information in regards to the shared information of learning centers, fellow educators, or students to their information feed. 
+     
+Figure 28: Educator Job Posts Page
+Figure 28 shows the job posts page of the educator user. In here, the educator can view any job openings posted by learning centers they are following/updated to. Also, they can apply and try to contact the employer of the said job opening.
+ 
+Figure 29: Educator Classes Page
+Figure 29 shows the classes page of the educator user. In here, the educator can view their class schedules for the entire day. 
+ 
+Figure 30: Educator Search Page
+Figure 30 shows the search page of the educator user. The educator can search any existing user of the application. 
+ 
+Figure 31: Educator Learning Centers Page
+Figure 31 shows the list of existing learning centers that have applied for the application. In here, the educator can view all the information they want to know about the existing learning centers.
+ 
+Figure 32: Educator Message Page
+Figure 32 shows the messaging page of the educator user. In here, they can message members that are only authorized for them to send a message to.  
+
+Student User Interface
+  
+Figure 33: Student Profile Page
+Figure 33 shows the profile page of the student user. The user can view their personal information that are viewed by other users.   
+ 
+Figure 34: Student Information Feeds Page
+Figure 34 shows the information feed of the student user. In here, the user can view any information update posted by other users the student are updated/following to.    
+   
+Figure 35: Student Courses Page
+Figure 35 shows the courses page of the student user. The user can view the courses intended for them to enroll or instructed by the learning center or educator.     
+ 
+Figure 36: Student Classes Page
+Figure 36 shows the classes page of the student user. In here, the user can view their classes throughout the whole day.  
+
+
+ 
+Figure 37: Student Search Page
+Figure 37 shows the search page of the student user. The user can search any existing member of the application.   
+ 
+Figure 38: Student Recommended Learning Centers Page
+Figure 38 shows the list of recommended learning centers of the application. In here, the user can view all the information and any other information the user wants to know.    
+Database Design
+The database to use is NoSQL due to the advantages it provides with data volume, velocity, and variety. It allows for better adaptability to changes in schema when using agile development. It is scalable and accessible to multitudes of users, which is necessary to a cloud-based system.
+This section shows the designed NoSQL schema. The designing process follows the Query Driven Design that optimizes access instead of storage. It is by no means the final structure of the schema as changes may arise during the development process. 
+A document-oriented database, one of the main categories of NoSQL databases, is a computer program designed to store, retrieve, and handle document-oriented information, also known as semi-structured data. It is inherently a subclass of the key-value store and relies on an internal structure in the document to extract metadata that the database engine uses for further optimization. The current list of features in the documents presented in this section are basic details and more can be added or altered depending on the progress during development phase.
+Table 5
+USER DOCUMENT
+User
+ 	AccountStatus
+ 	AccountType
+ 	ContactNo
+ 	Email
+ 	Following [ ]
+ 	Followers [ ]
+ 	Image
+ 	Ratings [ ]
+ 	SecurityQuestions [ ] { }
+ 	 	Question
+ 		Answer
+ 	UserID
+PK	Username
+
+
+Table 5 is the document database design for all user accounts. The collection of users is solely for account management. Depending on the type of account type, the system proceeds differently. The security questions are the means to provide validation in the event of resetting or retrieving forgotten passwords.
+
+Table 6
+LEARNING CENTER DOCUMENT
+Learning Center
+PK	CenterID
+ 	Accounts [ ] { }
+ 	 	AccessLevel
+ 		Status
+FK		Username
+ 	BankAccounts [ ] { }
+ 	 	AccountName
+ 		BankName
+ 	BusinessAddress { }
+ 	 	Barangay
+ 		City
+ 		Country
+ 		District
+ 		HouseNo
+ 		Province
+ 		Street
+ 		ZipCode
+ 	BusinessName
+ 	ClosingTime
+ 	CompanyWebsite
+ 	ContactEmail
+ 	ContactNumber
+ 	Description
+FK	Followers [ ]
+ 	Logo
+ 	OpeningTime
+ 	OperatingDays [ ]
+ 	Ratings { }
+FK	 	Username
+ 		Rating
+ 	ServiceType
+
+Table 6 is the document database design for learning center entities. It records the information about learning centers, including data on identity, operating hours, and subscription to the system. The address is necessary to have segmented documentation for easier processing by the recommendation system in the hiring module.
+
+
+
+Table 7
+LEARNING CENTER STAFF DOCUMENT
+Learning Center Staff
+PK	LearningCenterStaffID
+ 	AccessLevel
+ 	Address { }
+ 	 	Barangay
+ 		City
+ 		Country
+ 		District
+ 		HouseNo
+ 		Province
+ 		Street
+ 		ZipCode
+ 	Birthday
+FK	CenterID
+ 	Citizenship
+ 	Gender
+ 	MaritalStatus
+ 	Name { }
+ 	 	Extension
+ 		FirstName
+ 		LastName
+ 		MiddleName
+ 	Religion
+FK	Username
+
+Table 7 is the document database design for learning center staff entities. It holds the primary information of learning center staff. The accompanying centerID determines the learning center that employs the staff. 
+Table 8
+EDUCATOR DOCUMENT
+Educator
+PK	EducatorID
+ 	Address { }
+ 	 	Barangay
+ 		City
+ 		Country
+ 		District
+ 		HouseNo
+ 		Province
+ 		Street
+ 		ZipCode
+ 	Birthday
+FK	CenterID
+ 	Citizenship
+ 	EmploymentDate
+ 	EmploymentStatus
+ 	EmploymentType [ ]
+ 	Gender
+ 	MaritalStatus
+ 	Name { }
+ 	 	Extension
+ 		FirstName
+ 		LastName
+ 		MiddleName
+ 	Position
+ 	Religion
+FK	Username
+
+Table 8 is the document database design for educator entities. It holds the primary information of an educator and represents educators. The employment status and accompanying centerID determines the state of an educator. 
+Table 9
+RESUME DOCUMENT
+Resume
+PK	ResumeID
+ 	Awards [ ]
+ 	CareerObjective
+ 	EducationalBackground [ ] { }
+ 	 	Course
+ 		EducationLevel
+ 		Graduated
+ 		Major
+ 		SchoolName
+ 		SchoolAddress
+ 		SchoolYear
+ 	EmploymentHistory [ ] { }
+ 	 	CompanyName
+ 		CompanyAddress
+ 		DateEnd
+ 		DateStart
+ 		Position
+ 	Interests [ ]
+ 	Qualities [ ]
+ 	References [ ] { }
+ 	 	ReferenceName
+ 		Affiliation
+ 		Position
+ 		ContactInfo
+ 	Skills [ ]
+FK	Username
+
+Table 9 is the document database design for resume entries. It represents the accompanying resume of an educator account and provides the usual information about a job seeker.
+Table 10
+STUDENT DOCUMENT
+Student
+PK	StudentID
+ 	Address { }
+ 	 	Barangay
+ 		City
+ 		Country
+ 		District
+ 		HouseNo
+ 		Province
+ 		Street
+ 		ZipCode
+ 	Birthday
+ 	CenterID
+ 	Citizenship
+ 	EnrolmentStatus
+ 	Gender
+ 	MaritalStatus
+ 	Name { }
+ 	 	Extension
+ 		FirstName
+ 		LastName
+ 		MiddleName
+ 	Religion
+FK	Username
+
+Table 10 is the document database design for student entities. Parents and students get one account in our system as they do not have a difference in functionalities directed to them. The expectation is for parents to handle the account for minor students. The document also contains the enrollment history of the student.
+
+
+
+Table 11
+JOB VACANCY DOCUMENT
+Job Vacancy
+PK	VacancyID
+ 	ApplicationMethod [ ]
+FK	CenterID
+ 	Date
+ 	EducationalRequirements [ ] { }
+ 	 	Degree
+ 		EducationalLevel
+ 		Graduated
+ 		Major
+ 		MinimunUnits
+ 	JobDescription
+ 	JobType [ ]
+ 	Position
+ 	Qualifications [ ]
+ 	Responsibilities [ ]
+ 	Skills [ ]
+ 	Status
+FK	Username
+
+Table 11 is the document database design for job vacancy events. The job vacancy has to be made by a learning center. It has data on the position to be filled and all pertinent information required to qualify a job-seeker to the job.
+Table 12
+JOB APPLICATION DOCUMENT
+JobApplication
+PK	JobApplicationID
+ 	ApplicationDate
+ 	ApplicationStatus
+ 	Message
+FK	Username
+FK	VacancyID
+
+Table 12 is the document database design for job application events. A job application happens when a job seeker applies for an available job vacancy. The learning center receives a list of recommended applicants as well as job-seekers who manually applied.
+
+Table 13
+COURSE DOCUMENT
+Course
+PK	CourseID
+FK	CenterID
+ 	CourseDescription
+ 	CourseFee
+ 	CourseName
+ 	CourseStatus
+ 	CcourseType
+FK	Educators [ ]
+ 	ScheduleFrom
+ 	ScheduleTo
+
+Table 13 is the document database design for course entities. The courses are services offered by a learning center and the basis for enrollment and classes.
+Table 14
+ENROLLMENT DOCUMENT
+Enrolment
+PK	EnrolmentID
+FK	CenterID
+ 	CourseEnrolled
+FK	CourseID
+ 	DateCourseEnd
+ 	DateCourseStarts
+ 	DateEnrolled
+ 	EnrolmentFee
+ 	EnrolmentStatus
+ 	LearningCenterName
+ 	ProcessedDate
+FK	StudentID
+ 	StudentName
+
+Table 14 is the document database design for enrollment events. Details of an enrollment process are stored here. Information about the learning center and student involved retrieves from their document store via foreign keys.
+
+
+
+Table 15
+PAYMENT DOCUMENT
+Payment
+PK	PaymentID
+ 	AdditionalFees
+ 	Balance
+FK	EnrolmentID
+ 	PaymentStatus
+ 	Payments [ ] { }
+ 	 	Amount
+ 		PaymentDate
+ 		PaymentMethod
+ 		Validated
+ 	Tuition	 
+
+Table 15 is the document database design for a payment plan. An entry of the payment document is a counterpart of an enrollment. It records the progress of payments made, be it one-time full payment or each staggering pay. The record also contains the details of the fees needed.
+Table 16
+CLASS DOCUMENT
+Class
+PK	ClassID
+FK	Activities [ ]
+ 	Attendance [ ] { }
+ 	 	Attendance
+ 		Remarks
+FK		StudentID
+ 	ClassEnd
+ 	ClassStart
+FK	CourseID
+FK	EducatorID
+ 	LessonPlan
+ 	LinkedPlan
+ 	Message
+ 	RoomNo
+ 	Status
+
+Table 16 is the document database design for a class. Class sessions contain details of meetups between students and educators. Learning centers are tasked to set up the classes.
+
+Table 17
+LESSON PLAN DOCUMENT
+Lesson Plan
+PK	LessonID
+ 	Activities [ ]
+FK	CourseID
+ 	Materials [ ]
+ 	Objective [ ]
+ 	Overview
+ 	Procedures [ ]
+ 	Topic
+
+Table 17 is the document database design for lesson plans. It contains the different sections in building lesson plans. An educator may add multiple instances of each part. Lesson plans are reusable and shareable across educators within the learning center. 
+Table 18
+STUDENT RECORD DOCUMENT
+StudentRecord
+PK	StudentRecordID
+ 	Activities [ ]
+ 	Classes [ ] { }
+ 	 	Attendance
+FK		ClassID
+ 		Remarks
+FK	CourseID
+FK	StudentID
+
+Table 18 is the document database design for student records. It means to keep track of student progress and data. It links to lesson plans and histories of sessions attended. 
+Table 19
+CLASS ACTIVITY DOCUMENT
+ClassActivity
+PK	ClassActivityID
+ 	ActivityDescription
+ 	ActivityTitle
+FK	ClassID
+ 	PerfectScore
+ 	Scores [ ] { }
+ 	 	  Score
+FK		  StudentID
+ 	Students [ ]
+
+Table 19 is the document database design for class activity. It means to keep track of student detailed progress and data with regards to activities in a class. It records test scores and description of the activity performed.
+Table 20
+MESSAGES DOCUMENT
+Messages
+PK	MessageID
+ 	DateSent
+FK	From
+ 	Message
+FK	To
+
+Table 20 is the document database design for messages. It records the differnt messages sent by users to each other. It is used for the chat feature and gives users a way to communicate.
+Table 21
+POST DOCUMENT
+Post
+PK	PostID
+ 	Content
+ 	Date
+ 	Fullname
+ 	Image
+ 	Title
+FK	Username
+
+Table 21 is the document database design for posts. It is used in the optional feature of broadcasting to the public feed, giving opportunities for learning centers to advertise themselves and their activities.
+
+
+
+
+Table 22
+SEARCH HISTORY DOCUMENT
+SearchHistory
+PK	Username
+ 	Queries [ ]
+
+Table 22 is the document database design for search history. It keeps a record of a user’s search history and is used for the recommendation system.
+Table 23
+SUBSCRIPTION  DOCUMENT
+Subscription
+PK	SubscriptionID
+ 	SubscriptionExpiry
+ 	SubsciprionLevel
+
+Table 23 is the document database design for subsription. It keeps all the subscription records of learning centers getting a subscription of the system. It is used to keep track the current state of subscription for each learning center and when they expire. The subscription level determines the availability of features a learning center can access.
+
+Table 24
+SALES  DOCUMENT
+Sales
+PK	SalesID
+FK	CenterID
+ 	Date
+ 	Fee
+ 	SubscriptionLevel
+
+Table 24 is the document database design for sales. It keeps a record of all sales the system generated from the learning center’s subscripitions.
+
+
+
+Entity-Relationship Diagram
+The entity-relationship diagram graphically demonstrates the interactions of entities, activities, events, and relationships across all modules of the system.
+ 
+Figure 39: Entity Relationship Diagram
+Figure 39 shows the entity-relationship diagram of the database of the application. The user is an entity that holds account management information used for login, password recovery, registration, and verification. Multiple user accounts are within a learning center with different access levels, while one user account per student and educator. The account management module handles user accounts.
+The resume, job application, and job vacancy are document stores for profiling and hiring. Each educator is allowed to have one and only one resume. Meanwhile, learning centers can make multiple job vacancies for which educators can apply. 
+The enrollment module utilizes the course list and creates enrollment entries with payment instances. A single payment instance records the information for an enrollment's payment scheme and progress of installments.
+The schedule request is the basis for scheduling classes. Class scheduling depends on the restrictions from students, educators, and learning centers. A student has classes from an enrolled course with many sessions assigned to one or different educators. 
+The teaching assistance involves the lesson plan and student record documents. The lesson plan segregates by course, while student records by enrollment. 
+Data Dictionary
+	The data dictionary describes the types of data, properties and field sizes shown in the tables in the previous section. The tables below are data dictionaries for each table in the database. 
+Table 25
+DATABASE DATA DICTIONARY
+Table	Key Name	Data Type	Null	Description
+User	AccountStatus	STRING	NOT NULL	status of the user
+User	AccountType	STRING	NOT NULL	determines the user account designation
+User	ContactNo	STRING	NULL	contact number of user
+User	Email	STRING	NULL	valid email address for verifying account
+User	Following [ ]	LIST	NULL	list of other users the user is following
+User	Followers [ ]	LIST	NULL	list of other users following the user
+User	Image	URL	NULL	link to the profile image of user
+User	Ratings [ ]	LIST	NULL	list of rating other people gave to the user
+User	SecurityQuestions [ ] { }	LIST	NOT NULL	array of security questions used for validating user identity
+User	 	Question	STRING	NOT NULL	single security question
+User		Answer	STRING	NOT NULL	answer to a security question
+User	UserID	STRING	NOT NULL	user id associated to authentication service
+User	Username	STRING	NOT NULL	primary key of the user consisting of unique username of the user
+Learning Center	CenterID	STRING	NOT NULL	primary key for learning center document
+Learning Center	Accounts [ ] { }	LIST	NOT NULL	array of user accounts in a learning center entry
+Learning Center	 	AccessLevel	STRING	NOT NULL	access levels to determine how a user can use the learning center's features
+Learning Center		Status	STRING	NOT NULL	status of a user account in learning center
+Learning Center		Username	STRING	NOT NULL	foreign key for name of user used to log in
+Learning Center	BankAccounts [ ] { }	LIST	NULL	list of bank accounts of the learning center
+Learning Center	 	AccountName	STRING	NOT NULL	account name of the bank account
+Learning Center		BankName	STRING	NOT NULL	name of the bank associated with the account
+Learning Center	BusinessAddress { }	MAP	NOT NULL	address of business
+Learning Center	 	Barangay	STRING	NOT NULL	barangay part of the address
+Learning Center		City	STRING	NOT NULL	city part of the address
+Learning Center		Country	STRING	NOT NULL	country part of the address
+Learning Center		District	STRING	NULL	district part of the address
+Learning Center		HouseNo	STRING	NULL	house no part of the address
+Learning Center		Province	STRING	NOT NULL	province part of the address
+Learning Center		Street	STRING	NULL	street part of the address
+Learning Center		ZipCode	STRING	NOT NULL	zip code part of the address
+Learning Center	BusinessName	STRING	NOT NULL	complete business name of a learning center
+Learning Center	ClosingTime	TIME	NOT NULL	time the learning center closes
+Learning Center	CompanyWebsite	STRING	NULL	website to visit and learn more about learning center
+Learning Center	ContactEmail	STRING	NOT NULL	official learning center email address
+Learning Center	ContactNumber	STRING	NOT NULL	contact numbers for learning center
+Learning Center	Description	STRING	NULL	description of the learning center
+Learning Center	Followers [ ]	STRING	NULL	list of follower usernames
+Learning Center	Logo	URL	NULL	link to the logo of the learning center
+Learning Center	OpeningTime	TIME	NOT NULL	time the learning center opens
+Learning Center	OperatingDays [ ]	LIST	NOT NULL	days the learning center is open
+Learning Center	Ratings { }	MAP	NULL	list of user ratings for the learning center
+Learning Center	 	Username	STRING	NOT NULL	username of the rating user made as key for the map
+Learning Center		Rating	INT	NOT NULL	rating made by the user as the value for each key of the map
+Learning Center	ServiceType	STRING	NOT NULL	type of service provided by learning center
+Learning Center Staff	LearningCenterStaffID	STRING	NOT NULL	primary key of the learning center staff
+Learning Center Staff	AccessLevel	STRING	NOT NULL	type of staff from the learning center
+Learning Center Staff	Address { }	MAP	NOT NULL	addresses of learning center staff
+Learning Center Staff	 	Barangay	STRING	NULL	barangay part of the address
+Learning Center Staff		City	STRING	NOT NULL	city part of the address
+Learning Center Staff		Country	STRING	NOT NULL	country part of the address
+Learning Center Staff		District	STRING	NULL	district part of the address
+Learning Center Staff		HouseNo	STRING	NULL	house number part of the address
+Learning Center Staff		Province	STRING	NOT NULL	province part of the address
+Learning Center Staff		Street	STRING	NULL	street number part of the address
+Learning Center Staff		ZipCode	STRING	NOT NULL	zip code part of the address
+Learning Center Staff	Birthday	DATETIME	NOT NULL	birthdate of learning center staff
+Learning Center Staff	CenterID	STRING	NULL	foreign key for centerID employing this learning center staff
+Learning Center Staff	Citizenship	STRING	NULL	citizenship of the learning center staff
+Learning Center Staff	Gender	STRING	NOT NULL	gender of learning center staff
+Learning Center Staff	MaritalStatus	STRING	NOT NULL	marital status of learning center staff
+Learning Center Staff	Name { }	MAP	NOT NULL	name of learning center staff
+Learning Center Staff	 	Extension	STRING	NULL	extensions to name such as Sr., Jr., III, IV, etc.
+Learning Center Staff		FirstName	STRING	NOT NULL	first name of person
+Learning Center Staff		LastName	STRING	NOT NULL	last name of person
+Learning Center Staff		MiddleName	STRING	NULL	middle name of person
+Learning Center Staff	Religion	STRING	NULL	religion of the learning center staff
+Learning Center Staff	Username	STRING	NOT NULL	foreign key for name of user used to log in
+Educator	EducatorID	STRING	NOT NULL	primary key for educator
+Educator	Address { }	MAP	NOT NULL	addresses of an educator
+Educator	 	Barangay	STRING	NULL	barangay part of the address
+Educator		City	STRING	NOT NULL	city part of the address
+Educator		Country	STRING	NOT NULL	country part of the address
+Educator		District	STRING	NULL	district part of the address
+Educator		HouseNo	STRING	NULL	house number part of the address
+Educator		Province	STRING	NOT NULL	province part of the address
+Educator		Street	STRING	NULL	street number part of the address
+Educator		ZipCode	STRING	NOT NULL	zip code part of the address
+Educator	Birthday	DATETIME	NOT NULL	birthdate of educator
+Educator	CenterID	INT	NULL	foreign key for centerID employing this educator
+Educator	Citizenship	STRING	NULL	citizenship of the educator
+Educator	EmploymentDate	DATETIME	NULL	date educator is employed
+Educator	EmploymentStatus	STRING	NOT NULL	status of employment in respect to learning centers in the system
+Educator	EmploymentType [ ]	LIST	NULL	list of types of employment (part-time, full-time, contractual)
+Educator	Gender	STRING	NOT NULL	gender of educator
+Educator	MaritalStatus	STRING	NOT NULL	marital status of an educator
+Educator	Name { }	MAP	NOT NULL	name of educator
+Educator	 	Extension	STRING	NULL	extensions to name such as Sr., Jr., III, IV, etc.
+Educator		FirstName	STRING	NOT NULL	first name of person
+Educator		LastName	STRING	NOT NULL	last name of person
+Educator		MiddleName	STRING	NULL	middle name of person
+Educator	Position	STRING	NULL	position for employed educators in a learning center
+Educator	Religion	STRING	NULL	religion of the educator
+Educator	Username	STRING	NOT NULL	foreign key for name of user used to log in
+Resume	ResumeID	STRING	NOT NULL	primary key for resume document
+Resume	Awards [ ]	LIST	NULL	list of awards in a resume
+Resume	CareerObjective	STRING	NULL	short description for career objectives in a resume
+Resume	EducationalBackground [ ] { }	LIST	NULL	list of educational history of an educator
+Resume	 	Course	STRING	NULL	course taken
+Resume		EducationLevel	STRING	NOT NULL	determines the level of education i.e. elementary, college
+Resume		Graduated	BOOLEAN	NOT NULL	true if graduated, false if undergraduate
+Resume		Major	STRING	NULL	major taken during the course
+Resume		SchoolName	STRING	NOT NULL	school name of previous education
+Resume		SchoolAddress	STRING	NOT NULL	address of the school
+Resume		SchoolYear	STRING	NOT NULL	school year the person graduated from this school
+Resume	EmploymentHistory [ ] { }	LIST	NULL	list of employment history of an educator
+Resume	 	CompanyName	STRING	NOT NULL	name of previous company
+Resume		CompanyAddress	STRING	NOT NULL	address of previous company
+Resume		DateEnd	DATETIME	NOT NULL	date ended with previous employment
+Resume		DateStart	DATETIME	NOT NULL	date started with previous employment
+Resume		Position	STRING	NOT NULL	position or job description of previous company
+Resume	Interests [ ]	LIST	NULL	list of interests in a resume
+Resume	Qualities [ ]	LIST	NULL	list of qualities in a resume
+Resume	References [ ] { }	LIST	NULL	list of references
+Resume	 	ReferenceName	STRING	NOT NULL	name of reference
+Resume		Affiliation	STRING	NOT NULL	company of the reference
+Resume		Position	STRING	NOT NULL	position of the reference in their company
+Resume		ContactInfo	STRING	NOT NULL	contact information of the reference
+Resume	Skills [ ]	LIST	NULL	list of skills in a resume
+Resume	Username	STRING	NOT NULL	foreign key to distinguish the owner of resume document
+Student	StudentID	STRING	NOT NULL	primary key for the student document
+Student	Address { }	LIST	NOT NULL	addresses of an educator
+Student	 	Barangay	STRING	NULL	subdivision part of the address
+Student		City	STRING	NOT NULL	city part of the address
+Student		Country	STRING	NOT NULL	country part of the address
+Student		District	STRING	NULL	district part of the address
+Student		HouseNo	STRING	NULL	house number part of the address
+Student		Province	STRING	NOT NULL	province part of the address
+Student		Street	STRING	NULL	street number part of the address
+Student		ZipCode	STRING	NOT NULL	zip code part of the address
+Student	Birthday	DATETIME	NOT NULL	birthdate of educator
+Student	CenterID	STRING	NULL	foreign for the current learning center enrolled in
+Student	Citizenship	STRING	NULL	citizenship of the educator
+Student	EnrolmentStatus	STRING	NULL	status of enrolment
+Student	Gender	STRING	NOT NULL	gender of educator (F, M)
+Student	MaritalStatus	STRING	NOT NULL	marital status of an educator
+Student	Name { }	MAP	NOT NULL	name of student
+Student	 	Extension	STRING	NULL	extensions to name such as Sr., Jr., III, IV, etc.
+Student		FirstName	STRING	NOT NULL	first name of person
+Student		LastName	STRING	NOT NULL	last name of person
+Student		MiddleName	STRING	NULL	middle name of person
+Student	Religion	STRING	NULL	religion of the educator
+Student	Username	STRING	NOT NULL	foreign key for name of user used to log in
+Job vacancy	VacancyID	STRING	NOT NULL	primary key for job vacancy entries
+Job vacancy	ApplicationMethod [ ]	STRING	NULL	list of ways to apply
+Job vacancy	CenterID	STRING	NOT NULL	foreign key for Learning center creator of job vacancy
+Job vacancy	Date	DATETIME	NOT NULL	date vacancy was opened
+Job vacancy	EducationalRequirements [ ] { }	LIST	 	requirements based on educational attainment
+Job vacancy	 	Degree	STRING	NULL	degrees earn from school i.e. bachelor of Secondary Education
+Job vacancy		EducationalLevel	STRING	NULL	educational attainment needed i.e. high school graduate, college level
+Job vacancy		Graduated	BOOLEAN	NULL	should the educational requirement need to be a graduate
+Job vacancy		Major	STRING	NULL	major taken during from the degrees
+Job vacancy		MinimunUnits	INT	NULL	minimum number of units required
+Job vacancy	JobDescription	STRING	NULL	description of the job position
+Job vacancy	JobType [ ]	LIST	NOT NULL	type of job i.e. full-time, part-time, full-time or part-time
+Job vacancy	Position	STRING	NOT NULL	position to be filled
+Job vacancy	Qualifications [ ]	LIST	NULL	list of qualifications needed
+Job vacancy	Responsibilities [ ]	LIST	NULL	list of possible responsibilities
+Job vacancy	Skills [ ]	LIST	NULL	list of skills needed
+Job vacancy	Status	STRING	NULL	status of the job vacancy i.e. active, cancelled, filled
+Job vacancy	Username	STRING	NOT NULL	username of the account who made the vacancy
+JobApplication	JobApplicationID	STRING	NOT NULL	primary key for job application
+JobApplication	ApplicationDate	DATETIME	NOT NULL	date the job was applied to
+JobApplication	ApplicationStatus	STRING	NOT NULL	status of the application i.e. pending, accepted, rejected
+JobApplication	Message	STRING	NULL	optional message to the learning center
+JobApplication	Username	STRING	NOT NULL	foreign key to the educator making the job application
+JobApplication	VacancyID	STRING	NOT NULL	foreign key for the vacancy applied for
+Course	CourseID	STRING	NOT NULL	primary key for the course
+Course	CenterID	STRING	NOT NULL	foreign key for the center offering the course
+Course	CourseDescription	STRING	NOT NULL	description of the course or class offered
+Course	CourseFee	FLOAT	NULL	amount to be paid for the course
+Course	CourseName	STRING	NOT NULL	name of course or class offered
+Course	CourseStatus	STRING	NOT NULL	status of the course
+Course	CcourseType	STRING	NULL	if any, the course type
+Course	Educators [ ]	LIST	NULL	list of educators assigned to the class
+Course	ScheduleFrom	DATETIME	NOT NULL	start period of the course
+Course	ScheduleTo	DATETIME	NOT NULL	end date of the course
+Enrolment	EnrolmentID	STRING	NOT NULL	primary key for enrolment
+Enrolment	CenterID	STRING	NOT NULL	foreign key to which center
+Enrolment	CourseEnrolled	STRING	NULL	course enrolled description
+Enrolment	CourseID	STRING	NOT NULL	foreign key to course enrolled
+Enrolment	DateCourseEnd	DATETIME	NULL	date for end of classes
+Enrolment	DateCourseStarts	DATETIME	NULL	date for start of classes
+Enrolment	DateEnrolled	DATETIME	NOT NULL	date enrolment occurred
+Enrolment	EnrolmentFee	FLOAT	NOT NULL	amount paid for enrolment
+Enrolment	EnrolmentStatus	STRING	NOT NULL	status of the enrolment
+Enrolment	LearningCenterName	STRING	NULL	name of learning center
+Enrolment	ProcessedDate	DATETIME	NOT NULL	date enrolment was processed
+Enrolment	StudentID	STRING	NOT NULL	foreign key to which student
+Enrolment	StudentName	STRING	NOT NULL	name of student
+Payment	PaymentID	STRING	NOT NULL	primary key for payment
+Payment	AdditionalFees	FLOAT	NULL	additional fee during payment
+Payment	Balance	FLOAT	NOT NULL	balance left to be paid
+Payment	EnrolmentID	STRING	NOT NULL	foreign key of the enrolment associated with payment
+Payment	PaymentStatus	STRING	NOT NULL	status of the payment
+Payment	Payments [ ] { }	LIST	NOT NULL	lists of partial payments for installments
+Payment	 	Amount	FLOAT	NOT NULL	amount of the partial payment
+Payment		PaymentDate	DATETIME	NOT NULL	date the payment occurred
+Payment		PaymentMethod	STRING	NOT NULL	method the payment was made
+Payment		Validated	BOOLEAN	NOT NULL	flag for the validation of payment
+Payment	Tuition	 	FLOAT	NOT NULL	total amount the should be paid for
+Class	ClassID	STRING	NOT NULL	primary key for the class instance
+Class	Activities [ ]	LIST	NULL	list of activity ids related to class
+Class	Attendance [ ] { }	LIST	NULL	list of student attendances of the class
+Class	 	Attendance	STRING	NOT NULL	actual attendance of a student
+Class		Remarks	STRING	NULL	possible remarks/comment about the student's attendance
+Class		StudentID	STRING	NOT NULL	foreign key of the student in the attendance
+Class	ClassEnd	DATETIME	NOT NULL	the time it should end
+Class	ClassStart	DATETIME	NOT NULL	the time it will start
+Class	CourseID	STRING	NOT NULL	foreign key of the course bases of the class
+Class	EducatorID	STRING	NULL	foreign key of educator assigned to the class
+Class 	LessonPlan	STRING	NULL	lesson plan description prepared by the teacher
+Class 	LinkedPlan	BOOLEAN	NOT NULL	check for a link to a detailed lesson plan
+Class	Message	STRING	NULL	message from sent from requesting schedule change
+Class	RoomNo	STRING	NULL	the room number assigned to the class
+Class	Status	STRING	NOT NULL	status of class
+Lesson Plan	LessonID	STRING	NOT NULL	primary key for lesson plan
+Lesson Plan	Activities [ ]	LIST	NULL	a list of activities for the lesson plan
+Lesson Plan	CourseID	STRING	NOT NULL	foreign key for learning center
+Lesson Plan	Materials [ ]	LIST	NULL	a list of materials for the lesson plan
+Lesson Plan	Objective [ ]	LIST	NULL	a list of objectives for the lesson plan
+Lesson Plan	Overview	STRING	NULL	short description of the topic to plan for
+Lesson Plan	Procedures [ ]	LIST	NULL	a list of procedures for the lesson plan
+Lesson Plan	Topic	STRING	NOT NULL	topic of the lesson plan
+StudentRecord	StudentRecordID	STRING	NOT NULL	primary key for student record
+StudentRecord	Activities [ ]	LIST	NULL	list of activity ids related to student record
+StudentRecord	Classes [ ] { }	LIST	NULL	list of classes for student record
+StudentRecord	 	Attendance	STRING	NOT NULL	actual attendance of a student
+StudentRecord		ClassID	STRING	NOT NULL	foreign key for class of the student record attendance
+StudentRecord		Remarks	STRING	NULL	optional remarks for the attendance
+StudentRecord	CourseID	STRING	NOT NULL	foreign key for course associated by the student record
+StudentRecord	StudentID	STRING	NOT NULL	foreign key for student associated by the record
+ClassActivity	ClassActivityID	STRING	NOT NULL	primary key for the class activity
+ClassActivity	ActivityDescription	STRING	NULL	description of activity
+ClassActivity	ActivityTitle	STRING	NOT NULL	title of the activity
+ClassActivity	ClassID	STRING	NOT NULL	foreign key of the class related to the activity
+ClassActivity	PerfectScore	INT	NOT NULL	full score of the activity
+ClassActivity	Scores [ ] { }	LIST	NOT NULL	list of student scores of the activity
+ClassActivity	 	  Score	INT	NOT NULL	actual score of the student
+ClassActivity		  StudentID	STRING	NOT NULL	foreign key of the student in the activity
+ClassActivity	Students [ ]	LIST	NOT NULL	list of student names in the activity
+Messages	MessageID	STRING	NOT NULL	primary key for message
+Messages	DateSent	DATETIME	NOT NULL	date the message was sent
+Messages	From	STRING	NOT NULL	username of message sender
+Messages	Message	STRING	NOT NULL	actual message content
+Messages	To	STRING	NOT NULL	username of message receiver
+Post	PostID	STRING	NOT NULL	primary key for post
+Post	Content	STRING	NOT NULL	actual content of the post
+Post	Date	DATETIME	NOT NULL	date the post was made
+Post	Fullname	STRING	NULL	full name of the user making the post
+Post	Image	BOOLEAN	NOT NULL	flag to determine if the post contains images
+Post	Title	STRING	NOT NULL	title of the post
+Post	Username	STRING	NOT NULL	foreign key of the username making the post
+SearchHistory	Username	STRING	NOT NULL	username of the owner of search history
+SearchHistory	Queries [ ]	LIST	NULL	queries recorded during searching
+Subscription	SubscriptionID	STRING	NOT NULL	primary key for the subscription
+Subscription	SubscriptionExpiry	DATETIME	NOT NULL	date the subscription will expire
+Subscription	SubsciprionLevel	INT	NOT NULL	level of the subscription
+Sales	SalesID	STRING	NOT NULL	primary key of sales
+Sales	CenterID	STRING	NOT NULL	center the generated the sales
+Sales	Date	DATETIME	NOT NULL	date the sales was generated
+Sales	Fee	FLOAT	NOT NULL	amount paid for sales
+Sales	SubscriptionLevel	INT	NOT NULL	level of subscription chosen in the sales
+
+Table 25 displays the data dictionary of all documents in the database. It contains the description for each detail in the records. For some NoSQL servers, the Varchar data type may be String. To find the primary and foreign keys refer to the database design section.
+Network Model
+	The model of the network shows how the system components communicate via the internet. The diagram shows that the user is able to check and monitor their account through application for possible breaches or errors.
+
+
+
+
+
+
+
+
+Figure 40: Network Model
+Figure 40 shows the network model of the system. Internet is used for mobile app to interact with the database. 
+Network Topology
+The network topology illustrates how the system's component work in conjunction with the use of internet connection to access the user's access database.
+ 
+Figure 41: Network Topology
+	Figure 41 shows the network topology of the system. As shown, the user can use mobile app with the help of the internet. They can manage classes, check schedules, post and search jobs, etc. For the web app, the learning center can manage classes, check schedules, post and search jobs, etc.
+
+Development/Construction/Build Phase
+The Development Phase marks the end of the initial process segment and marks the beginning of development. This phase is intended to turn the prototyped system design in the Design Phase into a working system that meets all defined system requirements. Two elements are required to complete this phase successfully: 1) a complete set of design specifications and 2) proper processes, standards and tools.
+
+Technology Stack Diagram
+ 
+Figure 42: Technology Stack Diagram
+Figure 42 shows the technology stack diagram representing the different technologies the project uses and the purpose for each specific language. 
+Android Studio is an integrated development environment for the Android operating system. It was built on JetBrains' IntelliJ IDEA software and designed for android development. It comprises both frontend and backend development by using XML and java.
+XML, meaning eXtensible Markup Language, is a markup language built as a standard way to encode data in internet-based applications. Android uses it in creating layouts and components as Front End for typical applications.
+Java is one of the languages used in android development. Java's mobile version is called Java ME. Many smartphones and tablets support it. The Java Platform Micro Edition (Java ME) provides a flexible, secure environment for building and running applications that target embedded and mobile devices. Java ME addresses the challenge of running applications on devices that are low on memory, display, and power available.
+Cloud Firestore is a repository of NoSQL documents designed for automatic scaling, high performance, and ease of application development. 
+Genetic Algorithm is a search heuristic based on Charles Darwin's theory of natural evolution. The algorithm reflects the natural selection process in which the most suitable individuals are selected for reproduction to produce the next-generation offspring. It consists of five phases–initial population, fitness function, selection, crossover, and mutation.
+ Recommendation system is a group of machine learning algorithms that strives to predict user preferences and make suggestions that clients would be interested in. It has two approaches to making recommendations–collaborative filtering and content filtering. Collaborative filtering involves comparing the behavior of similar groups to predict what a user, with likely behaviors, would want. Meanwhile, content filtering is based on a description of the item and a profile of the user's preferences.
+GitHub is a system used to store a project's source code and record any modifications to that code in its entire history. It allows developers to work more efficiently on a project by providing resources from different developers to manage potentially conflicting changes.
+Cloud Storage for Firebase is a storage service built for Google scale that enables users to store files as well as uploads ensured with Google security. 
+Firebase Cloud Messaging is a cross-platform messaging solution that lets you reliably send messages at no cost.
+Bootstrap is a free and open-source front end development platform for website and web app construction. The architecture for Bootstrap is based on HTML, CSS, and JavaScript (JS) to promote the development of responsive, first mobile sites and apps.
+HTML, or HyperText Markup Language, is the standard markup language for creating Web pages. It describes the structure of a Web page. Consisting of a series of elements or tags, it tells the browser how to display content.
+CSS, short for Cascading Style Sheets, a new feature introduced to HTML that provides more control over how pages present to both website developers and users.
+JavaScript is a scripting language on the client-side. It means that the web browser of the client interprets the source code instead of the webserver. JavaScript functions can run without interacting with the server after a web page loads.
+
+Software Specification
+The software specification describes the functional requirements of the study. It includes the programming language, platform for development, management of the database, and machine learning algorithms.
+The mobile development uses Android Studio IDE with Java being the back end programming language, and XML for front end builds. The mobile application is for Android devices. The development uses minimum API Level 21to run with devices Android 5.0 and higher. The researchers decided with the minimum API based on the worldwide Android version distribution, according to Holst (2019) and Protalinski (2019), where roughly 90% of devices running in Android have versions 5.0 and higher.
+Genetic algorithm is the preferred machine learning algorithm to use for scheduling classes. Making of class schedules are NP-hard problems and does not have a definite correct answer, only an optimal one. The heuristic approach is usually enough for simple cases but with the complexity of the system. It is decided to go with a Genetic Algorithm for a better solution.
+The hiring module makes use of Recommendation systems to efficiently suggest a list of qualified job seekers to a learning center with job vacancies and a list of job vacancies to a job seeker. Content-filtering is the initial approach to the small dataset until such time when collaborative filtering can add to the efficiency of the recommendations.
+Cloud Firestore is the database of choice to support the project. Both mobile and web application connects to Firestore for all data. GitHub supports the collaboration of the members and allows them to code concurrently for more efficient and time-conscious development.
+
+Program Specifications  
+Program specifications contain the list of algorithms needed for the system.
+
+Table 26
+SOFTWARE LIST OF MODULES
+Programmer/s	Modules	Learning Center	Educator	Parent or Student
+Jephunneh
+Rhea Shane
+Cristian 
+John Rey	Account Management			
+	      1. Registration	*	*	*
+	      2. Authentication	*	*	*
+	      3. Login	*	*	*
+	      4. Profiling	*	*	 
+No. of Points (1 point per module per user)	1	1	1
+Jephunneh
+Rhea Shane
+Cristian
+John Rey	Hiring Module	 
+	      1. Hiring Profile/Resume	 	*	
+	      2. Job Searching	 	*	 
+	      3. Job Post Management	*	 	 
+	      4. Job Suggestion	 	*	 
+	      5. Hire Suggestion	*	 	 
+	      6. Hiring	*	 	 
+	      7. View Applicants	*		
+	      8. View Hired	*		
+	      9. View Rejected	*		
+No. of Points (1 point per module per user)	1	1	0
+ Jephunneh
+Rhea Shane
+Cristian
+John Rey	Enrollment Module	 
+	      1. Input/Add Course Details	*	 	 
+	      2. Search/Display Course List	*	*	*
+	      3. Course Selection	 	 	*
+	      4. Fee Calculation	 	 	*
+	      5. Enrollment Details and Processes	 	 	*
+	      6. Payment Scheme Selection	 	 	*
+	      7. Payment	 	 	*
+	      8. Record Payment	*	 	*
+No. of Points (1 point per module per user)	1	1	1
+ Jephunneh
+Rhea Shane
+Cristian
+John Rey	Scheduling Module	 
+	      1. Input Class Details	*	 	 
+	      2. Update Class Details	*	 	 
+	      3. Input Schedules	*	 	 
+	      4. Schedule Request	 	*	*
+	      5. Update Schedules	*	 	 
+	      6. Generate Calendar of Activities	*	*	*
+	      7. Notification of Changes	*	*	*
+No. of Points (1 point per module per user)	1	1	1
+Number of Modules per User (equals total no. of points per user)	4	4	3
+Total Number of Modules	11
+
+Table 26 shows the comparison of the access level of each type of account. The table shows that multiple types of accounts or a specific type of account can access a module. It also shows the programmer/s assigned to develop per module.
+
+
+
+
+
+
+
+
+
+
+
+Testing/Quality Assurance Phase
+	The Quality Assurance Phase is a way of preventing mistakes and defects in deployed applications and avoiding problems when delivering them to customers. It is part of quality management focused on providing confidence that quality requirements will be fulfilled. 
+Unit Testing
+	UNIT TESTING is a level of software testing where individual units/ components of a software are tested. The purpose is to validate that each unit of the software performs as designed. A unit is the smallest testable part of any software. It usually has one or a few inputs and usually a single output.
+Table 27
+UNIT TESTING – LEARNING CENTER APPLICATION
+Module Name	Unit Name	Date Tested	Test Case ID	Test Case Description	Expected Results	Actual Results	Remarks
+Account Management	Registration 	12/27/2020	LC1	All files are filled out and Valid	Proceed tto next step	Performed as expected	Passed
+Account Management	Registration	12/27/2020	LC2	All fields are filled out and invalid	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/27/2020	LC3	Some fields are not filled out	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/27/2020	LC4	All fields are not valid	Prompt user to input correct information basing from requirements	Performed as expected	Passed
+Account Management	Authentication	12/27/2020	LC5	Upload documents	Valid Business Permit	Performed as expected	Passed
+Account  Management	Login	12/27/2020	LC6	Log In as Learning Center Admin	Successful Login	Performed as expected	Passed
+Hiring Module	Job Posting	12/27/2020	LC7	Create new Job	Successfully created Job	Performed as expected	Passed
+Hiring Module	Hiring 	12/27/2020	LC8	View Applicants and Resume from ‘Applicants tab’	List of applicants available	Performed as expected	Passed
+Hiring Module	Hiring	12/27/2020	LC9 	Hire Applicant	Successfully hired applicant	Performed as Expected	Passed
+Account Management	Profiling	12/27/2020	LC10 	Upload User Profile Photo	Successfully added photo	Performed as expected	Passed
+Account Management	Profiling	12/27/2020	LC11	Edit Name	First and Last Names can be edited	Performed as Exp;ected	Passed
+Account Management 	Profiling	12/27/2020	LC12	Input complete address	Successfully added complete address	Performed as Expected	Passed
+Account Management	Profiling	12/27/2020	LC13	Leave Required Fields Empty	Prompts user to input details	Performed as Expected	Passed
+Account Management	Registration	12/27/2020	LC14	Create new LC user	Input required details and create user	Performed as Expected	Passed
+Account Management	Profiling (Learning Center)	12/27/2020	LC15	Leave Required Fields Empty	Prompts user to input details	Performed as Expected	Passed
+Account Management	Profiling (Learning Center)	12/27/2020	LC16	Upload Learning Center Profile Photo	Successfully added photo	Performed as Expected	Passed
+Enrollment Module	Input/Add Course Details	12/27/2020	LC17	Add course details on created course	Successfully added details	Performed as Expected	Passed
+Enrollment Module	Search/Display Course List	12/27/2020	LC18	View posted course list	Able to view all posted courses from ‘Enrollment tab’ of LC profile	Performed as Expected	Passed
+Enrollment Module	Record Payment	12/27/2020	LC19	Receive and record payment	Able to view, receive and record payments	Performed as Expected	Passed
+Scheduling Module	Input Class Details	12/27/2020	LC20	Create new course/class	Able to create new course/class	Performed as Expected	Passed
+Scheduling Module	Update Class Details	12/27/2020	LC21	Modify class details	Able to edit posted class details	Performed as Expected	Passed
+Scheduling Module	Input Schedule	12/27/2020	LC22	Enter/set class schedule	Able to specify schedule of classes/courses	Performed as Expected	Passed
+Scheduling Module	Update Schedules	12/27/2020	LC23	Modify class schedule	Able to modify class schedules	Performed as Expected 	Passed
+
+
+Table 28
+UNIT TESTING – EDUCATOR APPLICATION
+Module Name	Unit Name	Date Tested	Test Case ID	Test Case Description	Expected Results	Actual Results	Remarks
+Account Management	Registration 	12/28/2020	ED1	All files are filled out and Valid	Proceed to next step	Performed as expected	Passed
+Account Management	Registration	12/28/2020	ED2	All fields are filled out and invalid	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/28/2020	ED3	Some fields are not filled out	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/28/2020	ED4	All fields are not valid	Prompt user to input correct information basing from requirements	Performed as expected	Passed
+Account  Management	Login	12/28/2020	ED5	Log In as Educator	Successful Login	Performed as expected	Passed
+Account Management	Profiling	12/28/2020	ED6 	Upload User Profile Photo	Successfully added photo	Performed as expected	Passed
+Account Management	Profiling	12/28/2020	ED7	Update Account	Successfully Updated account	Performed as Expected	Passed
+Account Management	Profiling	12/28/2020	ED8	Update Profile	Successfully Updated Profile	Performed as Expected	Passed
+Hiring Module	Resume	12/28/2020	ED9	Update Resume	Successfully Updated Resume	Performed as Expected	Passed
+Hiring Module	Job Searching	12/28/2020	ED10	Search for Jobs	Successfully searched for posted jobs based on LC name and keywords	Performed as Expected	Passed
+Enrollment Module	Search/Display Course List	12/28/2020	ED11	Display Courses	Successfully viewed courses 	Performed as Expected	Passed
+Scheduling Module	Schedule Request	12/28/2020	ED12	Request change of  class schedule	Able to request change of schedule from LC	Performed as Expected	Passed
+Scheduling Module	Notification Changes	12/28/2020	ED13	Receive notification of schedule change	Able to receive notification	Performed as Expected	Passed
+
+Table 29
+UNIT TESTING - STUDENT APPLICATION
+Module Name	Unit Name	Date Tested	Test Case ID	Test Case Description	Expected Results	Actual Results	Remarks
+Account Management	Registration 	12/29/2020	PS1	All files are filled out and Valid	Proceed tto next step	Performed as expected	Passed
+Account Management	Registration	12/29/2020	PS2	All fields are filled out and invalid	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/29/2020	PS3	Some fields are not filled out	Prompt user to input information in the missing field	Performed as expected	Passed
+Account Management	Registration	12/29/2020	PS4	All fields are not valid	Prompt user to input correct information basing from requirements	Performed as expected	Passed
+Account  Management	Login	12/29/2020	PS5	Log In as Student	Successful Login	Performed as expected	Passed
+Account Management	Profiling	12/29/2020	PS6 	Upload User Profile Photo	Successfully added photo	Performed as expected	Passed
+Account Management	Profiling	12/29/2020	PS7	Update Account	Successfully Updated account	Performed as Expected	Passed
+Account Management	Profiling	12/29/2020	PS8	Update Profile	Successfully Updated Profile	Performed as Expected	Passed
+Enrollment Module	Search/Display Course List	12/29/2020	PS9	View All Courses available	Able to View posted courses	Performed as Expected	Passed
+Enrollment Module	Course Selection	12/29/2020	PS10	Select/Enrol specific courses/classes	Able to select classes and enrol	Performed as Expected	Passed
+Enrollment Module	Payment	12/29/2020	PS11	Enrol in a class and submit proof of payment	Able to enrol and attach proof of payment	Performed as Expected	Passed
+Enrollment Module	Record Payment	12/29/2020	PS12				
+Scheduling Module	Schedule Request	12/29/2020	PS13	Submit Class Schedule Request	Able to modify date/time and submit request to LC	Unable to modify start time	Failed
+Scheduling Module	Notification Changes	12/29/2020	PS14	Receive notification of schedule change	Able to receive notification	Performed as Expected	Passed
+
+Integration Testing
+	INTEGRATION TESTING is a level of software testing where individual units are combined and tested as a group. The purpose of this level of testing is to expose faults in the interaction between integrated units. Test drivers and test stubs are used to assist in Integration Testing.
+Table 30
+INTEGRATION TESTING
+Test Case ID	Module	Integration Process	Pre-condition	Result	Remarks
+1	Account Management (LC, Educator, Parent/Student)	Input valid and correct information	Users are successfully registerd	Performed Expected Result	Passed
+2	Account Management (LC, Educator, Parent/Student)	Authentication	Email Required	Email Address will be validated	Passed
+3	Account Management (LC, Educator, Parent/Student)	Login	Login Page	Will be redirected to profile	Passed
+4	(LC, Educator, Parent/Student)	Profiling	User successfully logged in	Can Update Profile/Resume/Account	Passed
+5	Hiring Module	Job Search	Must be logged into Educator Account 	By default, all job posts are listed. Educators are able to search job by LC name or by keywords.
+	Passed
+6	Hiring Module	Job Posting	Must be logged into LC Admin account 	Able to post Job 	Passed
+7	Hiring Module	Job Suggestion	Must be logged into Educator Account 		Passed
+8	Hiring Module	Hire Suggestion	Must be logged into LC Admin account)	Can view list of applicants ‘Applicants’	Passed
+-9	Hiring Module	Hiring	Must be logged into LC Admin account	Can hire educator from list of applicants	Passed
+10	Enrollment	Add Course	Must be logged into LC Admin account	Able to post new course/class	Passed
+11	Enrollment	Search/Display Courses	User must be logged in successfully	Users can view list of courses	Passed
+12	Enrollment	Course Selection	User must be logged in successfully	Able to select course and enrol	Passed
+13	Enrollment	Payment/ Record Payment	Must be logged into LC Admin account. Enrol to an existing course/class.	Enrollment requires proof of payment. 	Passed
+14	Scheduling	Input Class Details	Must be logged in to LC admin account	Able to enter class description	Passed
+15	Scheduling	Update Class Details	Must be logged in to LC admin account	Able to update class description	Passed
+16	Scheduling	Input Schedules	Must be logged in to LC admin account	Able to specify class schedule	Passed
+17	Scheduling	Schedule Request	Must be logged in to Educator or Student account	Able to send a request of schedule change to Learning Center	Passed
+18	Scheduling	Update Schedules	Must be logged in to LC admin account	Able to modify class Schedule. Mostly, after a schedule request	Passed
+19	Scheduling	Generate Calendar of Activities	User logged in successfully	Able to view scheduled activities based on user’s classes	Passed
+20	Scheduling	Notification of Changes	User logged in successfully	Able to receive notificatoin of class changes	Passed
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Alpha Testing
+	Alpha testing is the initial phase of validating whether a new product will perform as expected. Alpha tests are carried out early in the development process by internal staff and are followed up with beta tests, in which a sampling of the intended audience actually tries the product out.
+Table 31
+ALPHA TESTING
+Test Criteria	Poor	Fair	Good	Very Good
+Graphical User Interface (GUI)
+Consistency (The user interface is of the same formatting style and icons throughout the system.)				
+Reusability (The system contains reusable GUI components such as familiar buttons, text and checkboxes, and other tools.)				
+Forgiveness and Tolerance (The interface displays message or confirmation prompts that would allow the users to undo or redo critical actions.)				
+Simplicity (The GUI design include simple GUI buttons, such as simple screens with clear, uncrowded messages.)				
+Readability (The interface has appropriate colors, font sizes, and styles that is convenient to the target users.)				
+Clarity (Displayed error, help, and warning messages are clear, concise, and as elementary as possible to assist user in operating the software.)				
+Flexibility (The system includes user preferences settings to allow changes, for example, increasing the font size.)				
+User-friendliness (The GUI design must be user-friendly, by providing helpful, courteous, and non-offending messages.)				
+System Performance
+Conformance to the Requirements (The system effectively met all the identified features and/or requirements.)				
+Conformance to the Objectives (All specific objectives of the system are met by the program.)				
+Efficiency (The entire system functions efficiently. It doesn’t have delay in any transaction.)				
+Security (The system is secured. Login details are authenticated. Input parameters are ensured prior to the execution of the next transaction.)				
+Integrity (The software allows the registered user to have control over its own private information.)				
+Overall Impression (In general, the program or system is functional and useful.)				
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Acceptance Testing
+	ACCEPTANCE TESTING is a level of software testing where a system is tested for acceptability. The purpose of this test is to evaluate the system's compliance with the business requirements and assess whether it is acceptable for delivery. 
+		Table 32
+ACCEPTANCE TESTING
+  
+
+
+
+
+
+
+
+
+
+
+Table 32.1
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+Table 32.2
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.3
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.4
+ACCEPTANCE TESTING CONT’D
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.5
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.6
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.7
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.8
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+Table 32.9
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+Table 32.10
+ACCEPTANCE TESTING CONT’D
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+Table 32.11
+ACCEPTANCE TESTING CONT’D
+   
+IMPLEMENTATION/DEPLOYMENT PHASE
+Costs Specification
+The costs of developing a formal specification are the costs of the time required for skilled engineers to understand the system requirements, choose an appropriate approach to specification and develop a formal model of the system. Developing and analyzing a formal specification front-loads software development costs.
+Expense	Cost
+	
+
+
+
+
+
+
+
+Software Specification
+A software requirements specification (SRS) is a description of a software system to be developed. Software requirements specifications can help prevent software project failure. The software requirements specification document lists sufficient and necessary requirements for the project development.
+Table 33
+Software Requirements Specifications
+
+Database	Firebase
+Text Editing Tool	Sublime, Notepad++
+Image Editing Tool	Adobe Photoshop CS3 or Higher
+Eclipse	Oxygen
+Android SDK	SDK 5.0
+Java JDK	Version 12
+Android Development Tool (ADT) Plug in	Latest Version
+
+
+Hardware Specifications	
+Table 34
+Hardware Specifications
+
+Android-Based Application	CPU: at least 800 MHz or higher
+GPU: at least 800 MHz or Higher
+Wi-Fi enabled
+OS: at least Android 5.0 (Lollipop, API 21)
+Memory: at least 256 phone memory and at least 1 GB for memory card
+
+
+
+Human Resource Specifications
+
+	This section shows the different users that are involved in using iLearnCentral app. These users are the Learning Center Admin and created users, Hired and Job-seeking Educator, and Student whom can only use the application once verified. 
+
+
+
+
+Table 35
+Hardware Resource Specifications
+
+USER	
+Learning Center	The learning centers can create other users that will handle the processes whilst the admin is not active. Also, they can create a job posting indicating their need of their preferred educator to work for them. While accepting educators’ application forms, they can view educator’s personal information from the created account of job-seeking educators. Lastly, the learning center can create an enrollment of subject in which students can view and enroll to upon requirement of the educator. 
+Educator	Like the learning centers, the educator can create an account as to register their account to the learning center they belong to, or as a job-seeking educator finding opening jobs from learning centers. Also, the educator can view postings/updates from the learning center they chose to follow/notified from. 
+Student	The student can create an account provided that they are required by the educator/learning center admin. The student can view updates from the learning center they are accounted with and courses they are enrolled to.
+
+
+
+
+
+
+
+
+
+
+
+User Guide
+
+	User guide provides instructions on how to use iLearnCentral application and how to navigate and operate the app. 
+
+Log in Page – This is where the user of the application needs to input their credentials in order to use the application. 
+
+ 
+ 
+
+
+
+
+
+
+
+
+Figure 43: Log In Page
+
+
+
+
+Account Type Selection Page – This is where the new user of the application gets to choose the type of account type he’ll be using in the application.
+
+
+
+
+
+
+
+
+
+Figure 44: Account Type Selection Page
+
+
+
+
+
+
+
+
+
+
+Sign- Up Page – This shows the different Sign Up page for the different type of users of the application. It is where the specific information needed for each account should be provided in order to make the account.
+
+     
+
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Figure 45: Sign Up Page
+Learning Center User Interface- This shows the profile of the learning center, its information about, feed or posts about existing learning centers, job posting from the learning centers, enrollment where subjects are posted, educators page where educators information are can be seen, classes page where subjects and its corresponding educators are presented with the complete details like the schedule for the class. A search button at the top where the user can search anyone that uses tha application, an enrollment button, a notification bell to notify the user of any activity or action and the messages.
+Learning Center Profile Page
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Learning Center About Center Page
+   
+
+
+
+
+
+
+
+
+
+Learning Center Feed Page
+
+
+
+
+
+
+
+
+
+Learning Job Posts Page 
+	
+
+
+
+
+
+
+
+
+
+Learning Center Enrollment Page
+ 
+
+
+
+
+
+
+
+
+Learning Center Educators Page 
+                             
+
+Learning Center Classes Page 
+
+
+
+
+
+
+
+
+
+
+
+Learning Center Enrollment and Scheduling Subscription Page 
+
+
+
+
+
+
+
+
+
+
+
+
+Learning Center Search Page
+
+
+
+
+
+
+
+Learning Center Recommended Learning Center Page
+
+
+
+
+
+
+
+
+
+Learning Center Sidenav Page
+
+
+
+
+
+
+
+
+
+Figure 46: Learning Center User Interface
+Educator User Interface - This shows the educators profile page, its information about or feed from the different learning centers or educators, the job posting where details such as job name or job description can be seen and to where or what learning center it is from, the educator’s classes page where the subjects and its scheduled time and day can be seen and lastly the search bar and the message button where an educator may send message to anyone and may able to received a message to whoever is authorized for them to message to.
+Educator Profile Page
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Educator Information Feeds Page 
+
+
+
+
+
+
+
+Educator Job Posting Page
+
+
+
+
+
+
+
+
+
+
+
+
+Educator Classes Page 
+
+
+
+
+
+
+
+
+
+Educator Search Page 
+
+
+
+
+
+
+
+
+
+
+Educator Learning Center Page
+
+
+
+	
+
+
+
+
+Educator Message Page 
+
+
+
+
+
+
+
+
+
+
+Figure 47: Educator User Interface
+Student or Parent User Interface - This shows the profile of the student or the parent, its information feed or posts about existing learning centers or edcators , the courses page , the classes page where different classes from different educators or learning centers are posted. A search button at the top is also visible where the user can search anyone that’s registered in the system and lastly the recommended learning centers for the student or parents cant also be viewed.
+Student or Parent Profile Page 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Student or Parent Information Page
+ 
+Student or Parent Courses Page
+
+
+
+
+
+
+
+
+
+
+
+
+Student or Parent Classes Page 
+
+
+
+
+
+
+
+
+
+Student or Parent Search Page 
+
+
+
+
+
+
+
+
+
+Student or Parent Recommended Learning Centers 
+
+
+
+
+
+
+
+
+
+Student or Parent Recommended Messages
+
+
+
+
+
+
+
+
+
+Figure 48: Student User Interface
+Installation Guide
+	Installation guide provides instructions on how to install iLearnCentral application. For better understanding and comprehension, instructions are provided. 
+1.	For device requirements:
+•	The application is available for Android Users with operating systems from Versions M (Marshmallow API level 23) to O (Oreo API level 28).
+•	Device must be connected to the Internet.
+2.	For installing the application:
+•	Download the application available on Google Play Store.
+•	Once downloaded, iLearnCentral is now ready to use.
+3.	For Learning Center Account: 
+•	iLearnCentral application will ask for necessary documents needed to verify for account access when the user wants to subscribe to the additional services offered by the application. .
+•	The admin of learning center account can then create users provided that they have already subscribed to the additional service. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Project Roadmap
+
+	The project roadmap is a high-level, easy-to-understand overview of the important pieces of a project. It shows the projects goals and ambitions.
+ 
+Figure 49: Project Roadmap
+	Figure 49 shows the project’s plans on future innovation of the application for further success in the industry.  It shows the steps on what the proponents of the study are planning to make this application a widely known to the likes of learning centers. 
+
+CONCLUSION
+	  Based on the interviews and online surveys conducted, the project proponents concluded that iLearnCentral will be a great jumpstart program for learning centers to target users, namely learning centers and job-seeking educators. It gives them the technological advantage to boost their promotions and enhancing their services, which leads to increase in revenue. Moreover, iLearnCentral also helps students/parents ease their way in enrollment and scheduling their classes. In addition, mobile application gives customers a great convenience and hassle-free online learning. In result, iLearnCentral is a credible and highly advantageous instrument to all learning centers and aspiring educators in present and the near future. 
+RECOMMENDATIONS
+Based from our survey proponents and users’ positive feedback, the application still needs to be upgraded. Several suggestions were given by the users and the following are: 
+1.	iLearnCentral should be able to specify user guides and be friendlier at user interface since the application will be used by a more difficult age span. 
+2.	iLearnCentral should be deployed in the Google Play Store for the application to be more available.
+3.	 iLearnCentral can create more functions in dealing with processing learning centers and educators’ work with technological support.  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+REFERENCES
+BOOKS
+Beck, K., Beedle, M., Van Bennekum, A., Cockburn, A., Cunningham, W., Fowler, M., ... & Kern, J. (2001). Manifesto for agile software development.
+Bruce, C., Hughes, H., & Somerville, M. (2012) Supporting informed learners in the 21st century. Library Trends, 60(3).
+Chatterjee, S. (2014). International Journal of Interdisciplinary and Multidisciplinary Studies (IJIMS) 
+Hudson, M.  (2017, January 16). Preschool Educators Play an Important Role in Children’s Growth
+Martinez-Beck & Zaslow, 2006 Martinez-Beck, I. and Zaslow, M. 2006. “Introduction: The context for critical issues in early childhood professional development.”. In Critical issues in early childhood professional development Edited by: Zaslow, M. and Martinez-Beck, I. 1–16. Baltimore: Brookes.
+Sheridan, S., Edwards, C., Marvin, C. &. Knoche, L. (2009) Professional Development in Early Childhood Programs: Process Issues and Research Needs, Early Education and Development, 20:3, 377-401, DOI: 10.1080/10409280802582795 
+Welch-Ross, M., Wolf, A., Moorehouse, M. and Rathgeb, C. 2006. “Improving connections between professional development research and early childhood policies.”. In Critical issues in early childhood professional development Edited by: Zaslow, M. and Martinez-Beck, I. 369–394. Baltimore: Brookes. 
+Yoshino, N., & Taghizadeh Hesary, F. (2016). Major challenges facing small and medium-sized enterprises in Asia and solutions for mitigating them.
+
+JOURNALS
+Buckley, P. & Minette, K. & Joy, D. & Michaels, J. (2004). The Use of an Automated Employment Recruiting and Screening System for Temporary Professional Employees: A Case Study. Human Resource Management. 43. 233 - 241. 10.1002/hrm.20017.
+Gluck, Samantha. (n.d.). “Benefits Vs. Risks of Outsourcing IT Services. Small Business” Chron.com. Retrieved from http://smallbusiness.chron.com/benefits-vs-risks-outsourcing-services-2504.html
+Ingersoll, R. 2003. “Educator Turnover and Educator Shortages: An Organizational Analysis. University of Pennsylvania.” American Educational Research Journal, 38(3): 499-534.
+Ingersoll, R., & Smith, T. M. (2003). The Wrong Solution to the Teacher Shortage. Retrieved from https://repository.upenn.edu/gse_pubs/126
+Oksanen, R. “New technology-based recruitment methods” Research Gate. Retrieved September 30, 2019, from https://www.researchgate.net/publication 
+Sharma, S., Sarkar, D., & Gupta, D. (2012). Agile processes and methodologies: A conceptual study. International journal on computer science and Engineering, 4(5), 892.
+UNESCO (2019). “e-Skwela: Community-based E-learning Centers for Out-of-School Youth and Adults, Philippines”. In Search of Innovative ICT in Education Practices: Case Studies from the Asia-Pacific Region, pp. 1 – 2.
+NEWSPAPERS
+ (“Cebu sweep top awards,” 2018, July). Cebu schools sweep top awards at innovation competition. Retrieved from https://www.sunstar.com.ph/article/1750606 
+
+OTHERS
+
+Holst, A. (2019).  Mobile Android operating system market share by version worldwide from January 2018 to July 2019*. Retrieved from https://www.statista.com/statistics/921152/ mobile-android-version-share-worldwide/ 
+Protalinski, E. (2019). Google finally updates Android distribution dashboard, Pie passes 10%. Retrieved from https://venturebeat.com/2019/05/07/google-finally-updates-android-distribution-dashboard-pie-passes-10/ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+Appendix A
+Consultation Logs
+ 
+ 
+Appendix B
+Censor’s Certificate
+     
+
+
+
+
+
+Appendix C
+Transmittal Letter (Town Central Adventist Learning Center)
+
+ 
+
+
+
+
+
+Appendix D
+Transmittal Letter (Paraclete Learning Center)
+ 
+Appendix E
+Learning Center Questionnaire
+    
+Appendix F
+Learning Center Questionnaire Cont’d
+ 
+
+ 
+Appendix G
+Educator’s Questionnaire
+   
+ 
+Appendix H
+Educator’s Questionnaire Cont’d
+ 
+ 
+Appendix I
+Learning Center Survey Result
+  
+ 
+Appendix J
+Educator Survey Result
+     
+ 
+TEAM PROFILE
+ 
+
+
+
+
+
+
+ 
+
+
+ 
+ 
+
+
