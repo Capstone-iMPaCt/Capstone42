@@ -9,7 +9,7 @@
   "author": "Rhea Shane Chiong, Jephunneh Mabini & Cristian Paragoso",
   "license": "ISC",
   "dependencies": {
-    "firebase-admin": "^8.7.0",
+    "firebase-admin": "^11.4.1",
     "node": "^13.1.0"
   }
 }
